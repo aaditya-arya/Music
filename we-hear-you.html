@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>We Hear You | Akshar Engineering Services</title>
+  <meta name="description" content="We Hear You - Client feedback, inspection status updates, and priority resolution desk at Akshar Engineering Services.">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              blue: '#1b3574',
+              dark: '#11224d',
+              navy: '#0b1633',
+              orange: '#f16826',
+              lightOrange: '#f3834d',
+              amber: '#fbbf24'
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+      -webkit-font-smoothing: antialiased;
+    }
+    .modal-backdrop {
+      background-color: rgba(11, 22, 51, 0.78);
+      backdrop-filter: blur(6px);
+    }
+    .btn-premium-orange {
+      background-color: #f16826;
+      color: #ffffff;
+      transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+    }
+    .btn-premium-orange:hover {
+      background-color: #0b1633;
+    }
+    .btn-premium-blue {
+      background-color: #1b3574;
+      color: #ffffff;
+      transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+    }
+    .btn-premium-blue:hover {
+      background-color: #f16826;
+    }
+    .text-slide-footer {
+      background: linear-gradient(90deg, #f16826 0%, #ffffff 40%, #cbd5e1 54%, #94a3b8 100%);
+      background-size: 270% 100%;
+      background-position: 100% 0;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      transition: background-position 0.65s cubic-bezier(0.25, 1, 0.5, 1);
+      display: inline-block;
+    }
+    .text-slide-footer:hover {
+      background-position: 0 0;
+    }
+    .mega-dropdown-menu {
+      background-color: #ffffff !important;
+      pointer-events: none;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateX(-50%) translateY(8px);
+      transition: opacity 0.2s ease, transform 0.2s cubic-bezier(0.25, 1, 0.5, 1), visibility 0.2s;
+    }
+    .mega-dropdown-menu::before {
+      content: '';
+      position: absolute;
+      top: -24px;
+      left: 0;
+      right: 0;
+      height: 24px;
+    }
+    .nav-item-dropdown:hover .mega-dropdown-menu,
+    .mega-dropdown-menu:hover,
+    .mega-dropdown-menu.is-open {
+      visibility: visible !important;
+      opacity: 1 !important;
+      transform: translateX(-50%) translateY(0) !important;
+      pointer-events: auto !important;
+    }
+    .reason-pill.active {
+      background-color: #f16826;
+      color: #ffffff;
+      border-color: #f16826;
+      box-shadow: 0 4px 12px rgba(241, 104, 38, 0.25);
+    }
+  </style>
+  <link rel="stylesheet" href="assets/site.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="assets/supabase-client.js" defer></script>
+  <script src="assets/site.js" defer></script>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased selection:bg-brand-orange selection:text-white relative">
+
+  <!-- ================================================================= -->
+  <!-- 1. FULL-WIDTH HEADER (Logo Left, Services Center, Right Nav)        -->
+  <!-- ================================================================= -->
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm relative">
+    <div class="w-full px-6 lg:px-12 flex justify-between items-center h-20 sm:h-24">
+      
+      <!-- Left: Brand Logo -->
+      <a href="index.html" class="flex items-center shrink-0 h-full py-0 my-0 group">
+        <img src="assets/logo.png" alt="Akshar Engineering Services" class="h-full w-auto object-contain transition-transform duration-300 group-hover:scale-105">
+      </a>
+
+        <!-- Center: Services Navigation (With Centered 4x4 Mega Dropdown) -->
+        <div class="hidden lg:flex items-center justify-center">
+          <div class="nav-item-dropdown static group py-6 flex items-center">
+            <a href="services.html" class="text-brand-blue hover:text-brand-orange text-base sm:text-lg font-extrabold flex items-center gap-1.5 transition-colors duration-300">
+              Services
+              <svg class="w-4 h-4 text-brand-blue hover:text-brand-orange transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path></svg>
+            </a>
+            
+          <!-- 4x4 Mega Dropdown Menu Container (Centered & Expanded) -->
+          <div class="mega-dropdown-menu absolute top-full left-1/2 -translate-x-1/2 w-[94vw] max-w-6xl max-h-[82vh] overflow-y-auto bg-white border border-slate-200 shadow-2xl rounded-2xl p-6 lg:p-7 invisible opacity-0 z-50">
+            <!-- 4 Columns Grid: Text-Only Title + 2-Line Description (No Numbers, No Images) -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 p-1 text-left">
+              
+              <!-- Third Party Inspection -->
+              <a href="service-tpi.html" class="group/item p-3.5 rounded-xl hover:bg-orange-50/80 border border-slate-100 hover:border-orange-200 transition-all flex flex-col justify-start shadow-xs hover:shadow-md bg-slate-50/50 hover:bg-white block">
+                <h4 class="text-[13px] sm:text-sm font-bold text-brand-blue group-hover/item:text-brand-orange transition-colors">Third Party Inspection</h4>
+                <p class="text-xs text-slate-500 line-clamp-2 leading-relaxed mt-1">Independent witness and hold point inspection ensuring complete code compliance.</p>
+              </a>
+
+              <!-- Vendor Assessment -->
+              <a href="service-vendor-assessment.html" class="group/item p-3.5 rounded-xl hover:bg-orange-50/80 border border-slate-100 hover:border-orange-200 transition-all flex flex-col justify-start shadow-xs hover:shadow-md bg-slate-50/50 hover:bg-white block">
+                <h4 class="text-[13px] sm:text-sm font-bold text-brand-blue group-hover/item:text-brand-orange transition-colors">Vendor Assessment</h4>
+                <p class="text-xs text-slate-500 line-clamp-2 leading-relaxed mt-1">Technical capability and quality audits to mitigate supply chain risks.</p>
+              </a>
+
+              <!-- QA/QC Documentation -->
+              <a href="service-qa-qc-documentation.html" class="group/item p-3.5 rounded-xl hover:bg-orange-50/80 border border-slate-100 hover:border-orange-200 transition-all flex flex-col justify-start shadow-xs hover:shadow-md bg-slate-50/50 hover:bg-white block">
+                <h4 class="text-[13px] sm:text-sm font-bold text-brand-blue group-hover/item:text-brand-orange transition-colors">QA/QC Documentation</h4>
+                <p class="text-xs text-slate-500 line-clamp-2 leading-relaxed mt-1">Manufacturing Record Book compilation and EN 10204 3.2 certification.</p>
+              </a>
+
+              <!-- Pre-Shipment Inspection -->
+              <a href="service-pre-shipment-inspection.html" class="group/item p-3.5 rounded-xl hover:bg-orange-50/80 border border-slate-100 hover:border-orange-200 transition-all flex flex-col justify-start shadow-xs hover:shadow-md bg-slate-50/50 hover:bg-white block">
+                <h4 class="text-[13px] sm:text-sm font-bold text-brand-blue group-hover/item:text-brand-orange transition-colors">Pre-Shipment Inspection</h4>
+                <p class="text-xs text-slate-500 line-clamp-2 leading-relaxed mt-1">Final packing, crating, preservation, and Inspection Release Note sign-off.</p>
+              </a>
+
+              <!-- Welding Engineering -->
+              <a href="service-welding-engineering.html" class="group/item p-3.5 rounded-xl hover:bg-orange-50/80 border border-slate-100 hover:border-orange-200 transition-all flex flex-col justify-start shadow-xs hover:shadow-md bg-slate-50/50 hover:bg-white block">
+                <h4 class="text-[13px] sm:text-sm font-bold text-brand-blue group-hover/item:text-brand-orange transition-colors">Welding Engineering</h4>
+                <p class="text-xs text-slate-500 line-clamp-2 leading-relaxed mt-1">WPS/PQR vetting, welder performance qualification (WPQ), and coupon tests.</p>
+              </a>
+
+              <!-- NDT Inspection Services -->
+              <a href="service-ndt-inspection.html" class="group/item p-3.5 rounded-xl hover:bg-orange-50/80 border border-slate-100 hover:border-orange-200 transition-all flex flex-col justify-start shadow-xs hover:shadow-md bg-slate-50/50 hover:bg-white block">
+                <h4 class="text-[13px] sm:text-sm font-bold text-brand-blue group-hover/item:text-brand-orange transition-colors">NDT Inspection Services</h4>
+                <p class="text-xs text-slate-500 line-clamp-2 leading-relaxed mt-1">ASNT Level II &amp; III volumetric and surface testing (UT, RT, MPT, DPT).</p>
+              </a>
+
+              <!-- Expediting Services -->
+              <a href="service-expediting.html" class="group/item p-3.5 rounded-xl hover:bg-orange-50/80 border border-slate-100 hover:border-orange-200 transition-all flex flex-col justify-start shadow-xs hover:shadow-md bg-slate-50/50 hover:bg-white block">
+                <h4 class="text-[13px] sm:text-sm font-bold text-brand-blue group-hover/item:text-brand-orange transition-colors">Expediting Services</h4>
+                <p class="text-xs text-slate-500 line-clamp-2 leading-relaxed mt-1">On-site bottleneck resolution and procurement schedule tracking.</p>
+              </a>
+
+              <!-- Design Examination -->
+              <a href="service-design-examination.html" class="group/item p-3.5 rounded-xl hover:bg-orange-50/80 border border-slate-100 hover:border-orange-200 transition-all flex flex-col justify-start shadow-xs hover:shadow-md bg-slate-50/50 hover:bg-white block">
+                <h4 class="text-[13px] sm:text-sm font-bold text-brand-blue group-hover/item:text-brand-orange transition-colors">Design Examination</h4>
+                <p class="text-xs text-slate-500 line-clamp-2 leading-relaxed mt-1">ASME Section VIII, PD 5500, and TEMA pressure vessel calculation review.</p>
+              </a>
+
+              <!-- Project & Shutdown QA -->
+              <a href="service-project-shutdown-qa.html" class="group/item p-3.5 rounded-xl hover:bg-orange-50/80 border border-slate-100 hover:border-orange-200 transition-all flex flex-col justify-start shadow-xs hover:shadow-md bg-slate-50/50 hover:bg-white block">
+                <h4 class="text-[13px] sm:text-sm font-bold text-brand-blue group-hover/item:text-brand-orange transition-colors">Project &amp; Shutdown QA</h4>
+                <p class="text-xs text-slate-500 line-clamp-2 leading-relaxed mt-1">Fast-turnaround surveillance for refinery and chemical plant integrity.</p>
+              </a>
+
+              <!-- International Sourcing -->
+              <a href="service-international-sourcing.html" class="group/item p-3.5 rounded-xl hover:bg-orange-50/80 border border-slate-100 hover:border-orange-200 transition-all flex flex-col justify-start shadow-xs hover:shadow-md bg-slate-50/50 hover:bg-white block">
+                <h4 class="text-[13px] sm:text-sm font-bold text-brand-blue group-hover/item:text-brand-orange transition-colors">International Sourcing</h4>
+                <p class="text-xs text-slate-500 line-clamp-2 leading-relaxed mt-1">Overseas vendor quality surveillance and factory acceptance test audits.</p>
+              </a>
+
+              <!-- Performance & Hydro-Tests -->
+              <a href="service-performance-hydro-tests.html" class="group/item p-3.5 rounded-xl hover:bg-orange-50/80 border border-slate-100 hover:border-orange-200 transition-all flex flex-col justify-start shadow-xs hover:shadow-md bg-slate-50/50 hover:bg-white block">
+                <h4 class="text-[13px] sm:text-sm font-bold text-brand-blue group-hover/item:text-brand-orange transition-colors">Performance &amp; Hydro-Tests</h4>
+                <p class="text-xs text-slate-500 line-clamp-2 leading-relaxed mt-1">Hydrostatic pressure and pump performance curve witness testing.</p>
+              </a>
+
+              <!-- Process Qualification -->
+              <a href="service-process-qualification.html" class="group/item p-3.5 rounded-xl hover:bg-orange-50/80 border border-slate-100 hover:border-orange-200 transition-all flex flex-col justify-start shadow-xs hover:shadow-md bg-slate-50/50 hover:bg-white block">
+                <h4 class="text-[13px] sm:text-sm font-bold text-brand-blue group-hover/item:text-brand-orange transition-colors">Process Qualification</h4>
+                <p class="text-xs text-slate-500 line-clamp-2 leading-relaxed mt-1">PWHT time-temperature calibration, NACE coating, and surface blast checks.</p>
+              </a>
+
+              <!-- API Tank Inspection -->
+              <a href="service-api-tank-inspection.html" class="group/item p-3.5 rounded-xl hover:bg-orange-50/80 border border-slate-100 hover:border-orange-200 transition-all flex flex-col justify-start shadow-xs hover:shadow-md bg-slate-50/50 hover:bg-white block">
+                <h4 class="text-[13px] sm:text-sm font-bold text-brand-blue group-hover/item:text-brand-orange transition-colors">API Tank Inspection</h4>
+                <p class="text-xs text-slate-500 line-clamp-2 leading-relaxed mt-1">API 650/653 storage tank erection, vacuum box, and settlement surveys.</p>
+              </a>
+
+              <!-- Owner's Engineer -->
+              <a href="service-owners-engineer.html" class="group/item p-3.5 rounded-xl hover:bg-orange-50/80 border border-slate-100 hover:border-orange-200 transition-all flex flex-col justify-start shadow-xs hover:shadow-md bg-slate-50/50 hover:bg-white block">
+                <h4 class="text-[13px] sm:text-sm font-bold text-brand-blue group-hover/item:text-brand-orange transition-colors">Owner's Engineer</h4>
+                <p class="text-xs text-slate-500 line-clamp-2 leading-relaxed mt-1">Direct client technical representation and EPC contractor oversight.</p>
+              </a>
+
+              <!-- Process Piping (B31.3) -->
+              <a href="service-process-piping.html" class="group/item p-3.5 rounded-xl hover:bg-orange-50/80 border border-slate-100 hover:border-orange-200 transition-all flex flex-col justify-start shadow-xs hover:shadow-md bg-slate-50/50 hover:bg-white block">
+                <h4 class="text-[13px] sm:text-sm font-bold text-brand-blue group-hover/item:text-brand-orange transition-colors">Process Piping (B31.3)</h4>
+                <p class="text-xs text-slate-500 line-clamp-2 leading-relaxed mt-1">ASME B31.3 spool fit-up, torque witness, and hydro-testing surveillance.</p>
+              </a>
+
+              <!-- QA/QC & NDT Training -->
+              <a href="service-training.html" class="group/item p-3.5 rounded-xl hover:bg-orange-50/80 border border-slate-100 hover:border-orange-200 transition-all flex flex-col justify-start shadow-xs hover:shadow-md bg-slate-50/50 hover:bg-white block">
+                <h4 class="text-[13px] sm:text-sm font-bold text-brand-blue group-hover/item:text-brand-orange transition-colors">QA/QC &amp; NDT Training</h4>
+                <p class="text-xs text-slate-500 line-clamp-2 leading-relaxed mt-1">Corporate technical upskilling and certification in NDT &amp; inspection.</p>
+              </a>
+
+            </div>
+          </div>
+          </div>
+        </div>
+
+      <!-- Right: Careers & About Us (Desktop) + Mobile Menu Button -->
+      <div class="flex items-center space-x-8">
+        <nav class="hidden lg:flex items-center space-x-8 text-base sm:text-lg font-extrabold shrink-0">
+          <a href="careers.html" class="text-brand-blue hover:text-brand-orange transition-colors duration-300">Careers</a>
+          <a href="about.html" class="text-brand-blue hover:text-brand-orange transition-colors duration-300">About Us</a>
+        </nav>
+
+        <!-- Mobile Menu Button -->
+        <div class="flex lg:hidden">
+          <button id="mobile-menu-btn" type="button" class="p-2 text-brand-blue hover:text-brand-orange rounded-md border border-slate-200" aria-label="Toggle Navigation">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Mobile Nav Menu -->
+    <div id="mobile-menu" class="hidden lg:hidden border-t border-slate-200 bg-white px-6 py-4 space-y-3">
+      <a href="services.html" class="block text-base font-bold text-brand-blue hover:text-brand-orange">Services</a>
+      <a href="careers.html" class="block text-base font-bold text-brand-blue hover:text-brand-orange">Careers at AES</a>
+      <a href="about.html" class="block text-base font-bold text-brand-blue hover:text-brand-orange">About Us</a>
+      <a href="we-hear-you.html" class="block text-base font-bold text-brand-orange">We Hear You (Resolution Desk)</a>
+    </div>
+  </header>
+
+  <!-- Sticky Quick Contact -->
+  <div class="fixed right-0 top-1/2 -translate-y-1/2 z-40 hidden md:flex flex-col gap-2.5 shadow-2xl">
+    <button onclick="openModal('inquiryModal')" class="bg-brand-orange hover:bg-orange-700 text-white font-bold text-xs uppercase tracking-wider py-4 px-3 rounded-l-lg shadow-lg flex items-center space-x-2 transition-transform hover:-translate-x-1.5 [writing-mode:vertical-rl] rotate-180">
+      <span class="rotate-90 text-sm mb-1">&#9993;</span>
+      <span>Inquiry Form</span>
+    </button>
+    <button onclick="openModal('trainingModal')" class="bg-brand-blue hover:bg-brand-dark text-white font-bold text-xs uppercase tracking-wider py-4 px-3 rounded-l-lg shadow-lg flex items-center space-x-2 transition-transform hover:-translate-x-1.5 [writing-mode:vertical-rl] rotate-180">
+      <span class="rotate-90 text-sm mb-1">&#127891;</span>
+      <span>Training Registration</span>
+    </button>
+  </div>
+
+  <!-- WhatsApp Quick Contact -->
+  <aside aria-label="Quick WhatsApp Contact" class="fixed bottom-6 right-6 z-50">
+    <a href="https://wa.me/918200441159" target="_blank" rel="noopener noreferrer" class="group flex items-center bg-emerald-500 hover:bg-emerald-600 text-white p-3.5 rounded-full shadow-2xl transition-all duration-300 hover:scale-110">
+      <svg class="w-8 h-8 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+    </a>
+  </aside>
+
+  <!-- Hero Header Banner -->
+  <section class="relative bg-brand-navy py-14 sm:py-20 text-white overflow-hidden">
+    <div class="absolute inset-0 z-0 pointer-events-none">
+      <div class="absolute -top-32 -left-32 w-96 h-96 bg-brand-blue/50 rounded-full blur-3xl"></div>
+      <div class="absolute -bottom-32 -right-32 w-96 h-96 bg-brand-orange/20 rounded-full blur-3xl"></div>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-6 lg:px-12 relative z-10">
+      <nav class="flex items-center gap-2 text-xs font-semibold text-slate-400 mb-6 uppercase tracking-wider">
+        <a href="index.html" class="hover:text-white transition-colors">Home</a>
+        <span>/</span>
+        <span class="text-brand-orange">We Hear You</span>
+      </nav>
+
+      <div class="max-w-3xl">
+        <span class="inline-block bg-brand-orange/20 text-brand-orange text-xs font-extrabold uppercase tracking-wider px-3.5 py-1.5 rounded-full border border-brand-orange/30 mb-4">
+          Client Care &bull; Direct Technical Desk &bull; Rapid Resolution
+        </span>
+        <h1 class="text-3xl sm:text-5xl font-black text-white tracking-tight mb-4 leading-tight">
+          We Hear You
+        </h1>
+        <p class="text-slate-300 text-base sm:text-lg leading-relaxed">
+          At Akshar Engineering Services, we listen to your operational challenges, quality observations, and project milestones. Submit your request below for rapid technical resolution.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Interactive Form Section -->
+  <main class="py-16 max-w-5xl mx-auto px-6 lg:px-12">
+    <div class="bg-gradient-to-br from-slate-900 via-brand-navy to-brand-blue text-white rounded-3xl p-8 sm:p-12 shadow-2xl relative overflow-hidden">
+      
+      <div class="mb-8 relative z-10">
+        <span class="text-xs font-extrabold text-brand-orange uppercase tracking-wider block mb-1">Adaptive Technical Hub</span>
+        <h2 class="text-2xl sm:text-3xl font-black text-white">Update, Feedback &amp; Technical Support Hub</h2>
+        <p class="text-slate-300 text-xs sm:text-sm mt-1.5 leading-relaxed">
+          Select your contact reason below to route your request directly to the appropriate technical specialist.
+        </p>
+      </div>
+
+      <!-- Reason Selector Pills -->
+      <div class="mb-8 relative z-10">
+        <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-3">Select Your Reason for Contact:</label>
+        <div class="flex flex-wrap gap-2.5" id="reasonPillsContainer">
+          <button type="button" onclick="selectReason('inquiry')" id="pill-inquiry" class="reason-pill active px-4 py-2.5 rounded-xl text-xs font-bold border border-slate-700 bg-white/10 hover:bg-white/20 transition-all">
+            &#9997; General Technical Inquiry
+          </button>
+          <button type="button" onclick="selectReason('report_update')" id="pill-report_update" class="reason-pill px-4 py-2.5 rounded-xl text-xs font-bold border border-slate-700 bg-white/10 hover:bg-white/20 transition-all">
+            &#128221; Inspection Report / Status Update
+          </button>
+          <button type="button" onclick="selectReason('client_feedback')" id="pill-client_feedback" class="reason-pill px-4 py-2.5 rounded-xl text-xs font-bold border border-slate-700 bg-white/10 hover:bg-white/20 transition-all">
+            &#11088; Client Feedback &amp; Rating
+          </button>
+          <button type="button" onclick="selectReason('doc_verify')" id="pill-doc_verify" class="reason-pill px-4 py-2.5 rounded-xl text-xs font-bold border border-slate-700 bg-white/10 hover:bg-white/20 transition-all">
+            &#128269; Certificate &amp; Document Verification
+          </button>
+          <button type="button" onclick="selectReason('vendor_reg')" id="pill-vendor_reg" class="reason-pill px-4 py-2.5 rounded-xl text-xs font-bold border border-slate-700 bg-white/10 hover:bg-white/20 transition-all">
+            &#127981; Surveyor &amp; Vendor Empanelment
+          </button>
+          <button type="button" onclick="selectReason('training_inquiry')" id="pill-training_inquiry" class="reason-pill px-4 py-2.5 rounded-xl text-xs font-bold border border-slate-700 bg-white/10 hover:bg-white/20 transition-all">
+            &#127891; Corporate Technical Training
+          </button>
+        </div>
+      </div>
+
+      <!-- Dynamic Adaptive Reason-Wise Form -->
+      <div class="bg-white text-slate-800 p-6 sm:p-10 rounded-2xl shadow-2xl relative z-10">
+        <form id="reasonWiseForm" onsubmit="handleFormSubmit(event)" class="space-y-5 text-xs">
+          
+          <input type="hidden" id="selectedReasonInput" value="General Technical Inquiry">
+
+          <!-- Row 1: Name & Company -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block font-bold text-slate-700 uppercase tracking-wider mb-1.5">Full Name *</label>
+              <input type="text" id="inquiryFullName" required placeholder="e.g. Rajesh Patel" class="w-full bg-slate-50 border border-slate-300 rounded-lg px-4 py-2.5 text-slate-900 focus:outline-none focus:border-brand-orange focus:bg-white transition-all text-xs">
+            </div>
+            <div>
+              <label class="block font-bold text-slate-700 uppercase tracking-wider mb-1.5">Company / Organization *</label>
+              <input type="text" id="inquiryCompany" required placeholder="e.g. L&amp;T Hydrocarbon / ISGEC" class="w-full bg-slate-50 border border-slate-300 rounded-lg px-4 py-2.5 text-slate-900 focus:outline-none focus:border-brand-orange focus:bg-white transition-all text-xs">
+            </div>
+          </div>
+
+          <!-- Row 2: Email & Phone -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block font-bold text-slate-700 uppercase tracking-wider mb-1.5">Work Email Address *</label>
+              <input type="email" id="inquiryEmail" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" title="Please enter a valid email address (e.g. name@company.com)" required placeholder="name@company.com" class="w-full bg-slate-50 border border-slate-300 rounded-lg px-4 py-2.5 text-slate-900 focus:outline-none focus:border-brand-orange focus:bg-white transition-all text-xs">
+            </div>
+            <div>
+              <label class="block font-bold text-slate-700 uppercase tracking-wider mb-1.5">Phone / WhatsApp Number *</label>
+              <input type="tel" id="inquiryPhone" pattern="[0-9]{10}" minlength="10" maxlength="10" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10);" title="Please enter exactly 10 digits" required placeholder="e.g. 9876543210 (10 digits)" class="w-full bg-slate-50 border border-slate-300 rounded-lg px-4 py-2.5 text-slate-900 focus:outline-none focus:border-brand-orange focus:bg-white transition-all text-xs">
+            </div>
+          </div>
+
+          <!-- DYNAMIC SECTION -->
+          <div id="dynamicFormFields" class="space-y-4 pt-1 border-t border-slate-100"></div>
+
+          <!-- Detailed Message -->
+          <div>
+            <label id="messageLabel" class="block font-bold text-slate-700 uppercase tracking-wider mb-1.5">Detailed Message / Scope Requirements *</label>
+            <textarea id="messageTextarea" rows="4" required placeholder="Provide full details, vendor locations, inspection stages, or observations..." class="w-full bg-slate-50 border border-slate-300 rounded-lg px-4 py-2.5 text-slate-900 focus:outline-none focus:border-brand-orange focus:bg-white transition-all text-xs"></textarea>
+          </div>
+
+          <!-- Submit Button & SLA Notice -->
+          <div class="pt-2 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <button type="submit" id="formSubmitBtn" class="btn-premium-orange w-full sm:w-auto text-white font-bold text-xs uppercase tracking-wider px-8 py-3.5 rounded-lg shadow-md">
+              Submit Technical Request
+            </button>
+            <div class="text-[11px] text-slate-500 text-center sm:text-right">
+              Priority Technical Routing &bull; Guaranteed Response within <span class="font-bold text-slate-800">4 Hours</span>
+            </div>
+          </div>
+
+        </form>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Corporate Footer -->
+  <footer class="relative bg-brand-navy/95 backdrop-blur-xl text-slate-400 text-sm border-t border-white/10 overflow-hidden">
+    <div class="max-w-7xl mx-auto px-6 lg:px-12 py-16 relative z-10">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+        <div class="lg:col-span-2">
+          <div class="bg-white inline-block p-2 rounded-lg mb-4">
+            <img src="assets/logo.png" alt="Akshar Engineering Services" class="h-10 w-auto">
+          </div>
+          <p class="text-slate-300 text-sm leading-relaxed max-w-md mb-6">
+            Akshar Engineering Services Pvt. Ltd. delivers independent third-party inspection, vendor quality surveillance, and technical assurance across global industrial supply chains.
+          </p>
+        </div>
+        <div>
+          <span class="block font-bold text-white text-sm uppercase tracking-wider mb-4">Navigation</span>
+          <ul class="space-y-2.5 text-sm">
+            <li><a href="index.html" class="text-slide-footer font-semibold">Home</a></li>
+            <li><a href="services.html" class="text-slide-footer font-semibold">Services Catalog</a></li>
+            <li><a href="careers.html" class="text-slide-footer font-semibold">Careers at AES</a></li>
+            <li><a href="about.html" class="text-slide-footer font-semibold">About Us</a></li>
+            <li><a href="we-hear-you.html" class="text-slide-footer font-semibold text-brand-orange">We Hear You</a></li>
+          </ul>
+        </div>
+        <div>
+          <span class="block font-bold text-white text-sm uppercase tracking-wider mb-4">Quick Desk</span>
+          <ul class="space-y-2.5 text-sm">
+            <li><a href="mailto:info@aksharengineeringservices.com" class="text-slide-footer font-semibold">Email Technical Desk</a></li>
+            <li><a href="tel:+918200441159" class="text-slide-footer font-semibold">+91 8200441159</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Reason-Wise Form Script -->
+  <script>
+    var reasonsData = {
+      inquiry: {
+        title: 'General Technical Inquiry',
+        btnText: 'Submit Technical Inquiry',
+        messageLabel: 'Inspection Scope & Vendor Location Details *',
+        messagePlaceholder: 'Please specify the equipment type, fabrication stage, vendor city/country, and required mobilization date...',
+        html: `
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block font-bold text-slate-700 uppercase tracking-wider mb-1.5">Primary Service Required *</label>
+              <select class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3.5 py-2.5 text-slate-900 focus:outline-none focus:border-brand-orange text-xs">
+                <option>Third Party Inspection (TPI)</option>
+                <option>Vendor Assessment & Auditing</option>
+                <option>QA/QC Documentation & 3.2 Certification</option>
+                <option>Pre-Shipment & Pre-Despatch Inspection</option>
+                <option>Welding Engineering & Inspection</option>
+                <option>NDT Inspection Services (UT/RT/MPT/DPT)</option>
+                <option>Supply Chain Expediting Services</option>
+                <option>API Tank & Piping Inspection</option>
+              </select>
+            </div>
+            <div>
+              <label class="block font-bold text-slate-700 uppercase tracking-wider mb-1.5">Estimated Mobilization Timeline</label>
+              <select class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3.5 py-2.5 text-slate-900 focus:outline-none focus:border-brand-orange text-xs">
+                <option>Immediate (Within 24 to 48 Hours)</option>
+                <option>Within 1 to 2 Weeks</option>
+                <option>Next Month / Upcoming Turnaround</option>
+                <option>Budgetary / Pre-tender Estimation</option>
+              </select>
+            </div>
+          </div>
+        `
+      },
+      report_update: {
+        title: 'Inspection Report / Status Update',
+        btnText: 'Request Report Status Update',
+        messageLabel: 'Specific Query / Required Report Clarification *',
+        messagePlaceholder: 'Specify which inspection flash report, punch item, or release note you need updated or expedited...',
+        html: `
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div>
+              <label class="block font-bold text-slate-700 uppercase tracking-wider mb-1.5">Job / Report Reference No. *</label>
+              <input type="text" required placeholder="e.g. AES-IRN-2026-XXXX" class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3.5 py-2.5 text-slate-900 focus:outline-none focus:border-brand-orange text-xs">
+            </div>
+            <div>
+              <label class="block font-bold text-slate-700 uppercase tracking-wider mb-1.5">Manufacturer / Vendor Name *</label>
+              <input type="text" required placeholder="e.g. ISGEC Heavy Engineering" class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3.5 py-2.5 text-slate-900 focus:outline-none focus:border-brand-orange text-xs">
+            </div>
+            <div>
+              <label class="block font-bold text-slate-700 uppercase tracking-wider mb-1.5">Urgency Level</label>
+              <select class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3.5 py-2.5 text-slate-900 focus:outline-none focus:border-brand-orange text-xs">
+                <option>Critical (Cargo waiting for dispatch)</option>
+                <option>Standard (Within 24 hours)</option>
+                <option>Routine Status Check</option>
+              </select>
+            </div>
+          </div>
+        `
+      },
+      client_feedback: {
+        title: 'Client Feedback & Rating',
+        btnText: 'Submit Client Feedback',
+        messageLabel: 'Detailed Feedback / Suggestions for Improvement *',
+        messagePlaceholder: 'Please share your experience regarding surveyor competence, reporting timeliness, technical accuracy, and customer support...',
+        html: `
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div>
+              <label class="block font-bold text-slate-700 uppercase tracking-wider mb-1.5">Overall Service Rating *</label>
+              <select class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3.5 py-2.5 text-slate-900 focus:outline-none focus:border-brand-orange text-xs">
+                <option>⭐⭐⭐⭐⭐ 5 Stars - Exceptional</option>
+                <option>⭐⭐⭐⭐ 4 Stars - Very Good</option>
+                <option>⭐⭐⭐ 3 Stars - Satisfactory</option>
+                <option>⭐⭐ 2 Stars - Needs Improvement</option>
+                <option>⭐ 1 Star - Unsatisfactory</option>
+              </select>
+            </div>
+            <div>
+              <label class="block font-bold text-slate-700 uppercase tracking-wider mb-1.5">Feedback Area</label>
+              <select class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3.5 py-2.5 text-slate-900 focus:outline-none focus:border-brand-orange text-xs">
+                <option>Inspector Technical Knowledge</option>
+                <option>Report Delivery Timeliness</option>
+                <option>Communication & Responsiveness</option>
+                <option>Overall Project Coordination</option>
+              </select>
+            </div>
+            <div>
+              <label class="block font-bold text-slate-700 uppercase tracking-wider mb-1.5">Project / Report Ref (Optional)</label>
+              <input type="text" placeholder="e.g. Refinery Package 4" class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3.5 py-2.5 text-slate-900 focus:outline-none focus:border-brand-orange text-xs">
+            </div>
+          </div>
+        `
+      },
+      doc_verify: {
+        title: 'Certificate & Document Verification',
+        btnText: 'Submit Authentication Request',
+        messageLabel: 'Document Details / Purpose of Verification *',
+        messagePlaceholder: 'Please list the certificate numbers, date of issue, or upload context you wish to confirm with our QA record database...',
+        html: `
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div>
+              <label class="block font-bold text-slate-700 uppercase tracking-wider mb-1.5">Document / Certificate No. *</label>
+              <input type="text" required placeholder="e.g. AES-IRN-2026-8849" class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3.5 py-2.5 text-slate-900 focus:outline-none focus:border-brand-orange text-xs">
+            </div>
+            <div>
+              <label class="block font-bold text-slate-700 uppercase tracking-wider mb-1.5">Document Type *</label>
+              <select class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3.5 py-2.5 text-slate-900 focus:outline-none focus:border-brand-orange text-xs">
+                <option>Inspection Release Note (IRN)</option>
+                <option>EN 10204 Type 3.2 Endorsement</option>
+                <option>WPS / PQR / WPQ Certificate</option>
+                <option>ASNT Level II NDT Certificate</option>
+                <option>Vendor Audit Approval Dossier</option>
+              </select>
+            </div>
+            <div>
+              <label class="block font-bold text-slate-700 uppercase tracking-wider mb-1.5">Approx Date of Issue</label>
+              <input type="date" class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3.5 py-2.5 text-slate-900 focus:outline-none focus:border-brand-orange text-xs">
+            </div>
+          </div>
+        `
+      },
+      vendor_reg: {
+        title: 'Surveyor & Vendor Empanelment',
+        btnText: 'Apply for Empanelment',
+        messageLabel: 'Summary of Capabilities, Accreditations & Key Clients *',
+        messagePlaceholder: 'Detail your laboratory/facility equipment, auditor certifications, geographic coverage, and previous project references...',
+        html: `
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div>
+              <label class="block font-bold text-slate-700 uppercase tracking-wider mb-1.5">Category of Application *</label>
+              <select class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3.5 py-2.5 text-slate-900 focus:outline-none focus:border-brand-orange text-xs">
+                <option>Freelance Senior Inspector (CSWIP/API/NACE)</option>
+                <option>NABL Accredited Testing Laboratory</option>
+                <option>Specialized NDT Service Agency</option>
+                <option>Overseas Inspection Associate Partner</option>
+              </select>
+            </div>
+            <div>
+              <label class="block font-bold text-slate-700 uppercase tracking-wider mb-1.5">Primary Base City / Region *</label>
+              <input type="text" required placeholder="e.g. Vadodara / Mumbai / Dubai" class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3.5 py-2.5 text-slate-900 focus:outline-none focus:border-brand-orange text-xs">
+            </div>
+            <div>
+              <label class="block font-bold text-slate-700 uppercase tracking-wider mb-1.5">Years of Industry Practice</label>
+              <input type="number" min="1" max="50" placeholder="e.g. 10" class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3.5 py-2.5 text-slate-900 focus:outline-none focus:border-brand-orange text-xs">
+            </div>
+          </div>
+        `
+      },
+      training_inquiry: {
+        title: 'Corporate Technical Training',
+        btnText: 'Request Training Proposal',
+        messageLabel: 'Custom Training Objectives & Batch Size Requirements *',
+        messagePlaceholder: 'Describe your participant technical background, desired syllabus customization, on-site vs classroom preference, and tentative dates...',
+        html: `
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div>
+              <label class="block font-bold text-slate-700 uppercase tracking-wider mb-1.5">Course Program *</label>
+              <select class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3.5 py-2.5 text-slate-900 focus:outline-none focus:border-brand-orange text-xs">
+                <option>ASNT Level II NDT Certification (UT/RT/MPT/DPT)</option>
+                <option>Welding Inspection & WPS/PQR Practical Workshop</option>
+                <option>ASME Pressure Vessel & Piping Codes Masterclass</option>
+                <option>ISO 9001:2015 & ISO 17020 Internal Auditing</option>
+                <option>Industrial Painting & NACE Coating Quality</option>
+              </select>
+            </div>
+            <div>
+              <label class="block font-bold text-slate-700 uppercase tracking-wider mb-1.5">Estimated Batch Size *</label>
+              <select class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3.5 py-2.5 text-slate-900 focus:outline-none focus:border-brand-orange text-xs">
+                <option>Individual (1 Person)</option>
+                <option>Small Corporate Team (2 to 5 Persons)</option>
+                <option>Full Batch (6 to 15 Persons)</option>
+                <option>Enterprise In-House (15+ Persons)</option>
+              </select>
+            </div>
+            <div>
+              <label class="block font-bold text-slate-700 uppercase tracking-wider mb-1.5">Preferred Training Mode</label>
+              <select class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3.5 py-2.5 text-slate-900 focus:outline-none focus:border-brand-orange text-xs">
+                <option>At Client Facility / In-House</option>
+                <option>AES Technical Training Center</option>
+                <option>Virtual Interactive Live Sessions</option>
+              </select>
+            </div>
+          </div>
+        `
+      }
+    };
+
+    function selectReason(key) {
+      var data = reasonsData[key] || reasonsData['inquiry'];
+      var pills = document.querySelectorAll('.reason-pill');
+      pills.forEach(function(p) { p.classList.remove('active'); });
+      var activePill = document.getElementById('pill-' + key);
+      if (activePill) activePill.classList.add('active');
+
+      document.getElementById('selectedReasonInput').value = data.title;
+      document.getElementById('formSubmitBtn').textContent = data.btnText;
+      document.getElementById('messageLabel').textContent = data.messageLabel;
+      document.getElementById('messageTextarea').placeholder = data.messagePlaceholder;
+      document.getElementById('dynamicFormFields').innerHTML = data.html;
+    }
+
+    selectReason('inquiry');
+
+    async function handleFormSubmit(e) {
+      e.preventDefault();
+      var btn = document.getElementById('formSubmitBtn');
+      var name = document.getElementById('inquiryFullName').value;
+      var company = document.getElementById('inquiryCompany').value;
+      var email = document.getElementById('inquiryEmail').value;
+      var phone = document.getElementById('inquiryPhone').value;
+      var message = document.getElementById('messageTextarea').value;
+      var reason = document.getElementById('selectedReasonInput').value;
+
+      // Collect any extra dynamic fields
+      var dynamicFields = document.getElementById('dynamicFormFields');
+      var dynamicInputs = dynamicFields ? dynamicFields.querySelectorAll('input, select, textarea') : [];
+      var extraDetails = [];
+      dynamicInputs.forEach(function(inp) {
+        if (inp.value) {
+          var labelText = '';
+          if (inp.labels && inp.labels[0]) {
+            labelText = inp.labels[0].innerText.replace('*', '').trim();
+          } else if (inp.parentElement && inp.parentElement.querySelector('label')) {
+            labelText = inp.parentElement.querySelector('label').innerText.replace('*', '').trim();
+          }
+          if (labelText) {
+            extraDetails.push(labelText + ': ' + inp.value);
+          }
+        }
+      });
+      
+      var fullMessage = message;
+      if (extraDetails.length > 0) {
+        fullMessage += '\n\n[Field Details]\n' + extraDetails.join('\n');
+      }
+
+      var res = await AesSupabase.submitGeneralInquiry({
+        name: name,
+        company: company,
+        email: email,
+        phone: phone,
+        inquiryType: reason,
+        message: fullMessage
+      }, btn);
+
+      if (res && res.success) {
+        document.getElementById('reasonWiseForm').reset();
+        selectReason('inquiry');
+      }
+    }
+  </script>
+
+  <script>
+    // Mega Dropdown Hover & Click Handling with Instant Close
+    (function () {
+      var dropdown = document.querySelector('.nav-item-dropdown');
+      var menu = document.querySelector('.mega-dropdown-menu');
+      var closeTimer = null;
+
+      if (dropdown && menu) {
+        function openMenu() {
+          if (closeTimer) {
+            clearTimeout(closeTimer);
+            closeTimer = null;
+          }
+          menu.classList.add('is-open');
+        }
+
+        function scheduleClose() {
+          if (closeTimer) clearTimeout(closeTimer);
+          closeTimer = setTimeout(function () {
+            menu.classList.remove('is-open');
+          }, 260);
+        }
+
+        function closeImmediately() {
+          if (closeTimer) clearTimeout(closeTimer);
+          menu.classList.remove('is-open');
+          menu.style.opacity = '0';
+          menu.style.visibility = 'hidden';
+          menu.style.pointerEvents = 'none';
+          setTimeout(function() {
+            menu.style.opacity = '';
+            menu.style.visibility = '';
+            menu.style.pointerEvents = '';
+          }, 300);
+        }
+
+        dropdown.addEventListener('mouseenter', openMenu);
+        dropdown.addEventListener('mouseleave', scheduleClose);
+        menu.addEventListener('mouseenter', openMenu);
+        menu.addEventListener('mouseleave', scheduleClose);
+
+        var menuLinks = menu.querySelectorAll('a');
+        menuLinks.forEach(function(link) {
+          link.addEventListener('click', closeImmediately);
+        });
+      }
+    })();
+
+  </script>
+</body>
+</html>
