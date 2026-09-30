@@ -234,18 +234,18 @@
 
 
 
-        <!-- ================================================================= -->
+  <!-- ================================================================= -->
   <!-- 1. FULL-WIDTH HEADER (Logo Left, Services Center, Right Nav)        -->
   <!-- ================================================================= -->
-    <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm relative">
-    <div class="w-full px-6 lg:px-12 flex justify-between items-center h-20 sm:h-24">
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm relative">
+    <div class="w-full px-6 lg:px-12 flex justify-between items-center h-24 sm:h-28">
       
       <!-- Left Spacer for Centering Logo on Desktop -->
       <div class="hidden lg:flex w-1/3"></div>
 
-      <!-- Center Logo -->
-      <a href="index.html" class="flex items-center justify-center space-x-3 shrink-0 w-full lg:w-1/3" onclick="if(window.location.pathname.endsWith('index.html') || window.location.pathname === '/' || window.location.pathname.endsWith('/Music/')){ window.scrollTo({top: 0, behavior: 'smooth'}); return false; }">
-        <img src="assets/akshar_logo.png" alt="Akshar Engineering Services" class="h-12 sm:h-14 md:h-16 w-auto object-contain">
+      <!-- Center Logo (Enlarged and Prominent) -->
+      <a href="index.html" class="flex items-center justify-center space-x-3 shrink-0 w-full lg:w-1/3 py-2" onclick="if(window.location.pathname.endsWith('index.html') || window.location.pathname === '/' || window.location.pathname.endsWith('/Music/')){ window.scrollTo({top: 0, behavior: 'smooth'}); return false; }">
+        <img src="assets/akshar_logo.png" alt="Akshar Engineering Services" class="h-16 sm:h-20 md:h-24 max-h-24 w-auto object-contain transition-transform duration-300 hover:scale-105">
       </a>
 
       <!-- Right Menubar -->
@@ -253,9 +253,9 @@
         <a href="about.html" class="text-brand-blue hover:text-brand-orange transition-colors duration-300">About Us</a>
         
         <div class="nav-item-dropdown relative group py-6 flex items-center">
-          <a href="services.html" class="text-brand-blue hover:text-brand-orange text-base sm:text-lg font-extrabold flex items-center gap-1.5 transition-colors duration-300">
+          <a href="services.html" class="text-brand-orange text-base sm:text-lg font-extrabold flex items-center gap-1.5 transition-colors duration-300">
             Service
-            <svg class="w-4 h-4 text-brand-blue group-hover:text-brand-orange transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path></svg>
+            <svg class="w-4 h-4 text-brand-orange group-hover:text-brand-orange transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path></svg>
           </a>
           <div class="mega-dropdown-menu absolute top-full right-0 w-64 bg-white border border-slate-200 shadow-xl rounded-xl py-2 invisible opacity-0 z-50 transition-all flex flex-col text-left">
             <a href="service-tpi.html" class="block px-4 py-2 text-sm font-bold text-brand-blue hover:bg-orange-50 hover:text-brand-orange">Third Party Inspection</a>
@@ -278,7 +278,7 @@
         </div>
 
         <a href="careers.html" class="text-brand-blue hover:text-brand-orange transition-colors duration-300">Careers</a>
-        <a href="javascript:void(0)" onclick="openModal('feedbackModal')" class="text-brand-blue hover:text-brand-orange transition-colors duration-300">We hear you</a>
+        <a href="we-hear-you.html" class="text-brand-blue hover:text-brand-orange transition-colors duration-300">We hear you</a>
       </nav>
 
       <!-- Mobile Menu Button -->
@@ -292,23 +292,11 @@
     <!-- Mobile Nav Menu -->
     <div id="mobile-menu" class="hidden lg:hidden border-t border-slate-200 bg-white px-6 py-4 space-y-3">
       <a href="about.html" class="block text-base font-bold text-brand-blue hover:text-brand-orange">About Us</a>
-      <a href="services.html" class="block text-base font-bold text-brand-blue hover:text-brand-orange">Service</a>
+      <a href="services.html" class="block text-base font-bold text-brand-orange">Service</a>
       <a href="careers.html" class="block text-base font-bold text-brand-blue hover:text-brand-orange">Careers</a>
-      <a href="javascript:void(0)" onclick="openModal('feedbackModal')" class="block text-base font-bold text-brand-blue hover:text-brand-orange">We hear you</a>
+      <a href="we-hear-you.html" class="block text-base font-bold text-brand-blue hover:text-brand-orange">We hear you</a>
     </div>
   </header>
-
-  <!-- ================================================================= -->
-    <!-- Sticky Quick Contact (Text Only, No Icons) -->
-    <!-- Sticky Quick Contact (Text Only, No Icons) -->
-  <div class="fixed right-0 top-1/2 -translate-y-1/2 z-40 hidden md:flex flex-col gap-2.5 shadow-2xl">
-    <button onclick="openModal('inquiryModal')" class="bg-brand-orange hover:bg-orange-700 text-white font-bold text-xs uppercase tracking-wider py-4 px-3 rounded-l-lg shadow-lg flex items-center justify-center transition-transform hover:-translate-x-1.5 [writing-mode:vertical-rl] rotate-180 cursor-pointer">
-      <span>Inquiry Form</span>
-    </button>
-    <button onclick="openModal('trainingModal')" class="bg-brand-blue hover:bg-brand-dark text-white font-bold text-xs uppercase tracking-wider py-4 px-3 rounded-l-lg shadow-lg flex items-center justify-center transition-transform hover:-translate-x-1.5 [writing-mode:vertical-rl] rotate-180 cursor-pointer">
-      <span>Training Registration</span>
-    </button>
-  </div>
         <p class="text-lg text-slate-600 max-w-3xl mx-auto">
           Delivering independent vendor surveillance, fabrication QA/QC, and technical audits for critical industrial assets globally.
         </p>

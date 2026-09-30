@@ -300,33 +300,26 @@
     video.poster = 'assets/hero_inspection.jpg';
     video.setAttribute('aria-hidden', 'true');
     video.preload = 'metadata';
+    // Set slow playback speed for smooth cinematic effect
+    const setSlowSpeed = () => { video.playbackRate = 0.55; };
+    video.addEventListener('loadedmetadata', setSlowSpeed);
+    video.addEventListener('loadeddata', setSlowSpeed);
+    video.addEventListener('play', setSlowSpeed);
+    setSlowSpeed();
+
     const hero = video.closest('section');
-    const control = document.createElement('button');
-    control.type = 'button'; control.className = 'aes-video-toggle';
-    let userPaused = motion.matches;
     let inView = true;
-    function updateVideoControl() {
-      control.innerHTML = video.paused
-        ? '<svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="m5 2 9 6-9 6z"/></svg>Play background video'
-        : '<svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M4 2h3v12H4zm5 0h3v12H9z"/></svg>Pause background video';
-    }
     function syncVideo() {
-      if (userPaused || document.hidden || !inView) video.pause();
-      else video.play().catch(updateVideoControl);
-      updateVideoControl();
+      if (document.hidden || !inView) video.pause();
+      else {
+        video.play().then(setSlowSpeed).catch(() => {});
+      }
     }
-    control.addEventListener('click', () => {
-      userPaused = !video.paused;
-      syncVideo();
-    });
-    video.addEventListener('play', updateVideoControl);
-    video.addEventListener('pause', updateVideoControl);
-    motion.addEventListener('change', () => { userPaused = motion.matches; syncVideo(); });
     document.addEventListener('visibilitychange', syncVideo);
-    if (hero) {
-      hero.appendChild(control);
-      if ('IntersectionObserver' in window) new IntersectionObserver(entries => {
-        inView = entries[0].isIntersecting; syncVideo();
+    if (hero && 'IntersectionObserver' in window) {
+      new IntersectionObserver(entries => {
+        inView = entries[0].isIntersecting;
+        syncVideo();
       }).observe(hero);
     }
     syncVideo();

@@ -166,14 +166,14 @@
   <!-- 1. FULL-WIDTH HEADER (Logo Left, Services Center, Right Nav)        -->
   <!-- ================================================================= -->
     <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm relative">
-    <div class="w-full px-6 lg:px-12 flex justify-between items-center h-20 sm:h-24">
+    <div class="w-full px-6 lg:px-12 flex justify-between items-center h-24 sm:h-28">
       
       <!-- Left Spacer for Centering Logo on Desktop -->
       <div class="hidden lg:flex w-1/3"></div>
 
       <!-- Center Logo -->
       <a href="index.html" class="flex items-center justify-center space-x-3 shrink-0 w-full lg:w-1/3" onclick="if(window.location.pathname.endsWith('index.html') || window.location.pathname === '/' || window.location.pathname.endsWith('/Music/')){ window.scrollTo({top: 0, behavior: 'smooth'}); return false; }">
-        <img src="assets/akshar_logo.png" alt="Akshar Engineering Services" class="h-12 sm:h-14 md:h-16 w-auto object-contain">
+        <img src="assets/akshar_logo.png" alt="Akshar Engineering Services" class="h-16 sm:h-20 md:h-24 max-h-24 w-auto object-contain transition-transform duration-300 hover:scale-105">
       </a>
 
       <!-- Right Menubar -->
@@ -206,7 +206,7 @@
         </div>
 
         <a href="careers.html" class="text-brand-blue hover:text-brand-orange transition-colors duration-300">Careers</a>
-        <a href="javascript:void(0)" onclick="openModal('feedbackModal')" class="text-brand-blue hover:text-brand-orange transition-colors duration-300">We hear you</a>
+        <a href="we-hear-you.html" class="text-brand-blue hover:text-brand-orange transition-colors duration-300">We hear you</a>
       </nav>
 
       <!-- Mobile Menu Button -->
@@ -222,41 +222,11 @@
       <a href="about.html" class="block text-base font-bold text-brand-blue hover:text-brand-orange">About Us</a>
       <a href="services.html" class="block text-base font-bold text-brand-blue hover:text-brand-orange">Service</a>
       <a href="careers.html" class="block text-base font-bold text-brand-blue hover:text-brand-orange">Careers</a>
-      <a href="javascript:void(0)" onclick="openModal('feedbackModal')" class="block text-base font-bold text-brand-blue hover:text-brand-orange">We hear you</a>
+      <a href="we-hear-you.html" class="block text-base font-bold text-brand-blue hover:text-brand-orange">We hear you</a>
     </div>
   </header>
 
-  <!-- ================================================================= -->
-    <!-- Sticky Quick Contact (Text Only, No Icons) -->
-    <!-- Sticky Quick Contact (Text Only, No Icons) -->
-  <div class="fixed right-0 top-1/2 -translate-y-1/2 z-40 hidden md:flex flex-col gap-2.5 shadow-2xl">
-    <button onclick="openModal('inquiryModal')" class="bg-brand-orange hover:bg-orange-700 text-white font-bold text-xs uppercase tracking-wider py-4 px-3 rounded-l-lg shadow-lg flex items-center justify-center transition-transform hover:-translate-x-1.5 [writing-mode:vertical-rl] rotate-180 cursor-pointer">
-      <span>Inquiry Form</span>
-    </button>
-    <button onclick="openModal('trainingModal')" class="bg-brand-blue hover:bg-brand-dark text-white font-bold text-xs uppercase tracking-wider py-4 px-3 rounded-l-lg shadow-lg flex items-center justify-center transition-transform hover:-translate-x-1.5 [writing-mode:vertical-rl] rotate-180 cursor-pointer">
-      <span>Training Registration</span>
-    </button>
-  </div>
-  </section>
-
-  <!-- ================================================================= -->
-  <!-- MAIN SERVICE CONTENT (2 COLUMNS)                                  -->
-  <!-- ================================================================= -->
-  <main class="max-w-7xl mx-auto px-6 lg:px-12 py-16">
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
-      
-      <!-- LEFT COLUMN: Technical Scope & Detailed Breakdown (8 Cols) -->
-      <div class="lg:col-span-8 space-y-12">
-        
-        <!-- Image Banner -->
-        <div class="rounded-2xl overflow-hidden shadow-lg border border-slate-200">
-          <img src="assets/service_global_sourcing.jpg" alt="International Sourcing Surveillance" class="w-full h-80 sm:h-96 object-cover">
-        </div>
-
-        <!-- Scope Overview -->
-        <section>
-          <h2 class="text-2xl font-black text-brand-dark mb-4">Technical Scope &amp; Methodology</h2>
-          <div class="heading-line-track mb-6"><div class="section-accent-line"></div></div>
+  
           <div class="prose max-w-none text-slate-600 text-base leading-relaxed space-y-4">
             <p>Procuring critical engineering components, specialized valves, forged flanges, turbine skids, and electrical switchgear from overseas suppliers exposes project developers to significant quality, logistical, and compliance risks. Akshar Engineering Services bridges the geographic gap by providing trusted technical surveillance at foreign vendor facilities.</p>
             <p>We act as your local eyes and ears across Asia, Europe, and the Middle East, conducting supplier quality audits, witnessing in-process manufacturing stages, presiding over Factory Acceptance Tests (FAT), and authorizing commercial Letter of Credit (LC) documentation clearances.</p>
@@ -421,7 +391,7 @@
         
                         <div class="lg:col-span-2 space-y-4">
           <div class="bg-white inline-block p-3 rounded-xl shadow-md border border-white/20">
-            <img src="assets/logo.png" alt="Akshar Engineering Services" class="h-12 w-auto">
+            <img src="assets/logo.png" alt="Akshar Engineering Services" class="h-14 sm:h-16 w-auto object-contain">
           </div>
           <p class="text-slate-300 text-sm leading-relaxed max-w-md">
             Akshar Engineering Services Pvt. Ltd. delivers independent third-party inspection, vendor quality surveillance, statutory verification, and technical assurance across global industrial supply chains.

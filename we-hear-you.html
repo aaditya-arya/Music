@@ -115,15 +115,15 @@
   <!-- ================================================================= -->
   <!-- 1. FULL-WIDTH HEADER (Logo Left, Services Center, Right Nav)        -->
   <!-- ================================================================= -->
-    <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm relative">
-    <div class="w-full px-6 lg:px-12 flex justify-between items-center h-20 sm:h-24">
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm relative">
+    <div class="w-full px-6 lg:px-12 flex justify-between items-center h-24 sm:h-28">
       
       <!-- Left Spacer for Centering Logo on Desktop -->
       <div class="hidden lg:flex w-1/3"></div>
 
-      <!-- Center Logo -->
-      <a href="index.html" class="flex items-center justify-center space-x-3 shrink-0 w-full lg:w-1/3" onclick="if(window.location.pathname.endsWith('index.html') || window.location.pathname === '/' || window.location.pathname.endsWith('/Music/')){ window.scrollTo({top: 0, behavior: 'smooth'}); return false; }">
-        <img src="assets/akshar_logo.png" alt="Akshar Engineering Services" class="h-12 sm:h-14 md:h-16 w-auto object-contain">
+      <!-- Center Logo (Enlarged and Prominent) -->
+      <a href="index.html" class="flex items-center justify-center space-x-3 shrink-0 w-full lg:w-1/3 py-2" onclick="if(window.location.pathname.endsWith('index.html') || window.location.pathname === '/' || window.location.pathname.endsWith('/Music/')){ window.scrollTo({top: 0, behavior: 'smooth'}); return false; }">
+        <img src="assets/akshar_logo.png" alt="Akshar Engineering Services" class="h-16 sm:h-20 md:h-24 max-h-24 w-auto object-contain transition-transform duration-300 hover:scale-105">
       </a>
 
       <!-- Right Menubar -->
@@ -156,7 +156,7 @@
         </div>
 
         <a href="careers.html" class="text-brand-blue hover:text-brand-orange transition-colors duration-300">Careers</a>
-        <a href="javascript:void(0)" onclick="openModal('feedbackModal')" class="text-brand-blue hover:text-brand-orange transition-colors duration-300">We hear you</a>
+        <a href="we-hear-you.html" class="text-brand-orange transition-colors duration-300">We hear you</a>
       </nav>
 
       <!-- Mobile Menu Button -->
@@ -172,51 +172,39 @@
       <a href="about.html" class="block text-base font-bold text-brand-blue hover:text-brand-orange">About Us</a>
       <a href="services.html" class="block text-base font-bold text-brand-blue hover:text-brand-orange">Service</a>
       <a href="careers.html" class="block text-base font-bold text-brand-blue hover:text-brand-orange">Careers</a>
-      <a href="javascript:void(0)" onclick="openModal('feedbackModal')" class="block text-base font-bold text-brand-blue hover:text-brand-orange">We hear you</a>
+      <a href="we-hear-you.html" class="block text-base font-bold text-brand-orange">We hear you</a>
     </div>
   </header>
 
-  <!-- Sticky Quick Contact -->
-    <!-- Sticky Quick Contact (Text Only, No Icons) -->
-  <div class="fixed right-0 top-1/2 -translate-y-1/2 z-40 hidden md:flex flex-col gap-2.5 shadow-2xl">
-    <button onclick="openModal('inquiryModal')" class="bg-brand-orange hover:bg-orange-700 text-white font-bold text-xs uppercase tracking-wider py-4 px-3 rounded-l-lg shadow-lg flex items-center justify-center transition-transform hover:-translate-x-1.5 [writing-mode:vertical-rl] rotate-180 cursor-pointer">
-      <span>Inquiry Form</span>
-    </button>
-    <button onclick="openModal('trainingModal')" class="bg-brand-blue hover:bg-brand-dark text-white font-bold text-xs uppercase tracking-wider py-4 px-3 rounded-l-lg shadow-lg flex items-center justify-center transition-transform hover:-translate-x-1.5 [writing-mode:vertical-rl] rotate-180 cursor-pointer">
-      <span>Training Registration</span>
-    </button>
+  <div class="max-w-7xl mx-auto px-6 lg:px-12 relative z-10 pt-10">
+    <nav class="flex items-center gap-2 text-xs font-semibold text-slate-400 mb-6 uppercase tracking-wider">
+      <a href="index.html" class="hover:text-white transition-colors">Home</a>
+      <span>/</span>
+      <span class="text-brand-orange">We Hear You</span>
+    </nav>
+
+    <div class="max-w-3xl">
+      <span class="inline-block bg-brand-orange/20 text-brand-orange text-xs font-extrabold uppercase tracking-wider px-3.5 py-1.5 rounded-full border border-brand-orange/30 mb-4">
+        Client Care &bull; Direct Technical Desk &bull; Rapid Resolution
+      </span>
+      <h1 class="text-3xl sm:text-5xl font-black text-brand-dark tracking-tight mb-4 leading-tight">
+        We Hear You
+      </h1>
+      <p class="text-slate-600 text-base sm:text-lg leading-relaxed">
+        At Akshar Engineering Services, we listen to your operational challenges, quality observations, technical blog requests, and project milestones. Submit your request below for rapid technical resolution.
+      </p>
+    </div>
   </div>
 
-    <div class="max-w-7xl mx-auto px-6 lg:px-12 relative z-10">
-      <nav class="flex items-center gap-2 text-xs font-semibold text-slate-400 mb-6 uppercase tracking-wider">
-        <a href="index.html" class="hover:text-white transition-colors">Home</a>
-        <span>/</span>
-        <span class="text-brand-orange">We Hear You</span>
-      </nav>
-
-      <div class="max-w-3xl">
-        <span class="inline-block bg-brand-orange/20 text-brand-orange text-xs font-extrabold uppercase tracking-wider px-3.5 py-1.5 rounded-full border border-brand-orange/30 mb-4">
-          Client Care &bull; Direct Technical Desk &bull; Rapid Resolution
-        </span>
-        <h1 class="text-3xl sm:text-5xl font-black text-white tracking-tight mb-4 leading-tight">
-          We Hear You
-        </h1>
-        <p class="text-slate-300 text-base sm:text-lg leading-relaxed">
-          At Akshar Engineering Services, we listen to your operational challenges, quality observations, and project milestones. Submit your request below for rapid technical resolution.
-        </p>
-      </div>
-    </div>
-  </section>
-
   <!-- Main Interactive Form Section -->
-  <main class="py-16 max-w-5xl mx-auto px-6 lg:px-12">
+  <main class="py-12 max-w-5xl mx-auto px-6 lg:px-12">
     <div class="bg-gradient-to-br from-slate-900 via-brand-navy to-brand-blue text-white rounded-3xl p-8 sm:p-12 shadow-2xl relative overflow-hidden">
       
       <div class="mb-8 relative z-10">
         <span class="text-xs font-extrabold text-brand-orange uppercase tracking-wider block mb-1">Adaptive Technical Hub</span>
         <h2 class="text-2xl sm:text-3xl font-black text-white">Update, Feedback &amp; Technical Support Hub</h2>
         <p class="text-slate-300 text-xs sm:text-sm mt-1.5 leading-relaxed">
-          Select your contact reason below to route your request directly to the appropriate technical specialist.
+          Select your contact reason below or explore our technical blog articles directly inside We Hear You.
         </p>
       </div>
 
@@ -241,6 +229,9 @@
           </button>
           <button type="button" onclick="selectReason('training_inquiry')" id="pill-training_inquiry" class="reason-pill px-4 py-2.5 rounded-xl text-xs font-bold border border-slate-700 bg-white/10 hover:bg-white/20 transition-all">
             &#127891; Corporate Technical Training
+          </button>
+          <button type="button" onclick="document.getElementById('technicalBlog').scrollIntoView({behavior: 'smooth'})" class="reason-pill px-4 py-2.5 rounded-xl text-xs font-bold border border-brand-orange/60 bg-brand-orange/20 text-brand-orange hover:bg-brand-orange hover:text-white transition-all">
+            &#128218; Engineering Insights &amp; Blog &darr;
           </button>
         </div>
       </div>

@@ -129,15 +129,23 @@ body > header a:is([aria-current=page], [aria-current=true]) { color: var(--aes-
 .aes-hero > .absolute > .bg-gradient-to-r {
   background: linear-gradient(90deg, rgb(11 22 51 / 85%), rgb(11 22 51 / 48%) 55%, rgb(11 22 51 / 12%));
 }
-.aes-video-toggle {
-  position: absolute; right: 104px; bottom: 24px; z-index: 20;
-  display: inline-flex; gap: 8px; align-items: center; min-height: 44px;
-  padding: 10px 16px; border: 1px solid rgb(255 255 255 / 35%); border-radius: 999px;
-  color: white; background: rgb(11 22 51 / 70%); font-size: 12px; font-weight: 600;
-  transition: background-color 200ms, border-color 200ms;
+@keyframes marqueeLTR {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
 }
-.aes-video-toggle:hover { background: var(--aes-blue); border-color: white; }
-.aes-video-toggle svg { width: 14px; height: 14px; }
+.animate-marquee-ltr {
+  display: flex;
+  width: max-content;
+  animation: marqueeLTR 25s linear infinite;
+  will-change: transform;
+}
+.animate-marquee-ltr:hover {
+  animation-play-state: paused;
+}
 main > section.py-20 { padding-block: clamp(3.5rem, 6.25vw, 5.5rem); }
 .heading-line-track {
   width: 72px; height: 3px; background: rgb(27 53 116 / 9%); overflow: hidden;
@@ -223,7 +231,6 @@ footer .flex.space-x-6 > * { margin-left: 0 !important; }
   body > header > div:first-child > a { min-width: 0; }
   body > header > div:first-child > a img { max-width: min(64vw, 270px); height: auto; max-height: 48px; }
   .aes-hero { min-height: 650px; }
-  .aes-video-toggle { right: auto; left: var(--aes-gutter); }
   .aes-hero > .relative { padding-top: 64px; padding-bottom: 100px; }
   .aes-hero h1 > span { font-size: clamp(1.8rem, 6.8vw, 2.65rem); }
   .aes-hero .border-l-4 > p:first-child { font-size: 1.125rem; }

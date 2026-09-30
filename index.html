@@ -247,14 +247,14 @@
   <!-- 1. FULL-WIDTH HEADER                                              -->
   <!-- ================================================================= -->
   <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm relative">
-    <div class="w-full px-6 lg:px-12 flex justify-between items-center h-20 sm:h-24">
+    <div class="w-full px-6 lg:px-12 flex justify-between items-center h-24 sm:h-28">
       
       <!-- Left Spacer for Centering Logo on Desktop -->
       <div class="hidden lg:flex w-1/3"></div>
 
-      <!-- Center Logo -->
-      <a href="index.html" class="flex items-center justify-center space-x-3 shrink-0 w-full lg:w-1/3" onclick="if(window.location.pathname.endsWith('index.html') || window.location.pathname === '/' || window.location.pathname.endsWith('/Music/')){ window.scrollTo({top: 0, behavior: 'smooth'}); return false; }">
-        <img src="assets/akshar_logo.png" alt="Akshar Engineering Services" class="h-12 sm:h-14 md:h-16 w-auto object-contain">
+      <!-- Center Logo (Enlarged and Prominent) -->
+      <a href="index.html" class="flex items-center justify-center space-x-3 shrink-0 w-full lg:w-1/3 py-2" onclick="if(window.location.pathname.endsWith('index.html') || window.location.pathname === '/' || window.location.pathname.endsWith('/Music/')){ window.scrollTo({top: 0, behavior: 'smooth'}); return false; }">
+        <img src="assets/akshar_logo.png" alt="Akshar Engineering Services" class="h-16 sm:h-20 md:h-24 max-h-24 w-auto object-contain transition-transform duration-300 hover:scale-105">
       </a>
 
       <!-- Right Menubar -->
@@ -287,7 +287,7 @@
         </div>
 
         <a href="careers.html" class="text-brand-blue hover:text-brand-orange transition-colors duration-300">Careers</a>
-        <a href="javascript:void(0)" onclick="openModal('feedbackModal')" class="text-brand-blue hover:text-brand-orange transition-colors duration-300">We hear you</a>
+        <a href="we-hear-you.html" class="text-brand-blue hover:text-brand-orange transition-colors duration-300">We hear you</a>
       </nav>
 
       <!-- Mobile Menu Button -->
@@ -303,23 +303,9 @@
       <a href="about.html" class="block text-base font-bold text-brand-blue hover:text-brand-orange">About Us</a>
       <a href="services.html" class="block text-base font-bold text-brand-blue hover:text-brand-orange">Service</a>
       <a href="careers.html" class="block text-base font-bold text-brand-blue hover:text-brand-orange">Careers</a>
-      <a href="javascript:void(0)" onclick="openModal('feedbackModal')" class="block text-base font-bold text-brand-blue hover:text-brand-orange">We hear you</a>
+      <a href="we-hear-you.html" class="block text-base font-bold text-brand-blue hover:text-brand-orange">We hear you</a>
     </div>
   </header>
-
-  <!-- ================================================================= -->
-  <!-- STICKY RIGHT-EDGE FORM BUTTONS                                    -->
-  <!-- ================================================================= -->
-  <div class="fixed right-0 top-1/2 -translate-y-1/2 z-40 hidden md:flex flex-col gap-2.5 shadow-2xl">
-    <button onclick="openModal('inquiryModal')" class="bg-brand-orange hover:bg-orange-700 text-white font-bold text-xs uppercase tracking-wider py-4 px-3 rounded-l-lg shadow-lg flex items-center space-x-2 transition-transform hover:-translate-x-1.5 [writing-mode:vertical-rl] rotate-180">
-      <span class="rotate-90 text-sm mb-1">&#9993;</span>
-      <span>Inquiry Form</span>
-    </button>
-    <button onclick="openModal('trainingModal')" class="bg-brand-blue hover:bg-brand-dark text-white font-bold text-xs uppercase tracking-wider py-4 px-3 rounded-l-lg shadow-lg flex items-center space-x-2 transition-transform hover:-translate-x-1.5 [writing-mode:vertical-rl] rotate-180">
-      <span class="rotate-90 text-sm mb-1">&#127891;</span>
-      <span>Training Registration</span>
-    </button>
-  </div>
 
   <!-- ================================================================= -->
   <!-- FLOATING WHATSAPP BUTTON (Bottom Right)                           -->
@@ -342,9 +328,9 @@
     <!-- ================================================================= -->
     <section class="relative min-h-[85vh] lg:min-h-[90vh] flex items-center justify-start border-b border-slate-200 overflow-hidden bg-slate-950">
       
-      <!-- Looping Video Background -->
+      <!-- Looping Video Background (Slow Playback Speed) -->
       <div class="absolute inset-0 z-0 overflow-hidden pointer-events-none">
-        <video autoplay loop muted playsinline class="w-full h-full object-cover">
+        <video id="heroVideo" autoplay loop muted playsinline class="w-full h-full object-cover">
           <source src="video/hero.mp4" type="video/mp4">
         </video>
         <!-- Dual Gradient Overlays: Dark on Left for Legibility, Translucent on Right for Video Clarity -->
@@ -352,6 +338,17 @@
         <div class="absolute inset-0 bg-gradient-to-t from-slate-950/45 via-transparent to-transparent"></div>
         <div class="absolute inset-0 bg-black/40"></div>
       </div>
+      <script>
+        (function() {
+          var v = document.getElementById('heroVideo');
+          if (v) {
+            var setSlow = function() { v.playbackRate = 0.55; };
+            v.addEventListener('loadedmetadata', setSlow);
+            v.addEventListener('play', setSlow);
+            setSlow();
+          }
+        })();
+      </script>
 
       <!-- Hero Content Container -->
       <div class="max-w-7xl mx-auto px-6 lg:px-12 py-24 lg:py-32 relative z-10 w-full">
@@ -378,21 +375,6 @@
             <p class="text-sm sm:text-base font-semibold text-slate-300 mt-1">
               Independent Third-Party Quality Assurance &bull; Statutory Verification &bull; Field Surveillance
             </p>
-          </div>
-
-          <!-- Action Buttons: Flush Left-Aligned with Big Header Text -->
-          <div class="flex flex-col sm:flex-row gap-4 pt-1">
-            <button onclick="openModal('inquiryModal')" class="btn-premium-orange inline-flex justify-center items-center text-white text-base font-extrabold px-8 py-4 rounded-xl shadow-2xl">
-              Request Inspection
-            </button>
-            <button onclick="openModal('verifyDocModal')" class="btn-premium-blue inline-flex justify-center items-center text-white text-base font-extrabold px-8 py-4 rounded-xl shadow-2xl border border-white/20">
-              <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-              Verify Document
-            </button>
-            <a href="assets/AES_Corporate_Brochure.pdf" target="_blank" class="btn-premium-blue inline-flex justify-center items-center text-white text-base font-extrabold px-8 py-4 rounded-xl shadow-2xl border border-white/20">
-              <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
-              View Brochure
-            </a>
           </div>
 
         </div>
@@ -797,149 +779,107 @@
     </section>
 
     <!-- ================================================================= -->
-    <!-- 7. TRUSTED BY / CLIENTS (Clean 6-Logo Single Row)                 -->
+    <!-- 7. WE SERVED / CLIENTS MARQUEE (Moving Left-to-Right Above Footer)-->
     <!-- ================================================================= -->
-    <section id="clients" class="py-20 bg-white border-b border-slate-200">
-      <div class="max-w-7xl mx-auto px-6 lg:px-12 text-center">
+    <section id="clients" class="py-20 bg-slate-50 border-b border-slate-200 overflow-hidden relative">
+      <div class="max-w-7xl mx-auto px-6 lg:px-12 text-center mb-10">
         
-        <div class="max-w-2xl mx-auto mb-12">
-          <div class="inline-block">
-            <h2 class="text-3xl font-black text-brand-dark tracking-tight">Trusted By</h2>
-            <div class="heading-line-track track-center mx-auto mt-2 mb-4">
-              <div class="section-accent-line"></div>
-            </div>
+        <div class="max-w-2xl mx-auto">
+          <span class="inline-block bg-orange-100 text-brand-orange text-xs font-black uppercase tracking-wider px-3.5 py-1.5 rounded-full border border-orange-200 mb-3">
+            We Served
+          </span>
+          <h2 class="text-3xl sm:text-4xl font-black text-brand-dark tracking-tight">
+            Companies We Served
+          </h2>
+          <div class="heading-line-track track-center mx-auto mt-2 mb-4">
+            <div class="section-accent-line"></div>
           </div>
           <p class="text-sm sm:text-base text-slate-600 mt-2">
-            Empaneled and approved third-party technical inspection partner for premier EPC contractors and project developers.
+            Empaneled and approved third-party technical inspection partner for premier EPC contractors, project developers, and heavy industrial manufacturers.
           </p>
         </div>
 
-        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-8 items-center max-w-6xl mx-auto">
-          
-          <div class="h-28 flex items-center justify-center p-4 group">
-            <img src="assets/partner_isgec.png" alt="ISGEC Heavy Engineering" class="max-h-16 w-auto object-contain group-hover:scale-110 transition-transform duration-300">
-          </div>
-
-          <div class="h-28 flex items-center justify-center p-4 group">
-            <img src="assets/partner_deneb.png" alt="DENEB" class="max-h-16 w-auto object-contain group-hover:scale-110 transition-transform duration-300">
-          </div>
-
-          <div class="h-28 flex items-center justify-center p-4 group">
-            <img src="assets/partner_oriano.png" alt="Oriano Clean Energy" class="max-h-16 w-auto object-contain group-hover:scale-110 transition-transform duration-300">
-          </div>
-
-          <div class="h-28 flex items-center justify-center p-4 group">
-            <img src="assets/partner_emblem.png" alt="State Authority" class="max-h-20 w-auto object-contain group-hover:scale-110 transition-transform duration-300">
-          </div>
-
-          <div class="h-28 flex items-center justify-center p-4 group">
-            <img src="assets/partner_foursquare.png" alt="Four Square Green Energy" class="max-h-16 w-auto object-contain group-hover:scale-110 transition-transform duration-300">
-          </div>
-
-          <div class="h-28 flex items-center justify-center p-4 group">
-            <img src="assets/partner_teras.png" alt="TERAS" class="max-h-20 w-auto object-contain group-hover:scale-110 transition-transform duration-300">
-          </div>
-
-        </div>
-
       </div>
-    </section>
 
-    <!-- ================================================================= -->
-    <!-- 8. ON-PAGE INQUIRY SECTION                                        -->
-    <!-- ================================================================= -->
-    <section id="contact" class="py-20 bg-slate-50 border-b border-slate-200">
-      <div class="max-w-7xl mx-auto px-6 lg:px-12">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+      <!-- Left-to-Right Infinite Animated Marquee Track with Fade Mask Overlays -->
+      <div class="relative w-full overflow-hidden py-4">
+        <!-- Left Gradient Mask -->
+        <div class="absolute left-0 inset-y-0 w-24 sm:w-36 bg-gradient-to-r from-slate-50 to-transparent z-10 pointer-events-none"></div>
+        <!-- Right Gradient Mask -->
+        <div class="absolute right-0 inset-y-0 w-24 sm:w-36 bg-gradient-to-l from-slate-50 to-transparent z-10 pointer-events-none"></div>
+
+        <div class="animate-marquee-ltr flex items-center gap-6 sm:gap-8">
           
-          <!-- Contact Info -->
-          <div class="lg:col-span-5">
-            <div class="inline-block mb-3">
-              <h2 class="text-3xl sm:text-4xl font-black text-brand-dark tracking-tight">
-                Request an Inspection
-              </h2>
-              <div class="heading-line-track mt-2 mb-6">
-                <div class="section-accent-line"></div>
-              </div>
-            </div>
-            
-            <p class="text-slate-600 text-base leading-relaxed mb-8">
-              Reach out to our technical dispatch desk for immediate surveyor allocation, quality plan reviews, or project RFQ inquiries.
-            </p>
-
-            <div class="space-y-4 text-sm">
-              <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
-                <span class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Direct Call</span>
-                <a href="tel:+918200441159" class="text-lg font-bold text-brand-dark hover:text-brand-orange transition-colors">
-                  +91 8200441159
-                </a>
-                <div class="text-xs text-slate-500 mt-1">Mon - Sat: 08:30 - 19:30 IST</div>
-              </div>
-
-              <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
-                <span class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Email Inquiries</span>
-                <a href="mailto:info@aksharengineeringservices.com" class="text-base font-bold text-brand-dark hover:text-brand-orange transition-colors">
-                  info@aksharengineeringservices.com
-                </a>
-                <div class="text-xs text-slate-500 mt-1">Response within 4 business hours</div>
-              </div>
-            </div>
+          <!-- Set 1 -->
+          <div class="bg-white rounded-2xl border border-slate-200/90 p-5 flex flex-col items-center justify-center min-w-[210px] sm:min-w-[240px] h-32 shadow-sm hover:shadow-md transition-all duration-300 group">
+            <img src="assets/partner_isgec.png" alt="ISGEC Heavy Engineering" class="max-h-14 max-w-[150px] w-auto object-contain group-hover:scale-110 transition-transform duration-300">
+            <span class="text-[10px] font-black uppercase tracking-wider text-slate-400 group-hover:text-brand-orange mt-2">We Served</span>
           </div>
 
-          <!-- Clean Inquiry Card Form -->
-          <div class="lg:col-span-7">
-            <div class="bg-white p-8 sm:p-10 rounded-2xl border border-slate-200 shadow-md">
-              <h3 class="text-xl font-bold text-brand-dark mb-6">Quick Technical Inquiry</h3>
-              
-              <form action="#" method="POST" onsubmit="event.preventDefault(); alert('Thank you! Your inspection inquiry has been received. Our team will contact you within 4 hours.');" class="space-y-4 text-sm">
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Full Name *</label>
-                    <input type="text" required placeholder="e.g. Rajesh Patel" class="w-full bg-slate-50 border border-slate-300 rounded-lg px-4 py-2.5 text-slate-900 focus:outline-none focus:border-brand-orange focus:bg-white transition-all">
-                  </div>
-                  <div>
-                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Company Name *</label>
-                    <input type="text" required placeholder="e.g. L&amp;T Hydrocarbon" class="w-full bg-slate-50 border border-slate-300 rounded-lg px-4 py-2.5 text-slate-900 focus:outline-none focus:border-brand-orange focus:bg-white transition-all">
-                  </div>
-                </div>
+          <div class="bg-white rounded-2xl border border-slate-200/90 p-5 flex flex-col items-center justify-center min-w-[210px] sm:min-w-[240px] h-32 shadow-sm hover:shadow-md transition-all duration-300 group">
+            <img src="assets/partner_deneb.png" alt="DENEB" class="max-h-14 max-w-[150px] w-auto object-contain group-hover:scale-110 transition-transform duration-300">
+            <span class="text-[10px] font-black uppercase tracking-wider text-slate-400 group-hover:text-brand-orange mt-2">We Served</span>
+          </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Work Email *</label>
-                    <input type="email" required placeholder="name@company.com" class="w-full bg-slate-50 border border-slate-300 rounded-lg px-4 py-2.5 text-slate-900 focus:outline-none focus:border-brand-orange focus:bg-white transition-all">
-                  </div>
-                  <div>
-                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Phone Number *</label>
-                    <input type="tel" required placeholder="+91 XXXXXXXXXX" class="w-full bg-slate-50 border border-slate-300 rounded-lg px-4 py-2.5 text-slate-900 focus:outline-none focus:border-brand-orange focus:bg-white transition-all">
-                  </div>
-                </div>
+          <div class="bg-white rounded-2xl border border-slate-200/90 p-5 flex flex-col items-center justify-center min-w-[210px] sm:min-w-[240px] h-32 shadow-sm hover:shadow-md transition-all duration-300 group">
+            <img src="assets/partner_oriano.png" alt="Oriano Clean Energy" class="max-h-14 max-w-[150px] w-auto object-contain group-hover:scale-110 transition-transform duration-300">
+            <span class="text-[10px] font-black uppercase tracking-wider text-slate-400 group-hover:text-brand-orange mt-2">We Served</span>
+          </div>
 
-                <div>
-                  <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Service Required</label>
-                  <select class="w-full bg-slate-50 border border-slate-300 rounded-lg px-4 py-2.5 text-slate-900 focus:outline-none focus:border-brand-orange focus:bg-white transition-all">
-                    <option>Third Party Inspection (TPI)</option>
-                    <option>Project Expediting</option>
-                    <option>Pre-Dispatch Inspection (PDI)</option>
-                    <option>Vendor Assessment &amp; Auditing</option>
-                    <option>Welding &amp; NDE Inspection</option>
-                    <option>Painting &amp; Coating (NACE)</option>
-                    <option>Civil &amp; Renewables Inspection</option>
-                    <option>QA/QC Documentation &amp; 3.2 Certification</option>
-                  </select>
-                </div>
+          <div class="bg-white rounded-2xl border border-slate-200/90 p-5 flex flex-col items-center justify-center min-w-[210px] sm:min-w-[240px] h-32 shadow-sm hover:shadow-md transition-all duration-300 group">
+            <img src="assets/partner_emblem.png" alt="State Authority PSU" class="max-h-16 max-w-[150px] w-auto object-contain group-hover:scale-110 transition-transform duration-300">
+            <span class="text-[10px] font-black uppercase tracking-wider text-slate-400 group-hover:text-brand-orange mt-2">We Served</span>
+          </div>
 
-                <div>
-                  <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Brief Requirements / Location</label>
-                  <textarea rows="3" placeholder="Describe the component, vendor location, or inspection stage..." class="w-full bg-slate-50 border border-slate-300 rounded-lg px-4 py-2.5 text-slate-900 focus:outline-none focus:border-brand-orange focus:bg-white transition-all"></textarea>
-                </div>
+          <div class="bg-white rounded-2xl border border-slate-200/90 p-5 flex flex-col items-center justify-center min-w-[210px] sm:min-w-[240px] h-32 shadow-sm hover:shadow-md transition-all duration-300 group">
+            <img src="assets/partner_foursquare.png" alt="Four Square Green Energy" class="max-h-14 max-w-[150px] w-auto object-contain group-hover:scale-110 transition-transform duration-300">
+            <span class="text-[10px] font-black uppercase tracking-wider text-slate-400 group-hover:text-brand-orange mt-2">We Served</span>
+          </div>
 
-                <div class="pt-2">
-                  <button type="submit" class="w-full bg-brand-orange hover:bg-orange-700 text-white font-bold py-3 rounded-lg shadow-sm transition-colors text-base">
-                    Send Inquiry
-                  </button>
-                </div>
-              </form>
-            </div>
+          <div class="bg-white rounded-2xl border border-slate-200/90 p-5 flex flex-col items-center justify-center min-w-[210px] sm:min-w-[240px] h-32 shadow-sm hover:shadow-md transition-all duration-300 group">
+            <img src="assets/partner_teras.png" alt="TERAS" class="max-h-16 max-w-[150px] w-auto object-contain group-hover:scale-110 transition-transform duration-300">
+            <span class="text-[10px] font-black uppercase tracking-wider text-slate-400 group-hover:text-brand-orange mt-2">We Served</span>
+          </div>
+
+          <div class="bg-white rounded-2xl border border-slate-200/90 p-5 flex flex-col items-center justify-center min-w-[210px] sm:min-w-[240px] h-32 shadow-sm hover:shadow-md transition-all duration-300 group">
+            <img src="assets/partner_oswal.png" alt="Oswal Industries" class="max-h-14 max-w-[150px] w-auto object-contain group-hover:scale-110 transition-transform duration-300">
+            <span class="text-[10px] font-black uppercase tracking-wider text-slate-400 group-hover:text-brand-orange mt-2">We Served</span>
+          </div>
+
+          <!-- Set 2 (Clone for Continuous Left-to-Right Loop) -->
+          <div class="bg-white rounded-2xl border border-slate-200/90 p-5 flex flex-col items-center justify-center min-w-[210px] sm:min-w-[240px] h-32 shadow-sm hover:shadow-md transition-all duration-300 group">
+            <img src="assets/partner_isgec.png" alt="ISGEC Heavy Engineering" class="max-h-14 max-w-[150px] w-auto object-contain group-hover:scale-110 transition-transform duration-300">
+            <span class="text-[10px] font-black uppercase tracking-wider text-slate-400 group-hover:text-brand-orange mt-2">We Served</span>
+          </div>
+
+          <div class="bg-white rounded-2xl border border-slate-200/90 p-5 flex flex-col items-center justify-center min-w-[210px] sm:min-w-[240px] h-32 shadow-sm hover:shadow-md transition-all duration-300 group">
+            <img src="assets/partner_deneb.png" alt="DENEB" class="max-h-14 max-w-[150px] w-auto object-contain group-hover:scale-110 transition-transform duration-300">
+            <span class="text-[10px] font-black uppercase tracking-wider text-slate-400 group-hover:text-brand-orange mt-2">We Served</span>
+          </div>
+
+          <div class="bg-white rounded-2xl border border-slate-200/90 p-5 flex flex-col items-center justify-center min-w-[210px] sm:min-w-[240px] h-32 shadow-sm hover:shadow-md transition-all duration-300 group">
+            <img src="assets/partner_oriano.png" alt="Oriano Clean Energy" class="max-h-14 max-w-[150px] w-auto object-contain group-hover:scale-110 transition-transform duration-300">
+            <span class="text-[10px] font-black uppercase tracking-wider text-slate-400 group-hover:text-brand-orange mt-2">We Served</span>
+          </div>
+
+          <div class="bg-white rounded-2xl border border-slate-200/90 p-5 flex flex-col items-center justify-center min-w-[210px] sm:min-w-[240px] h-32 shadow-sm hover:shadow-md transition-all duration-300 group">
+            <img src="assets/partner_emblem.png" alt="State Authority PSU" class="max-h-16 max-w-[150px] w-auto object-contain group-hover:scale-110 transition-transform duration-300">
+            <span class="text-[10px] font-black uppercase tracking-wider text-slate-400 group-hover:text-brand-orange mt-2">We Served</span>
+          </div>
+
+          <div class="bg-white rounded-2xl border border-slate-200/90 p-5 flex flex-col items-center justify-center min-w-[210px] sm:min-w-[240px] h-32 shadow-sm hover:shadow-md transition-all duration-300 group">
+            <img src="assets/partner_foursquare.png" alt="Four Square Green Energy" class="max-h-14 max-w-[150px] w-auto object-contain group-hover:scale-110 transition-transform duration-300">
+            <span class="text-[10px] font-black uppercase tracking-wider text-slate-400 group-hover:text-brand-orange mt-2">We Served</span>
+          </div>
+
+          <div class="bg-white rounded-2xl border border-slate-200/90 p-5 flex flex-col items-center justify-center min-w-[210px] sm:min-w-[240px] h-32 shadow-sm hover:shadow-md transition-all duration-300 group">
+            <img src="assets/partner_teras.png" alt="TERAS" class="max-h-16 max-w-[150px] w-auto object-contain group-hover:scale-110 transition-transform duration-300">
+            <span class="text-[10px] font-black uppercase tracking-wider text-slate-400 group-hover:text-brand-orange mt-2">We Served</span>
+          </div>
+
+          <div class="bg-white rounded-2xl border border-slate-200/90 p-5 flex flex-col items-center justify-center min-w-[210px] sm:min-w-[240px] h-32 shadow-sm hover:shadow-md transition-all duration-300 group">
+            <img src="assets/partner_oswal.png" alt="Oswal Industries" class="max-h-14 max-w-[150px] w-auto object-contain group-hover:scale-110 transition-transform duration-300">
+            <span class="text-[10px] font-black uppercase tracking-wider text-slate-400 group-hover:text-brand-orange mt-2">We Served</span>
           </div>
 
         </div>
@@ -948,7 +888,7 @@
   </main>
 
   <!-- ================================================================= -->
-  <!-- 9. CORPORATE FOOTER                                               -->
+  <!-- 8. CORPORATE FOOTER                                               -->
   <!-- ================================================================= -->
   <footer class="relative bg-brand-navy/95 backdrop-blur-xl text-slate-400 text-sm border-t border-white/10 overflow-hidden">
     <!-- Ambient Blue & Brand Blur Glow Elements -->
@@ -962,8 +902,8 @@
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
         
         <div class="lg:col-span-2">
-          <div class="bg-white inline-block p-2 rounded-lg mb-4">
-            <img src="assets/akshar_logo.png" alt="Akshar Engineering Services" class="h-10 w-auto">
+          <div class="bg-white inline-block p-2.5 rounded-xl mb-4 shadow-md">
+            <img src="assets/akshar_logo.png" alt="Akshar Engineering Services" class="h-14 sm:h-16 w-auto object-contain">
           </div>
           <p class="text-slate-300 text-sm leading-relaxed max-w-md mb-6">
             Akshar Engineering Services Pvt. Ltd. delivers independent third-party inspection, vendor quality surveillance, and technical assurance across global industrial supply chains.
