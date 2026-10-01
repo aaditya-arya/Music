@@ -23,17 +23,17 @@
             }
           },
           fontFamily: {
-            sans: ['Inter', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'sans-serif'],
+            sans: ['"Plus Jakarta Sans"', 'Inter', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'sans-serif'],
           }
         }
       }
     }
   </script>
 
-  <!-- Google Fonts: Inter -->
+  <!-- Google Fonts: Plus Jakarta Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600;1,700&display=swap" rel="stylesheet">
 
   <style>
     body {
@@ -44,20 +44,51 @@
       background-color: rgba(11, 22, 51, 0.78);
       backdrop-filter: blur(6px);
     }
-    .btn-premium-orange, .btn-premium-blue, .btn-theme {
-      background-color: #1b3574;
-      transition: background-color 0.35s ease, color 0.35s ease, box-shadow 0.35s ease, transform 0.2s ease;
+    /* Button States: Orange (hover blue + shadow) & Blue (hover white BG + blue font + shadow) */
+    .btn-premium-orange, .btn-theme {
+      background-color: #f16826;
       color: #ffffff;
+      border: 2px solid transparent;
+      box-shadow: 0 4px 12px rgba(241, 104, 38, 0.25);
+      transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
       cursor: pointer;
     }
-    .btn-premium-orange:hover, .btn-premium-blue:hover, .btn-theme:hover {
-      background-color: #ffffff;
-      color: #1b3574;
-      box-shadow: 0 10px 20px -5px rgba(27, 53, 116, 0.4);
+    .btn-premium-orange:hover, .btn-theme:hover {
+      background-color: #1b3574;
+      color: #ffffff;
+      border-color: #1b3574;
+      box-shadow: 0 12px 24px -4px rgba(27, 53, 116, 0.4), 0 4px 8px -2px rgba(27, 53, 116, 0.25);
+      transform: translateY(-2px);
     }
-    .btn-premium-orange:active, .btn-premium-blue:active, .btn-theme:active {
+    .btn-premium-orange:active, .btn-theme:active {
       background-color: #f16826 !important;
       color: #ffffff !important;
+      border-color: #f16826 !important;
+      box-shadow: 0 4px 10px rgba(241, 104, 38, 0.4) !important;
+      transform: translateY(0) !important;
+    }
+
+    .btn-premium-blue {
+      background-color: #1b3574;
+      color: #ffffff;
+      border: 2px solid #1b3574;
+      box-shadow: 0 4px 12px rgba(27, 53, 116, 0.25);
+      transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+      cursor: pointer;
+    }
+    .btn-premium-blue:hover {
+      background-color: #ffffff;
+      color: #1b3574;
+      border-color: #1b3574;
+      box-shadow: 0 12px 24px -4px rgba(27, 53, 116, 0.35), 0 4px 8px -2px rgba(27, 53, 116, 0.2);
+      transform: translateY(-2px);
+    }
+    .btn-premium-blue:active {
+      background-color: #f16826 !important;
+      color: #ffffff !important;
+      border-color: #f16826 !important;
+      box-shadow: 0 4px 10px rgba(241, 104, 38, 0.4) !important;
+      transform: translateY(0) !important;
     }
     
     .text-slide-dual {
@@ -84,13 +115,18 @@
     .text-slide-footer:hover {
       background-position: 0 0;
     }
+    /* Mega Dropdown CSS with Invisible Hover Bridge & Smooth Falling Transition */
     .mega-dropdown-menu {
-      background-color: #ffffff !important;
+      background-color: #0b1633 !important;
+      border: 1px solid rgba(255, 255, 255, 0.15) !important;
+      border-top: 3px solid #f16826 !important;
+      box-shadow: 0 24px 64px -16px rgb(11 22 51 / 50%);
       pointer-events: none;
       opacity: 0;
       visibility: hidden;
-      transform: translateX(-50%) translateY(8px);
-      transition: opacity 0.25s ease, transform 0.25s cubic-bezier(0.25, 1, 0.5, 1), visibility 0.25s;
+      transform: translateX(-50%) translateY(-14px) scale(0.96);
+      transform-origin: top center;
+      transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.3s;
     }
     .mega-dropdown-menu::before {
       content: '';
@@ -99,13 +135,23 @@
       left: 0;
       right: 0;
       height: 24px;
+      background: transparent;
     }
     .nav-item-dropdown:hover .mega-dropdown-menu,
-    .mega-dropdown-menu:hover {
+    .mega-dropdown-menu:hover,
+    .mega-dropdown-menu.is-open {
       visibility: visible !important;
       opacity: 1 !important;
-      transform: translateX(-50%) translateY(0) !important;
+      transform: translateX(-50%) translateY(0) scale(1) !important;
       pointer-events: auto !important;
+    }
+    .mega-dropdown-menu a {
+      color: #ffffff !important;
+      transition: background-color 180ms ease, color 180ms ease;
+    }
+    .mega-dropdown-menu a:hover {
+      background-color: rgba(255, 255, 255, 0.08) !important;
+      color: #f16826 !important;
     }
     .heading-line-track {
       position: relative;
@@ -135,6 +181,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="assets/supabase-client.js" defer></script>
   <script src="assets/site.js" defer></script>
+  <script src="assets/flipbook-reader.js" defer></script>
 </head>
 <body class="bg-white text-slate-800 font-sans antialiased selection:bg-brand-orange selection:text-slate-800 relative">
 
@@ -142,18 +189,15 @@
   <!-- 1. FULL-WIDTH HEADER (Logo Left, Services Center, Right Nav)        -->
   <!-- ================================================================= -->
   <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm relative">
-    <div class="w-full px-6 lg:px-12 flex justify-between items-center h-24 sm:h-28">
+    <div class="w-full max-w-[1600px] mx-auto px-6 sm:px-10 lg:px-16 2xl:px-20 flex justify-between items-center h-24 sm:h-28">
       
-      <!-- Left Spacer for Centering Logo on Desktop -->
-      <div class="hidden lg:flex w-1/3"></div>
-
-      <!-- Center Logo (Enlarged and Prominent) -->
-      <a href="index.html" class="flex items-center justify-center space-x-3 shrink-0 w-full lg:w-1/3 py-2" onclick="if(window.location.pathname.endsWith('index.html') || window.location.pathname === '/' || window.location.pathname.endsWith('/Music/')){ window.scrollTo({top: 0, behavior: 'smooth'}); return false; }">
-        <img src="assets/akshar_logo.png" alt="Akshar Engineering Services" class="h-16 sm:h-20 md:h-24 max-h-24 w-auto object-contain transition-transform duration-300 hover:scale-105">
+      <!-- Left Logo (Enlarged and Prominent on the Left) -->
+      <a href="index.html" class="flex items-center space-x-3 shrink-0 py-2" onclick="if(window.location.pathname.endsWith('index.html') || window.location.pathname === '/' || window.location.pathname.endsWith('/Music/')){ window.scrollTo({top: 0, behavior: 'smooth'}); return false; }">
+        <img src="assets/logo.png" alt="Akshar Engineering Services" class="h-16 sm:h-20 md:h-24 max-h-24 w-auto object-contain transition-transform duration-300 hover:scale-105">
       </a>
 
       <!-- Right Menubar -->
-      <nav class="hidden lg:flex items-center justify-end space-x-6 text-base sm:text-lg font-extrabold shrink-0 w-1/3">
+      <nav class="hidden lg:flex items-center justify-end space-x-8 text-base sm:text-lg font-extrabold shrink-0">
         <a href="about.html" class="text-brand-orange transition-colors duration-300">About Us</a>
         
         <div class="nav-item-dropdown relative group py-6 flex items-center">
@@ -161,32 +205,31 @@
             Service
             <svg class="w-4 h-4 text-brand-blue group-hover:text-brand-orange transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path></svg>
           </a>
-          <div class="mega-dropdown-menu absolute top-full right-0 w-64 bg-white border border-slate-200 shadow-xl rounded-xl py-2 invisible opacity-0 z-50 transition-all flex flex-col text-left">
-            <a href="service-tpi.html" class="block px-4 py-2 text-sm font-bold text-brand-blue hover:bg-orange-50 hover:text-brand-orange">Third Party Inspection</a>
-            <a href="service-vendor-assessment.html" class="block px-4 py-2 text-sm font-bold text-brand-blue hover:bg-orange-50 hover:text-brand-orange">Vendor Assessment</a>
-            <a href="service-qa-qc-documentation.html" class="block px-4 py-2 text-sm font-bold text-brand-blue hover:bg-orange-50 hover:text-brand-orange">QA/QC Documentation</a>
-            <a href="service-pre-shipment-inspection.html" class="block px-4 py-2 text-sm font-bold text-brand-blue hover:bg-orange-50 hover:text-brand-orange">Pre-Shipment Inspection</a>
-            <a href="service-welding-engineering.html" class="block px-4 py-2 text-sm font-bold text-brand-blue hover:bg-orange-50 hover:text-brand-orange">Welding Engineering</a>
-            <a href="service-ndt-inspection.html" class="block px-4 py-2 text-sm font-bold text-brand-blue hover:bg-orange-50 hover:text-brand-orange">NDT Inspection Services</a>
-            <a href="service-expediting.html" class="block px-4 py-2 text-sm font-bold text-brand-blue hover:bg-orange-50 hover:text-brand-orange">Expediting Services</a>
-            <a href="service-design-examination.html" class="block px-4 py-2 text-sm font-bold text-brand-blue hover:bg-orange-50 hover:text-brand-orange">Design Examination</a>
-            <a href="service-project-shutdown-qa.html" class="block px-4 py-2 text-sm font-bold text-brand-blue hover:bg-orange-50 hover:text-brand-orange">Project &amp; Shutdown QA</a>
-            <a href="service-international-sourcing.html" class="block px-4 py-2 text-sm font-bold text-brand-blue hover:bg-orange-50 hover:text-brand-orange">International Sourcing</a>
-            <a href="service-performance-hydro-tests.html" class="block px-4 py-2 text-sm font-bold text-brand-blue hover:bg-orange-50 hover:text-brand-orange">Performance &amp; Hydro-Tests</a>
-            <a href="service-process-qualification.html" class="block px-4 py-2 text-sm font-bold text-brand-blue hover:bg-orange-50 hover:text-brand-orange">Process Qualification</a>
-            <a href="service-api-tank-inspection.html" class="block px-4 py-2 text-sm font-bold text-brand-blue hover:bg-orange-50 hover:text-brand-orange">API Tank Inspection</a>
-            <a href="service-owners-engineer.html" class="block px-4 py-2 text-sm font-bold text-brand-blue hover:bg-orange-50 hover:text-brand-orange">Owner's Engineer</a>
-            <a href="service-process-piping.html" class="block px-4 py-2 text-sm font-bold text-brand-blue hover:bg-orange-50 hover:text-brand-orange">Process Piping (B31.3)</a>
-            <a href="service-training.html" class="block px-4 py-2 text-sm font-bold text-brand-blue hover:bg-orange-50 hover:text-brand-orange">QA/QC &amp; NDT Training</a>
+          <div class="mega-dropdown-menu absolute top-full left-1/2 -translate-x-1/2 w-72 bg-[#0b1633] border border-slate-700/80 shadow-2xl rounded-2xl py-2 invisible opacity-0 z-50 transition-all flex flex-col text-left divide-y divide-white/10">
+            <a href="service-tpi.html" class="block px-4 py-2.5 text-xs font-bold text-white hover:text-brand-orange hover:bg-white/5 transition-colors">Third Party Inspection</a>
+            <a href="service-vendor-assessment.html" class="block px-4 py-2.5 text-xs font-bold text-white hover:text-brand-orange hover:bg-white/5 transition-colors">Vendor Assessment</a>
+            <a href="service-qa-qc-documentation.html" class="block px-4 py-2.5 text-xs font-bold text-white hover:text-brand-orange hover:bg-white/5 transition-colors">QA/QC Documentation</a>
+            <a href="service-pre-shipment-inspection.html" class="block px-4 py-2.5 text-xs font-bold text-white hover:text-brand-orange hover:bg-white/5 transition-colors">Pre-Shipment Inspection</a>
+            <a href="service-welding-engineering.html" class="block px-4 py-2.5 text-xs font-bold text-white hover:text-brand-orange hover:bg-white/5 transition-colors">Welding Engineering</a>
+            <a href="service-ndt-inspection.html" class="block px-4 py-2.5 text-xs font-bold text-white hover:text-brand-orange hover:bg-white/5 transition-colors">NDT Inspection Services</a>
+            <a href="service-expediting.html" class="block px-4 py-2.5 text-xs font-bold text-white hover:text-brand-orange hover:bg-white/5 transition-colors">Expediting Services</a>
+            <a href="service-design-examination.html" class="block px-4 py-2.5 text-xs font-bold text-white hover:text-brand-orange hover:bg-white/5 transition-colors">Design Examination</a>
+            <a href="service-project-shutdown-qa.html" class="block px-4 py-2.5 text-xs font-bold text-white hover:text-brand-orange hover:bg-white/5 transition-colors">Project &amp; Shutdown QA</a>
+            <a href="service-international-sourcing.html" class="block px-4 py-2.5 text-xs font-bold text-white hover:text-brand-orange hover:bg-white/5 transition-colors">International Sourcing</a>
+            <a href="service-performance-hydro-tests.html" class="block px-4 py-2.5 text-xs font-bold text-white hover:text-brand-orange hover:bg-white/5 transition-colors">Performance &amp; Hydro-Tests</a>
+            <a href="service-process-qualification.html" class="block px-4 py-2.5 text-xs font-bold text-white hover:text-brand-orange hover:bg-white/5 transition-colors">Process Qualification</a>
+            <a href="service-api-tank-inspection.html" class="block px-4 py-2.5 text-xs font-bold text-white hover:text-brand-orange hover:bg-white/5 transition-colors">API Tank Inspection</a>
+            <a href="service-owners-engineer.html" class="block px-4 py-2.5 text-xs font-bold text-white hover:text-brand-orange hover:bg-white/5 transition-colors">Owner's Engineer</a>
+            <a href="service-process-piping.html" class="block px-4 py-2.5 text-xs font-bold text-white hover:text-brand-orange hover:bg-white/5 transition-colors">Process Piping (B31.3)</a>
+            <a href="service-training.html" class="block px-4 py-2.5 text-xs font-bold text-white hover:text-brand-orange hover:bg-white/5 transition-colors">QA/QC &amp; NDT Training</a>
           </div>
         </div>
 
-        <a href="careers.html" class="text-brand-blue hover:text-brand-orange transition-colors duration-300">Careers</a>
         <a href="we-hear-you.html" class="text-brand-blue hover:text-brand-orange transition-colors duration-300">We hear you</a>
       </nav>
 
       <!-- Mobile Menu Button -->
-      <div class="flex lg:hidden w-1/3 justify-end">
+      <div class="flex lg:hidden justify-end">
         <button id="mobile-menu-btn" type="button" class="p-2 text-brand-blue hover:text-brand-orange rounded-md border border-slate-200">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
         </button>
@@ -197,64 +240,86 @@
     <div id="mobile-menu" class="hidden lg:hidden border-t border-slate-200 bg-white px-6 py-4 space-y-3">
       <a href="about.html" class="block text-base font-bold text-brand-orange">About Us</a>
       <a href="services.html" class="block text-base font-bold text-brand-blue hover:text-brand-orange">Service</a>
-      <a href="careers.html" class="block text-base font-bold text-brand-blue hover:text-brand-orange">Careers</a>
       <a href="we-hear-you.html" class="block text-base font-bold text-brand-blue hover:text-brand-orange">We hear you</a>
     </div>
   </header>
 
-  <!-- FLOATING WHATSAPP BUTTON -->
-  <aside aria-label="Quick WhatsApp Contact" class="fixed bottom-6 right-6 z-50">
-    <a href="https://wa.me/918200441159" target="_blank" rel="noopener noreferrer" class="group flex items-center bg-emerald-500 hover:bg-emerald-600 text-slate-800 p-3.5 rounded-full shadow-2xl transition-all duration-300 hover:scale-110">
-      <svg class="w-8 h-8 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
-    </a>
+    <!-- ================================================================= -->
+  <!-- STICKY RIGHT SIDEBAR BUTTONS (No icons, text only)                -->
+  <!-- ================================================================= -->
+    <!-- ================================================================= -->
+  <!-- STICKY RIGHT SIDEBAR BUTTONS (No icons, text only)                -->
+  <!-- ================================================================= -->
+  <aside aria-label="Quick Action Floating Desk" class="fixed right-0 top-1/2 -translate-y-1/2 z-40 flex flex-col space-y-2.5">
+    <button onclick="openModal('inquiryModal')" class="bg-brand-orange hover:bg-orange-700 text-white font-bold text-xs uppercase tracking-wider py-4 px-3 rounded-l-xl shadow-xl flex items-center justify-center transition-transform hover:-translate-x-2 [writing-mode:vertical-rl] rotate-180 cursor-pointer group">
+      <span>Quick Reach / Inquiry</span>
+    </button>
+    <button onclick="openModal('trainingModal')" class="bg-brand-blue hover:bg-brand-dark text-white font-bold text-xs uppercase tracking-wider py-4 px-3 rounded-l-xl shadow-xl flex items-center justify-center transition-transform hover:-translate-x-2 [writing-mode:vertical-rl] rotate-180 cursor-pointer group">
+      <span>Training Registration</span>
+    </button>
   </aside>
 
   <!-- ================================================================= -->
-  <!-- HERO BANNER (With Face Image on Right)                            -->
   <!-- ================================================================= -->
-  <section class="relative bg-white text-slate-800 py-14 sm:py-20 text-slate-800 overflow-hidden">
-    <div class="absolute inset-0 z-0 pointer-events-none">
-      <div class="absolute -top-32 -left-32 w-96 h-96 bg-brand-blue/50 rounded-full blur-3xl"></div>
-      <div class="absolute -bottom-32 -right-32 w-96 h-96 bg-brand-orange/20 rounded-full blur-3xl"></div>
-    </div>
-
+  <!-- 1. HERO & FOUNDER (Editorial Narrative Left, Natural Portrait Right) -->
+  <!-- ================================================================= -->
+  <section class="relative bg-white text-slate-800 pt-10 pb-16 overflow-hidden">
     <div class="max-w-7xl mx-auto px-6 lg:px-12 relative z-10">
       <!-- Breadcrumb -->
-      <nav class="flex items-center gap-2 text-xs font-semibold text-slate-400 mb-6 uppercase tracking-wider">
-        <a href="index.html" class="hover:text-slate-800 transition-colors">Home</a>
+      <nav class="flex items-center gap-2 text-xs font-semibold text-slate-400 mb-8 uppercase tracking-wider">
+        <a href="index.html" class="hover:text-brand-orange transition-colors">Home</a>
         <span>/</span>
         <span class="text-brand-orange">About Us</span>
       </nav>
 
-      <!-- 2-Column Hero Grid: Text on Left, Face Image Card on Right -->
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+      <!-- 2-Column Grid: Editorial Narrative Left, Portrait Right -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
         
-        <!-- Left: Text -->
+        <!-- Left: Founder Narrative -->
         <div class="lg:col-span-7 space-y-6">
-          <span class="inline-block bg-brand-orange/20 text-brand-orange text-xs font-extrabold uppercase tracking-wider px-3.5 py-1.5 rounded-full border border-brand-orange/30">
-            Independent Technical Excellence &bull; ISO/IEC 17020 Type-A Body
+          <span class="text-xs font-bold uppercase tracking-widest text-brand-orange">
+            Leadership &bull; Engineering Heritage
           </span>
-          <h1 class="text-3xl sm:text-5xl font-black text-slate-800 tracking-tight leading-tight">
-            About Akshar Engineering Services
+          
+          <h1 class="text-3xl sm:text-5xl font-black text-brand-dark tracking-tight leading-tight">
+            About <span class="text-brand-orange">Akshar Engineering Services</span>
           </h1>
-          <p class="text-slate-600 text-base sm:text-lg leading-relaxed">
-            Delivering uncompromising quality assurance, independent third-party surveillance, and statutory technical compliance for global industrial supply chains and capital infrastructure.
+          
+          <div class="heading-line-track mb-2"><div class="section-accent-line"></div></div>
+
+          <p class="text-slate-700 text-base sm:text-lg leading-relaxed font-normal">
+            Founded by <strong>Kunal Shah</strong>, <strong>Akshar Engineering Services</strong> was established with a singular focus: delivering uncompromising third-party technical inspection, quality surveillance, and expediting services for heavy engineering, power, renewables, and oil &amp; gas projects.
           </p>
+
+          <p class="text-slate-600 text-sm sm:text-base leading-relaxed">
+            With hands-on technical experience on shop floors and fabrication sites, AES was built on a simple foundation: safeguarding engineering integrity through certified inspectors, strict code compliance (ASME, API, AWS, ISO), and uncompromised reporting.
+          </p>
+
+          <!-- Seamless Editorial Pull-Quote -->
+          <blockquote class="pl-6 border-l-2 border-brand-orange my-6 space-y-2">
+            <p class="text-base sm:text-lg text-slate-800 italic font-medium leading-relaxed">
+              &ldquo;Quality inspection is not an administrative routine. It is the direct responsibility to protect human safety and capital assets through verified technical facts.&rdquo;
+            </p>
+            <cite class="text-xs font-bold text-slate-500 not-italic block uppercase tracking-wider">
+              &mdash; Kunal Shah, <span class="text-brand-dark font-extrabold">Founder &amp; Managing Director</span>
+            </cite>
+          </blockquote>
         </div>
 
-        <!-- Right: Face Image Card -->
+        <!-- Right: Natural Portrait (Seamlessly Blended, No Box Frame) -->
         <div class="lg:col-span-5 flex justify-center lg:justify-end">
-          <div class="relative group w-full max-w-sm">
-            <!-- Ambient Glow Effect -->
+          <div class="relative w-full max-w-md">
+            <!-- Subtle Ambient Background Glow -->
+            <div class="absolute -inset-4 bg-gradient-to-tr from-brand-orange/10 to-brand-blue/10 rounded-3xl blur-2xl -z-10"></div>
             
-            
-            <!-- Image Frame -->
-            <div class="relative rounded-2xl overflow-hidden border-2 border-white/20 shadow-2xl bg-white text-slate-800">
-              <img src="assets/Face.jpeg" alt="Leadership at Akshar Engineering Services" class="w-full h-[360px] sm:h-[400px] object-cover object-top ">
-              <div class="absolute inset-0 bg-gradient-to-t from-white/90 via-white/20 to-transparent pointer-events-none"></div>
-              <div class="absolute bottom-4 left-4 right-4 text-slate-800">
-                <span class="text-[11px] font-black text-brand-orange uppercase tracking-wider block">Leadership &amp; Technical Governance</span>
-                <span class="text-sm font-bold text-slate-800">Akshar Engineering Services</span>
+            <div class="relative overflow-hidden rounded-2xl shadow-2xl transition-transform duration-500 hover:scale-[1.01] group bg-slate-100">
+              <img src="assets/Face.jpeg" alt="Kunal Shah - Founder & Managing Director" class="w-full h-[460px] sm:h-[520px] lg:h-[560px] object-cover object-top block">
+              <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/15 to-transparent pointer-events-none"></div>
+              
+              <div class="absolute bottom-6 left-6 right-6 text-white space-y-0.5">
+                <span class="text-[10px] uppercase font-bold tracking-widest text-brand-orange block">Founder &amp; Leadership</span>
+                <h3 class="text-xl font-black text-white leading-tight">Kunal Shah</h3>
+                <p class="text-xs text-slate-300 font-medium">Akshar Engineering Services Pvt. Ltd.</p>
               </div>
             </div>
           </div>
@@ -265,247 +330,286 @@
   </section>
 
   <!-- ================================================================= -->
-  <!-- 2. COMPANY PROFILE & JOURNEY                                      -->
+  <!-- 2. COMPANY OVERVIEW & SEAMLESS METRICS                            -->
   <!-- ================================================================= -->
-  <main class="py-16 bg-white" id="companyJourney">
-    <div class="max-w-7xl mx-auto px-6 lg:px-12 space-y-20">
-      
-      <!-- Company Background & Overview -->
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+  <section class="py-20 bg-slate-50/70 border-y border-slate-200/60" id="companyJourney">
+    <div class="max-w-7xl mx-auto px-6 lg:px-12">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+        
         <div class="lg:col-span-7 space-y-6">
           <div class="inline-block">
-            <h2 class="text-3xl font-black text-brand-dark tracking-tight">Our Company Journey</h2>
+            <span class="text-xs font-bold uppercase tracking-widest text-brand-blue">Company Profile &amp; Ethos</span>
+            <h2 class="text-3xl sm:text-4xl font-black text-brand-dark tracking-tight mt-1">Our Company Journey</h2>
             <div class="heading-line-track mt-2 mb-4"><div class="section-accent-line"></div></div>
           </div>
+          
           <p class="text-base text-slate-700 leading-relaxed">
-            <strong>Akshar Engineering Services Pvt. Ltd.</strong> (Formerly known as <em>Akshar Consultancy Services</em>) was established as a dedicated technical assurance and third-party inspection powerhouse. We operate with complete impartiality, independence, and technical rigor across heavy engineering, oil &amp; gas, chemical processing, power generation, renewables, and civil infrastructure.
+            <strong>Akshar Engineering Services Pvt. Ltd.</strong> (formerly known as <em>Akshar Consultancy Services</em>) operates as a dedicated technical assurance and third-party inspection powerhouse across India and global supply corridors.
           </p>
           <p class="text-base text-slate-600 leading-relaxed">
             From our founding, our guiding philosophy has remained unwavering: protect client capital investments and human lives through rigid technical compliance, verified material traceability, and zero-compromise adherence to international codes (ASME, API, AWS, ISO, EN, IBR).
           </p>
-          <div class="grid grid-cols-3 gap-4 pt-4 border-t border-slate-100 text-center">
-            <div class="p-4 bg-slate-50 rounded-xl border border-slate-100">
-              <span class="block text-2xl sm:text-3xl font-black text-brand-blue">100%</span>
-              <span class="text-xs font-bold text-slate-600 uppercase mt-1 block">Impartiality</span>
+
+          <!-- Seamless Metrics Bar (No rigid cards) -->
+          <div class="grid grid-cols-3 gap-8 pt-6 border-t border-slate-200">
+            <div>
+              <div class="text-3xl sm:text-4xl font-black text-brand-blue tracking-tight">100<span class="text-brand-orange">%</span></div>
+              <div class="text-xs font-bold uppercase tracking-wider text-slate-500 mt-1">Impartial Oversight</div>
             </div>
-            <div class="p-4 bg-slate-50 rounded-xl border border-slate-100">
-              <span class="block text-2xl sm:text-3xl font-black text-brand-orange">24-48h</span>
-              <span class="text-xs font-bold text-slate-600 uppercase mt-1 block">Mobilization</span>
+            <div>
+              <div class="text-3xl sm:text-4xl font-black text-brand-blue tracking-tight">24-48<span class="text-brand-orange">h</span></div>
+              <div class="text-xs font-bold uppercase tracking-wider text-slate-500 mt-1">Fast Mobilization</div>
             </div>
-            <div class="p-4 bg-slate-50 rounded-xl border border-slate-100">
-              <span class="block text-2xl sm:text-3xl font-black text-brand-blue">Pan-India</span>
-              <span class="text-xs font-bold text-slate-600 uppercase mt-1 block">&amp; Overseas</span>
+            <div>
+              <div class="text-3xl sm:text-4xl font-black text-brand-blue tracking-tight">Global<span class="text-brand-orange">+</span></div>
+              <div class="text-xs font-bold uppercase tracking-wider text-slate-500 mt-1">Pan-India &amp; Overseas</div>
             </div>
           </div>
         </div>
 
         <div class="lg:col-span-5">
-          <div class="rounded-2xl overflow-hidden shadow-2xl border border-slate-200 relative group">
+          <div class="rounded-2xl overflow-hidden shadow-xl relative group">
             <img src="assets/hero_inspection.jpg" alt="Technical Inspection at AES" class="w-full h-80 sm:h-96 object-cover group-hover:scale-105 transition-transform duration-700 ease-out">
             <div class="absolute inset-0 bg-gradient-to-t from-brand-navy/80 via-transparent to-transparent"></div>
-            <div class="absolute bottom-6 left-6 right-6 text-slate-800">
+            <div class="absolute bottom-6 left-6 right-6 text-white">
               <div class="text-xs font-bold text-brand-orange uppercase tracking-wider mb-1">Field Surveillance</div>
               <div class="text-lg font-bold">Precision Technical Oversight on the Shop Floor</div>
             </div>
           </div>
         </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================================================= -->
+  <!-- 3. KEY MOMENTS & EVOLUTION (Seamless Connected Timeline)          -->
+  <!-- ================================================================= -->
+  <section class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-6 lg:px-12 space-y-14">
+      
+      <div class="text-center max-w-2xl mx-auto">
+        <span class="text-xs font-bold uppercase tracking-widest text-brand-orange">
+          Evolution &bull; Milestones
+        </span>
+        <h3 class="text-3xl sm:text-4xl font-black text-brand-dark mt-1 tracking-tight">
+          Key Moments in Our Journey
+        </h3>
+        <div class="heading-line-track track-center mx-auto mt-2"><div class="section-accent-line"></div></div>
       </div>
 
-      <!-- Vision, Mission & Quality Policy (3 Cards) -->
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <!-- Seamless Horizontal Timeline (Connected, No Card Boxes) -->
+      <div class="relative grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
         
-        <!-- Card 1: Our Vision -->
-        <div class="bg-slate-50 text-slate-900 p-8 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between border-t-4 border-brand-orange">
-          <div>
-            <div class="w-12 h-12 rounded-xl bg-orange-100 text-brand-orange flex items-center justify-center text-xl font-black mb-6">
-              &#128065;
-            </div>
-            <h3 class="text-2xl font-black text-brand-dark mb-3">Our Vision</h3>
-            <p class="text-sm text-slate-600 leading-relaxed">
-              To be the most trusted and recognized global technical inspection and project engineering partner, safeguarding critical industrial assets through uncompromising technical integrity and state-of-the-art engineering practices.
-            </p>
+        <!-- Timeline Step 1 -->
+        <div class="relative space-y-3 pt-4 border-t-2 border-brand-orange">
+          <div class="flex items-center justify-between">
+            <span class="text-2xl font-black text-brand-orange">2013</span>
+            <span class="w-2.5 h-2.5 rounded-full bg-brand-orange"></span>
           </div>
-          <div class="mt-6 pt-4 border-t border-slate-200 text-xs text-brand-orange font-bold">
-            Trusted Inspection For A Safer Tomorrow
-          </div>
+          <h4 class="text-base font-black text-brand-dark">Founding Foundation</h4>
+          <p class="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+            Established in Gujarat as Akshar Consultancy Services, providing specialized vendor auditing and baseline pressure equipment QA.
+          </p>
         </div>
 
-        <!-- Card 2: Our Mission -->
-        <div class="bg-slate-50 text-slate-900 p-8 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between border-t-4 border-brand-blue">
-          <div>
-            <div class="w-12 h-12 rounded-xl bg-brand-blue/10 text-brand-blue flex items-center justify-center text-xl font-black mb-6">
-              &#9874;
-            </div>
-            <h3 class="text-2xl font-black text-brand-dark mb-3">Our Mission</h3>
-            <p class="text-sm text-slate-600 leading-relaxed">
-              To provide thorough, timely, and fully independent quality assurance, vendor evaluation, and NDT engineering services, ensuring complete compliance with approved ITPs, statutory safety rules, and contractual specifications.
-            </p>
+        <!-- Timeline Step 2 -->
+        <div class="relative space-y-3 pt-4 border-t-2 border-brand-blue">
+          <div class="flex items-center justify-between">
+            <span class="text-2xl font-black text-brand-blue">2017</span>
+            <span class="w-2.5 h-2.5 rounded-full bg-brand-blue"></span>
           </div>
-          <div class="mt-6 pt-4 border-t border-slate-200 text-xs text-brand-blue font-bold">
-            Zero Tolerance for Non-Conformance
-          </div>
+          <h4 class="text-base font-black text-brand-dark">Multi-Sector Scale</h4>
+          <p class="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+            Expanded third-party inspection into Oil &amp; Gas refineries, cross-country pipelines, renewables, and heavy structural engineering.
+          </p>
         </div>
 
-        <!-- Card 3: Impartiality Charter -->
-        <div class="bg-slate-50 text-slate-900 p-8 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between border-t-4 border-brand-orange">
-          <div>
-            <div class="w-12 h-12 rounded-xl bg-orange-100 text-brand-orange flex items-center justify-center text-xl font-black mb-6">
-              &#9878;
-            </div>
-            <h3 class="text-2xl font-black text-brand-dark mb-3">Impartiality Charter</h3>
-            <p class="text-sm text-slate-600 leading-relaxed">
-              As an ISO/IEC 17020 Type-A body, we guarantee total freedom from commercial, financial, or manufacturing pressures. Our inspectors evaluate purely on technical facts, code criteria, and physical measurement proofs.
-            </p>
+        <!-- Timeline Step 3 -->
+        <div class="relative space-y-3 pt-4 border-t-2 border-brand-orange">
+          <div class="flex items-center justify-between">
+            <span class="text-2xl font-black text-brand-orange">2021</span>
+            <span class="w-2.5 h-2.5 rounded-full bg-brand-orange"></span>
           </div>
-          <div class="mt-6 pt-4 border-t border-slate-200 text-xs text-brand-orange font-bold">
-            Guaranteed Ethical Independence
+          <h4 class="text-base font-black text-brand-dark">Type-A ISO Framework</h4>
+          <p class="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+            Solidified full ISO/IEC 17020 Type-A impartial governance and established instantaneous digital document verification cells.
+          </p>
+        </div>
+
+        <!-- Timeline Step 4 -->
+        <div class="relative space-y-3 pt-4 border-t-2 border-brand-blue">
+          <div class="flex items-center justify-between">
+            <span class="text-2xl font-black text-brand-blue">Present</span>
+            <span class="w-2.5 h-2.5 rounded-full bg-brand-blue"></span>
           </div>
+          <h4 class="text-base font-black text-brand-dark">Global Technical Dominance</h4>
+          <p class="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+            Pan-India rapid surveyor deployment network and international partner reach across critical turnarounds and capital projects.
+          </p>
         </div>
 
       </div>
+    </div>
+  </section>
 
-      <!-- Five Pillars of Excellence -->
-      <section class="bg-slate-50 p-8 sm:p-12 rounded-3xl border border-slate-200">
-        <div class="max-w-3xl mx-auto text-center mb-12">
-          <div class="inline-block">
-            <h2 class="text-3xl font-black text-brand-dark tracking-tight">Five Pillars of AES Excellence</h2>
-            <div class="heading-line-track track-center mx-auto mt-2 mb-4"><div class="section-accent-line"></div></div>
+  <!-- ================================================================= -->
+  <!-- 4. VISION & MISSION (Seamless 2-Column Editorial on White Background) -->
+  <!-- ================================================================= -->
+  <section class="py-16 sm:py-20 bg-white border-t border-slate-200/70">
+    <div class="max-w-7xl mx-auto px-6 lg:px-12">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-20 divide-y md:divide-y-0 md:divide-x divide-slate-200">
+        
+        <!-- Vision -->
+        <div class="space-y-4 md:pr-10 pt-6 md:pt-0">
+          <div class="flex items-center gap-3">
+            <span class="w-12 h-12 rounded-xl bg-orange-50 text-brand-orange flex items-center justify-center text-2xl font-bold border border-orange-200/70 shadow-xs">
+              &#128065;
+            </span>
+            <div>
+              <span class="text-xs font-bold uppercase tracking-widest text-brand-orange block">Our Vision</span>
+              <span class="text-sm font-bold text-slate-800">Trusted Inspection For A Safer Tomorrow</span>
+            </div>
           </div>
-          <p class="text-sm sm:text-base text-slate-600">
-            The core operational disciplines that set Akshar Engineering Services apart in the global technical inspection landscape.
+          <p class="text-slate-600 text-base sm:text-lg leading-relaxed font-normal pt-2">
+            To be the world&apos;s most recognized and dependable technical inspection partner—safeguarding critical industrial assets through uncompromising engineering integrity and verified quality compliance.
           </p>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-xs">
-            <div class="text-brand-orange font-black text-lg mb-1">01</div>
-            <h3 class="text-base font-bold text-brand-dark mb-2">CSWIP &amp; ASNT Certified Inspectors</h3>
-            <p class="text-xs text-slate-600 leading-relaxed">Our personnel maintain active global qualifications including CSWIP 3.1, AWS CWI, ASNT Level III/II (UT/RT/MPI/DPT), NACE/AMPP Level 2, and API 510/570/653 certifications.</p>
+        <!-- Mission -->
+        <div class="space-y-4 md:pl-10 pt-8 md:pt-0">
+          <div class="flex items-center gap-3">
+            <span class="w-12 h-12 rounded-xl bg-blue-50 text-brand-blue flex items-center justify-center text-2xl font-bold border border-blue-200/70 shadow-xs">
+              &#9874;
+            </span>
+            <div>
+              <span class="text-xs font-bold uppercase tracking-widest text-brand-blue block">Our Mission</span>
+              <span class="text-sm font-bold text-slate-800">Zero Tolerance for Non-Conformance</span>
+            </div>
           </div>
-
-          <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-xs">
-            <div class="text-brand-orange font-black text-lg mb-1">02</div>
-            <h3 class="text-base font-bold text-brand-dark mb-2">Rapid 24-48h Field Deployment</h3>
-            <p class="text-xs text-slate-600 leading-relaxed">Strategic surveyor deployment hubs across major industrial corridors in Gujarat, Maharashtra, South India, and overseas networks for rapid on-site mobilization.</p>
-          </div>
-
-          <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-xs">
-            <div class="text-brand-orange font-black text-lg mb-1">03</div>
-            <h3 class="text-base font-bold text-brand-dark mb-2">Immediate 24-Hour Flash Reports</h3>
-            <p class="text-xs text-slate-600 leading-relaxed">Daily photographic flash summaries dispatched within 24 hours of inspection completion, giving engineering managers real-time visibility of vendor shop floors.</p>
-          </div>
-
-          <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-xs">
-            <div class="text-brand-orange font-black text-lg mb-1">04</div>
-            <h3 class="text-base font-bold text-brand-dark mb-2">Complete Material Traceability</h3>
-            <p class="text-xs text-slate-600 leading-relaxed">Rigid heat number correlation matrix mapping every structural plate, forging, and welding consumable directly to EN 10204 Type 3.1 &amp; 3.2 certificates.</p>
-          </div>
-
-          <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-xs">
-            <div class="text-brand-orange font-black text-lg mb-1">05</div>
-            <h3 class="text-base font-bold text-brand-dark mb-2">Statutory Code Conformance</h3>
-            <p class="text-xs text-slate-600 leading-relaxed">Strict adherence to ASME Boiler and Pressure Vessel Codes (Sec II, V, VIII, IX), ASME B31.3 Piping, API 650/620 Tanks, AWS D1.1, and Indian Boiler Regulations (IBR).</p>
-          </div>
-
-          <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-xs">
-            <div class="text-brand-orange font-black text-lg mb-1">06</div>
-            <h3 class="text-base font-bold text-brand-dark mb-2">Digital Document Verification</h3>
-            <p class="text-xs text-slate-600 leading-relaxed">Instant online authentication of all issued Inspection Release Notes (IRN) and test endorsements to eliminate counterfeit documentation risks.</p>
-          </div>
-        </div>
-      </section>
-
-      <!-- ================================================================= -->
-      <!-- 3. WE HEAR YOU CALLOUT SECTION                                    -->
-      <!-- ================================================================= -->
-      <section class="scroll-mt-28 bg-gradient-to-br from-brand-navy via-slate-900 to-brand-blue text-slate-800 rounded-3xl p-8 sm:p-14 shadow-2xl relative overflow-hidden text-center border border-white/10">
-        <!-- Ambient Blur Glow -->
-        <div class="absolute -top-32 -right-32 w-80 h-80 bg-brand-orange/20 rounded-full blur-3xl pointer-events-none"></div>
-        <div class="absolute -bottom-32 -left-32 w-80 h-80 bg-brand-blue/30 rounded-full blur-3xl pointer-events-none"></div>
-
-        <div class="max-w-2xl mx-auto relative z-10 space-y-6">
-          <span class="inline-block bg-brand-orange/20 text-brand-orange text-xs font-extrabold uppercase tracking-wider px-3.5 py-1.5 rounded-full border border-brand-orange/30">
-            Client Care &bull; Priority Resolution Desk
-          </span>
-          <h2 class="text-3xl sm:text-4xl font-black text-slate-800 tracking-tight">
-            We Hear You
-          </h2>
-          <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
-            At Akshar Engineering Services, we listen closely to your operational challenges, inspection milestone updates, and quality feedback. If you have any problem, report question, or require immediate technical assistance, click below for quick resolution.
+          <p class="text-slate-600 text-base sm:text-lg leading-relaxed font-normal pt-2">
+            To deliver rapid, thorough, and fully independent quality assurance, vendor auditing, and NDT engineering—guaranteeing 100% compliance with approved ITPs and statutory codes on every shop floor.
           </p>
-          <div class="pt-2">
-            <a href="we-hear-you.html" class="btn-premium-orange text-slate-800 font-bold text-xs uppercase tracking-wider px-8 py-4 rounded-xl shadow-2xl inline-flex items-center gap-2 group transition-all duration-300">
-              <span>Click for Quick Resolution</span>
-              <span class="text-sm transition-transform duration-300 group-hover:translate-x-1.5">&rarr;</span>
-            </a>
-          </div>
         </div>
-      </section>
 
+      </div>
     </div>
-  </main>
+  </section>
 
   <!-- ================================================================= -->
-  <!-- CORPORATE FOOTER                                                  -->
+  <!-- 6. COMPANY PROFILE BROCHURE (Seamless Full-Width Action Strip)    -->
   <!-- ================================================================= -->
-  <footer class="relative bg-white text-slate-800/95 backdrop-blur-xl text-slate-400 text-sm border-t border-white/10 overflow-hidden">
-    <div class="absolute inset-0 z-0 pointer-events-none overflow-hidden">
-      <div class="absolute -top-32 -left-32 w-96 h-96 bg-brand-blue/40 rounded-full blur-3xl"></div>
-      <div class="absolute -bottom-32 -right-32 w-96 h-96 bg-brand-blue/30 rounded-full blur-3xl"></div>
-    </div>
+  <section class="py-16 bg-slate-50 border-t border-slate-200">
+    <div class="max-w-7xl mx-auto px-6 lg:px-12 flex flex-col md:flex-row items-center justify-between gap-8">
+      
+      <div class="flex items-center gap-6">
+        <div class="w-16 h-22 sm:w-20 sm:h-28 bg-brand-dark rounded-xl shadow-lg border-l-4 border-brand-orange flex flex-col justify-between p-2.5 shrink-0 transform -rotate-3 hover:rotate-0 transition-transform duration-300 cursor-pointer" onclick="openModal('companyProfileModal')" title="Open Interactive 3D Brochure">
+          <span class="text-[8px] font-black text-brand-orange uppercase">AES PDF</span>
+          <div class="text-[10px] font-extrabold text-white leading-tight">Company Profile</div>
+          <span class="text-[7px] text-slate-400">2026 Edition</span>
+        </div>
+        <div>
+          <span class="text-xs font-bold uppercase tracking-widest text-brand-orange">Official Publication</span>
+          <h3 class="text-2xl font-black text-brand-dark mt-0.5">AES Corporate Profile &amp; Technical Scope</h3>
+          <p class="text-slate-600 text-xs sm:text-sm mt-1 max-w-xl font-normal leading-relaxed">
+            Review our complete inspection methodologies, equipment testing standards, surveyor qualifications, and client portfolio.
+          </p>
+        </div>
+      </div>
 
-    <div class="max-w-7xl mx-auto px-6 lg:px-12 py-16 relative z-10">
+      <div class="flex flex-col sm:flex-row gap-3 shrink-0 w-full md:w-auto">
+        <button onclick="openModal('companyProfileModal')" class="btn-premium-orange text-white font-bold text-xs uppercase tracking-wider px-6 py-3.5 rounded-xl shadow-md inline-flex items-center justify-center gap-2 cursor-pointer">
+          <span>&#128214; Read 3D Flipbook</span>
+          <span class="text-sm">&rarr;</span>
+        </button>
+        <a href="assets/Company Profile.pdf" download="AES_Company_Profile.pdf" class="bg-white hover:bg-slate-100 text-brand-blue border border-slate-300 font-bold text-xs uppercase tracking-wider px-6 py-3.5 rounded-xl shadow-xs inline-flex items-center justify-center gap-2 transition-colors">
+          <span>&#128190; Download PDF</span>
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================================================================= -->
+  <!-- 7. WE HEAR YOU CALLOUT (Seamless Clean Transition to Footer)      -->
+  <!-- ================================================================= -->
+  <section class="py-20 bg-white border-t border-slate-200 text-center">
+    <div class="max-w-3xl mx-auto px-6 lg:px-12 space-y-6">
+      <span class="text-xs font-bold uppercase tracking-widest text-brand-orange">
+        Client Care &bull; Priority Technical Desk
+      </span>
+      <h2 class="text-3xl sm:text-4xl font-black text-brand-dark tracking-tight">
+        We Hear You
+      </h2>
+      <p class="text-slate-600 text-sm sm:text-base leading-relaxed font-normal">
+        At Akshar Engineering Services, we listen closely to your operational challenges, inspection milestone updates, and quality feedback. If you have any requirement, report question, or require immediate technical assistance, our desk is ready.
+      </p>
+      <div class="pt-2">
+        <a href="we-hear-you.html" class="btn-premium-orange text-white font-bold text-xs uppercase tracking-wider px-8 py-4 rounded-xl shadow-md inline-flex items-center gap-2 group transition-all duration-300">
+          <span>Click for Quick Resolution</span>
+          <span class="text-sm transition-transform duration-300 group-hover:translate-x-1.5">&rarr;</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================================================= -->
+  <!-- CORPORATE FOOTER (CLASSIC BLUE THEME)                              -->
+  <!-- ================================================================= -->
+  <footer class="relative bg-brand-navy text-slate-300 text-sm border-t border-slate-800">
+    <div class="max-w-7xl mx-auto px-6 lg:px-12 py-16">
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
         
-        <div class="lg:col-span-2">
-          <div class="bg-white inline-block p-2 rounded-lg mb-4">
-            <img src="assets/logo.png" alt="Akshar Engineering Services" class="h-10 w-auto">
-          </div>
-          <p class="text-slate-300 text-sm leading-relaxed max-w-md mb-6">
+        <div class="lg:col-span-2 space-y-4">
+          <a href="index.html" class="inline-block bg-white p-2.5 rounded-xl shadow-md">
+            <img src="assets/logo.png" alt="Akshar Engineering Services" class="h-14 sm:h-16 w-auto object-contain">
+          </a>
+          <p class="text-slate-300 text-sm leading-relaxed max-w-md font-normal">
             Akshar Engineering Services Pvt. Ltd. delivers independent third-party inspection, vendor quality surveillance, and technical assurance across global industrial supply chains.
           </p>
-          <div class="text-xs text-slate-400 space-y-1">
-            <div>Email: info@aksharengineeringservices.com</div>
-            <div>Phone: +91 8200441159</div>
+          <div class="text-xs text-slate-400 space-y-1.5 font-medium pt-2">
+            <div>Email: <a href="mailto:info@aksharengineeringservices.com" class="text-slate-200 hover:text-brand-orange transition-colors font-semibold">info@aksharengineeringservices.com</a></div>
+            <div>Phone: <a href="tel:+918200441159" class="text-slate-200 hover:text-brand-orange transition-colors font-semibold">+91 8200441159</a></div>
           </div>
         </div>
 
         <div>
-          <span class="block font-bold text-slate-800 text-sm uppercase tracking-wider mb-4">Navigation</span>
+          <span class="block font-black text-white text-xs uppercase tracking-wider mb-4">Navigation</span>
           <ul class="space-y-2.5 text-sm">
-            <li><a href="index.html" class="text-slide-footer font-semibold">Home</a></li>
-            <li><a href="about.html" class="text-slide-footer font-semibold text-brand-orange">About Us</a></li>
-            <li><a href="services.html" class="text-slide-footer font-semibold">Services</a></li>
-            <li><a href="careers.html" class="text-slide-footer font-semibold">Careers at AES</a></li>
-            <li><a href="#feedbackHub" class="text-slide-footer font-semibold">Update / Feedback</a></li>
-            <li><a href="javascript:void(0)" onclick="openModal('verifyDocModal')" class="text-slide-footer font-semibold">Verify Document</a></li>
+            <li><a href="index.html" class="text-slate-400 hover:text-brand-orange transition-colors font-medium">Home</a></li>
+            <li><a href="about.html" class="text-brand-orange font-bold">About Us</a></li>
+            <li><a href="services.html" class="text-slate-400 hover:text-brand-orange transition-colors font-medium">Services</a></li>
+            <li><a href="careers.html" class="text-slate-400 hover:text-brand-orange transition-colors font-medium">Careers at AES</a></li>
+            <li><a href="#feedbackHub" class="text-slate-400 hover:text-brand-orange transition-colors font-medium">Update / Feedback</a></li>
+            <li><a href="javascript:void(0)" onclick="openModal('verifyDocModal')" class="text-slate-400 hover:text-brand-orange transition-colors font-medium">Verify Document</a></li>
+            <li><a href="javascript:void(0)" onclick="openModal('companyProfileModal')" class="text-brand-orange hover:text-white transition-colors font-bold flex items-center gap-1.5"><span class="text-base">&#128214;</span> Company Brochure</a></li>
           </ul>
         </div>
 
         <div>
-          <span class="block font-bold text-slate-800 text-sm uppercase tracking-wider mb-4">Key Services</span>
+          <span class="block font-black text-white text-xs uppercase tracking-wider mb-4">Key Services</span>
           <ul class="space-y-2.5 text-sm">
-            <li><a href="service-tpi.html" target="_blank" class="text-slide-footer font-semibold">Third Party Inspection (TPI)</a></li>
-            <li><a href="service-vendor-assessment.html" target="_blank" class="text-slide-footer font-semibold">Vendor Assessment &amp; Audit</a></li>
-            <li><a href="service-qa-qc-documentation.html" target="_blank" class="text-slide-footer font-semibold">QA/QC Documentation &amp; MRB</a></li>
-            <li><a href="service-pre-shipment-inspection.html" target="_blank" class="text-slide-footer font-semibold">Pre-Shipment &amp; Pre-Despatch</a></li>
-            <li><a href="service-welding-engineering.html" target="_blank" class="text-slide-footer font-semibold">Welding Engineering &amp; Inspection</a></li>
-            <li><a href="service-ndt-inspection.html" target="_blank" class="text-slide-footer font-semibold">NDT Inspection (UT/RT/MPT/DPT)</a></li>
-            <li><a href="service-expediting.html" target="_blank" class="text-slide-footer font-semibold">Project Expediting &amp; Sourcing</a></li>
-            <li><a href="service-api-tank-inspection.html" target="_blank" class="text-slide-footer font-semibold">API Tank &amp; Piping Inspection</a></li>
+            <li><a href="service-tpi.html" target="_blank" class="text-slate-400 hover:text-brand-orange transition-colors font-medium">Third Party Inspection (TPI)</a></li>
+            <li><a href="service-vendor-assessment.html" target="_blank" class="text-slate-400 hover:text-brand-orange transition-colors font-medium">Vendor Assessment &amp; Audit</a></li>
+            <li><a href="service-qa-qc-documentation.html" target="_blank" class="text-slate-400 hover:text-brand-orange transition-colors font-medium">QA/QC Documentation &amp; MRB</a></li>
+            <li><a href="service-pre-shipment-inspection.html" target="_blank" class="text-slate-400 hover:text-brand-orange transition-colors font-medium">Pre-Shipment &amp; Pre-Despatch</a></li>
+            <li><a href="service-welding-engineering.html" target="_blank" class="text-slate-400 hover:text-brand-orange transition-colors font-medium">Welding Engineering &amp; Inspection</a></li>
+            <li><a href="service-ndt-inspection.html" target="_blank" class="text-slate-400 hover:text-brand-orange transition-colors font-medium">NDT Inspection (UT/RT/MPT/DPT)</a></li>
+            <li><a href="service-expediting.html" target="_blank" class="text-slate-400 hover:text-brand-orange transition-colors font-medium">Project Expediting &amp; Sourcing</a></li>
+            <li><a href="service-api-tank-inspection.html" target="_blank" class="text-slate-400 hover:text-brand-orange transition-colors font-medium">API Tank &amp; Piping Inspection</a></li>
           </ul>
         </div>
 
       </div>
 
-      <div class="mt-12 pt-8 border-t border-white/10 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-slate-400">
+      <div class="mt-12 pt-8 border-t border-slate-800 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-slate-400 font-medium">
         <div>
           &copy; 2026 Akshar Engineering Services Pvt. Ltd. All rights reserved.
         </div>
         <div class="flex space-x-6">
-          <a href="#" class="hover:text-slate-800 transition-colors">Quality Policy</a>
-          <a href="#" class="hover:text-slate-800 transition-colors">Confidentiality</a>
-          <a href="#" class="hover:text-slate-800 transition-colors">Impartiality Charter</a>
+          <a href="#" class="hover:text-brand-orange transition-colors">Quality Policy</a>
+          <a href="#" class="hover:text-brand-orange transition-colors">Confidentiality</a>
+          <a href="#" class="hover:text-brand-orange transition-colors">Impartiality Charter</a>
         </div>
       </div>
     </div>
@@ -514,6 +618,66 @@
   <!-- ================================================================= -->
   <!-- MODALS                                                            -->
   <!-- ================================================================= -->
+  <!-- Company Profile Native Interactive Flipbook Reader Modal -->
+  <div id="companyProfileModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-2 sm:p-4 modal-backdrop bg-black/85 backdrop-blur-md">
+    <div class="bg-[#0b1633] text-white rounded-2xl shadow-2xl max-w-6xl w-full h-[94vh] flex flex-col border border-slate-700/80 overflow-hidden relative">
+      
+      <!-- Modal Header -->
+      <div class="bg-[#0b1633] px-4 sm:px-6 py-3 flex justify-between items-center shrink-0 border-b border-white/10">
+        <div class="flex items-center space-x-3">
+          <span class="text-2xl text-brand-orange">&#128214;</span>
+          <div>
+            <h3 class="text-sm sm:text-base font-extrabold text-white leading-tight">Akshar Engineering Services — Interactive Brochure</h3>
+            <span id="aesFlipbookPageLabel" class="text-xs text-brand-orange font-bold">Page 1 of 8 — Cover</span>
+          </div>
+        </div>
+        <div class="flex items-center space-x-2">
+          <button onclick="window.aesToggleZoom()" class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-xs font-bold text-white transition-colors border border-white/10 cursor-pointer">
+            <span>&#128065;</span> <span id="aesZoomBtnText">Zoom 125%</span>
+          </button>
+          <button onclick="window.aesToggleFullscreen()" class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-xs font-bold text-white transition-colors border border-white/10 cursor-pointer">
+            <span>&#x26F6;</span> Fullscreen
+          </button>
+          <a href="assets/Company Profile.pdf" download="AES_Company_Profile.pdf" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-brand-orange hover:bg-orange-600 text-xs font-bold text-white shadow-md transition-colors">
+            <span>&#128190;</span> Download PDF
+          </a>
+          <button onclick="closeModal('companyProfileModal')" class="p-1.5 text-slate-400 hover:text-white text-2xl font-bold leading-none ml-1 cursor-pointer">&times;</button>
+        </div>
+      </div>
+
+      <!-- Flipbook Main Stage with Side Arrows -->
+      <div id="aesFlipbookContainer" class="flex-1 w-full bg-slate-950 relative flex items-center justify-center p-2 sm:p-4 overflow-hidden select-none">
+        
+        <!-- Left Flip Arrow -->
+        <button onclick="window.aesFlipPrev()" class="absolute left-2 sm:left-4 z-20 w-10 sm:w-12 h-10 sm:h-12 rounded-full bg-black/60 hover:bg-brand-orange text-white flex items-center justify-center text-lg sm:text-xl font-black shadow-xl transition-all duration-200 border border-white/20 hover:scale-110 cursor-pointer backdrop-blur-xs" aria-label="Previous Page">
+          &#10094;
+        </button>
+
+        <!-- Dynamic Book Stage -->
+        <div id="aesFlipbookStage" class="w-full h-full flex items-center justify-center overflow-auto">
+          <!-- Injected via flipbook-reader.js -->
+        </div>
+
+        <!-- Right Flip Arrow -->
+        <button onclick="window.aesFlipNext()" class="absolute right-2 sm:right-4 z-20 w-10 sm:w-12 h-10 sm:h-12 rounded-full bg-black/60 hover:bg-brand-orange text-white flex items-center justify-center text-lg sm:text-xl font-black shadow-xl transition-all duration-200 border border-white/20 hover:scale-110 cursor-pointer backdrop-blur-xs" aria-label="Next Page">
+          &#10095;
+        </button>
+      </div>
+
+      <!-- Bottom Thumbnail Navigation Strip -->
+      <div class="bg-[#080f24] px-4 py-2.5 border-t border-white/10 shrink-0 flex items-center justify-between gap-4">
+        <span class="hidden md:inline-block text-[11px] font-bold text-slate-400 uppercase tracking-wider">Brochure Pages:</span>
+        <div id="aesFlipbookThumbStrip" class="flex items-center gap-2 overflow-x-auto py-1 max-w-full no-scrollbar mx-auto">
+          <!-- Injected via flipbook-reader.js -->
+        </div>
+        <div class="hidden md:flex items-center gap-2 text-slate-400 text-xs font-semibold">
+          <span>Use &#x2B05; &#x27A1; arrow keys</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
   <!-- Inquiry Modal -->
   <div id="inquiryModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 modal-backdrop">
     <div class="bg-white rounded-2xl shadow-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto border border-slate-200">
@@ -699,7 +863,6 @@
     </div>
   </div>
 
-<!-- Vanilla JS Engine -->
   <script>
     function openModal(id) {
       var modal = document.getElementById(id);
@@ -1003,5 +1166,7 @@
       selectReason('inquiry');
     }
   </script>
+  <!-- Native 3D Flipbook Brochure Reader Engine -->
+  <script src="assets/flipbook-reader.js"></script>
 </body>
 </html>

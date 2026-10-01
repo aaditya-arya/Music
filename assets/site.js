@@ -271,6 +271,10 @@
     measure();
     if ('ResizeObserver' in window) new ResizeObserver(measure).observe(title);
   });
+  $$('.service-slide-card').forEach(card => {
+    card.addEventListener('click', () => card.blur());
+    card.addEventListener('mouseleave', () => card.blur());
+  });
   $$('#equipment .grid > div, #sectors .grid > div, #openings .grid > div, main section .grid > div.border').forEach(card => {
     if (!card.querySelector('form')) card.classList.add('aes-content-card');
   });
@@ -295,24 +299,44 @@
     if (motion.matches) document.getAnimations().forEach(animation => animation.cancel());
   });
 
-  const video = $('video');
+  const video = $('video#heroVideo') || $('video');
   if (video) {
+    const playlist = [
+      'video/oil refinery.mp4',
+      'video/solar park.mp4',
+      'video/wind plant.mp4',
+      'video/windmill.mp4'
+    ];
+    let currentVideoIdx = 0;
+
     video.poster = 'assets/hero_inspection.jpg';
     video.setAttribute('aria-hidden', 'true');
-    video.preload = 'metadata';
-    // Set slow playback speed for smooth cinematic effect
-    const setSlowSpeed = () => { video.playbackRate = 0.55; };
-    video.addEventListener('loadedmetadata', setSlowSpeed);
-    video.addEventListener('loadeddata', setSlowSpeed);
-    video.addEventListener('play', setSlowSpeed);
-    setSlowSpeed();
+    video.removeAttribute('loop');
+    video.preload = 'auto';
+    video.playbackRate = 1.0;
+
+    function playNextVideo() {
+      currentVideoIdx = (currentVideoIdx + 1) % playlist.length;
+      video.style.opacity = '0.8';
+      video.src = encodeURI(playlist[currentVideoIdx]);
+      video.load();
+      video.play().then(() => {
+        video.style.opacity = '1';
+      }).catch(() => {});
+    }
+
+    video.addEventListener('ended', playNextVideo);
+    video.addEventListener('error', () => {
+      setTimeout(playNextVideo, 1200);
+    });
 
     const hero = video.closest('section');
     let inView = true;
     function syncVideo() {
-      if (document.hidden || !inView) video.pause();
-      else {
-        video.play().then(setSlowSpeed).catch(() => {});
+      if (document.hidden || !inView) {
+        video.pause();
+      } else {
+        video.play().catch(() => {});
       }
     }
     document.addEventListener('visibilitychange', syncVideo);

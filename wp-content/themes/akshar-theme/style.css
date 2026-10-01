@@ -1,0 +1,24 @@
+/*
+Theme Name: Akshar Engineering Services
+Theme URI: https://aksharengineeringservices.com/
+Author: Akshar Engineering Services Pvt. Ltd.
+Author URI: https://aksharengineeringservices.com/
+Description: Custom, high-performance WordPress Theme for Akshar Engineering Services. Built with responsive Tailwind CSS, modern Plus Jakarta Sans typography, dynamic Heyzine flipbook integration, Fluent Forms / WPForms modal routing, and Advanced Custom Fields (ACF) inspection disciplines engine.
+Version: 1.0.0
+License: Proprietary
+License URI: https://aksharengineeringservices.com/
+Text Domain: akshar-theme
+*/
+
+/* Base WordPress Theme Styles */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600;1,700&display=swap');
+
+:root {
+  --brand-orange: #f16826;
+  --brand-navy: #0b1633;
+  --brand-blue: #1b3574;
+}
+
+body, button, input, select, textarea {
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif !important;
+}

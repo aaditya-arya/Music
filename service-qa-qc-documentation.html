@@ -44,20 +44,51 @@
       background-color: rgba(11, 22, 51, 0.78);
       backdrop-filter: blur(6px);
     }
-    .btn-premium-orange, .btn-premium-blue, .btn-theme {
-      background-color: #1b3574;
-      transition: background-color 0.35s ease, color 0.35s ease, box-shadow 0.35s ease, transform 0.2s ease;
+    /* Button States: Orange (hover blue + shadow) & Blue (hover white BG + blue font + shadow) */
+    .btn-premium-orange, .btn-theme {
+      background-color: #f16826;
       color: #ffffff;
+      border: 2px solid transparent;
+      box-shadow: 0 4px 12px rgba(241, 104, 38, 0.25);
+      transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
       cursor: pointer;
     }
-    .btn-premium-orange:hover, .btn-premium-blue:hover, .btn-theme:hover {
-      background-color: #ffffff;
-      color: #1b3574;
-      box-shadow: 0 10px 20px -5px rgba(27, 53, 116, 0.4);
+    .btn-premium-orange:hover, .btn-theme:hover {
+      background-color: #1b3574;
+      color: #ffffff;
+      border-color: #1b3574;
+      box-shadow: 0 12px 24px -4px rgba(27, 53, 116, 0.4), 0 4px 8px -2px rgba(27, 53, 116, 0.25);
+      transform: translateY(-2px);
     }
-    .btn-premium-orange:active, .btn-premium-blue:active, .btn-theme:active {
+    .btn-premium-orange:active, .btn-theme:active {
       background-color: #f16826 !important;
       color: #ffffff !important;
+      border-color: #f16826 !important;
+      box-shadow: 0 4px 10px rgba(241, 104, 38, 0.4) !important;
+      transform: translateY(0) !important;
+    }
+
+    .btn-premium-blue {
+      background-color: #1b3574;
+      color: #ffffff;
+      border: 2px solid #1b3574;
+      box-shadow: 0 4px 12px rgba(27, 53, 116, 0.25);
+      transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+      cursor: pointer;
+    }
+    .btn-premium-blue:hover {
+      background-color: #ffffff;
+      color: #1b3574;
+      border-color: #1b3574;
+      box-shadow: 0 12px 24px -4px rgba(27, 53, 116, 0.35), 0 4px 8px -2px rgba(27, 53, 116, 0.2);
+      transform: translateY(-2px);
+    }
+    .btn-premium-blue:active {
+      background-color: #f16826 !important;
+      color: #ffffff !important;
+      border-color: #f16826 !important;
+      box-shadow: 0 4px 10px rgba(241, 104, 38, 0.4) !important;
+      transform: translateY(0) !important;
     }
     
     .text-slide-dual {
@@ -166,51 +197,47 @@
   <!-- 1. FULL-WIDTH HEADER (Logo Left, Services Center, Right Nav)        -->
   <!-- ================================================================= -->
     <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm relative">
-    <div class="w-full px-6 lg:px-12 flex justify-between items-center h-24 sm:h-28">
+    <div class="w-full max-w-[1600px] mx-auto px-6 sm:px-10 lg:px-16 2xl:px-20 flex justify-between items-center h-24 sm:h-28">
       
-      <!-- Left Spacer for Centering Logo on Desktop -->
-      <div class="hidden lg:flex w-1/3"></div>
+      <!-- Left Logo (Enlarged and Prominent on the Left) -->
 
-      <!-- Center Logo -->
-      <a href="index.html" class="flex items-center justify-center space-x-3 shrink-0 w-full lg:w-1/3" onclick="if(window.location.pathname.endsWith('index.html') || window.location.pathname === '/' || window.location.pathname.endsWith('/Music/')){ window.scrollTo({top: 0, behavior: 'smooth'}); return false; }">
-        <img src="assets/akshar_logo.png" alt="Akshar Engineering Services" class="h-16 sm:h-20 md:h-24 max-h-24 w-auto object-contain transition-transform duration-300 hover:scale-105">
+      <a href="index.html" class="flex items-center space-x-3 shrink-0 py-2" onclick="if(window.location.pathname.endsWith('index.html') || window.location.pathname === '/' || window.location.pathname.endsWith('/Music/')){ window.scrollTo({top: 0, behavior: 'smooth'}); return false; }">
+        <img src="assets/logo.png" alt="Akshar Engineering Services" class="h-16 sm:h-20 md:h-24 max-h-24 w-auto object-contain transition-transform duration-300 hover:scale-105">
       </a>
 
       <!-- Right Menubar -->
-      <nav class="hidden lg:flex items-center justify-end space-x-6 text-base sm:text-lg font-extrabold shrink-0 w-1/3">
+      <nav class="hidden lg:flex items-center justify-end space-x-8 text-base sm:text-lg font-extrabold shrink-0">
         <a href="about.html" class="text-brand-blue hover:text-brand-orange transition-colors duration-300">About Us</a>
         
         <div class="nav-item-dropdown relative group py-6 flex items-center">
-          <a href="services.html" class="text-brand-blue hover:text-brand-orange text-base sm:text-lg font-extrabold flex items-center gap-1.5 transition-colors duration-300">
+          <a href="services.html" class="text-brand-orange text-base sm:text-lg font-extrabold flex items-center gap-1.5 transition-colors duration-300">
             Service
-            <svg class="w-4 h-4 text-brand-blue group-hover:text-brand-orange transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path></svg>
+            <svg class="w-4 h-4 text-brand-orange group-hover:text-brand-orange transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path></svg>
           </a>
-          <div class="mega-dropdown-menu absolute top-full right-0 w-64 bg-white border border-slate-200 shadow-xl rounded-xl py-2 invisible opacity-0 z-50 transition-all flex flex-col text-left">
-            <a href="service-tpi.html" class="block px-4 py-2 text-sm font-bold text-brand-blue hover:bg-orange-50 hover:text-brand-orange">Third Party Inspection</a>
-            <a href="service-vendor-assessment.html" class="block px-4 py-2 text-sm font-bold text-brand-blue hover:bg-orange-50 hover:text-brand-orange">Vendor Assessment</a>
-            <a href="service-qa-qc-documentation.html" class="block px-4 py-2 text-sm font-bold text-brand-blue hover:bg-orange-50 hover:text-brand-orange">QA/QC Documentation</a>
-            <a href="service-pre-shipment-inspection.html" class="block px-4 py-2 text-sm font-bold text-brand-blue hover:bg-orange-50 hover:text-brand-orange">Pre-Shipment Inspection</a>
-            <a href="service-welding-engineering.html" class="block px-4 py-2 text-sm font-bold text-brand-blue hover:bg-orange-50 hover:text-brand-orange">Welding Engineering</a>
-            <a href="service-ndt-inspection.html" class="block px-4 py-2 text-sm font-bold text-brand-blue hover:bg-orange-50 hover:text-brand-orange">NDT Inspection Services</a>
-            <a href="service-expediting.html" class="block px-4 py-2 text-sm font-bold text-brand-blue hover:bg-orange-50 hover:text-brand-orange">Expediting Services</a>
-            <a href="service-design-examination.html" class="block px-4 py-2 text-sm font-bold text-brand-blue hover:bg-orange-50 hover:text-brand-orange">Design Examination</a>
-            <a href="service-project-shutdown-qa.html" class="block px-4 py-2 text-sm font-bold text-brand-blue hover:bg-orange-50 hover:text-brand-orange">Project &amp; Shutdown QA</a>
-            <a href="service-international-sourcing.html" class="block px-4 py-2 text-sm font-bold text-brand-blue hover:bg-orange-50 hover:text-brand-orange">International Sourcing</a>
-            <a href="service-performance-hydro-tests.html" class="block px-4 py-2 text-sm font-bold text-brand-blue hover:bg-orange-50 hover:text-brand-orange">Performance &amp; Hydro-Tests</a>
-            <a href="service-process-qualification.html" class="block px-4 py-2 text-sm font-bold text-brand-blue hover:bg-orange-50 hover:text-brand-orange">Process Qualification</a>
-            <a href="service-api-tank-inspection.html" class="block px-4 py-2 text-sm font-bold text-brand-blue hover:bg-orange-50 hover:text-brand-orange">API Tank Inspection</a>
-            <a href="service-owners-engineer.html" class="block px-4 py-2 text-sm font-bold text-brand-blue hover:bg-orange-50 hover:text-brand-orange">Owner's Engineer</a>
-            <a href="service-process-piping.html" class="block px-4 py-2 text-sm font-bold text-brand-blue hover:bg-orange-50 hover:text-brand-orange">Process Piping (B31.3)</a>
-            <a href="service-training.html" class="block px-4 py-2 text-sm font-bold text-brand-blue hover:bg-orange-50 hover:text-brand-orange">QA/QC &amp; NDT Training</a>
+          <div class="mega-dropdown-menu absolute top-full left-1/2 -translate-x-1/2 w-72 bg-[#0b1633] border border-slate-700/80 shadow-2xl rounded-2xl py-2 invisible opacity-0 z-50 transition-all flex flex-col text-left divide-y divide-white/10">
+            <a href="service-tpi.html" class="block px-4 py-2.5 text-xs font-bold text-white hover:text-brand-orange hover:bg-white/5 transition-colors">Third Party Inspection</a>
+            <a href="service-vendor-assessment.html" class="block px-4 py-2.5 text-xs font-bold text-white hover:text-brand-orange hover:bg-white/5 transition-colors">Vendor Assessment</a>
+            <a href="service-qa-qc-documentation.html" class="block px-4 py-2.5 text-xs font-bold text-white hover:text-brand-orange hover:bg-white/5 transition-colors">QA/QC Documentation</a>
+            <a href="service-pre-shipment-inspection.html" class="block px-4 py-2.5 text-xs font-bold text-white hover:text-brand-orange hover:bg-white/5 transition-colors">Pre-Shipment Inspection</a>
+            <a href="service-welding-engineering.html" class="block px-4 py-2.5 text-xs font-bold text-white hover:text-brand-orange hover:bg-white/5 transition-colors">Welding Engineering</a>
+            <a href="service-ndt-inspection.html" class="block px-4 py-2.5 text-xs font-bold text-white hover:text-brand-orange hover:bg-white/5 transition-colors">NDT Inspection Services</a>
+            <a href="service-expediting.html" class="block px-4 py-2.5 text-xs font-bold text-white hover:text-brand-orange hover:bg-white/5 transition-colors">Expediting Services</a>
+            <a href="service-design-examination.html" class="block px-4 py-2.5 text-xs font-bold text-white hover:text-brand-orange hover:bg-white/5 transition-colors">Design Examination</a>
+            <a href="service-project-shutdown-qa.html" class="block px-4 py-2.5 text-xs font-bold text-white hover:text-brand-orange hover:bg-white/5 transition-colors">Project &amp; Shutdown QA</a>
+            <a href="service-international-sourcing.html" class="block px-4 py-2.5 text-xs font-bold text-white hover:text-brand-orange hover:bg-white/5 transition-colors">International Sourcing</a>
+            <a href="service-performance-hydro-tests.html" class="block px-4 py-2.5 text-xs font-bold text-white hover:text-brand-orange hover:bg-white/5 transition-colors">Performance &amp; Hydro-Tests</a>
+            <a href="service-process-qualification.html" class="block px-4 py-2.5 text-xs font-bold text-white hover:text-brand-orange hover:bg-white/5 transition-colors">Process Qualification</a>
+            <a href="service-api-tank-inspection.html" class="block px-4 py-2.5 text-xs font-bold text-white hover:text-brand-orange hover:bg-white/5 transition-colors">API Tank Inspection</a>
+            <a href="service-owners-engineer.html" class="block px-4 py-2.5 text-xs font-bold text-white hover:text-brand-orange hover:bg-white/5 transition-colors">Owner's Engineer</a>
+            <a href="service-process-piping.html" class="block px-4 py-2.5 text-xs font-bold text-white hover:text-brand-orange hover:bg-white/5 transition-colors">Process Piping (B31.3)</a>
+            <a href="service-training.html" class="block px-4 py-2.5 text-xs font-bold text-white hover:text-brand-orange hover:bg-white/5 transition-colors">QA/QC &amp; NDT Training</a>
           </div>
         </div>
-
-        <a href="careers.html" class="text-brand-blue hover:text-brand-orange transition-colors duration-300">Careers</a>
         <a href="we-hear-you.html" class="text-brand-blue hover:text-brand-orange transition-colors duration-300">We hear you</a>
       </nav>
 
       <!-- Mobile Menu Button -->
-      <div class="flex lg:hidden w-1/3 justify-end">
+      <div class="flex lg:hidden justify-end">
         <button id="mobile-menu-btn" type="button" class="p-2 text-brand-blue hover:text-brand-orange rounded-md border border-slate-200">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
         </button>
@@ -220,13 +247,105 @@
     <!-- Mobile Nav Menu -->
     <div id="mobile-menu" class="hidden lg:hidden border-t border-slate-200 bg-white px-6 py-4 space-y-3">
       <a href="about.html" class="block text-base font-bold text-brand-blue hover:text-brand-orange">About Us</a>
-      <a href="services.html" class="block text-base font-bold text-brand-blue hover:text-brand-orange">Service</a>
-      <a href="careers.html" class="block text-base font-bold text-brand-blue hover:text-brand-orange">Careers</a>
+      <a href="services.html" class="block text-base font-bold text-brand-orange">Service</a>
       <a href="we-hear-you.html" class="block text-base font-bold text-brand-blue hover:text-brand-orange">We hear you</a>
     </div>
   </header>
 
-  
+    <!-- ================================================================= -->
+  <!-- STICKY RIGHT SIDEBAR BUTTONS (No icons, text only)                -->
+  <!-- ================================================================= -->
+    <!-- ================================================================= -->
+  <!-- STICKY RIGHT SIDEBAR BUTTONS (No icons, text only)                -->
+  <!-- ================================================================= -->
+  <aside aria-label="Quick Action Floating Desk" class="fixed right-0 top-1/2 -translate-y-1/2 z-40 flex flex-col space-y-2.5">
+    <button onclick="openModal('inquiryModal')" class="bg-brand-orange hover:bg-orange-700 text-white font-bold text-xs uppercase tracking-wider py-4 px-3 rounded-l-xl shadow-xl flex items-center justify-center transition-transform hover:-translate-x-2 [writing-mode:vertical-rl] rotate-180 cursor-pointer group">
+      <span>Quick Reach / Inquiry</span>
+    </button>
+    <button onclick="openModal('trainingModal')" class="bg-brand-blue hover:bg-brand-dark text-white font-bold text-xs uppercase tracking-wider py-4 px-3 rounded-l-xl shadow-xl flex items-center justify-center transition-transform hover:-translate-x-2 [writing-mode:vertical-rl] rotate-180 cursor-pointer group">
+      <span>Training Registration</span>
+    </button>
+  </aside>
+
+
+  <!-- ================================================================= -->
+  <!-- HERO BANNER                                                       -->
+  <!-- ================================================================= -->
+  <section class="relative bg-white text-slate-800 py-12 sm:py-16 overflow-hidden border-b border-slate-100">
+    <div class="absolute inset-0 z-0 pointer-events-none">
+      <div class="absolute -top-32 -left-32 w-96 h-96 bg-brand-blue/10 rounded-full blur-3xl"></div>
+      <div class="absolute -bottom-32 -right-32 w-96 h-96 bg-brand-orange/10 rounded-full blur-3xl"></div>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-6 lg:px-12 relative z-10">
+      <!-- Breadcrumb -->
+      <nav class="flex items-center gap-2 text-xs font-semibold text-slate-400 mb-6 uppercase tracking-wider">
+        <a href="index.html" class="hover:text-brand-orange transition-colors">Home</a>
+        <span>/</span>
+        <a href="services.html" class="hover:text-brand-orange transition-colors">Services</a>
+        <span>/</span>
+        <span class="text-brand-orange font-bold">QA/QC Documentation</span>
+      </nav>
+
+      <!-- 2-Column Hero Grid -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+        
+        <!-- Left: Text Content & Actions -->
+        <div class="lg:col-span-7 space-y-6">
+          <span class="inline-block bg-brand-orange/15 text-brand-orange text-xs font-extrabold uppercase tracking-wider px-3.5 py-1.5 rounded-full border border-brand-orange/30 shadow-xs">
+            EN 10204 3.1/3.2 Correlation &bull; Audit-Ready Handover
+          </span>
+          <h1 class="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark tracking-tight leading-tight">
+            QA/QC Documentation &amp; MRB Dossiers
+          </h1>
+          <p class="text-slate-600 text-base sm:text-lg leading-relaxed">
+            End-to-end Manufacturing Record Book (MRB) compilation, material traceability correlation, and technical handover dossier verification for major EPC projects.
+          </p>
+
+          <div class="flex flex-wrap items-center gap-4 pt-2">
+            <button onclick="openModal('inquiryModal')" class="btn-premium-orange py-3.5 px-6 rounded-xl text-xs font-extrabold uppercase tracking-wider inline-flex items-center gap-2 cursor-pointer shadow-md">
+              <span>Request Documentation Scope</span>
+              <span>&rarr;</span>
+            </button>
+            <a href="we-hear-you.html" class="btn-premium-blue py-3.5 px-6 rounded-xl text-xs font-extrabold uppercase tracking-wider inline-flex items-center gap-2 text-center">
+              <span>We Hear You Support Hub</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Right: Featured Service Image Card with Dynamic Hover Effect -->
+        <div class="lg:col-span-5 flex justify-center lg:justify-end">
+          <div class="relative group w-full max-w-md">
+            <div class="relative rounded-2xl overflow-hidden border-2 border-slate-200/80 shadow-xl bg-white hover:shadow-2xl transition-all duration-500 ease-out hover:-translate-y-1">
+              <img src="assets/service_qa_qc.jpg" alt="QA/QC Documentation & MRB Dossiers" class="w-full h-[280px] sm:h-[340px] object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out">
+              <div class="absolute inset-0 bg-gradient-to-t from-brand-navy/90 via-brand-navy/20 to-transparent pointer-events-none"></div>
+              <div class="absolute bottom-4 left-4 right-4 text-white">
+                <span class="text-[11px] font-black text-brand-orange uppercase tracking-wider block">Technical Dossier Verification</span>
+                <span class="text-sm font-bold text-white">QA/QC Documentation &amp; MRB</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================================================= -->
+  <!-- MAIN SERVICE CONTENT                                              -->
+  <!-- ================================================================= -->
+  <main class="py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-6 lg:px-12 grid grid-cols-1 lg:grid-cols-12 gap-12">
+
+      <!-- LEFT COLUMN: Technical Narrative (8 Cols) -->
+      <div class="lg:col-span-8 space-y-12">
+        
+        <!-- Technical Overview -->
+        <section>
+          <div class="inline-block">
+            <h2 class="text-2xl sm:text-3xl font-black text-brand-dark tracking-tight mb-2">Technical Overview &amp; Execution Scope</h2>
+            <div class="heading-line-track mb-6"><div class="section-accent-line"></div></div>
+          </div>
           <div class="prose max-w-none text-slate-600 text-base leading-relaxed space-y-4">
             <p>Akshar Engineering Services delivers end-to-end technical dossier compilation, independent verification, and co-signing for major capital EPC handovers. In critical process industries, documentation integrity is just as vital as physical hardware compliance. Our documentation specialists assemble, cross-verify, and authenticate Manufacturing Record Books (MRB) and Manufacturer Data Reports (MDR) to guarantee audit-ready compliance.</p>
             <p>We perform 100% correlation between raw material test reports (MTR), heat numbers, weld maps, radiographic films, PWHT charts, hydrostatic test records, and final as-built drawings, eliminating punch items and expediting project handover sign-offs.</p>
@@ -235,36 +354,38 @@
 
         <!-- Key Inspection Stages & Hold Points -->
         <section>
-          <h2 class="text-2xl font-black text-brand-dark mb-4">Key Inspection Stages &amp; Quality Points</h2>
-          <div class="heading-line-track mb-6"><div class="section-accent-line"></div></div>
+          <div class="inline-block">
+            <h2 class="text-2xl sm:text-3xl font-black text-brand-dark tracking-tight mb-2">Key Documentation Stages &amp; Quality Points</h2>
+            <div class="heading-line-track mb-6"><div class="section-accent-line"></div></div>
+          </div>
           
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div class="p-5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-white hover:border-orange-200 transition-all shadow-xs">
+            <div class="p-5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-white hover:border-brand-orange/40 hover:-translate-y-1 hover:shadow-lg transition-all duration-300 shadow-xs cursor-default">
               <span class="text-xs font-bold text-brand-orange uppercase">Stage 01</span>
               <h3 class="text-base font-bold text-brand-dark mt-1 mb-2">MTR & Heat Number Correlation Matrix</h3>
               <p class="text-xs text-slate-600 leading-relaxed">Cross-checking mill test certificates (MTC) per EN 10204 3.1/3.2 against plate/pipe heat numbers and cutting layouts.</p>
             </div>
-            <div class="p-5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-white hover:border-orange-200 transition-all shadow-xs">
+            <div class="p-5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-white hover:border-brand-orange/40 hover:-translate-y-1 hover:shadow-lg transition-all duration-300 shadow-xs cursor-default">
               <span class="text-xs font-bold text-brand-orange uppercase">Stage 02</span>
               <h3 class="text-base font-bold text-brand-dark mt-1 mb-2">Weld Log & Welder Traceability Mapping</h3>
               <p class="text-xs text-slate-600 leading-relaxed">Compiling joint-by-joint weld logs correlated with approved WPS/PQR and specific welder performance qualification (WPQ) cards.</p>
             </div>
-            <div class="p-5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-white hover:border-orange-200 transition-all shadow-xs">
+            <div class="p-5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-white hover:border-brand-orange/40 hover:-translate-y-1 hover:shadow-lg transition-all duration-300 shadow-xs cursor-default">
               <span class="text-xs font-bold text-brand-orange uppercase">Stage 03</span>
               <h3 class="text-base font-bold text-brand-dark mt-1 mb-2">NDT Report & RT Film Re-audit Dossier</h3>
               <p class="text-xs text-slate-600 leading-relaxed">Indexing and cross-verifying 100% of UT, RT, MPI, and DPT inspection reports against approved ITP hold points.</p>
             </div>
-            <div class="p-5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-white hover:border-orange-200 transition-all shadow-xs">
+            <div class="p-5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-white hover:border-brand-orange/40 hover:-translate-y-1 hover:shadow-lg transition-all duration-300 shadow-xs cursor-default">
               <span class="text-xs font-bold text-brand-orange uppercase">Stage 04</span>
               <h3 class="text-base font-bold text-brand-dark mt-1 mb-2">Heat Treatment & PWHT Chart Review</h3>
               <p class="text-xs text-slate-600 leading-relaxed">Auditing time-temperature furnace charts, thermocouple location diagrams, heating/cooling rates, and soak durations.</p>
             </div>
-            <div class="p-5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-white hover:border-orange-200 transition-all shadow-xs">
+            <div class="p-5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-white hover:border-brand-orange/40 hover:-translate-y-1 hover:shadow-lg transition-all duration-300 shadow-xs cursor-default">
               <span class="text-xs font-bold text-brand-orange uppercase">Stage 05</span>
               <h3 class="text-base font-bold text-brand-dark mt-1 mb-2">Pressure Test & Gauge Calibration Records</h3>
               <p class="text-xs text-slate-600 leading-relaxed">Validating signed hydrostatic test charts, relief valve certificates, and valid calibration certificates of test gauges.</p>
             </div>
-            <div class="p-5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-white hover:border-orange-200 transition-all shadow-xs">
+            <div class="p-5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-white hover:border-brand-orange/40 hover:-translate-y-1 hover:shadow-lg transition-all duration-300 shadow-xs cursor-default">
               <span class="text-xs font-bold text-brand-orange uppercase">Stage 06</span>
               <h3 class="text-base font-bold text-brand-dark mt-1 mb-2">Painting, Coating & Preservation Dossiers</h3>
               <p class="text-xs text-slate-600 leading-relaxed">Compiling surface blast profile sheets, environmental logs, DFT measurements, and export packaging release certificates.</p>
@@ -274,23 +395,27 @@
 
         <!-- Applicable Codes & Standards -->
         <section>
-          <h2 class="text-2xl font-black text-brand-dark mb-4">Applicable Statutory Codes &amp; Standards</h2>
-          <div class="heading-line-track mb-6"><div class="section-accent-line"></div></div>
+          <div class="inline-block">
+            <h2 class="text-2xl sm:text-3xl font-black text-brand-dark tracking-tight mb-2">Applicable Statutory Codes &amp; Standards</h2>
+            <div class="heading-line-track mb-6"><div class="section-accent-line"></div></div>
+          </div>
           
           <div class="flex flex-wrap gap-2.5">
-            <span class="bg-slate-100 border border-slate-200 text-slate-800 text-xs font-bold px-3 py-1.5 rounded-lg">EN 10204 Type 3.1 & 3.2 Documents</span>
-            <span class="bg-slate-100 border border-slate-200 text-slate-800 text-xs font-bold px-3 py-1.5 rounded-lg">ASME Section II Material Specifications</span>
-            <span class="bg-slate-100 border border-slate-200 text-slate-800 text-xs font-bold px-3 py-1.5 rounded-lg">ASME Section VIII Div 1 & Div 2</span>
-            <span class="bg-slate-100 border border-slate-200 text-slate-800 text-xs font-bold px-3 py-1.5 rounded-lg">ISO 9001 Traceability Mandates</span>
-            <span class="bg-slate-100 border border-slate-200 text-slate-800 text-xs font-bold px-3 py-1.5 rounded-lg">Project Technical Specifications (PTS)</span>
-            <span class="bg-slate-100 border border-slate-200 text-slate-800 text-xs font-bold px-3 py-1.5 rounded-lg">ISO/IEC 17020 Type-A Body</span>
+            <span class="bg-slate-50 border border-slate-200 text-slate-800 text-xs font-bold px-3 py-1.5 rounded-lg hover:border-brand-orange hover:bg-orange-50 hover:text-brand-orange transition-colors cursor-default">EN 10204 Type 3.1 & 3.2 Documents</span>
+            <span class="bg-slate-50 border border-slate-200 text-slate-800 text-xs font-bold px-3 py-1.5 rounded-lg hover:border-brand-orange hover:bg-orange-50 hover:text-brand-orange transition-colors cursor-default">ASME Section II Material Specifications</span>
+            <span class="bg-slate-50 border border-slate-200 text-slate-800 text-xs font-bold px-3 py-1.5 rounded-lg hover:border-brand-orange hover:bg-orange-50 hover:text-brand-orange transition-colors cursor-default">ASME Section VIII Div 1 & Div 2</span>
+            <span class="bg-slate-50 border border-slate-200 text-slate-800 text-xs font-bold px-3 py-1.5 rounded-lg hover:border-brand-orange hover:bg-orange-50 hover:text-brand-orange transition-colors cursor-default">ISO 9001 Traceability Mandates</span>
+            <span class="bg-slate-50 border border-slate-200 text-slate-800 text-xs font-bold px-3 py-1.5 rounded-lg hover:border-brand-orange hover:bg-orange-50 hover:text-brand-orange transition-colors cursor-default">Project Technical Specifications (PTS)</span>
+            <span class="bg-slate-50 border border-slate-200 text-slate-800 text-xs font-bold px-3 py-1.5 rounded-lg hover:border-brand-orange hover:bg-orange-50 hover:text-brand-orange transition-colors cursor-default">ISO/IEC 17020 Type-A Body</span>
           </div>
         </section>
 
         <!-- Audited Deliverables -->
         <section>
-          <h2 class="text-2xl font-black text-brand-dark mb-4">Inspection Deliverables &amp; Reports</h2>
-          <div class="heading-line-track mb-6"><div class="section-accent-line"></div></div>
+          <div class="inline-block">
+            <h2 class="text-2xl sm:text-3xl font-black text-brand-dark tracking-tight mb-2">Inspection Deliverables &amp; Reports</h2>
+            <div class="heading-line-track mb-6"><div class="section-accent-line"></div></div>
+          </div>
           
           <ul class="space-y-3 text-slate-700 text-sm">
             <li class="flex items-start gap-3">
@@ -377,76 +502,62 @@
     </div>
   </main>
 
+    <!-- ================================================================= -->
+  <!-- CORPORATE FOOTER (CLASSIC DARK BLUE THEME)                        -->
   <!-- ================================================================= -->
-  <!-- CORPORATE FOOTER                                                  -->
-  <!-- ================================================================= -->
-  <footer class="relative bg-brand-navy/95 backdrop-blur-xl text-slate-400 text-sm border-t border-white/10 overflow-hidden">
-    <div class="absolute inset-0 z-0 pointer-events-none overflow-hidden">
-      <div class="absolute -top-32 -left-32 w-96 h-96 bg-brand-blue/40 rounded-full blur-3xl"></div>
-      <div class="absolute -bottom-32 -right-32 w-96 h-96 bg-brand-blue/30 rounded-full blur-3xl"></div>
-    </div>
-
-    <div class="max-w-7xl mx-auto px-6 lg:px-12 py-16 relative z-10">
+  <footer class="relative bg-brand-navy text-slate-300 text-sm border-t border-slate-800">
+    <div class="max-w-7xl mx-auto px-6 lg:px-12 py-16">
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
         
-                        <div class="lg:col-span-2 space-y-4">
-          <div class="bg-white inline-block p-3 rounded-xl shadow-md border border-white/20">
+        <div class="lg:col-span-2 space-y-4">
+          <a href="index.html" class="inline-block bg-white p-2.5 rounded-xl shadow-md">
             <img src="assets/logo.png" alt="Akshar Engineering Services" class="h-14 sm:h-16 w-auto object-contain">
-          </div>
-          <p class="text-slate-300 text-sm leading-relaxed max-w-md">
-            Akshar Engineering Services Pvt. Ltd. delivers independent third-party inspection, vendor quality surveillance, statutory verification, and technical assurance across global industrial supply chains.
+          </a>
+          <p class="text-slate-300 text-sm leading-relaxed max-w-md font-normal">
+            Akshar Engineering Services Pvt. Ltd. delivers independent third-party inspection, vendor quality surveillance, and technical assurance across global industrial supply chains.
           </p>
-          <div class="pt-2 border-t border-white/10 text-xs text-slate-300 space-y-2">
-            <div class="flex items-center gap-2">
-              <span class="text-brand-orange font-bold">Accreditation:</span>
-              <span>ISO/IEC 17020 Type-A Inspection Body</span>
-            </div>
-            <div class="flex items-center gap-2">
-              <span class="text-brand-orange font-bold">Email:</span>
-              <a href="mailto:info@aksharengineeringservices.com" class="hover:text-white transition-colors">info@aksharengineeringservices.com</a>
-            </div>
-            <div class="flex items-center gap-2">
-              <span class="text-brand-orange font-bold">Phone:</span>
-              <a href="tel:+918200441159" class="hover:text-white transition-colors">+91 8200441159</a>
-            </div>
+          <div class="text-xs text-slate-400 space-y-1.5 font-medium pt-2">
+            <div>Email: <a href="mailto:info@aksharengineeringservices.com" class="text-slate-200 hover:text-brand-orange transition-colors font-semibold">info@aksharengineeringservices.com</a></div>
+            <div>Phone: <a href="tel:+918200441159" class="text-slate-200 hover:text-brand-orange transition-colors font-semibold">+91 8200441159</a></div>
           </div>
         </div>
-<div>
-          <span class="block font-bold text-white text-sm uppercase tracking-wider mb-4">Navigation</span>
+
+        <div>
+          <span class="block font-black text-white text-xs uppercase tracking-wider mb-4">Navigation</span>
           <ul class="space-y-2.5 text-sm">
-            <li><a href="index.html" class="text-slide-footer font-semibold">Home</a></li>
-            <li><a href="about.html" class="text-slide-footer font-semibold">About Us</a></li>
-            <li><a href="services.html" class="text-slide-footer font-semibold">Services</a></li>
-            <li><a href="careers.html" class="text-slide-footer font-semibold">Careers at AES</a></li>
-            <li><a href="about.html#feedbackHub" class="text-slide-footer font-semibold">Update / Feedback</a></li>
-            <li><a href="javascript:void(0)" onclick="openModal('verifyDocModal')" class="text-slide-footer font-semibold">Verify Document</a></li>
+            <li><a href="index.html" class="text-slate-400 hover:text-brand-orange transition-colors font-medium">Home</a></li>
+            <li><a href="about.html" class="text-slate-400 hover:text-brand-orange transition-colors font-medium">About Us</a></li>
+            <li><a href="services.html" class="text-slate-400 hover:text-brand-orange transition-colors font-medium">Services</a></li>
+            <li><a href="careers.html" class="text-slate-400 hover:text-brand-orange transition-colors font-medium">Careers at AES</a></li>
+            <li><a href="about.html#feedbackHub" class="text-slate-400 hover:text-brand-orange transition-colors font-medium">Update / Feedback</a></li>
+            <li><a href="javascript:void(0)" onclick="openModal('verifyDocModal')" class="text-slate-400 hover:text-brand-orange transition-colors font-medium">Verify Document</a></li>
           </ul>
         </div>
 
         <div>
-          <span class="block font-bold text-white text-sm uppercase tracking-wider mb-4">Key Services</span>
+          <span class="block font-black text-white text-xs uppercase tracking-wider mb-4">Key Services</span>
           <ul class="space-y-2.5 text-sm">
-            <li><a href="service-tpi.html" target="_blank" class="text-slide-footer font-semibold">Third Party Inspection (TPI)</a></li>
-            <li><a href="service-vendor-assessment.html" target="_blank" class="text-slide-footer font-semibold">Vendor Assessment &amp; Audit</a></li>
-            <li><a href="service-qa-qc-documentation.html" target="_blank" class="text-slide-footer font-semibold">QA/QC Documentation &amp; MRB</a></li>
-            <li><a href="service-pre-shipment-inspection.html" target="_blank" class="text-slide-footer font-semibold">Pre-Shipment &amp; Pre-Despatch</a></li>
-            <li><a href="service-welding-engineering.html" target="_blank" class="text-slide-footer font-semibold">Welding Engineering &amp; Inspection</a></li>
-            <li><a href="service-ndt-inspection.html" target="_blank" class="text-slide-footer font-semibold">NDT Inspection (UT/RT/MPT/DPT)</a></li>
-            <li><a href="service-expediting.html" target="_blank" class="text-slide-footer font-semibold">Project Expediting &amp; Sourcing</a></li>
-            <li><a href="service-api-tank-inspection.html" target="_blank" class="text-slide-footer font-semibold">API Tank &amp; Piping Inspection</a></li>
+            <li><a href="service-tpi.html" target="_blank" class="text-slate-400 hover:text-brand-orange transition-colors font-medium">Third Party Inspection (TPI)</a></li>
+            <li><a href="service-vendor-assessment.html" target="_blank" class="text-slate-400 hover:text-brand-orange transition-colors font-medium">Vendor Assessment &amp; Audit</a></li>
+            <li><a href="service-qa-qc-documentation.html" target="_blank" class="text-slate-400 hover:text-brand-orange transition-colors font-medium">QA/QC Documentation &amp; MRB</a></li>
+            <li><a href="service-pre-shipment-inspection.html" target="_blank" class="text-slate-400 hover:text-brand-orange transition-colors font-medium">Pre-Shipment &amp; Pre-Despatch</a></li>
+            <li><a href="service-welding-engineering.html" target="_blank" class="text-slate-400 hover:text-brand-orange transition-colors font-medium">Welding Engineering &amp; Inspection</a></li>
+            <li><a href="service-ndt-inspection.html" target="_blank" class="text-slate-400 hover:text-brand-orange transition-colors font-medium">NDT Inspection (UT/RT/MPT/DPT)</a></li>
+            <li><a href="service-expediting.html" target="_blank" class="text-slate-400 hover:text-brand-orange transition-colors font-medium">Project Expediting &amp; Sourcing</a></li>
+            <li><a href="service-api-tank-inspection.html" target="_blank" class="text-slate-400 hover:text-brand-orange transition-colors font-medium">API Tank &amp; Piping Inspection</a></li>
           </ul>
         </div>
 
       </div>
 
-      <div class="mt-12 pt-8 border-t border-white/10 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-slate-400">
+      <div class="mt-12 pt-8 border-t border-slate-800 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-slate-400 font-medium">
         <div>
           &copy; 2026 Akshar Engineering Services Pvt. Ltd. All rights reserved.
         </div>
         <div class="flex space-x-6">
-          <a href="#" class="hover:text-white transition-colors">Quality Policy</a>
-          <a href="#" class="hover:text-white transition-colors">Confidentiality</a>
-          <a href="#" class="hover:text-white transition-colors">Impartiality Charter</a>
+          <a href="#" class="hover:text-brand-orange transition-colors">Quality Policy</a>
+          <a href="#" class="hover:text-brand-orange transition-colors">Confidentiality</a>
+          <a href="#" class="hover:text-brand-orange transition-colors">Impartiality Charter</a>
         </div>
       </div>
     </div>

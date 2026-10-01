@@ -3,8 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Careers at AES | Akshar Engineering Services</title>
-  <meta name="description" content="Explore exciting career opportunities at Akshar Engineering Services Pvt. Ltd. We hire certified QA/QC engineers, CSWIP welding inspectors, NDT specialists, and API inspectors.">
+  <title>Careers | Akshar Engineering Services</title>
+  <meta name="description" content="Explore engineering careers, culture, compensation principles, and growth opportunities at Akshar Engineering Services Pvt. Ltd.">
+  <link rel="icon" href="assets/logo.png" type="image/png">
   
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -23,17 +24,17 @@
             }
           },
           fontFamily: {
-            sans: ['Inter', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'sans-serif'],
+            sans: ['"Plus Jakarta Sans"', 'Inter', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'sans-serif'],
           }
         }
       }
     }
   </script>
 
-  <!-- Google Fonts: Inter -->
+  <!-- Google Fonts: Plus Jakarta Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600;1,700&display=swap" rel="stylesheet">
 
   <style>
     body {
@@ -44,53 +45,56 @@
       background-color: rgba(11, 22, 51, 0.78);
       backdrop-filter: blur(6px);
     }
-    .btn-premium-orange, .btn-premium-blue, .btn-theme {
-      background-color: #1b3574;
-      transition: background-color 0.35s ease, color 0.35s ease, box-shadow 0.35s ease, transform 0.2s ease;
+    .btn-premium-orange, .btn-theme {
+      background-color: #f16826;
       color: #ffffff;
+      border: 2px solid transparent;
+      box-shadow: 0 4px 12px rgba(241, 104, 38, 0.25);
+      transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
       cursor: pointer;
     }
-    .btn-premium-orange:hover, .btn-premium-blue:hover, .btn-theme:hover {
-      background-color: #ffffff;
-      color: #1b3574;
-      box-shadow: 0 10px 20px -5px rgba(27, 53, 116, 0.4);
+    .btn-premium-orange:hover, .btn-theme:hover {
+      background-color: #1b3574;
+      color: #ffffff;
+      border-color: #1b3574;
+      box-shadow: 0 12px 24px -4px rgba(27, 53, 116, 0.4), 0 4px 8px -2px rgba(27, 53, 116, 0.25);
+      transform: translateY(-2px);
     }
-    .btn-premium-orange:active, .btn-premium-blue:active, .btn-theme:active {
+    .btn-premium-orange:active, .btn-theme:active {
       background-color: #f16826 !important;
       color: #ffffff !important;
+      border-color: #f16826 !important;
+      box-shadow: 0 4px 10px rgba(241, 104, 38, 0.4) !important;
+      transform: translateY(0) !important;
+    }
+
+    .btn-premium-blue {
+      background-color: #1b3574;
+      color: #ffffff;
+      border: 2px solid #1b3574;
+      box-shadow: 0 4px 12px rgba(27, 53, 116, 0.25);
+      transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+      cursor: pointer;
+    }
+    .btn-premium-blue:hover {
+      background-color: #ffffff;
+      color: #1b3574;
+      border-color: #1b3574;
+      box-shadow: 0 12px 24px -4px rgba(27, 53, 116, 0.35), 0 4px 8px -2px rgba(27, 53, 116, 0.2);
+      transform: translateY(-2px);
     }
     
-    .text-slide-dual {
-      background: linear-gradient(90deg, #1b3574 0%, #1b3574 38%, #ffffff 46%, #f16826 56%, #f16826 100%);
-      background-size: 270% 100%;
-      background-position: 100% 0;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      transition: background-position 0.65s cubic-bezier(0.25, 1, 0.5, 1);
-      display: inline-block;
-    }
-    .text-slide-dual:hover {
-      background-position: 0 0;
-    }
-    .text-slide-footer {
-      background: linear-gradient(90deg, #f16826 0%, #ffffff 40%, #cbd5e1 54%, #94a3b8 100%);
-      background-size: 270% 100%;
-      background-position: 100% 0;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      transition: background-position 0.65s cubic-bezier(0.25, 1, 0.5, 1);
-      display: inline-block;
-    }
-    .text-slide-footer:hover {
-      background-position: 0 0;
-    }
     .mega-dropdown-menu {
-      background-color: #ffffff !important;
+      background-color: #0b1633 !important;
+      border: 1px solid rgba(255, 255, 255, 0.15) !important;
+      border-top: 3px solid var(--aes-orange) !important;
+      box-shadow: 0 24px 64px -16px rgb(11 22 51 / 50%);
       pointer-events: none;
       opacity: 0;
       visibility: hidden;
-      transform: translateX(-50%) translateY(8px);
-      transition: opacity 0.25s ease, transform 0.25s cubic-bezier(0.25, 1, 0.5, 1), visibility 0.25s;
+      transform: translateX(-50%) translateY(-14px) scale(0.96);
+      transform-origin: top center;
+      transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.3s;
     }
     .mega-dropdown-menu::before {
       content: '';
@@ -101,12 +105,21 @@
       height: 24px;
       background: transparent;
     }
-    .group\/services:hover .mega-dropdown-menu,
-    .mega-dropdown-menu:hover {
-      pointer-events: auto;
-      opacity: 1;
-      visibility: visible;
-      transform: translateX(-50%) translateY(0);
+    .nav-item-dropdown:hover .mega-dropdown-menu,
+    .mega-dropdown-menu:hover,
+    .mega-dropdown-menu.is-open {
+      visibility: visible !important;
+      opacity: 1 !important;
+      transform: translateX(-50%) translateY(0) scale(1) !important;
+      pointer-events: auto !important;
+    }
+    .mega-dropdown-menu a {
+      color: #ffffff !important;
+      transition: background-color 180ms ease, color 180ms ease;
+    }
+    .mega-dropdown-menu a:hover {
+      background-color: rgba(255, 255, 255, 0.08) !important;
+      color: var(--aes-orange) !important;
     }
     .heading-line-track {
       width: 100%;
@@ -123,9 +136,48 @@
       top: -0.5px;
       left: 0;
     }
-    .track-center .section-accent-line {
-      left: 50%;
-      transform: translateX(-50%);
+    .bouncy-card {
+      transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.4s ease, border-color 0.3s ease;
+    }
+    .bouncy-card:hover {
+      transform: translateY(-8px) scale(1.015);
+      box-shadow: 0 22px 35px -10px rgba(11, 22, 51, 0.18), 0 10px 20px -5px rgba(241, 104, 38, 0.2);
+      border-color: rgba(241, 104, 38, 0.5);
+    }
+    
+    /* 5-Second Glowing Effect for Join Us CTA Button: Sweeps from Top-Left to Full 360-Degree Circular Halo */
+    @keyframes sweepTopLeftToFullGlow5s {
+      0% {
+        box-shadow: -14px -14px 28px 4px rgba(241, 104, 38, 0.95), 0 0 0 0 rgba(241, 104, 38, 0);
+        transform: scale(1.02);
+      }
+      15% {
+        box-shadow: -18px -18px 40px 8px rgba(241, 104, 38, 1), 0 0 20px 4px rgba(241, 104, 38, 0.6);
+        transform: scale(1.05);
+      }
+      30% {
+        box-shadow: 0 0 45px 12px rgba(241, 104, 38, 0.95), 0 0 75px 22px rgba(241, 104, 38, 0.65);
+        transform: scale(1.08);
+      }
+      50% {
+        box-shadow: 0 0 35px 8px rgba(241, 104, 38, 0.85), 0 0 55px 15px rgba(241, 104, 38, 0.5);
+        transform: scale(1.04);
+      }
+      70% {
+        box-shadow: 0 0 50px 14px rgba(241, 104, 38, 1), 0 0 85px 25px rgba(241, 104, 38, 0.7);
+        transform: scale(1.08);
+      }
+      88% {
+        box-shadow: 0 0 25px 6px rgba(241, 104, 38, 0.7), 0 0 40px 10px rgba(241, 104, 38, 0.4);
+        transform: scale(1.03);
+      }
+      100% {
+        box-shadow: 0 4px 12px rgba(241, 104, 38, 0.25);
+        transform: scale(1);
+      }
+    }
+    .join-btn-glowing {
+      animation: sweepTopLeftToFullGlow5s 5s cubic-bezier(0.4, 0, 0.2, 1) forwards !important;
     }
   </style>
   <link rel="stylesheet" href="assets/site.css">
@@ -133,29 +185,21 @@
   <script src="assets/supabase-client.js" defer></script>
   <script src="assets/site.js" defer></script>
 </head>
-<body class="bg-slate-50 text-slate-800 font-sans antialiased selection:bg-brand-orange selection:text-white">
-
-
+<body class="bg-slate-50 text-slate-800 font-sans antialiased selection:bg-brand-orange selection:text-white relative">
 
   <!-- ================================================================= -->
-  <!-- MAIN HEADER / NAVIGATION (Active Dropdown)                        -->
-  <!-- ================================================================= -->
-  <!-- ================================================================= -->
-  <!-- 1. FULL-WIDTH HEADER (Logo Left, Services Center, Right Nav)        -->
+  <!-- 1. FULL-WIDTH HEADER (Logo Left, Nav Right)                       -->
   <!-- ================================================================= -->
   <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm relative">
-    <div class="w-full px-6 lg:px-12 flex justify-between items-center h-24 sm:h-28">
+    <div class="w-full max-w-[1600px] mx-auto px-6 sm:px-10 lg:px-16 2xl:px-20 flex justify-between items-center h-24 sm:h-28">
       
-      <!-- Left Spacer for Centering Logo on Desktop -->
-      <div class="hidden lg:flex w-1/3"></div>
-
-      <!-- Center Logo (Enlarged and Prominent) -->
-      <a href="index.html" class="flex items-center justify-center space-x-3 shrink-0 w-full lg:w-1/3 py-2" onclick="if(window.location.pathname.endsWith('index.html') || window.location.pathname === '/' || window.location.pathname.endsWith('/Music/')){ window.scrollTo({top: 0, behavior: 'smooth'}); return false; }">
-        <img src="assets/akshar_logo.png" alt="Akshar Engineering Services" class="h-16 sm:h-20 md:h-24 max-h-24 w-auto object-contain transition-transform duration-300 hover:scale-105">
+      <!-- Left Logo (Named 'logo.png') -->
+      <a href="index.html" class="flex items-center space-x-3 shrink-0 py-2" onclick="if(window.location.pathname.endsWith('index.html') || window.location.pathname === '/' || window.location.pathname.endsWith('/Music/')){ window.scrollTo({top: 0, behavior: 'smooth'}); return false; }">
+        <img src="assets/logo.png" alt="Akshar Engineering Services" class="h-16 sm:h-20 md:h-24 max-h-24 w-auto object-contain transition-transform duration-300 hover:scale-105">
       </a>
 
       <!-- Right Menubar -->
-      <nav class="hidden lg:flex items-center justify-end space-x-6 text-base sm:text-lg font-extrabold shrink-0 w-1/3">
+      <nav class="hidden lg:flex items-center justify-end space-x-8 text-base sm:text-lg font-extrabold shrink-0">
         <a href="about.html" class="text-brand-blue hover:text-brand-orange transition-colors duration-300">About Us</a>
         
         <div class="nav-item-dropdown relative group py-6 flex items-center">
@@ -163,32 +207,31 @@
             Service
             <svg class="w-4 h-4 text-brand-blue group-hover:text-brand-orange transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path></svg>
           </a>
-          <div class="mega-dropdown-menu absolute top-full right-0 w-64 bg-white border border-slate-200 shadow-xl rounded-xl py-2 invisible opacity-0 z-50 transition-all flex flex-col text-left">
-            <a href="service-tpi.html" class="block px-4 py-2 text-sm font-bold text-brand-blue hover:bg-orange-50 hover:text-brand-orange">Third Party Inspection</a>
-            <a href="service-vendor-assessment.html" class="block px-4 py-2 text-sm font-bold text-brand-blue hover:bg-orange-50 hover:text-brand-orange">Vendor Assessment</a>
-            <a href="service-qa-qc-documentation.html" class="block px-4 py-2 text-sm font-bold text-brand-blue hover:bg-orange-50 hover:text-brand-orange">QA/QC Documentation</a>
-            <a href="service-pre-shipment-inspection.html" class="block px-4 py-2 text-sm font-bold text-brand-blue hover:bg-orange-50 hover:text-brand-orange">Pre-Shipment Inspection</a>
-            <a href="service-welding-engineering.html" class="block px-4 py-2 text-sm font-bold text-brand-blue hover:bg-orange-50 hover:text-brand-orange">Welding Engineering</a>
-            <a href="service-ndt-inspection.html" class="block px-4 py-2 text-sm font-bold text-brand-blue hover:bg-orange-50 hover:text-brand-orange">NDT Inspection Services</a>
-            <a href="service-expediting.html" class="block px-4 py-2 text-sm font-bold text-brand-blue hover:bg-orange-50 hover:text-brand-orange">Expediting Services</a>
-            <a href="service-design-examination.html" class="block px-4 py-2 text-sm font-bold text-brand-blue hover:bg-orange-50 hover:text-brand-orange">Design Examination</a>
-            <a href="service-project-shutdown-qa.html" class="block px-4 py-2 text-sm font-bold text-brand-blue hover:bg-orange-50 hover:text-brand-orange">Project &amp; Shutdown QA</a>
-            <a href="service-international-sourcing.html" class="block px-4 py-2 text-sm font-bold text-brand-blue hover:bg-orange-50 hover:text-brand-orange">International Sourcing</a>
-            <a href="service-performance-hydro-tests.html" class="block px-4 py-2 text-sm font-bold text-brand-blue hover:bg-orange-50 hover:text-brand-orange">Performance &amp; Hydro-Tests</a>
-            <a href="service-process-qualification.html" class="block px-4 py-2 text-sm font-bold text-brand-blue hover:bg-orange-50 hover:text-brand-orange">Process Qualification</a>
-            <a href="service-api-tank-inspection.html" class="block px-4 py-2 text-sm font-bold text-brand-blue hover:bg-orange-50 hover:text-brand-orange">API Tank Inspection</a>
-            <a href="service-owners-engineer.html" class="block px-4 py-2 text-sm font-bold text-brand-blue hover:bg-orange-50 hover:text-brand-orange">Owner's Engineer</a>
-            <a href="service-process-piping.html" class="block px-4 py-2 text-sm font-bold text-brand-blue hover:bg-orange-50 hover:text-brand-orange">Process Piping (B31.3)</a>
-            <a href="service-training.html" class="block px-4 py-2 text-sm font-bold text-brand-blue hover:bg-orange-50 hover:text-brand-orange">QA/QC &amp; NDT Training</a>
+          <div class="mega-dropdown-menu absolute top-full left-1/2 -translate-x-1/2 w-72 bg-[#0b1633] border border-slate-700/80 shadow-2xl rounded-2xl py-2 invisible opacity-0 z-50 transition-all flex flex-col text-left divide-y divide-white/10">
+            <a href="service-tpi.html" class="block px-4 py-2.5 text-xs font-bold text-white hover:text-brand-orange hover:bg-white/5 transition-colors">Third Party Inspection</a>
+            <a href="service-vendor-assessment.html" class="block px-4 py-2.5 text-xs font-bold text-white hover:text-brand-orange hover:bg-white/5 transition-colors">Vendor Assessment</a>
+            <a href="service-qa-qc-documentation.html" class="block px-4 py-2.5 text-xs font-bold text-white hover:text-brand-orange hover:bg-white/5 transition-colors">QA/QC Documentation</a>
+            <a href="service-pre-shipment-inspection.html" class="block px-4 py-2.5 text-xs font-bold text-white hover:text-brand-orange hover:bg-white/5 transition-colors">Pre-Shipment Inspection</a>
+            <a href="service-welding-engineering.html" class="block px-4 py-2.5 text-xs font-bold text-white hover:text-brand-orange hover:bg-white/5 transition-colors">Welding Engineering</a>
+            <a href="service-ndt-inspection.html" class="block px-4 py-2.5 text-xs font-bold text-white hover:text-brand-orange hover:bg-white/5 transition-colors">NDT Inspection Services</a>
+            <a href="service-expediting.html" class="block px-4 py-2.5 text-xs font-bold text-white hover:text-brand-orange hover:bg-white/5 transition-colors">Expediting Services</a>
+            <a href="service-design-examination.html" class="block px-4 py-2.5 text-xs font-bold text-white hover:text-brand-orange hover:bg-white/5 transition-colors">Design Examination</a>
+            <a href="service-project-shutdown-qa.html" class="block px-4 py-2.5 text-xs font-bold text-white hover:text-brand-orange hover:bg-white/5 transition-colors">Project &amp; Shutdown QA</a>
+            <a href="service-international-sourcing.html" class="block px-4 py-2.5 text-xs font-bold text-white hover:text-brand-orange hover:bg-white/5 transition-colors">International Sourcing</a>
+            <a href="service-performance-hydro-tests.html" class="block px-4 py-2.5 text-xs font-bold text-white hover:text-brand-orange hover:bg-white/5 transition-colors">Performance &amp; Hydro-Tests</a>
+            <a href="service-process-qualification.html" class="block px-4 py-2.5 text-xs font-bold text-white hover:text-brand-orange hover:bg-white/5 transition-colors">Process Qualification</a>
+            <a href="service-api-tank-inspection.html" class="block px-4 py-2.5 text-xs font-bold text-white hover:text-brand-orange hover:bg-white/5 transition-colors">API Tank Inspection</a>
+            <a href="service-owners-engineer.html" class="block px-4 py-2.5 text-xs font-bold text-white hover:text-brand-orange hover:bg-white/5 transition-colors">Owner's Engineer</a>
+            <a href="service-process-piping.html" class="block px-4 py-2.5 text-xs font-bold text-white hover:text-brand-orange hover:bg-white/5 transition-colors">Process Piping (B31.3)</a>
+            <a href="service-training.html" class="block px-4 py-2.5 text-xs font-bold text-white hover:text-brand-orange hover:bg-white/5 transition-colors">QA/QC &amp; NDT Training</a>
           </div>
         </div>
 
-        <a href="careers.html" class="text-brand-orange transition-colors duration-300">Careers</a>
         <a href="we-hear-you.html" class="text-brand-blue hover:text-brand-orange transition-colors duration-300">We hear you</a>
       </nav>
 
       <!-- Mobile Menu Button -->
-      <div class="flex lg:hidden w-1/3 justify-end">
+      <div class="flex lg:hidden justify-end">
         <button id="mobile-menu-btn" type="button" class="p-2 text-brand-blue hover:text-brand-orange rounded-md border border-slate-200">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
         </button>
@@ -199,434 +242,244 @@
     <div id="mobile-menu" class="hidden lg:hidden border-t border-slate-200 bg-white px-6 py-4 space-y-3">
       <a href="about.html" class="block text-base font-bold text-brand-blue hover:text-brand-orange">About Us</a>
       <a href="services.html" class="block text-base font-bold text-brand-blue hover:text-brand-orange">Service</a>
-      <a href="careers.html" class="block text-base font-bold text-brand-orange">Careers</a>
       <a href="we-hear-you.html" class="block text-base font-bold text-brand-blue hover:text-brand-orange">We hear you</a>
     </div>
   </header>
-    </div>
-  </section>
 
   <!-- ================================================================= -->
-  <!-- WHY BUILD YOUR CAREER AT AES (4 Pillars)                          -->
+  <!-- STICKY RIGHT SIDEBAR BUTTONS (No icons, text only)                -->
   <!-- ================================================================= -->
-  <section class="py-16 bg-white border-b border-slate-200">
-    <div class="max-w-7xl mx-auto px-6 lg:px-12">
-      <div class="max-w-3xl mb-12">
-        <span class="text-xs font-black uppercase tracking-wider text-brand-orange">Engineering Excellence</span>
-        <h2 class="text-3xl font-black text-brand-dark tracking-tight mt-1">Why Build Your Career at AES?</h2>
-        <div class="heading-line-track mt-2 mb-4"><div class="section-accent-line"></div></div>
-        <p class="text-slate-600 text-sm sm:text-base leading-relaxed">
-          At Akshar Engineering Services, we provide an intellectually rigorous, ethically independent, and merit-driven environment designed for serious engineering professionals.
+  <aside aria-label="Quick Action Floating Desk" class="fixed right-0 top-1/2 -translate-y-1/2 z-40 flex flex-col space-y-2.5">
+    <button onclick="openModal('inquiryModal')" class="bg-brand-orange hover:bg-orange-700 text-white font-bold text-xs uppercase tracking-wider py-4 px-3 rounded-l-xl shadow-xl flex items-center justify-center transition-transform hover:-translate-x-2 [writing-mode:vertical-rl] rotate-180 cursor-pointer group">
+      <span>Quick Reach / Inquiry</span>
+    </button>
+    <button onclick="openModal('trainingModal')" class="bg-brand-blue hover:bg-brand-dark text-white font-bold text-xs uppercase tracking-wider py-4 px-3 rounded-l-xl shadow-xl flex items-center justify-center transition-transform hover:-translate-x-2 [writing-mode:vertical-rl] rotate-180 cursor-pointer group">
+      <span>Training Registration</span>
+    </button>
+  </aside>
+
+  <!-- ================================================================= -->
+  <!-- HERO BANNER (Minimal & Clean)                                     -->
+  <!-- ================================================================= -->
+  <section class="relative bg-white py-14 sm:py-20 border-b border-slate-200 overflow-hidden">
+    <div class="w-full max-w-[1800px] mx-auto px-4 sm:px-8 lg:px-12 2xl:px-16 relative z-10">
+      <nav class="flex items-center gap-2 text-xs font-semibold text-slate-400 mb-6 uppercase tracking-wider">
+        <a href="index.html" class="hover:text-brand-orange transition-colors">Home</a>
+        <span>/</span>
+        <span class="text-brand-orange">Careers</span>
+      </nav>
+
+      <div class="max-w-3xl">
+        <span class="inline-block bg-brand-orange/10 text-brand-orange text-xs font-extrabold uppercase tracking-wider px-3.5 py-1.5 rounded-full border border-brand-orange/20 mb-4">
+          Engineering Excellence &bull; Growth &bull; Culture
+        </span>
+        <h1 class="text-3xl sm:text-5xl font-black text-brand-dark tracking-tight leading-tight mb-4">
+          Careers at AES
+        </h1>
+        <p class="text-slate-600 text-base sm:text-lg leading-relaxed">
+          At Akshar Engineering Services, we empower technical professionals with meritocratic growth, uncompromising engineering ethics, and international inspection standards.
         </p>
       </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        
-        <div class="p-6 rounded-2xl bg-slate-50 border border-slate-200 hover:border-brand-orange/50 transition-all hover:shadow-md">
-          <div class="w-12 h-12 rounded-xl bg-brand-blue/10 text-brand-blue font-black flex items-center justify-center text-lg mb-5">
-            01
-          </div>
-          <h3 class="text-base font-bold text-brand-dark mb-2">Global Codes Mastery</h3>
-          <p class="text-xs text-slate-600 leading-relaxed">
-            Gain deep hands-on experience with international design and fabrication codes including ASME Sec VIII/IX/B31.3, API 510/570/653, AWS D1.1, EN ISO 15614, and IBR standards.
-          </p>
-        </div>
-
-        <div class="p-6 rounded-2xl bg-slate-50 border border-slate-200 hover:border-brand-orange/50 transition-all hover:shadow-md">
-          <div class="w-12 h-12 rounded-xl bg-brand-orange/10 text-brand-orange font-black flex items-center justify-center text-lg mb-5">
-            02
-          </div>
-          <h3 class="text-base font-bold text-brand-dark mb-2">Funded Certifications</h3>
-          <p class="text-xs text-slate-600 leading-relaxed">
-            Structured sponsorship, technical mentorship, and practical training for CSWIP 3.1/3.2, AWS CWI, ASNT Level III, API inspector licenses, and ISO 9001 Lead Auditor credentials.
-          </p>
-        </div>
-
-        <div class="p-6 rounded-2xl bg-slate-50 border border-slate-200 hover:border-brand-orange/50 transition-all hover:shadow-md">
-          <div class="w-12 h-12 rounded-xl bg-blue-100 text-brand-blue font-black flex items-center justify-center text-lg mb-5">
-            03
-          </div>
-          <h3 class="text-base font-bold text-brand-dark mb-2">Field Authority &amp; Ethics</h3>
-          <p class="text-xs text-slate-600 leading-relaxed">
-            Operate with full corporate backing as an ISO/IEC 17020 Type-A body. You have absolute authority to uphold engineering integrity and halt non-conforming work without compromise.
-          </p>
-        </div>
-
-        <div class="p-6 rounded-2xl bg-slate-50 border border-slate-200 hover:border-brand-orange/50 transition-all hover:shadow-md">
-          <div class="w-12 h-12 rounded-xl bg-orange-100 text-brand-orange font-black flex items-center justify-center text-lg mb-5">
-            04
-          </div>
-          <h3 class="text-base font-bold text-brand-dark mb-2">Diverse High-Value Projects</h3>
-          <p class="text-xs text-slate-600 leading-relaxed">
-            Execute inspection and surveillance across heavy refineries, petrochemical complexes, offshore platforms, cryogenic storage tanks, and multinational EPC project supply chains.
-          </p>
-        </div>
-
-      </div>
     </div>
   </section>
 
   <!-- ================================================================= -->
-  <!-- OPEN POSITIONS SECTION                                            -->
+  <!-- 4 WORKING PRINCIPLES (LEFT TO RIGHT, MASSIVE & CONCISE)           -->
   <!-- ================================================================= -->
-  <section class="py-16 bg-slate-50" id="openings">
-    <div class="max-w-7xl mx-auto px-6 lg:px-12 space-y-12">
+  <section class="py-16 sm:py-24 bg-slate-50">
+    <div class="w-full max-w-[1800px] mx-auto px-4 sm:px-8 lg:px-12 2xl:px-16">
       
-      <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
-        <div>
-          <span class="text-xs font-black uppercase tracking-wider text-brand-orange">Current Openings</span>
-          <h2 class="text-3xl font-black text-brand-dark tracking-tight mt-1">Explore Open Engineering Roles</h2>
-          <div class="heading-line-track mt-2 mb-3"><div class="section-accent-line"></div></div>
-          <p class="text-slate-600 text-sm">Select a role below to review the technical qualifications and apply directly.</p>
-        </div>
-        <div class="flex gap-2 text-xs font-bold">
-          <span class="px-3.5 py-2 rounded-lg bg-white border border-slate-200 text-brand-dark shadow-xs">Pan-India &bull; 6 Disciplines Open</span>
+      <!-- Section Header (No redundant button) -->
+      <div class="mb-12">
+        <span class="text-xs font-black text-brand-orange uppercase tracking-wider block mb-1">Our Working Principles</span>
+        <h2 class="text-3xl sm:text-5xl font-black text-brand-dark">Life &amp; Growth at Akshar Engineering</h2>
+        <div class="heading-line-track max-w-sm mt-3">
+          <div class="section-accent-line"></div>
         </div>
       </div>
 
-      <!-- Job Cards Grid -->
-      <div id="dynamicJobsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- Single Horizontal Row: 4 Lengthy & Massive Cards Left to Right -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 items-stretch">
         
-        <!-- Job 1 -->
-        <div class="bg-white rounded-2xl border border-slate-200 p-6 flex flex-col justify-between shadow-xs hover:shadow-md hover:border-brand-orange/50 transition-all group">
+        <!-- Slot 1: Pay for Performance -->
+        <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-md hover:shadow-xl hover:border-brand-orange/40 transition-all duration-500 group flex flex-col justify-between h-full min-h-[580px] sm:min-h-[620px] relative overflow-hidden">
           <div>
-            <div class="flex justify-between items-start gap-2 mb-3">
-              <span class="text-[11px] font-extrabold px-2.5 py-1 rounded bg-blue-50 text-brand-blue uppercase tracking-wider">Field Surveillance</span>
-              <span class="text-xs font-bold text-slate-500">3 - 8 Years</span>
-            </div>
-            <h3 class="text-lg font-bold text-brand-dark group-hover:text-brand-orange transition-colors">
-              QA/QC &amp; TPI Inspection Engineer
-            </h3>
-            <p class="text-xs text-slate-500 mt-1 mb-4">Location: Gujarat / Maharashtra / Pan-India</p>
-            <ul class="text-xs text-slate-600 space-y-2 mb-6">
-              <li class="flex items-start gap-1.5">
-                <span class="text-brand-orange font-bold">&bull;</span>
-                <span>Stage-wise inspection of pressure vessels, heat exchangers, and process piping.</span>
-              </li>
-              <li class="flex items-start gap-1.5">
-                <span class="text-brand-orange font-bold">&bull;</span>
-                <span>MTC review, PMI witnessing, and hydro-test sign-off per approved ITP/QAP.</span>
-              </li>
-              <li class="flex items-start gap-1.5">
-                <span class="text-brand-orange font-bold">&bull;</span>
-                <span>B.E./Diploma Mechanical with CSWIP 3.1 or AWS CWI preferred.</span>
-              </li>
-            </ul>
-          </div>
-          <button onclick="selectJobAndScroll('QA/QC & TPI Inspection Engineer')" class="w-full bg-slate-100 group-hover:bg-brand-orange group-hover:text-white text-brand-blue font-bold py-2.5 rounded-lg text-xs uppercase tracking-wider transition-all text-center cursor-pointer">
-            Apply For This Position &rarr;
-          </button>
-        </div>
-
-        <!-- Job 2 -->
-        <div class="bg-white rounded-2xl border border-slate-200 p-6 flex flex-col justify-between shadow-xs hover:shadow-md hover:border-brand-orange/50 transition-all group">
-          <div>
-            <div class="flex justify-between items-start gap-2 mb-3">
-              <span class="text-[11px] font-extrabold px-2.5 py-1 rounded bg-orange-50 text-brand-orange uppercase tracking-wider">Welding Quality</span>
-              <span class="text-xs font-bold text-slate-500">4 - 9 Years</span>
-            </div>
-            <h3 class="text-lg font-bold text-brand-dark group-hover:text-brand-orange transition-colors">
-              Certified Welding Inspector (CWI)
-            </h3>
-            <p class="text-xs text-slate-500 mt-1 mb-4">Location: Vadodara / Shop Floor Deployments</p>
-            <ul class="text-xs text-slate-600 space-y-2 mb-6">
-              <li class="flex items-start gap-1.5">
-                <span class="text-brand-orange font-bold">&bull;</span>
-                <span>Qualifying WPS, PQR, and Welder Performance Qualifications (WPQ).</span>
-              </li>
-              <li class="flex items-start gap-1.5">
-                <span class="text-brand-orange font-bold">&bull;</span>
-                <span>Expertise in ASME Sec IX, AWS D1.1/D1.6, and EN ISO 15614 standards.</span>
-              </li>
-              <li class="flex items-start gap-1.5">
-                <span class="text-brand-orange font-bold">&bull;</span>
-                <span>Valid CSWIP 3.1 / 3.2 or AWS CWI certification required.</span>
-              </li>
-            </ul>
-          </div>
-          <button onclick="selectJobAndScroll('Certified Welding Inspector (CWI)')" class="w-full bg-slate-100 group-hover:bg-brand-orange group-hover:text-white text-brand-blue font-bold py-2.5 rounded-lg text-xs uppercase tracking-wider transition-all text-center cursor-pointer">
-            Apply For This Position &rarr;
-          </button>
-        </div>
-
-        <!-- Job 3 -->
-        <div class="bg-white rounded-2xl border border-slate-200 p-6 flex flex-col justify-between shadow-xs hover:shadow-md hover:border-brand-orange/50 transition-all group">
-          <div>
-            <div class="flex justify-between items-start gap-2 mb-3">
-              <span class="text-[11px] font-extrabold px-2.5 py-1 rounded bg-blue-50 text-brand-blue uppercase tracking-wider">NDT Evaluation</span>
-              <span class="text-xs font-bold text-slate-500">2 - 7 Years</span>
-            </div>
-            <h3 class="text-lg font-bold text-brand-dark group-hover:text-brand-orange transition-colors">
-              NDT Specialist (Level II &amp; III)
-            </h3>
-            <p class="text-xs text-slate-500 mt-1 mb-4">Location: Pan-India Site Mobilization</p>
-            <ul class="text-xs text-slate-600 space-y-2 mb-6">
-              <li class="flex items-start gap-1.5">
-                <span class="text-brand-orange font-bold">&bull;</span>
-                <span>Ultrasonic testing (UT), radiographic film interpretation (RTFI), MPI &amp; DPT.</span>
-              </li>
-              <li class="flex items-start gap-1.5">
-                <span class="text-brand-orange font-bold">&bull;</span>
-                <span>ASNT / ISNT Level II or Level III in UT, RT, MPT, and DPT.</span>
-              </li>
-              <li class="flex items-start gap-1.5">
-                <span class="text-brand-orange font-bold">&bull;</span>
-                <span>Experience with PAUT / TOFD advanced NDT methods is an added advantage.</span>
-              </li>
-            </ul>
-          </div>
-          <button onclick="selectJobAndScroll('NDT Specialist (Level II & III)')" class="w-full bg-slate-100 group-hover:bg-brand-orange group-hover:text-white text-brand-blue font-bold py-2.5 rounded-lg text-xs uppercase tracking-wider transition-all text-center cursor-pointer">
-            Apply For This Position &rarr;
-          </button>
-        </div>
-
-        <!-- Job 4 -->
-        <div class="bg-white rounded-2xl border border-slate-200 p-6 flex flex-col justify-between shadow-xs hover:shadow-md hover:border-brand-orange/50 transition-all group">
-          <div>
-            <div class="flex justify-between items-start gap-2 mb-3">
-              <span class="text-[11px] font-extrabold px-2.5 py-1 rounded bg-orange-50 text-brand-orange uppercase tracking-wider">In-Service Integrity</span>
-              <span class="text-xs font-bold text-slate-500">5 - 12 Years</span>
-            </div>
-            <h3 class="text-lg font-bold text-brand-dark group-hover:text-brand-orange transition-colors">
-              API Inspector (API 510 / 570 / 653)
-            </h3>
-            <p class="text-xs text-slate-500 mt-1 mb-4">Location: Refinery &amp; Terminal Outages</p>
-            <ul class="text-xs text-slate-600 space-y-2 mb-6">
-              <li class="flex items-start gap-1.5">
-                <span class="text-brand-orange font-bold">&bull;</span>
-                <span>Aboveground storage tank inspection (API 653) &amp; floor MFL scanning.</span>
-              </li>
-              <li class="flex items-start gap-1.5">
-                <span class="text-brand-orange font-bold">&bull;</span>
-                <span>Process piping (API 570) and pressure vessel (API 510) remaining life assessment.</span>
-              </li>
-              <li class="flex items-start gap-1.5">
-                <span class="text-brand-orange font-bold">&bull;</span>
-                <span>Valid API individual certification required.</span>
-              </li>
-            </ul>
-          </div>
-          <button onclick="selectJobAndScroll('API Inspector (API 510 / 570 / 653)')" class="w-full bg-slate-100 group-hover:bg-brand-orange group-hover:text-white text-brand-blue font-bold py-2.5 rounded-lg text-xs uppercase tracking-wider transition-all text-center cursor-pointer">
-            Apply For This Position &rarr;
-          </button>
-        </div>
-
-        <!-- Job 5 -->
-        <div class="bg-white rounded-2xl border border-slate-200 p-6 flex flex-col justify-between shadow-xs hover:shadow-md hover:border-brand-orange/50 transition-all group">
-          <div>
-            <div class="flex justify-between items-start gap-2 mb-3">
-              <span class="text-[11px] font-extrabold px-2.5 py-1 rounded bg-blue-50 text-brand-blue uppercase tracking-wider">Supply Chain QA</span>
-              <span class="text-xs font-bold text-slate-500">3 - 8 Years</span>
-            </div>
-            <h3 class="text-lg font-bold text-brand-dark group-hover:text-brand-orange transition-colors">
-              Expediting &amp; Vendor Auditor
-            </h3>
-            <p class="text-xs text-slate-500 mt-1 mb-4">Location: Vendor Hubs Pan-India</p>
-            <ul class="text-xs text-slate-600 space-y-2 mb-6">
-              <li class="flex items-start gap-1.5">
-                <span class="text-brand-orange font-bold">&bull;</span>
-                <span>Conducting vendor pre-qualification audits and ISO 9001 compliance reviews.</span>
-              </li>
-              <li class="flex items-start gap-1.5">
-                <span class="text-brand-orange font-bold">&bull;</span>
-                <span>Critical path fabrication schedule tracking and desk/field expediting.</span>
-              </li>
-              <li class="flex items-start gap-1.5">
-                <span class="text-brand-orange font-bold">&bull;</span>
-                <span>Engineering degree with Lead Auditor certification preferred.</span>
-              </li>
-            </ul>
-          </div>
-          <button onclick="selectJobAndScroll('Expediting & Vendor Auditor')" class="w-full bg-slate-100 group-hover:bg-brand-orange group-hover:text-white text-brand-blue font-bold py-2.5 rounded-lg text-xs uppercase tracking-wider transition-all text-center cursor-pointer">
-            Apply For This Position &rarr;
-          </button>
-        </div>
-
-        <!-- Job 6 -->
-        <div class="bg-white rounded-2xl border border-slate-200 p-6 flex flex-col justify-between shadow-xs hover:shadow-md hover:border-brand-orange/50 transition-all group">
-          <div>
-            <div class="flex justify-between items-start gap-2 mb-3">
-              <span class="text-[11px] font-extrabold px-2.5 py-1 rounded bg-orange-50 text-brand-orange uppercase tracking-wider">Early Career</span>
-              <span class="text-xs font-bold text-slate-500">0 - 2 Years</span>
-            </div>
-            <h3 class="text-lg font-bold text-brand-dark group-hover:text-brand-orange transition-colors">
-              Graduate Trainee QA/QC Engineer
-            </h3>
-            <p class="text-xs text-slate-500 mt-1 mb-4">Location: Vadodara / Gujarat</p>
-            <ul class="text-xs text-slate-600 space-y-2 mb-6">
-              <li class="flex items-start gap-1.5">
-                <span class="text-brand-orange font-bold">&bull;</span>
-                <span>Structured mentorship program under certified Level III technical surveyors.</span>
-              </li>
-              <li class="flex items-start gap-1.5">
-                <span class="text-brand-orange font-bold">&bull;</span>
-                <span>Comprehensive training in ASME/AWS codes, NDT methods, and ITP drafting.</span>
-              </li>
-              <li class="flex items-start gap-1.5">
-                <span class="text-brand-orange font-bold">&bull;</span>
-                <span>Fresh graduates in B.E./B.Tech (Mechanical/Metallurgy/Production).</span>
-              </li>
-            </ul>
-          </div>
-          <button onclick="selectJobAndScroll('Graduate Trainee QA/QC Engineer')" class="w-full bg-slate-100 group-hover:bg-brand-orange group-hover:text-white text-brand-blue font-bold py-2.5 rounded-lg text-xs uppercase tracking-wider transition-all text-center cursor-pointer">
-            Apply For This Position &rarr;
-          </button>
-        </div>
-
-      </div>
-
-    </div>
-  </section>
-
-  <!-- ================================================================= -->
-  <!-- APPLICATION FORM SECTION                                          -->
-  <!-- ================================================================= -->
-  <section class="py-16 bg-white border-t border-slate-200" id="applyForm">
-    <div class="max-w-4xl mx-auto px-6 lg:px-12">
-      
-      <div class="text-center mb-10">
-        <span class="text-xs font-black uppercase tracking-wider text-brand-orange">Direct HR Desk</span>
-        <h2 class="text-3xl font-black text-brand-dark tracking-tight mt-1">Submit Your Application</h2>
-        <div class="heading-line-track track-center mx-auto mt-2 mb-4"><div class="section-accent-line"></div></div>
-        <p class="text-slate-600 text-sm">
-          Complete the form below to apply for an active opening or submit your profile for our national engineering surveyor roster.
-        </p>
-      </div>
-
-      <div class="bg-slate-50 rounded-2xl border border-slate-200 p-8 sm:p-10 shadow-sm">
-        
-        <form id="careerApplicationForm" action="#" method="POST" onsubmit="handleCareerSubmit(event)" class="space-y-6">
-          
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
-            <div>
-              <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Full Name *</label>
-              <input type="text" id="cand_name" required placeholder="e.g. Ramesh Chandra" class="w-full bg-white border border-slate-300 rounded-lg px-3.5 py-2.5 text-slate-900 focus:outline-none focus:border-brand-orange text-xs">
-            </div>
-
-            <div>
-              <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Email Address *</label>
-              <input type="email" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" title="Please enter a valid email address (e.g. name@company.com)" id="cand_email" required placeholder="ramesh@gmail.com" class="w-full bg-white border border-slate-300 rounded-lg px-3.5 py-2.5 text-slate-900 focus:outline-none focus:border-brand-orange text-xs">
-            </div>
-          </div>
-
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
-            <div>
-              <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Phone Number / WhatsApp *</label>
-              <input type="tel" pattern="[0-9]{10}" minlength="10" maxlength="10" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10);" title="Please enter exactly 10 digits" id="cand_phone" required placeholder="e.g. 9876543210 (10 digits)" class="w-full bg-white border border-slate-300 rounded-lg px-3.5 py-2.5 text-slate-900 focus:outline-none focus:border-brand-orange text-xs">
-            </div>
-
-            <div>
-              <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Current City &amp; State *</label>
-              <input type="text" id="cand_location" required placeholder="e.g. Vadodara, Gujarat" class="w-full bg-white border border-slate-300 rounded-lg px-3.5 py-2.5 text-slate-900 focus:outline-none focus:border-brand-orange text-xs">
-            </div>
-          </div>
-
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
-            <div>
-              <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Position Applying For *</label>
-              <select id="cand_role" required class="w-full bg-white border border-slate-300 rounded-lg px-3.5 py-2.5 text-slate-900 focus:outline-none focus:border-brand-orange text-xs font-medium">
-                <option value="">-- Select Preferred Role --</option>
-                <option value="QA/QC & TPI Inspection Engineer">QA/QC &amp; TPI Inspection Engineer</option>
-                <option value="Certified Welding Inspector (CWI)">Certified Welding Inspector (CWI)</option>
-                <option value="NDT Specialist (Level II & III)">NDT Specialist (Level II &amp; III)</option>
-                <option value="API Inspector (API 510 / 570 / 653)">API Inspector (API 510 / 570 / 653)</option>
-                <option value="Expediting & Vendor Auditor">Expediting &amp; Vendor Auditor</option>
-                <option value="Graduate Trainee QA/QC Engineer">Graduate Trainee QA/QC Engineer</option>
-                <option value="General Technical Roster Application">General Technical Roster Application</option>
-              </select>
-            </div>
-
-            <div>
-              <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Total Relevant Experience *</label>
-              <select id="cand_exp" required class="w-full bg-white border border-slate-300 rounded-lg px-3.5 py-2.5 text-slate-900 focus:outline-none focus:border-brand-orange text-xs font-medium">
-                <option value="0-1 Years (Fresher / Entry Level)">0 - 1 Years (Fresher / Entry Level)</option>
-                <option value="1-3 Years (Junior Engineer)">1 - 3 Years (Junior Engineer)</option>
-                <option value="3-6 Years (Engineer / Surveyor)">3 - 6 Years (Engineer / Surveyor)</option>
-                <option value="6-10 Years (Senior Inspector)">6 - 10 Years (Senior Inspector)</option>
-                <option value="10+ Years (Lead Technical Specialist)">10+ Years (Lead Technical Specialist)</option>
-              </select>
-            </div>
-          </div>
-
-          <div>
-            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Technical Certifications Held (Check all that apply)</label>
-            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-xs">
-              <label class="flex items-center gap-2 p-2 bg-white rounded-lg border border-slate-200 cursor-pointer hover:border-brand-orange">
-                <input type="checkbox" name="certs" value="CSWIP 3.1 / 3.2" class="text-brand-orange focus:ring-brand-orange rounded">
-                <span>CSWIP 3.1 / 3.2</span>
-              </label>
-              <label class="flex items-center gap-2 p-2 bg-white rounded-lg border border-slate-200 cursor-pointer hover:border-brand-orange">
-                <input type="checkbox" name="certs" value="AWS CWI" class="text-brand-orange focus:ring-brand-orange rounded">
-                <span>AWS CWI</span>
-              </label>
-              <label class="flex items-center gap-2 p-2 bg-white rounded-lg border border-slate-200 cursor-pointer hover:border-brand-orange">
-                <input type="checkbox" name="certs" value="ASNT Level II (UT/RT/MPI/DPT)" class="text-brand-orange focus:ring-brand-orange rounded">
-                <span>ASNT Level II</span>
-              </label>
-              <label class="flex items-center gap-2 p-2 bg-white rounded-lg border border-slate-200 cursor-pointer hover:border-brand-orange">
-                <input type="checkbox" name="certs" value="ASNT Level III" class="text-brand-orange focus:ring-brand-orange rounded">
-                <span>ASNT Level III</span>
-              </label>
-              <label class="flex items-center gap-2 p-2 bg-white rounded-lg border border-slate-200 cursor-pointer hover:border-brand-orange">
-                <input type="checkbox" name="certs" value="API 510 / 570 / 653" class="text-brand-orange focus:ring-brand-orange rounded">
-                <span>API 510/570/653</span>
-              </label>
-              <label class="flex items-center gap-2 p-2 bg-white rounded-lg border border-slate-200 cursor-pointer hover:border-brand-orange">
-                <input type="checkbox" name="certs" value="NACE / AMPP Level 2" class="text-brand-orange focus:ring-brand-orange rounded">
-                <span>NACE / AMPP</span>
-              </label>
-              <label class="flex items-center gap-2 p-2 bg-white rounded-lg border border-slate-200 cursor-pointer hover:border-brand-orange">
-                <input type="checkbox" name="certs" value="ISO 9001 Lead Auditor" class="text-brand-orange focus:ring-brand-orange rounded">
-                <span>ISO 9001 Auditor</span>
-              </label>
-              <label class="flex items-center gap-2 p-2 bg-white rounded-lg border border-slate-200 cursor-pointer hover:border-brand-orange">
-                <input type="checkbox" name="certs" value="IBR Certified" class="text-brand-orange focus:ring-brand-orange rounded">
-                <span>IBR Certified</span>
-              </label>
-            </div>
-          </div>
-
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
-            <div>
-              <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Notice Period / Availability *</label>
-              <select id="cand_notice" required class="w-full bg-white border border-slate-300 rounded-lg px-3.5 py-2.5 text-slate-900 focus:outline-none focus:border-brand-orange text-xs font-medium">
-                <option value="Immediate Joiner (0-7 Days)">Immediate Joiner (0-7 Days)</option>
-                <option value="15 Days Notice">15 Days Notice</option>
-                <option value="30 Days Notice">30 Days Notice</option>
-                <option value="60+ Days Notice">60+ Days Notice</option>
-              </select>
-            </div>
-
-            <div>
-              <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Highest Qualification *</label>
-              <input type="text" id="cand_degree" required placeholder="e.g. B.E. Mechanical Engineering" class="w-full bg-white border border-slate-300 rounded-lg px-3.5 py-2.5 text-slate-900 focus:outline-none focus:border-brand-orange text-xs">
-            </div>
-          </div>
-
-          <div>
-            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Key Technical Experience &amp; Major Equipment / Codes Handled</label>
-            <textarea id="cand_summary" rows="3" placeholder="Mention pressure vessels, heat exchangers, piping codes (ASME Sec VIII Div 1/2, B31.3), past inspection agencies, or client approvals..." class="w-full bg-white border border-slate-300 rounded-lg px-3.5 py-2.5 text-slate-900 focus:outline-none focus:border-brand-orange text-xs"></textarea>
-          </div>
-
-          <div>
-            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Resume / CV Document (PDF / DOCX)</label>
-            <div class="border-2 border-dashed border-slate-300 hover:border-brand-orange rounded-xl p-5 text-center bg-white cursor-pointer transition-colors relative">
-              <input type="file" id="cand_resume" accept=".pdf,.doc,.docx" onchange="updateFileName(this)" class="absolute inset-0 opacity-0 cursor-pointer w-full h-full">
-              <div class="space-y-1">
-                <div class="text-2xl">&#128196;</div>
-                <div class="text-xs font-bold text-brand-dark" id="file_label">Click or Drag &amp; Drop to upload Resume / CV</div>
-                <div class="text-[11px] text-slate-400">PDF, DOC, DOCX up to 10MB</div>
+            <!-- Massive Zoom-Cropped Image Header -->
+            <div class="relative overflow-hidden rounded-2xl h-60 sm:h-64 w-full mb-5 bg-slate-900 shadow-inner">
+              <img src="assets/career_pay_performance.jpg" alt="Pay for Performance at AES" class="w-full h-full object-cover scale-105 group-hover:scale-110 transition-transform duration-700 ease-out">
+              <div class="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent pointer-events-none"></div>
+              <div class="absolute top-3.5 left-3.5 bg-brand-orange text-white text-xs font-black px-3.5 py-1.5 rounded-lg shadow-md uppercase tracking-wider flex items-center gap-1.5">
+                <span>01</span>
+                <span class="border-l border-white/30 pl-1.5 font-bold">Performance</span>
               </div>
             </div>
+
+            <!-- Content Tag & Title -->
+            <span class="text-[11px] font-extrabold text-brand-orange uppercase tracking-wider block mb-1">
+              Meritocracy &amp; Incentives
+            </span>
+            <h3 class="text-xl sm:text-2xl font-black text-brand-dark group-hover:text-brand-orange transition-colors leading-snug mb-2">
+              Pay for Performance
+            </h3>
+            
+            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+              Transparent, performance-driven compensation rewarding technical precision, turnaround speed, and statutory rigor.
+            </p>
           </div>
 
-          <div class="pt-2">
-            <button type="submit" class="w-full bg-brand-orange hover:bg-orange-700 text-white font-bold py-3.5 px-6 rounded-xl shadow-md transition-colors text-xs sm:text-sm uppercase tracking-wider cursor-pointer">
-              Submit Job Application
-            </button>
+          <!-- Key Benefit Points (Concise) -->
+          <div class="mt-6 pt-4 border-t border-slate-100">
+            <ul class="space-y-2 text-xs text-slate-700 font-semibold">
+              <li class="flex items-center gap-2">
+                <span class="text-brand-orange font-black text-sm">&#10003;</span>
+                <span>Merit-based annual increments</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-brand-orange font-black text-sm">&#10003;</span>
+                <span>Direct site deployment premiums</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-brand-orange font-black text-sm">&#10003;</span>
+                <span>Milestone project profit-shares</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Slot 2: Culture -->
+        <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-md hover:shadow-xl hover:border-brand-blue/40 transition-all duration-500 group flex flex-col justify-between h-full min-h-[580px] sm:min-h-[620px] relative overflow-hidden">
+          <div>
+            <!-- Massive Zoom-Cropped Image Header -->
+            <div class="relative overflow-hidden rounded-2xl h-60 sm:h-64 w-full mb-5 bg-slate-900 shadow-inner">
+              <img src="assets/career_culture.jpg" alt="Engineering Culture & Stop Work Authority" class="w-full h-full object-cover scale-105 group-hover:scale-110 transition-transform duration-700 ease-out">
+              <div class="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent pointer-events-none"></div>
+              <div class="absolute top-3.5 left-3.5 bg-brand-blue text-white text-xs font-black px-3.5 py-1.5 rounded-lg shadow-md uppercase tracking-wider flex items-center gap-1.5">
+                <span>02</span>
+                <span class="border-l border-white/30 pl-1.5 font-bold">Culture</span>
+              </div>
+            </div>
+
+            <!-- Content Tag & Title -->
+            <span class="text-[11px] font-extrabold text-brand-blue uppercase tracking-wider block mb-1">
+              Ethics &amp; Safety First
+            </span>
+            <h3 class="text-xl sm:text-2xl font-black text-brand-dark group-hover:text-brand-blue transition-colors leading-snug mb-2">
+              Engineering Culture
+            </h3>
+            
+            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+              Unconditional stop-work authority on site. Zero compromise on engineering ethics, quality, or personnel safety.
+            </p>
           </div>
 
-        </form>
+          <!-- Key Benefit Points (Concise) -->
+          <div class="mt-6 pt-4 border-t border-slate-100">
+            <ul class="space-y-2 text-xs text-slate-700 font-semibold">
+              <li class="flex items-center gap-2">
+                <span class="text-brand-blue font-black text-sm">&#10003;</span>
+                <span>Stop-work ethical authority</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-brand-blue font-black text-sm">&#10003;</span>
+                <span>Zero-harm HSE field mandate</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-brand-blue font-black text-sm">&#10003;</span>
+                <span>Open technical peer reviews</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Slot 3: Employment Policy -->
+        <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-md hover:shadow-xl hover:border-brand-orange/40 transition-all duration-500 group flex flex-col justify-between h-full min-h-[580px] sm:min-h-[620px] relative overflow-hidden">
+          <div>
+            <!-- Massive Zoom-Cropped Image Header -->
+            <div class="relative overflow-hidden rounded-2xl h-60 sm:h-64 w-full mb-5 bg-slate-900 shadow-inner">
+              <img src="assets/career_employment_policy.jpg" alt="Employment Policy and ISO 17020 Impartiality" class="w-full h-full object-cover scale-105 group-hover:scale-110 transition-transform duration-700 ease-out">
+              <div class="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent pointer-events-none"></div>
+              <div class="absolute top-3.5 left-3.5 bg-brand-orange text-white text-xs font-black px-3.5 py-1.5 rounded-lg shadow-md uppercase tracking-wider flex items-center gap-1.5">
+                <span>03</span>
+                <span class="border-l border-white/30 pl-1.5 font-bold">Policy</span>
+              </div>
+            </div>
+
+            <!-- Content Tag & Title -->
+            <span class="text-[11px] font-extrabold text-brand-orange uppercase tracking-wider block mb-1">
+              Statutory &amp; Governance
+            </span>
+            <h3 class="text-xl sm:text-2xl font-black text-brand-dark group-hover:text-brand-orange transition-colors leading-snug mb-2">
+              Employment Policy
+            </h3>
+            
+            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+              ISO/IEC 17020 Type-A impartiality governance with comprehensive family medical cover and transparent automated payroll.
+            </p>
+          </div>
+
+          <!-- Key Benefit Points (Concise) -->
+          <div class="mt-6 pt-4 border-t border-slate-100">
+            <ul class="space-y-2 text-xs text-slate-700 font-semibold">
+              <li class="flex items-center gap-2">
+                <span class="text-brand-orange font-black text-sm">&#10003;</span>
+                <span>Conflict-of-interest shield</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-brand-orange font-black text-sm">&#10003;</span>
+                <span>Comprehensive medical cover</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-brand-orange font-black text-sm">&#10003;</span>
+                <span>Timely &amp; transparent payroll</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Slot 4: Personal Development -->
+        <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-md hover:shadow-xl hover:border-brand-blue/40 transition-all duration-500 group flex flex-col justify-between h-full min-h-[580px] sm:min-h-[620px] relative overflow-hidden">
+          <div>
+            <!-- Massive Zoom-Cropped Image Header -->
+            <div class="relative overflow-hidden rounded-2xl h-60 sm:h-64 w-full mb-5 bg-slate-900 shadow-inner">
+              <img src="assets/career_personal_development.jpg" alt="Personal Development and Level III Mentorship" class="w-full h-full object-cover scale-105 group-hover:scale-110 transition-transform duration-700 ease-out">
+              <div class="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent pointer-events-none"></div>
+              <div class="absolute top-3.5 left-3.5 bg-brand-blue text-white text-xs font-black px-3.5 py-1.5 rounded-lg shadow-md uppercase tracking-wider flex items-center gap-1.5">
+                <span>04</span>
+                <span class="border-l border-white/30 pl-1.5 font-bold">Growth</span>
+              </div>
+            </div>
+
+            <!-- Content Tag & Title -->
+            <span class="text-[11px] font-extrabold text-brand-blue uppercase tracking-wider block mb-1">
+              Sponsorship &amp; Mentorship
+            </span>
+            <h3 class="text-xl sm:text-2xl font-black text-brand-dark group-hover:text-brand-blue transition-colors leading-snug mb-2">
+              Personal Development
+            </h3>
+            
+            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+              100% sponsored CSWIP, AWS, API, and ASNT Level III qualifications with dedicated senior surveyor QA mentorship.
+            </p>
+          </div>
+
+          <!-- Key Benefit Points (Concise) -->
+          <div class="mt-6 pt-4 border-t border-slate-100">
+            <ul class="space-y-2 text-xs text-slate-700 font-semibold">
+              <li class="flex items-center gap-2">
+                <span class="text-brand-blue font-black text-sm">&#10003;</span>
+                <span>100% sponsored certifications</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-brand-blue font-black text-sm">&#10003;</span>
+                <span>ASME &amp; API code masterclasses</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-brand-blue font-black text-sm">&#10003;</span>
+                <span>Surveyor leadership QA roadmap</span>
+              </li>
+            </ul>
+          </div>
+        </div>
 
       </div>
 
@@ -634,137 +487,192 @@
   </section>
 
   <!-- ================================================================= -->
-  <!-- CORPORATE FOOTER                                                  -->
+  <!-- JOIN US CALL TO ACTION (With Typography Effect & 5s Glow)          -->
   <!-- ================================================================= -->
-  </main>
+  <section id="careersCtaSection" class="py-16 sm:py-20 bg-white border-t border-slate-200">
+    <div class="w-full max-w-[1600px] mx-auto px-6 sm:px-10 lg:px-16 2xl:px-20 text-center">
+      <div class="bg-gradient-to-br from-brand-navy via-brand-dark to-slate-900 text-white rounded-3xl p-10 sm:p-16 shadow-2xl relative overflow-hidden border border-slate-800 max-w-5xl mx-auto">
+        <!-- Ambient Glow Circles -->
+        <div class="absolute -top-24 -left-24 w-72 h-72 bg-brand-orange/20 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute -bottom-24 -right-24 w-72 h-72 bg-brand-blue/30 rounded-full blur-3xl pointer-events-none"></div>
 
-  <footer class="relative bg-brand-navy/95 backdrop-blur-xl text-slate-400 text-sm border-t border-white/10 overflow-hidden">
-    <div class="absolute inset-0 z-0 pointer-events-none overflow-hidden">
-      <div class="absolute -top-32 -left-32 w-96 h-96 bg-brand-blue/40 rounded-full blur-3xl"></div>
-      <div class="absolute -bottom-32 -right-32 w-96 h-96 bg-brand-blue/30 rounded-full blur-3xl"></div>
+        <div class="relative z-10 space-y-6">
+          <div class="inline-flex items-center gap-2 bg-brand-orange/20 text-brand-orange text-xs font-extrabold uppercase tracking-wider px-4 py-1.5 rounded-full border border-brand-orange/30 shadow-xs">
+            <span class="w-2 h-2 rounded-full bg-brand-orange"></span>
+            <span>Open Engineering Roles</span>
+          </div>
+
+          <!-- Dynamic Typewriter Typography Effect Heading -->
+          <h2 id="careerHeadingTypewriter" class="text-2xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight leading-tight min-h-[3.5rem] sm:min-h-[5.5rem] flex items-center justify-center">
+            <span id="typewriterText">Ready to Build Your Engineering Career with AES?</span><span id="typewriterCursor" class="text-brand-orange font-mono font-bold animate-pulse ml-0.5">|</span>
+          </h2>
+
+          <p class="text-slate-300 text-sm sm:text-base max-w-2xl mx-auto leading-relaxed font-normal">
+            Take the leap. Explore our open roles across third-party mechanical inspection, welding QA/QC, NDT Level II/III, and API turnaround surveillance.
+          </p>
+
+          <!-- Action Buttons with 5-Second Glowing Effect on Join Us -->
+          <div class="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
+            <a id="joinUsCtaBtn" href="join-us.html" class="inline-flex items-center justify-center gap-2 bg-brand-orange hover:bg-orange-600 text-white font-bold text-sm uppercase tracking-wider px-9 py-3.5 rounded-xl shadow-lg transition-all hover:-translate-y-0.5 cursor-pointer">
+              <span>Join Us</span>
+              <span class="text-base">&rarr;</span>
+            </a>
+            <button onclick="openModal('inquiryModal')" class="inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 text-white border border-white/25 font-bold text-sm uppercase tracking-wider px-7 py-3.5 rounded-xl transition-all cursor-pointer">
+              <span>Contact Talent Desk</span>
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
+  </section>
 
-    <div class="max-w-7xl mx-auto px-6 lg:px-12 py-16 relative z-10">
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-10">
+  <!-- ================================================================= -->
+  <!-- CORPORATE FOOTER (CLASSIC DARK BLUE THEME)                        -->
+  <!-- ================================================================= -->
+  <footer class="relative bg-brand-navy text-slate-300 text-sm border-t border-slate-800">
+    <div class="w-full max-w-[1600px] mx-auto px-6 sm:px-10 lg:px-16 2xl:px-20 py-16">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
         
-        <div class="md:col-span-2">
-          <a href="index.html" class="flex items-center gap-3 mb-6">
-            <img src="assets/logo.png" alt="Akshar Engineering Services" class="h-10 w-auto">
-            <div class="flex flex-col">
-              <span class="text-xl font-black tracking-tight text-white leading-none">AKSHAR</span>
-              <span class="text-[9px] font-extrabold tracking-[0.22em] text-brand-orange uppercase leading-tight mt-0.5">Engineering Services</span>
-            </div>
+        <div class="lg:col-span-2 space-y-4">
+          <a href="index.html" class="inline-block bg-white p-2.5 rounded-xl shadow-md">
+            <img src="assets/logo.png" alt="Akshar Engineering Services" class="h-14 sm:h-16 w-auto object-contain">
           </a>
-          <p class="text-slate-300 text-sm leading-relaxed max-w-md mb-6">
+          <p class="text-slate-300 text-sm leading-relaxed max-w-md font-normal">
             Akshar Engineering Services Pvt. Ltd. delivers independent third-party inspection, vendor quality surveillance, and technical assurance across global industrial supply chains.
           </p>
-          <div class="text-xs text-slate-400 space-y-1">
-            <div>Email: info@aksharengineeringservices.com</div>
-            <div>Phone: +91 8200441159</div>
+          <div class="text-xs text-slate-400 space-y-1.5 font-medium pt-2">
+            <div>Email: <a href="mailto:info@aksharengineeringservices.com" class="text-slate-200 hover:text-brand-orange transition-colors font-semibold">info@aksharengineeringservices.com</a></div>
+            <div>Phone: <a href="tel:+918200441159" class="text-slate-200 hover:text-brand-orange transition-colors font-semibold">+91 8200441159</a></div>
           </div>
         </div>
 
         <div>
-          <span class="block font-bold text-white text-sm uppercase tracking-wider mb-4">Navigation</span>
+          <span class="block font-black text-white text-xs uppercase tracking-wider mb-4">Navigation</span>
           <ul class="space-y-2.5 text-sm">
-            <li><a href="index.html" class="text-slide-footer font-semibold">Home</a></li>
-            <li><a href="about.html" class="text-slide-footer font-semibold">About Us</a></li>
-            <li><a href="services.html" class="text-slide-footer font-semibold">Services</a></li>
-            <li><a href="careers.html" class="text-slide-footer font-semibold text-brand-orange">Careers at AES</a></li>
-            <li><a href="about.html#feedbackHub" class="text-slide-footer font-semibold">Update / Feedback</a></li>
-            <li><a href="javascript:void(0)" onclick="openModal('verifyDocModal')" class="text-slide-footer font-semibold">Verify Document</a></li>
+            <li><a href="index.html" class="text-slate-400 hover:text-brand-orange transition-colors font-medium">Home</a></li>
+            <li><a href="about.html" class="text-slate-400 hover:text-brand-orange transition-colors font-medium">About Us</a></li>
+            <li><a href="services.html" class="text-slate-400 hover:text-brand-orange transition-colors font-medium">Services</a></li>
+            <li><a href="careers.html" class="text-brand-orange font-bold transition-colors">Careers at AES</a></li>
+            <li><a href="join-us.html" class="text-slate-400 hover:text-brand-orange transition-colors font-medium">Join Us (Open Roles)</a></li>
+            <li><a href="about.html#feedbackHub" class="text-slate-400 hover:text-brand-orange transition-colors font-medium">Update / Feedback</a></li>
+            <li><a href="javascript:void(0)" onclick="openModal('verifyDocModal')" class="text-slate-400 hover:text-brand-orange transition-colors font-medium">Verify Document</a></li>
           </ul>
         </div>
 
         <div>
-          <span class="block font-bold text-white text-sm uppercase tracking-wider mb-4">Key Services</span>
+          <span class="block font-black text-white text-xs uppercase tracking-wider mb-4">Key Services</span>
           <ul class="space-y-2.5 text-sm">
-            <li><a href="service-tpi.html" target="_blank" class="text-slide-footer font-semibold">Third Party Inspection (TPI)</a></li>
-            <li><a href="service-vendor-assessment.html" target="_blank" class="text-slide-footer font-semibold">Vendor Assessment &amp; Audit</a></li>
-            <li><a href="service-qa-qc-documentation.html" target="_blank" class="text-slide-footer font-semibold">QA/QC Documentation &amp; MRB</a></li>
-            <li><a href="service-pre-shipment-inspection.html" target="_blank" class="text-slide-footer font-semibold">Pre-Shipment &amp; Pre-Despatch</a></li>
-            <li><a href="service-welding-engineering.html" target="_blank" class="text-slide-footer font-semibold">Welding Engineering &amp; Inspection</a></li>
-            <li><a href="service-ndt-inspection.html" target="_blank" class="text-slide-footer font-semibold">NDT Inspection (UT/RT/MPT/DPT)</a></li>
-            <li><a href="service-expediting.html" target="_blank" class="text-slide-footer font-semibold">Project Expediting &amp; Sourcing</a></li>
-            <li><a href="service-api-tank-inspection.html" target="_blank" class="text-slide-footer font-semibold">API Tank &amp; Piping Inspection</a></li>
+            <li><a href="service-tpi.html" target="_blank" class="text-slate-400 hover:text-brand-orange transition-colors font-medium">Third Party Inspection (TPI)</a></li>
+            <li><a href="service-vendor-assessment.html" target="_blank" class="text-slate-400 hover:text-brand-orange transition-colors font-medium">Vendor Assessment &amp; Audit</a></li>
+            <li><a href="service-qa-qc-documentation.html" target="_blank" class="text-slate-400 hover:text-brand-orange transition-colors font-medium">QA/QC Documentation &amp; MRB</a></li>
+            <li><a href="service-pre-shipment-inspection.html" target="_blank" class="text-slate-400 hover:text-brand-orange transition-colors font-medium">Pre-Shipment &amp; Pre-Despatch</a></li>
+            <li><a href="service-welding-engineering.html" target="_blank" class="text-slate-400 hover:text-brand-orange transition-colors font-medium">Welding Engineering &amp; Inspection</a></li>
+            <li><a href="service-ndt-inspection.html" target="_blank" class="text-slate-400 hover:text-brand-orange transition-colors font-medium">NDT Inspection (UT/RT/MPT/DPT)</a></li>
+            <li><a href="service-expediting.html" target="_blank" class="text-slate-400 hover:text-brand-orange transition-colors font-medium">Project Expediting &amp; Sourcing</a></li>
+            <li><a href="service-api-tank-inspection.html" target="_blank" class="text-slate-400 hover:text-brand-orange transition-colors font-medium">API Tank &amp; Piping Inspection</a></li>
           </ul>
         </div>
 
       </div>
 
-      <div class="mt-12 pt-8 border-t border-white/10 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-slate-400">
+      <div class="mt-12 pt-8 border-t border-slate-800 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-slate-400 font-medium">
         <div>
           &copy; 2026 Akshar Engineering Services Pvt. Ltd. All rights reserved.
         </div>
         <div class="flex space-x-6">
-          <a href="#" class="hover:text-white transition-colors">Quality Policy</a>
-          <a href="#" class="hover:text-white transition-colors">Impartiality Charter</a>
-          <a href="#" class="hover:text-white transition-colors">Terms of Service</a>
+          <a href="#" class="hover:text-brand-orange transition-colors">Quality Policy</a>
+          <a href="#" class="hover:text-brand-orange transition-colors">Confidentiality</a>
+          <a href="#" class="hover:text-brand-orange transition-colors">Impartiality Charter</a>
         </div>
       </div>
     </div>
   </footer>
 
   <!-- ================================================================= -->
-  <!-- MODALS (Inquiry, Training, Verify Document)                       -->
+  <!-- MODALS                                                            -->
   <!-- ================================================================= -->
+  <!-- Quick Reach / Inquiry Modal -->
   <div id="inquiryModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 modal-backdrop">
-    <div class="bg-white rounded-2xl max-w-lg w-full overflow-hidden shadow-2xl animate-fade-in">
-      <div class="bg-brand-navy p-5 text-white flex justify-between items-center">
-        <h3 class="font-bold text-base sm:text-lg">Direct Technical Inquiry</h3>
+    <div class="bg-white rounded-2xl shadow-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto border border-slate-200">
+      <div class="bg-gradient-to-r from-brand-navy to-brand-blue p-6 text-white flex justify-between items-center">
+        <div>
+          <h3 class="text-xl font-bold">Quick Technical Reach</h3>
+          <p class="text-xs text-slate-200 mt-0.5">Direct technical inquiry response within 4 hours</p>
+        </div>
         <button onclick="closeModal('inquiryModal')" class="text-white/80 hover:text-white text-2xl font-bold">&times;</button>
       </div>
-      <form action="#" method="POST" onsubmit="event.preventDefault(); alert('Inquiry received! Our team will contact you within 4 hours.'); closeModal('inquiryModal');" class="p-6 space-y-4 text-xs">
+      <form action="#" method="POST" onsubmit="event.preventDefault(); alert('Inquiry received. Our engineering cell will contact you shortly.'); closeModal('inquiryModal');" class="p-6 space-y-4 text-xs">
         <div>
-          <label class="block font-bold text-slate-700 uppercase tracking-wider mb-1">Company / Organization *</label>
-          <input type="text" required placeholder="e.g. Larsen &amp; Toubro" class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2.5 text-slate-900 focus:outline-none focus:border-brand-orange">
+          <label class="block font-bold text-slate-700 uppercase tracking-wider mb-1">Full Name *</label>
+          <input type="text" required placeholder="Your Name" class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3.5 py-2.5">
         </div>
         <div>
-          <label class="block font-bold text-slate-700 uppercase tracking-wider mb-1">Contact Person &amp; Email *</label>
-          <input type="email" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" title="Please enter a valid email address (e.g. name@company.com)" required placeholder="contact@domain.com" class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2.5 text-slate-900 focus:outline-none focus:border-brand-orange">
+          <label class="block font-bold text-slate-700 uppercase tracking-wider mb-1">Company *</label>
+          <input type="text" required placeholder="Company Name" class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3.5 py-2.5">
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold text-slate-700 uppercase tracking-wider mb-1">Email *</label>
+            <input type="email" required placeholder="name@company.com" class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3.5 py-2.5">
+          </div>
+          <div>
+            <label class="block font-bold text-slate-700 uppercase tracking-wider mb-1">Phone *</label>
+            <input type="tel" pattern="[0-9]{10}" minlength="10" maxlength="10" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10);" required placeholder="10 digits" class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3.5 py-2.5">
+          </div>
         </div>
         <div>
-          <label class="block font-bold text-slate-700 uppercase tracking-wider mb-1">Scope of Inspection</label>
-          <textarea rows="3" placeholder="Brief technical requirement..." class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2.5 text-slate-900 focus:outline-none focus:border-brand-orange"></textarea>
+          <label class="block font-bold text-slate-700 uppercase tracking-wider mb-1">Message / Requirements</label>
+          <textarea rows="3" placeholder="Brief technical query..." class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3.5 py-2.5"></textarea>
         </div>
-        <button type="submit" class="w-full bg-brand-orange hover:bg-orange-700 text-white font-bold py-3 rounded-lg uppercase tracking-wider">
+        <button type="submit" class="w-full bg-brand-orange hover:bg-orange-700 text-white font-bold py-3 rounded-lg text-xs uppercase tracking-wider">
           Submit Inquiry
         </button>
       </form>
     </div>
   </div>
 
+  <!-- Training Modal -->
   <div id="trainingModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 modal-backdrop">
-    <div class="bg-white rounded-2xl max-w-lg w-full overflow-hidden shadow-2xl animate-fade-in">
-      <div class="bg-brand-blue p-5 text-white flex justify-between items-center">
-        <h3 class="font-bold text-base sm:text-lg">Technical Training Registration</h3>
+    <div class="bg-white rounded-2xl shadow-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto border border-slate-200">
+      <div class="bg-brand-navy p-6 text-white flex justify-between items-center">
+        <div>
+          <h3 class="text-xl font-bold">Corporate Training Registration</h3>
+          <p class="text-xs text-slate-200 mt-0.5">ASNT Level II, Welding &amp; QA/QC Courses</p>
+        </div>
         <button onclick="closeModal('trainingModal')" class="text-white/80 hover:text-white text-2xl font-bold">&times;</button>
       </div>
-      <form action="#" method="POST" onsubmit="event.preventDefault(); alert('Registration received! Training coordinator will contact you.'); closeModal('trainingModal');" class="p-6 space-y-4 text-xs">
+      <form action="#" method="POST" onsubmit="event.preventDefault(); alert('Training registration received.'); closeModal('trainingModal');" class="p-6 space-y-4 text-xs">
         <div>
-          <label class="block font-bold text-slate-700 uppercase tracking-wider mb-1">Candidate / Corporate Name *</label>
-          <input type="text" required class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2.5 text-slate-900 focus:outline-none focus:border-brand-orange">
+          <label class="block font-bold text-slate-700 uppercase tracking-wider mb-1">Full Name *</label>
+          <input type="text" required placeholder="Your Name" class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3.5 py-2.5">
         </div>
         <div>
-          <label class="block font-bold text-slate-700 uppercase tracking-wider mb-1">Course of Interest *</label>
-          <select class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2.5 text-slate-900 focus:outline-none focus:border-brand-orange">
-            <option>ASNT NDT Level II (UT/RT/MPT/DPT)</option>
-            <option>Welding Inspection QA/QC (CSWIP / AWS Prep)</option>
-            <option>ISO 9001:2015 Internal Auditor</option>
-            <option>ASME Section IX &amp; Pressure Vessel Code</option>
+          <label class="block font-bold text-slate-700 uppercase tracking-wider mb-1">Company / Organization *</label>
+          <input type="text" required placeholder="Company Name" class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3.5 py-2.5">
+        </div>
+        <div>
+          <label class="block font-bold text-slate-700 uppercase tracking-wider mb-1">Email &amp; Phone *</label>
+          <input type="text" required placeholder="email@company.com / +91 XXXXX" class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3.5 py-2.5">
+        </div>
+        <div>
+          <label class="block font-bold text-slate-700 uppercase tracking-wider mb-1">Course Desired</label>
+          <select class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3.5 py-2.5">
+            <option>ASNT Level II - NDT Certification (UT/RT/MPT/DPT)</option>
+            <option>Welding Inspection &amp; WPS/PQR Course</option>
+            <option>ISO 9001:2015 &amp; ISO 17020 Quality Auditing</option>
+            <option>ASME Boiler &amp; Pressure Vessel Code Workshop</option>
           </select>
         </div>
-        <button type="submit" class="w-full bg-brand-blue hover:bg-brand-dark text-white font-bold py-3 rounded-lg uppercase tracking-wider">
-          Register for Batch
+        <button type="submit" class="w-full bg-brand-blue hover:bg-brand-dark text-white font-bold py-3 rounded-lg text-xs uppercase tracking-wider">
+          Register for Training
         </button>
       </form>
     </div>
   </div>
 
+  <!-- Verify Doc Modal -->
   <div id="verifyDocModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 modal-backdrop">
     <div class="bg-white rounded-2xl shadow-2xl max-w-lg w-full max-h-[92vh] overflow-y-auto border border-slate-200">
-      
-      <!-- Modal Header -->
       <div class="bg-brand-navy text-white px-6 py-4 rounded-t-2xl flex justify-between items-center border-b border-white/10">
         <div class="flex items-center space-x-2">
           <span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
@@ -772,222 +680,112 @@
         </div>
         <button onclick="closeModal('verifyDocModal')" class="text-white/80 hover:text-white text-2xl font-bold">&times;</button>
       </div>
-
-      <!-- Modal Body (Matching Required Fields: Name, Contact No, Attachment, Report No) -->
-      <form action="#" method="POST" onsubmit="event.preventDefault(); alert('Document verification request received for Report #' + (document.getElementById('verifyReportNo') ? document.getElementById('verifyReportNo').value : '') + '. Our technical authentication cell will verify with issuer records.'); closeModal('verifyDocModal');" class="p-6 space-y-4 text-xs">
-        
+      <form action="#" method="POST" onsubmit="event.preventDefault(); alert('Document verification request received.'); closeModal('verifyDocModal');" class="p-6 space-y-4 text-xs">
         <p class="text-slate-600 text-xs leading-relaxed border-b border-slate-100 pb-3">
           Authenticate AES inspection release notes (IRN), test certificates, or audit reports directly with our central QA records.
         </p>
-
         <div>
           <label class="block font-bold text-slate-700 uppercase tracking-wider mb-1">Name *</label>
-          <input type="text" id="verifyName" required placeholder="e.g. Ramesh Chandra" class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3.5 py-2.5 text-slate-900 focus:outline-none focus:border-brand-orange text-xs">
+          <input type="text" required placeholder="e.g. Ramesh Chandra" class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3.5 py-2.5">
         </div>
-
         <div>
-          <label class="block font-bold text-slate-700 uppercase tracking-wider mb-1">Contact No (Phone / WhatsApp) *</label>
-          <input type="tel" pattern="[0-9]{10}" minlength="10" maxlength="10" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10);" title="Please enter exactly 10 digits" id="verifyContact" required placeholder="e.g. 9876543210 (10 digits)" class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3.5 py-2.5 text-slate-900 focus:outline-none focus:border-brand-orange text-xs">
+          <label class="block font-bold text-slate-700 uppercase tracking-wider mb-1">Contact No *</label>
+          <input type="tel" pattern="[0-9]{10}" minlength="10" maxlength="10" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10);" required placeholder="10 digits" class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3.5 py-2.5">
         </div>
-
         <div>
           <label class="block font-bold text-slate-700 uppercase tracking-wider mb-1">Report No / Certificate ID *</label>
-          <input type="text" id="verifyReportNo" required placeholder="e.g. AES/IRN/2026/8941" class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3.5 py-2.5 text-slate-900 focus:outline-none focus:border-brand-orange text-xs font-mono font-bold text-brand-dark">
+          <input type="text" required placeholder="e.g. AES/IRN/2026/8941" class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3.5 py-2.5 font-mono font-bold text-brand-dark">
         </div>
-
-        <div>
-          <label class="block font-bold text-slate-700 uppercase tracking-wider mb-1">Attachment (Document PDF / Image / Scan) *</label>
-          <div class="border-2 border-dashed border-slate-300 hover:border-brand-orange bg-slate-50 rounded-xl p-4 text-center transition-colors cursor-pointer relative group">
-            <input type="file" required accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.zip" class="absolute inset-0 opacity-0 cursor-pointer w-full h-full">
-            <div class="flex flex-col items-center justify-center space-y-1">
-              <span class="text-xl">&#128196;</span>
-              <p class="text-xs font-semibold text-slate-700">Click or Drag &amp; Drop Document File</p>
-              <p class="text-[10px] text-slate-400">PDF, JPG, PNG, ZIP up to 25MB</p>
-            </div>
-          </div>
-        </div>
-
-        <div>
-          <label class="block font-bold text-slate-700 uppercase tracking-wider mb-1">Additional Notes (Optional)</label>
-          <textarea rows="2" placeholder="Specific vendor name, PO number, or verification instructions..." class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3.5 py-2 text-slate-900 focus:outline-none focus:border-brand-orange text-xs"></textarea>
-        </div>
-
-        <div class="pt-1">
-          <button type="submit" class="w-full bg-brand-orange hover:bg-orange-700 text-white font-bold py-3 px-4 rounded-xl shadow-md transition-colors text-xs uppercase tracking-wider cursor-pointer">
-            Verify Document Authenticity
-          </button>
-        </div>
+        <button type="submit" class="w-full bg-brand-orange hover:bg-orange-700 text-white font-bold py-3 px-4 rounded-xl shadow-md transition-colors text-xs uppercase tracking-wider">
+          Verify Document Authenticity
+        </button>
       </form>
     </div>
   </div>
 
-<!-- JavaScript Interaction Logic -->
   <script>
-    // Modal Helpers
     function openModal(id) {
-      const el = document.getElementById(id);
-      if (el) el.classList.remove('hidden');
-    }
-    function closeModal(id) {
-      const el = document.getElementById(id);
-      if (el) el.classList.add('hidden');
-    }
-
-    // Document Verification Simulation
-    function simulateVerification() {
-      const input = document.getElementById('docIdInput').value.trim();
-      const result = document.getElementById('verificationResult');
-      if (!input) {
-        alert('Please enter a certificate or report number.');
-        return;
+      var modal = document.getElementById(id);
+      if (modal) {
+        modal.classList.remove('hidden');
+        document.body.classList.add('overflow-hidden');
       }
-      result.classList.remove('hidden', 'bg-red-50', 'text-red-700', 'bg-emerald-50', 'text-emerald-700');
-      result.classList.add('bg-emerald-50', 'text-emerald-800', 'border', 'border-emerald-200');
-      result.innerHTML = '&#10003; Authentic Record Found: Certificate #' + input + ' verified under ISO/IEC 17020 Type-A Body accreditation.';
     }
 
-    // Mobile menu toggle
-    const mobileBtn = document.getElementById('mobile-menu-btn');
-    const mobileMenu = document.getElementById('mobile-menu');
+    function closeModal(id) {
+      var modal = document.getElementById(id);
+      if (modal) {
+        modal.classList.add('hidden');
+        document.body.classList.remove('overflow-hidden');
+      }
+    }
+
+    var mobileBtn = document.getElementById('mobile-menu-btn');
+    var mobileMenu = document.getElementById('mobile-menu');
     if (mobileBtn && mobileMenu) {
-      mobileBtn.addEventListener('click', () => {
+      mobileBtn.addEventListener('click', function() {
         mobileMenu.classList.toggle('hidden');
       });
     }
 
-    // Job selection helper from card to form
-    function selectJobAndScroll(jobTitle) {
-      const select = document.getElementById('cand_role');
-      if (select) {
-        select.value = jobTitle;
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        var openModals = document.querySelectorAll('.modal-backdrop:not(.hidden)');
+        openModals.forEach(function(m) { m.classList.add('hidden'); });
+        document.body.classList.remove('overflow-hidden');
       }
-      const form = document.getElementById('applyForm');
-      if (form) {
-        form.scrollIntoView({ behavior: 'smooth' });
-      }
-    }
+    });
 
-    // File label updater
-    function updateFileName(input) {
-      const label = document.getElementById('file_label');
-      if (input.files && input.files[0]) {
-        label.innerText = 'Selected: ' + input.files[0].name;
-        label.classList.add('text-brand-orange');
-      }
-    }
+    // Typography Typewriter Effect & 5-Second Glowing CTA Handler
+    document.addEventListener('DOMContentLoaded', function() {
+      var headingText = "Ready to Build Your Engineering Career with AES?";
+      var textElem = document.getElementById('typewriterText');
+      var cursorElem = document.getElementById('typewriterCursor');
+      var ctaBtn = document.getElementById('joinUsCtaBtn');
+      var ctaSection = document.getElementById('careersCtaSection');
+      var hasTyped = false;
 
-    // Dynamic Jobs Loader
-    async function loadDynamicJobs() {
-      if (!window.AesSupabase || !window.AesSupabase.fetchActiveJobOpenings) return;
-      try {
-        const jobs = await window.AesSupabase.fetchActiveJobOpenings();
-        if (!jobs || !jobs.length) return; // Keep default fallback cards if empty
+      function startTypewriter() {
+        if (hasTyped || !textElem) return;
+        hasTyped = true;
+        textElem.textContent = '';
+        var charIdx = 0;
+        var typingSpeed = 65; // ms per char (deliberate & smooth)
 
-        const container = document.getElementById('dynamicJobsGrid');
-        if (container) {
-          container.innerHTML = jobs.map(job => {
-            const reqs = Array.isArray(job.requirements) ? job.requirements : [];
-            const reqsHtml = reqs.map(r => `
-              <li class="flex items-start gap-1.5">
-                <span class="text-brand-orange font-bold">&bull;</span>
-                <span>${escapeHtml(r)}</span>
-              </li>
-            `).join('');
-
-            return `
-              <div class="bg-white rounded-2xl border border-slate-200 p-6 flex flex-col justify-between shadow-xs hover:shadow-md hover:border-brand-orange/50 transition-all group">
-                <div>
-                  <div class="flex justify-between items-start gap-2 mb-3">
-                    <span class="text-[11px] font-extrabold px-2.5 py-1 rounded bg-blue-50 text-brand-blue uppercase tracking-wider">${escapeHtml(job.department || 'Engineering')}</span>
-                    <span class="text-xs font-bold text-slate-500">${escapeHtml(job.experience_range || 'Experience Required')}</span>
-                  </div>
-                  <h3 class="text-lg font-bold text-brand-dark group-hover:text-brand-orange transition-colors">
-                    ${escapeHtml(job.title)}
-                  </h3>
-                  <p class="text-xs text-slate-500 mt-1 mb-4">Location: ${escapeHtml(job.location || 'Pan-India')}</p>
-                  <ul class="text-xs text-slate-600 space-y-2 mb-6">
-                    ${reqsHtml}
-                  </ul>
-                </div>
-                <button onclick="selectJobAndScroll('${escapeHtml(job.title)}')" class="w-full bg-slate-100 group-hover:bg-brand-orange group-hover:text-white text-brand-blue font-bold py-2.5 rounded-lg text-xs uppercase tracking-wider transition-all text-center cursor-pointer">
-                  Apply For This Position &rarr;
-                </button>
-              </div>
-            `;
-          }).join('');
-        }
-
-        // Update the dropdown role options
-        const select = document.getElementById('cand_role');
-        if (select) {
-          const currentVal = select.value;
-          select.innerHTML = '<option value="">-- Select Preferred Role --</option>' + 
-            jobs.map(j => `<option value="${escapeHtml(j.title)}">${escapeHtml(j.title)}</option>`).join('') +
-            '<option value="General Technical Roster Application">General Technical Roster Application</option>';
-          if (currentVal) select.value = currentVal;
-        }
-      } catch (err) {
-        console.warn('Error loading dynamic jobs:', err);
-      }
-    }
-
-    function escapeHtml(str) {
-      if (!str) return '';
-      return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-    }
-
-    document.addEventListener('DOMContentLoaded', loadDynamicJobs);
-
-    // Form submit handler
-    async function handleCareerSubmit(e) {
-      e.preventDefault();
-      const form = document.getElementById('careerApplicationForm');
-      const submitBtn = form.querySelector('button[type="submit"]');
-      const fullName = document.getElementById('cand_name').value;
-      const email = document.getElementById('cand_email').value;
-      const phone = document.getElementById('cand_phone').value;
-      const location = document.getElementById('cand_location').value;
-      const position = document.getElementById('cand_role').value;
-      const experience = document.getElementById('cand_exp').value;
-      const noticePeriod = document.getElementById('cand_notice').value;
-      const qualification = document.getElementById('cand_degree').value;
-      const summary = document.getElementById('cand_summary').value;
-      
-      const certCheckboxes = form.querySelectorAll('input[name="certs"]:checked');
-      const certifications = Array.from(certCheckboxes).map(cb => cb.value);
-
-      const resumeInput = document.getElementById('cand_resume');
-      const resumeFile = resumeInput && resumeInput.files ? resumeInput.files[0] : null;
-
-      const applicantData = {
-        fullName,
-        email,
-        phone,
-        location,
-        position,
-        experience,
-        qualification,
-        certifications,
-        noticePeriod,
-        notes: summary
-      };
-
-      if (window.AesSupabase && window.AesSupabase.submitJobApplication) {
-        const res = await window.AesSupabase.submitJobApplication(applicantData, resumeFile, submitBtn);
-        if (res.success) {
-          form.reset();
-          const label = document.getElementById('file_label');
-          if (label) {
-            label.innerText = 'Click or Drag & Drop to upload Resume / CV';
-            label.classList.remove('text-brand-orange');
+        function typeNext() {
+          if (charIdx < headingText.length) {
+            textElem.textContent += headingText.charAt(charIdx);
+            charIdx++;
+            setTimeout(typeNext, typingSpeed);
+          } else {
+            // Typography effect completed!
+            if (cursorElem) {
+              cursorElem.style.display = 'none';
+            }
+            // Trigger 5-Second Glowing Effect on Join Us button
+            if (ctaBtn) {
+              ctaBtn.classList.add('join-btn-glowing');
+              setTimeout(function() {
+                ctaBtn.classList.remove('join-btn-glowing');
+              }, 5000);
+            }
           }
         }
-      } else {
-        alert(`Thank you, ${fullName}! Your application for "${position}" has been submitted.`);
-        form.reset();
+        typeNext();
       }
-    }
-  </script>
 
+      if (ctaSection && 'IntersectionObserver' in window) {
+        var obs = new IntersectionObserver(function(entries) {
+          if (entries[0].isIntersecting) {
+            startTypewriter();
+            obs.unobserve(ctaSection);
+          }
+        }, { threshold: 0.25 });
+        obs.observe(ctaSection);
+      } else {
+        startTypewriter();
+      }
+    });
+  </script>
 </body>
 </html>

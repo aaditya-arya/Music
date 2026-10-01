@@ -23,17 +23,17 @@
             }
           },
           fontFamily: {
-            sans: ['Inter', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'sans-serif'],
+            sans: ['"Plus Jakarta Sans"', 'Inter', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'sans-serif'],
           }
         }
       }
     }
   </script>
 
-  <!-- Google Fonts: Inter -->
+  <!-- Google Fonts: Plus Jakarta Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600;1,700&display=swap" rel="stylesheet">
 
   <style>
     body {
@@ -44,23 +44,51 @@
       background-color: rgba(11, 22, 51, 0.78);
       backdrop-filter: blur(6px);
     }
-    .btn-premium-orange {
+    /* Button States: Orange (hover blue + shadow) & Blue (hover white BG + blue font + shadow) */
+    .btn-premium-orange, .btn-theme {
       background-color: #f16826;
       color: #ffffff;
-      transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+      border: 2px solid transparent;
+      box-shadow: 0 4px 12px rgba(241, 104, 38, 0.25);
+      transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
       cursor: pointer;
     }
-    .btn-premium-orange:hover {
-      background-color: #0b1633;
+    .btn-premium-orange:hover, .btn-theme:hover {
+      background-color: #1b3574;
+      color: #ffffff;
+      border-color: #1b3574;
+      box-shadow: 0 12px 24px -4px rgba(27, 53, 116, 0.4), 0 4px 8px -2px rgba(27, 53, 116, 0.25);
+      transform: translateY(-2px);
     }
+    .btn-premium-orange:active, .btn-theme:active {
+      background-color: #f16826 !important;
+      color: #ffffff !important;
+      border-color: #f16826 !important;
+      box-shadow: 0 4px 10px rgba(241, 104, 38, 0.4) !important;
+      transform: translateY(0) !important;
+    }
+
     .btn-premium-blue {
       background-color: #1b3574;
       color: #ffffff;
-      transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+      border: 2px solid #1b3574;
+      box-shadow: 0 4px 12px rgba(27, 53, 116, 0.25);
+      transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
       cursor: pointer;
     }
     .btn-premium-blue:hover {
-      background-color: #f16826;
+      background-color: #ffffff;
+      color: #1b3574;
+      border-color: #1b3574;
+      box-shadow: 0 12px 24px -4px rgba(27, 53, 116, 0.35), 0 4px 8px -2px rgba(27, 53, 116, 0.2);
+      transform: translateY(-2px);
+    }
+    .btn-premium-blue:active {
+      background-color: #f16826 !important;
+      color: #ffffff !important;
+      border-color: #f16826 !important;
+      box-shadow: 0 4px 10px rgba(241, 104, 38, 0.4) !important;
+      transform: translateY(0) !important;
     }
     .text-slide-footer {
       background: linear-gradient(90deg, #f16826 0%, #ffffff 40%, #cbd5e1 54%, #94a3b8 100%);
@@ -74,13 +102,18 @@
     .text-slide-footer:hover {
       background-position: 0 0;
     }
+    /* Mega Dropdown CSS with Invisible Hover Bridge & Smooth Falling Transition */
     .mega-dropdown-menu {
-      background-color: #ffffff !important;
+      background-color: #0b1633 !important;
+      border: 1px solid rgba(255, 255, 255, 0.15) !important;
+      border-top: 3px solid #f16826 !important;
+      box-shadow: 0 24px 64px -16px rgb(11 22 51 / 50%);
       pointer-events: none;
       opacity: 0;
       visibility: hidden;
-      transform: translateX(-50%) translateY(8px);
-      transition: opacity 0.2s ease, transform 0.2s cubic-bezier(0.25, 1, 0.5, 1), visibility 0.2s;
+      transform: translateX(-50%) translateY(-14px) scale(0.96);
+      transform-origin: top center;
+      transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.3s;
     }
     .mega-dropdown-menu::before {
       content: '';
@@ -89,14 +122,23 @@
       left: 0;
       right: 0;
       height: 24px;
+      background: transparent;
     }
     .nav-item-dropdown:hover .mega-dropdown-menu,
     .mega-dropdown-menu:hover,
     .mega-dropdown-menu.is-open {
       visibility: visible !important;
       opacity: 1 !important;
-      transform: translateX(-50%) translateY(0) !important;
+      transform: translateX(-50%) translateY(0) scale(1) !important;
       pointer-events: auto !important;
+    }
+    .mega-dropdown-menu a {
+      color: #ffffff !important;
+      transition: background-color 180ms ease, color 180ms ease;
+    }
+    .mega-dropdown-menu a:hover {
+      background-color: rgba(255, 255, 255, 0.08) !important;
+      color: #f16826 !important;
     }
     .reason-pill.active {
       background-color: #f16826;
@@ -113,21 +155,19 @@
 <body class="bg-slate-50 text-slate-800 font-sans antialiased selection:bg-brand-orange selection:text-white relative">
 
   <!-- ================================================================= -->
-  <!-- 1. FULL-WIDTH HEADER (Logo Left, Services Center, Right Nav)        -->
+  <!-- ================================================================= -->
+  <!-- 1. FULL-WIDTH HEADER (Logo Left, Nav Right)                       -->
   <!-- ================================================================= -->
   <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm relative">
-    <div class="w-full px-6 lg:px-12 flex justify-between items-center h-24 sm:h-28">
+    <div class="w-full max-w-[1600px] mx-auto px-6 sm:px-10 lg:px-16 2xl:px-20 flex justify-between items-center h-24 sm:h-28">
       
-      <!-- Left Spacer for Centering Logo on Desktop -->
-      <div class="hidden lg:flex w-1/3"></div>
-
-      <!-- Center Logo (Enlarged and Prominent) -->
-      <a href="index.html" class="flex items-center justify-center space-x-3 shrink-0 w-full lg:w-1/3 py-2" onclick="if(window.location.pathname.endsWith('index.html') || window.location.pathname === '/' || window.location.pathname.endsWith('/Music/')){ window.scrollTo({top: 0, behavior: 'smooth'}); return false; }">
-        <img src="assets/akshar_logo.png" alt="Akshar Engineering Services" class="h-16 sm:h-20 md:h-24 max-h-24 w-auto object-contain transition-transform duration-300 hover:scale-105">
+      <!-- Left Logo (Enlarged and Prominent on the Left) -->
+      <a href="index.html" class="flex items-center space-x-3 shrink-0 py-2" onclick="if(window.location.pathname.endsWith('index.html') || window.location.pathname === '/' || window.location.pathname.endsWith('/Music/')){ window.scrollTo({top: 0, behavior: 'smooth'}); return false; }">
+        <img src="assets/logo.png" alt="Akshar Engineering Services" class="h-16 sm:h-20 md:h-24 max-h-24 w-auto object-contain transition-transform duration-300 hover:scale-105">
       </a>
 
       <!-- Right Menubar -->
-      <nav class="hidden lg:flex items-center justify-end space-x-6 text-base sm:text-lg font-extrabold shrink-0 w-1/3">
+      <nav class="hidden lg:flex items-center justify-end space-x-8 text-base sm:text-lg font-extrabold shrink-0">
         <a href="about.html" class="text-brand-blue hover:text-brand-orange transition-colors duration-300">About Us</a>
         
         <div class="nav-item-dropdown relative group py-6 flex items-center">
@@ -135,32 +175,31 @@
             Service
             <svg class="w-4 h-4 text-brand-blue group-hover:text-brand-orange transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path></svg>
           </a>
-          <div class="mega-dropdown-menu absolute top-full right-0 w-64 bg-white border border-slate-200 shadow-xl rounded-xl py-2 invisible opacity-0 z-50 transition-all flex flex-col text-left">
-            <a href="service-tpi.html" class="block px-4 py-2 text-sm font-bold text-brand-blue hover:bg-orange-50 hover:text-brand-orange">Third Party Inspection</a>
-            <a href="service-vendor-assessment.html" class="block px-4 py-2 text-sm font-bold text-brand-blue hover:bg-orange-50 hover:text-brand-orange">Vendor Assessment</a>
-            <a href="service-qa-qc-documentation.html" class="block px-4 py-2 text-sm font-bold text-brand-blue hover:bg-orange-50 hover:text-brand-orange">QA/QC Documentation</a>
-            <a href="service-pre-shipment-inspection.html" class="block px-4 py-2 text-sm font-bold text-brand-blue hover:bg-orange-50 hover:text-brand-orange">Pre-Shipment Inspection</a>
-            <a href="service-welding-engineering.html" class="block px-4 py-2 text-sm font-bold text-brand-blue hover:bg-orange-50 hover:text-brand-orange">Welding Engineering</a>
-            <a href="service-ndt-inspection.html" class="block px-4 py-2 text-sm font-bold text-brand-blue hover:bg-orange-50 hover:text-brand-orange">NDT Inspection Services</a>
-            <a href="service-expediting.html" class="block px-4 py-2 text-sm font-bold text-brand-blue hover:bg-orange-50 hover:text-brand-orange">Expediting Services</a>
-            <a href="service-design-examination.html" class="block px-4 py-2 text-sm font-bold text-brand-blue hover:bg-orange-50 hover:text-brand-orange">Design Examination</a>
-            <a href="service-project-shutdown-qa.html" class="block px-4 py-2 text-sm font-bold text-brand-blue hover:bg-orange-50 hover:text-brand-orange">Project &amp; Shutdown QA</a>
-            <a href="service-international-sourcing.html" class="block px-4 py-2 text-sm font-bold text-brand-blue hover:bg-orange-50 hover:text-brand-orange">International Sourcing</a>
-            <a href="service-performance-hydro-tests.html" class="block px-4 py-2 text-sm font-bold text-brand-blue hover:bg-orange-50 hover:text-brand-orange">Performance &amp; Hydro-Tests</a>
-            <a href="service-process-qualification.html" class="block px-4 py-2 text-sm font-bold text-brand-blue hover:bg-orange-50 hover:text-brand-orange">Process Qualification</a>
-            <a href="service-api-tank-inspection.html" class="block px-4 py-2 text-sm font-bold text-brand-blue hover:bg-orange-50 hover:text-brand-orange">API Tank Inspection</a>
-            <a href="service-owners-engineer.html" class="block px-4 py-2 text-sm font-bold text-brand-blue hover:bg-orange-50 hover:text-brand-orange">Owner's Engineer</a>
-            <a href="service-process-piping.html" class="block px-4 py-2 text-sm font-bold text-brand-blue hover:bg-orange-50 hover:text-brand-orange">Process Piping (B31.3)</a>
-            <a href="service-training.html" class="block px-4 py-2 text-sm font-bold text-brand-blue hover:bg-orange-50 hover:text-brand-orange">QA/QC &amp; NDT Training</a>
+          <div class="mega-dropdown-menu absolute top-full left-1/2 -translate-x-1/2 w-72 bg-[#0b1633] border border-slate-700/80 shadow-2xl rounded-2xl py-2 invisible opacity-0 z-50 transition-all flex flex-col text-left divide-y divide-white/10">
+            <a href="service-tpi.html" class="block px-4 py-2.5 text-xs font-bold text-white hover:text-brand-orange hover:bg-white/5 transition-colors">Third Party Inspection</a>
+            <a href="service-vendor-assessment.html" class="block px-4 py-2.5 text-xs font-bold text-white hover:text-brand-orange hover:bg-white/5 transition-colors">Vendor Assessment</a>
+            <a href="service-qa-qc-documentation.html" class="block px-4 py-2.5 text-xs font-bold text-white hover:text-brand-orange hover:bg-white/5 transition-colors">QA/QC Documentation</a>
+            <a href="service-pre-shipment-inspection.html" class="block px-4 py-2.5 text-xs font-bold text-white hover:text-brand-orange hover:bg-white/5 transition-colors">Pre-Shipment Inspection</a>
+            <a href="service-welding-engineering.html" class="block px-4 py-2.5 text-xs font-bold text-white hover:text-brand-orange hover:bg-white/5 transition-colors">Welding Engineering</a>
+            <a href="service-ndt-inspection.html" class="block px-4 py-2.5 text-xs font-bold text-white hover:text-brand-orange hover:bg-white/5 transition-colors">NDT Inspection Services</a>
+            <a href="service-expediting.html" class="block px-4 py-2.5 text-xs font-bold text-white hover:text-brand-orange hover:bg-white/5 transition-colors">Expediting Services</a>
+            <a href="service-design-examination.html" class="block px-4 py-2.5 text-xs font-bold text-white hover:text-brand-orange hover:bg-white/5 transition-colors">Design Examination</a>
+            <a href="service-project-shutdown-qa.html" class="block px-4 py-2.5 text-xs font-bold text-white hover:text-brand-orange hover:bg-white/5 transition-colors">Project &amp; Shutdown QA</a>
+            <a href="service-international-sourcing.html" class="block px-4 py-2.5 text-xs font-bold text-white hover:text-brand-orange hover:bg-white/5 transition-colors">International Sourcing</a>
+            <a href="service-performance-hydro-tests.html" class="block px-4 py-2.5 text-xs font-bold text-white hover:text-brand-orange hover:bg-white/5 transition-colors">Performance &amp; Hydro-Tests</a>
+            <a href="service-process-qualification.html" class="block px-4 py-2.5 text-xs font-bold text-white hover:text-brand-orange hover:bg-white/5 transition-colors">Process Qualification</a>
+            <a href="service-api-tank-inspection.html" class="block px-4 py-2.5 text-xs font-bold text-white hover:text-brand-orange hover:bg-white/5 transition-colors">API Tank Inspection</a>
+            <a href="service-owners-engineer.html" class="block px-4 py-2.5 text-xs font-bold text-white hover:text-brand-orange hover:bg-white/5 transition-colors">Owner's Engineer</a>
+            <a href="service-process-piping.html" class="block px-4 py-2.5 text-xs font-bold text-white hover:text-brand-orange hover:bg-white/5 transition-colors">Process Piping (B31.3)</a>
+            <a href="service-training.html" class="block px-4 py-2.5 text-xs font-bold text-white hover:text-brand-orange hover:bg-white/5 transition-colors">QA/QC &amp; NDT Training</a>
           </div>
         </div>
 
-        <a href="careers.html" class="text-brand-blue hover:text-brand-orange transition-colors duration-300">Careers</a>
         <a href="we-hear-you.html" class="text-brand-orange transition-colors duration-300">We hear you</a>
       </nav>
 
       <!-- Mobile Menu Button -->
-      <div class="flex lg:hidden w-1/3 justify-end">
+      <div class="flex lg:hidden justify-end">
         <button id="mobile-menu-btn" type="button" class="p-2 text-brand-blue hover:text-brand-orange rounded-md border border-slate-200">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
         </button>
@@ -171,10 +210,24 @@
     <div id="mobile-menu" class="hidden lg:hidden border-t border-slate-200 bg-white px-6 py-4 space-y-3">
       <a href="about.html" class="block text-base font-bold text-brand-blue hover:text-brand-orange">About Us</a>
       <a href="services.html" class="block text-base font-bold text-brand-blue hover:text-brand-orange">Service</a>
-      <a href="careers.html" class="block text-base font-bold text-brand-blue hover:text-brand-orange">Careers</a>
       <a href="we-hear-you.html" class="block text-base font-bold text-brand-orange">We hear you</a>
     </div>
   </header>
+
+    <!-- ================================================================= -->
+  <!-- STICKY RIGHT SIDEBAR BUTTONS (No icons, text only)                -->
+  <!-- ================================================================= -->
+    <!-- ================================================================= -->
+  <!-- STICKY RIGHT SIDEBAR BUTTONS (No icons, text only)                -->
+  <!-- ================================================================= -->
+  <aside aria-label="Quick Action Floating Desk" class="fixed right-0 top-1/2 -translate-y-1/2 z-40 flex flex-col space-y-2.5">
+    <button onclick="openModal('inquiryModal')" class="bg-brand-orange hover:bg-orange-700 text-white font-bold text-xs uppercase tracking-wider py-4 px-3 rounded-l-xl shadow-xl flex items-center justify-center transition-transform hover:-translate-x-2 [writing-mode:vertical-rl] rotate-180 cursor-pointer group">
+      <span>Quick Reach / Inquiry</span>
+    </button>
+    <button onclick="openModal('trainingModal')" class="bg-brand-blue hover:bg-brand-dark text-white font-bold text-xs uppercase tracking-wider py-4 px-3 rounded-l-xl shadow-xl flex items-center justify-center transition-transform hover:-translate-x-2 [writing-mode:vertical-rl] rotate-180 cursor-pointer group">
+      <span>Training Registration</span>
+    </button>
+  </aside>
 
   <div class="max-w-7xl mx-auto px-6 lg:px-12 relative z-10 pt-10">
     <nav class="flex items-center gap-2 text-xs font-semibold text-slate-400 mb-6 uppercase tracking-wider">
@@ -382,34 +435,62 @@
     </div>
   </section>
 
-  <!-- Corporate Footer -->
-  <footer class="relative bg-brand-navy/95 backdrop-blur-xl text-slate-400 text-sm border-t border-white/10 overflow-hidden">
-    <div class="max-w-7xl mx-auto px-6 lg:px-12 py-16 relative z-10">
+  <!-- ================================================================= -->
+  <!-- CORPORATE FOOTER (CLASSIC DARK BLUE THEME)                        -->
+  <!-- ================================================================= -->
+  <footer class="relative bg-brand-navy text-slate-300 text-sm border-t border-slate-800">
+    <div class="max-w-7xl mx-auto px-6 lg:px-12 py-16">
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
-        <div class="lg:col-span-2">
-          <div class="bg-white inline-block p-2 rounded-lg mb-4">
-            <img src="assets/logo.png" alt="Akshar Engineering Services" class="h-10 w-auto">
-          </div>
-          <p class="text-slate-300 text-sm leading-relaxed max-w-md mb-6">
+        
+        <div class="lg:col-span-2 space-y-4">
+          <a href="index.html" class="inline-block bg-white p-2.5 rounded-xl shadow-md">
+            <img src="assets/logo.png" alt="Akshar Engineering Services" class="h-14 sm:h-16 w-auto object-contain">
+          </a>
+          <p class="text-slate-300 text-sm leading-relaxed max-w-md font-normal">
             Akshar Engineering Services Pvt. Ltd. delivers independent third-party inspection, vendor quality surveillance, and technical assurance across global industrial supply chains.
           </p>
+          <div class="text-xs text-slate-400 space-y-1.5 font-medium pt-2">
+            <div>Email: <a href="mailto:info@aksharengineeringservices.com" class="text-slate-200 hover:text-brand-orange transition-colors font-semibold">info@aksharengineeringservices.com</a></div>
+            <div>Phone: <a href="tel:+918200441159" class="text-slate-200 hover:text-brand-orange transition-colors font-semibold">+91 8200441159</a></div>
+          </div>
         </div>
+
         <div>
-          <span class="block font-bold text-white text-sm uppercase tracking-wider mb-4">Navigation</span>
+          <span class="block font-black text-white text-xs uppercase tracking-wider mb-4">Navigation</span>
           <ul class="space-y-2.5 text-sm">
-            <li><a href="index.html" class="text-slide-footer font-semibold">Home</a></li>
-            <li><a href="services.html" class="text-slide-footer font-semibold">Services Catalog</a></li>
-            <li><a href="careers.html" class="text-slide-footer font-semibold">Careers at AES</a></li>
-            <li><a href="about.html" class="text-slide-footer font-semibold">About Us</a></li>
-            <li><a href="we-hear-you.html" class="text-slide-footer font-semibold text-brand-orange">We Hear You</a></li>
+            <li><a href="index.html" class="text-slate-400 hover:text-brand-orange transition-colors font-medium">Home</a></li>
+            <li><a href="about.html" class="text-slate-400 hover:text-brand-orange transition-colors font-medium">About Us</a></li>
+            <li><a href="services.html" class="text-slate-400 hover:text-brand-orange transition-colors font-medium">Services</a></li>
+            <li><a href="careers.html" class="text-slate-400 hover:text-brand-orange transition-colors font-medium">Careers at AES</a></li>
+            <li><a href="about.html#feedbackHub" class="text-slate-400 hover:text-brand-orange transition-colors font-medium">Update / Feedback</a></li>
+            <li><a href="javascript:void(0)" onclick="openModal('verifyDocModal')" class="text-slate-400 hover:text-brand-orange transition-colors font-medium">Verify Document</a></li>
           </ul>
         </div>
+
         <div>
-          <span class="block font-bold text-white text-sm uppercase tracking-wider mb-4">Quick Desk</span>
+          <span class="block font-black text-white text-xs uppercase tracking-wider mb-4">Key Services</span>
           <ul class="space-y-2.5 text-sm">
-            <li><a href="mailto:info@aksharengineeringservices.com" class="text-slide-footer font-semibold">Email Technical Desk</a></li>
-            <li><a href="tel:+918200441159" class="text-slide-footer font-semibold">+91 8200441159</a></li>
+            <li><a href="service-tpi.html" target="_blank" class="text-slate-400 hover:text-brand-orange transition-colors font-medium">Third Party Inspection (TPI)</a></li>
+            <li><a href="service-vendor-assessment.html" target="_blank" class="text-slate-400 hover:text-brand-orange transition-colors font-medium">Vendor Assessment &amp; Audit</a></li>
+            <li><a href="service-qa-qc-documentation.html" target="_blank" class="text-slate-400 hover:text-brand-orange transition-colors font-medium">QA/QC Documentation &amp; MRB</a></li>
+            <li><a href="service-pre-shipment-inspection.html" target="_blank" class="text-slate-400 hover:text-brand-orange transition-colors font-medium">Pre-Shipment &amp; Pre-Despatch</a></li>
+            <li><a href="service-welding-engineering.html" target="_blank" class="text-slate-400 hover:text-brand-orange transition-colors font-medium">Welding Engineering &amp; Inspection</a></li>
+            <li><a href="service-ndt-inspection.html" target="_blank" class="text-slate-400 hover:text-brand-orange transition-colors font-medium">NDT Inspection (UT/RT/MPT/DPT)</a></li>
+            <li><a href="service-expediting.html" target="_blank" class="text-slate-400 hover:text-brand-orange transition-colors font-medium">Project Expediting &amp; Sourcing</a></li>
+            <li><a href="service-api-tank-inspection.html" target="_blank" class="text-slate-400 hover:text-brand-orange transition-colors font-medium">API Tank &amp; Piping Inspection</a></li>
           </ul>
+        </div>
+
+      </div>
+
+      <div class="mt-12 pt-8 border-t border-slate-800 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-slate-400 font-medium">
+        <div>
+          &copy; 2026 Akshar Engineering Services Pvt. Ltd. All rights reserved.
+        </div>
+        <div class="flex space-x-6">
+          <a href="#" class="hover:text-brand-orange transition-colors">Quality Policy</a>
+          <a href="#" class="hover:text-brand-orange transition-colors">Confidentiality</a>
+          <a href="#" class="hover:text-brand-orange transition-colors">Impartiality Charter</a>
         </div>
       </div>
     </div>
