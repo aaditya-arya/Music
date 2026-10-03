@@ -65,7 +65,7 @@ add_action('save_post',function($id){
     }
 });
 add_action('admin_enqueue_scripts',function(){
-    $screen=get_current_screen(); if(!$screen||!($screen->id==='toplevel_page_aes-cms'||in_array($screen->post_type,['page','aes_job'],true)))return;
+    $screen=get_current_screen(); if(!$screen||!($screen->id==='toplevel_page_aes-cms'||$screen->id==='toplevel_page_aes-submissions'||in_array($screen->post_type,['page','aes_job','aes_submission'],true)))return;
     wp_enqueue_media(); wp_enqueue_script('aes-admin',get_template_directory_uri().'/assets/admin-cms.js',['jquery'], '2.0',true);
     wp_enqueue_style('aes-admin',get_template_directory_uri().'/assets/admin-cms.css',[],'2.0');
 });
