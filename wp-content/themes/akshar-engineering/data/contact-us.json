@@ -1,0 +1,114 @@
+{
+  "fields": {
+    "description": {
+      "default": "Contact Akshar Engineering Services Pvt. Ltd. - Direct phone, email, office address, and interactive map for engineering inspection, testing, and QA/QC inquiries.",
+      "type": "text",
+      "group": "Search description",
+      "label": "Search engine description"
+    },
+    "c_badge": {
+      "default": "GET IN TOUCH • 24/7 TECHNICAL ASSURANCE",
+      "type": "text",
+      "group": "Hero Section",
+      "label": "Hero Badge"
+    },
+    "c_title": {
+      "default": "Contact Us",
+      "type": "text",
+      "group": "Hero Section",
+      "label": "Hero Title"
+    },
+    "c_subtitle": {
+      "default": "Connect with our certified quality engineers, expeditors, and inspection leads for project inquiries, technical audits, vendor evaluations, and global surveillance.",
+      "type": "text",
+      "group": "Hero Section",
+      "label": "Hero Subtitle"
+    },
+    "c_call_label": {
+      "default": "Direct Phone / WhatsApp",
+      "type": "text",
+      "group": "Contact Cards",
+      "label": "Call Card Label"
+    },
+    "c_call_num": {
+      "default": "+91 8200441159",
+      "type": "text",
+      "group": "Contact Cards",
+      "label": "Call Card Phone Number"
+    },
+    "c_call_link": {
+      "default": "tel:+918200441159",
+      "type": "url",
+      "group": "Contact Cards",
+      "label": "Call Card URL"
+    },
+    "c_call_desc": {
+      "default": "Direct engineering support, rapid surveyor dispatch & inspection scheduling.",
+      "type": "text",
+      "group": "Contact Cards",
+      "label": "Call Card Description"
+    },
+    "c_mail_label": {
+      "default": "Official Email & RFQ Desk",
+      "type": "text",
+      "group": "Contact Cards",
+      "label": "Email Card Label"
+    },
+    "c_mail_address": {
+      "default": "info@aksharengineeringservices.com",
+      "type": "text",
+      "group": "Contact Cards",
+      "label": "Email Card Address"
+    },
+    "c_mail_link": {
+      "default": "mailto:info@aksharengineeringservices.com",
+      "type": "url",
+      "group": "Contact Cards",
+      "label": "Email Card URL"
+    },
+    "c_mail_desc": {
+      "default": "Send engineering drawings, ITPs, purchase orders, or RFQ specifications.",
+      "type": "text",
+      "group": "Contact Cards",
+      "label": "Email Card Description"
+    },
+    "c_addr_label": {
+      "default": "Registered & Corporate Headquarters",
+      "type": "text",
+      "group": "Contact Cards",
+      "label": "Address Card Label"
+    },
+    "c_addr_text": {
+      "default": "Tryksha Desire – 302, Near Shree Kirtidham Derasar, Opp. Shiv Shakti RTS bus Stand, Chandkheda, Ahmedabad – 382424, Gujarat, India.",
+      "type": "text",
+      "group": "Contact Cards",
+      "label": "Address Card Text"
+    },
+    "c_addr_hours": {
+      "default": "Monday – Saturday (9:00 AM – 7:00 PM IST)",
+      "type": "text",
+      "group": "Contact Cards",
+      "label": "Working Hours Text"
+    },
+    "c_hero_img": {
+      "default": "@@ASSET@@/assets/contact_hero.jpg",
+      "type": "image",
+      "group": "Hero Section",
+      "label": "Contact Hero Image"
+    },
+    "c_map_title": {
+      "default": "Find Our Headquarters",
+      "type": "text",
+      "group": "Map Section",
+      "label": "Map Section Title"
+    },
+    "c_map_desc": {
+      "default": "Visit our corporate engineering office in Ahmedabad or schedule an in-person technical consultation.",
+      "type": "text",
+      "group": "Map Section",
+      "label": "Map Section Subtitle"
+    }
+  },
+  "styles": "<style>\n    body {\n      font-feature-settings: \"cv02\", \"cv03\", \"cv04\", \"cv11\";\n      -webkit-font-smoothing: antialiased;\n    }\n    .contact-card-hover {\n      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;\n    }\n    .contact-card-hover:hover {\n      transform: translateY(-4px);\n      border-color: #f16826;\n      box-shadow: 0 16px 32px -8px rgba(11, 22, 51, 0.12);\n    }\n  </style>",
+  "body_class": "bg-slate-50 text-slate-800 font-sans antialiased selection:bg-brand-orange selection:text-white relative"
+}

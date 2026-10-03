@@ -1,0 +1,68 @@
+AKSHAR ENGINEERING CMS — INSTALLATION AND EDITING
+Version 2.0.0
+
+INSTALL IN YOUR EXISTING WORDPRESS STUDIO SITE
+1. Download Akshar-Engineering-WordPress-Theme.zip and extract it in Windows.
+2. Open WordPress Studio, select Akshar Engineering, then Open in > File Explorer.
+3. Open wp-content > themes.
+4. Copy the extracted akshar-engineering folder into themes. If you already made an empty folder with that name, put the extracted files inside it.
+   Correct path: wp-content/themes/akshar-engineering/style.css
+   Incorrect path: wp-content/themes/akshar-engineering/akshar-engineering/style.css
+5. In Studio, click WP Admin. Go to Appearance > Themes and activate Akshar Engineering CMS.
+6. Open AES Website in the dashboard sidebar. Click Import AES pages once.
+7. Click Visit Site. The existing AES design should now be the homepage.
+
+The import creates 22 pages and six jobs from your supplied website. It sets the imported Home as the front page. It preserves unrelated pages and does not overwrite imported page edits if run again. If an imported page is in Trash, restore it through Pages rather than re-running the import.
+
+Alternative installation: Appearance > Themes > Add New Theme > Upload Theme. If the ZIP exceeds your site's upload limit, use the File Explorer steps above.
+
+EDIT CONTENT
+- Pages > All Pages > choose a page > AES Page Content.
+- Expand a section, change its text/image/link fields and click Update.
+- Use the search box to find a sentence or image without opening every section.
+- Choose from Media Library replaces an image or document with an uploaded file.
+- Header, footer and repeated contact links: AES Website > Shared header, footer and contact content > Save shared content.
+- Text labels and their destination links are separate fields. Update both when changing a phone number or email address.
+- References starting @@PAGE: or @@ASSET@@ are automatic internal links. Leave them as supplied, or replace the entire value with a full URL.
+- Home > Service quick-view summaries controls text used in the service preview dialogs.
+- AES Jobs manages vacancies. Publish to show a job; change it to Draft to hide it. Title, description, location, experience, skills and assignment type are editable.
+- New ordinary WordPress pages and posts use a simple fallback layout. The 22 imported pages use the preserved AES layouts.
+
+FORMS
+- Inquiry, training, verification, feedback and application forms save into AES Submissions.
+- Submissions and their attachments are restricted to site administrators.
+- Supported attachments: PDF, JPG and PNG; maximum 2 MB per file and 5 MB total per submission.
+- No Supabase account, ACF subscription or form plugin is required.
+- Email notifications are disabled by default. Local Studio is not a reliable production mail server. Configure and test SMTP on your host before enabling notifications in AES Website. A saved submission remains in the inbox even if email fails.
+- The original success-only alerts have been replaced with a server-confirmed submission reference.
+- The original application form does not include a CV upload field. Its submitted application details are saved; document fields on the other existing forms support private attachments.
+
+WHAT THIS CONVERSION DOES
+- Preserves the supplied HTML layouts, CSS, images, brochure viewer, menus and animations.
+- Adds CMS fields for page text, image URLs, link URLs and search descriptions.
+- Stores six original vacancies as editable job records.
+- Compiles Tailwind locally; the public pages no longer need Tailwind's development CDN.
+- Reduces the original video size for distribution while preserving the originals in your source ZIP.
+- Keeps your supplied wording. Company facts, names, certifications/accreditation claims and job availability have not been independently verified.
+
+EDITING BOUNDARIES
+This is a custom classic theme with content fields, not a drag-and-drop block recreation. Page layout, adding/removing whole design sections, animation code, contact-reason field definitions, and brochure page-image artwork remain theme-code/asset changes. The original standalone admin.html and Supabase SQL/backend are not included; WordPress is now the management interface. No existing Supabase records were migrated.
+
+DATA AND HOSTING
+- Keep this theme active to use its AES Jobs and AES Submissions interfaces. Switching themes does not delete their database records, but their custom interfaces are supplied by this theme.
+- Back up the whole WordPress site (database, uploads and theme), not only this theme folder.
+- The site currently runs on your PC. Public hosting, domain connection, production SMTP and public-site abuse protection are separate deployment steps.
+- Keep personal documents in the private submissions inbox. Do not upload confidential CVs into the public Media Library.
+
+VERIFICATION
+Tested in an isolated WordPress installation using SQLite, the same database family used by Studio's standard local setup:
+- All 22 supplied public pages rendered.
+- Page text changes saved and appeared on the homepage.
+- Shared-content saves and repeat imports worked; the page count stayed at 22.
+- Six jobs displayed and job selection populated the application form.
+- Both authenticated and visitor submissions reached the private inbox.
+- Missing nonces, empty required submissions and executable attachments were rejected.
+- Mobile navigation opened; no horizontal content overflow was detected at 390 px.
+- Desktop/mobile layout was visually checked. A legacy About-page script error was corrected.
+
+The package contains no test submissions, test database, WordPress core, node_modules, repository history or Supabase credentials.

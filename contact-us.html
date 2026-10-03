@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us | Akshar Engineering Services</title>
+  <meta name="description" content="Contact Akshar Engineering Services Pvt. Ltd. - Direct phone, email, corporate office address, and interactive location directions for QA/QC engineering inspection, testing, and expediting inquiries.">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              blue: '#1b3574',
+              dark: '#11224d',
+              navy: '#0b1633',
+              orange: '#f16826',
+              lightOrange: '#f3834d',
+              amber: '#fbbf24'
+            }
+          },
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'Inter', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Google Fonts: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600;1,700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+      -webkit-font-smoothing: antialiased;
+    }
+    .modal-backdrop {
+      background-color: rgba(11, 22, 51, 0.78);
+      backdrop-filter: blur(6px);
+    }
+    /* Button States: Orange (hover blue + shadow) & Blue (hover white BG + blue font + shadow) */
+    .btn-premium-orange, .btn-theme {
+      background-color: #f16826;
+      color: #ffffff;
+      border: 2px solid transparent;
+      box-shadow: 0 4px 12px rgba(241, 104, 38, 0.25);
+      transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+      cursor: pointer;
+    }
+    .btn-premium-orange:hover, .btn-theme:hover {
+      background-color: #1b3574;
+      color: #ffffff;
+      border-color: #1b3574;
+      box-shadow: 0 12px 24px -4px rgba(27, 53, 116, 0.4), 0 4px 8px -2px rgba(27, 53, 116, 0.25);
+      transform: translateY(-2px);
+    }
+    .btn-premium-orange:active, .btn-theme:active {
+      background-color: #f16826 !important;
+      color: #ffffff !important;
+      border-color: #f16826 !important;
+      box-shadow: 0 4px 10px rgba(241, 104, 38, 0.4) !important;
+      transform: translateY(0) !important;
+    }
+
+    .btn-premium-blue {
+      background-color: #1b3574;
+      color: #ffffff;
+      border: 2px solid #1b3574;
+      box-shadow: 0 4px 12px rgba(27, 53, 116, 0.25);
+      transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+      cursor: pointer;
+    }
+    .btn-premium-blue:hover {
+      background-color: #ffffff;
+      color: #1b3574;
+      border-color: #1b3574;
+      box-shadow: 0 12px 24px -4px rgba(27, 53, 116, 0.35), 0 4px 8px -2px rgba(27, 53, 116, 0.2);
+      transform: translateY(-2px);
+    }
+    .btn-premium-blue:active {
+      background-color: #f16826 !important;
+      color: #ffffff !important;
+      border-color: #f16826 !important;
+      box-shadow: 0 4px 10px rgba(241, 104, 38, 0.4) !important;
+      transform: translateY(0) !important;
+    }
+    .text-slide-footer {
+      background: linear-gradient(90deg, #f16826 0%, #ffffff 40%, #cbd5e1 54%, #94a3b8 100%);
+      background-size: 270% 100%;
+      background-position: 100% 0;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      transition: background-position 0.65s cubic-bezier(0.25, 1, 0.5, 1);
+      display: inline-block;
+    }
+    .text-slide-footer:hover {
+      background-position: 0 0;
+    }
+    .footer-heading {
+      color: #ffffff;
+      font-weight: 800;
+      font-size: 0.8125rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 1.25rem;
+      display: block;
+      border-left: 3px solid #f16826;
+      padding-left: 0.625rem;
+    }
+    .footer-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.625rem;
+    }
+    .footer-list a {
+      color: #94a3b8;
+      font-size: 0.8125rem;
+      font-weight: 600;
+      transition: color 0.2s ease, transform 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.375rem;
+    }
+    .footer-list a:hover {
+      color: #f16826;
+      transform: translateX(3px);
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+    }
+    @media (min-width: 640px) {
+      .footer-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    @media (min-width: 1024px) {
+      .footer-grid {
+        grid-template-columns: 1.5fr 1fr 1fr 1fr 1fr;
+        gap: 2rem;
+      }
+    }
+    .mega-dropdown-menu {
+      position: absolute;
+      top: 100%;
+      left: 50% !important;
+      transform: translateX(-50%) translateY(-10px) scale(0.96) !important;
+      width: 290px;
+      background-color: #0b1633 !important;
+      border: 1px solid rgba(255, 255, 255, 0.15) !important;
+      border-top: 3px solid #f16826 !important;
+      border-radius: 1rem !important;
+      box-shadow: 0 24px 64px -16px rgb(11 22 51 / 60%);
+      max-height: calc(100vh - 120px);
+      overflow-y: auto;
+      opacity: 0 !important;
+      visibility: hidden !important;
+      pointer-events: none !important;
+      transform-origin: top center;
+      transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1), transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.25s;
+      z-index: 60;
+    }
+    .nav-item-dropdown:hover .mega-dropdown-menu,
+    .mega-dropdown-menu.is-open {
+      visibility: visible !important;
+      opacity: 1 !important;
+      pointer-events: auto !important;
+      transform: translateX(-50%) translateY(0) scale(1) !important;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased selection:bg-brand-orange selection:text-white relative">
+
+  <!-- Main Navigation Header -->
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm relative">
+    <div class="w-full max-w-[1600px] mx-auto px-6 sm:px-10 lg:px-16 2xl:px-20 flex justify-between items-center h-24 sm:h-28">
+      
+      <a href="index.html" class="flex items-center space-x-3 shrink-0 py-2">
+        <img src="assets/akshar_logo.png" alt="Akshar Engineering Services Logo" class="h-16 sm:h-20 md:h-24 max-h-24 w-auto object-contain transition-transform duration-300 hover:scale-105">
+      </a>
+
+      <!-- Desktop Nav Items -->
+      <nav class="hidden lg:flex items-center justify-end space-x-8 text-base sm:text-lg font-extrabold shrink-0">
+        <a href="about.html" class="text-brand-blue hover:text-brand-orange transition-colors duration-300">About Us</a>
+        
+        <!-- Services Dropdown Item -->
+        <div class="nav-item-dropdown relative group py-6 flex items-center">
+          <a href="services.html" class="text-brand-blue hover:text-brand-orange text-base sm:text-lg font-extrabold flex items-center gap-1.5 transition-colors duration-300">
+            Services
+            <svg class="w-4 h-4 text-brand-blue group-hover:text-brand-orange transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path></svg>
+          </a>
+
+          <!-- Dropdown Menu -->
+          <div class="mega-dropdown-menu absolute top-full left-1/2 -translate-x-1/2 w-72 bg-[#0b1633] border border-slate-700/80 shadow-2xl rounded-2xl py-2 invisible opacity-0 z-50 transition-all flex flex-col text-left divide-y divide-white/10">
+            <a href="service-tpi.html" class="block px-4 py-2.5 text-xs font-bold text-white hover:text-brand-orange hover:bg-white/5 transition-colors">Third Party Inspection (TPI)</a>
+            <a href="service-vendor-assessment.html" class="block px-4 py-2.5 text-xs font-bold text-white hover:text-brand-orange hover:bg-white/5 transition-colors">Vendor Assessment & Audits</a>
+            <a href="service-expediting.html" class="block px-4 py-2.5 text-xs font-bold text-white hover:text-brand-orange hover:bg-white/5 transition-colors">Expediting Services</a>
+            <a href="service-pre-shipment-inspection.html" class="block px-4 py-2.5 text-xs font-bold text-white hover:text-brand-orange hover:bg-white/5 transition-colors">Pre-Shipment Inspection</a>
+            <a href="service-welding-engineering.html" class="block px-4 py-2.5 text-xs font-bold text-white hover:text-brand-orange hover:bg-white/5 transition-colors">Welding Engineering & Qualification</a>
+            <a href="service-ndt-inspection.html" class="block px-4 py-2.5 text-xs font-bold text-white hover:text-brand-orange hover:bg-white/5 transition-colors">NDT Inspection Services</a>
+            <a href="service-design-examination.html" class="block px-4 py-2.5 text-xs font-bold text-white hover:text-brand-orange hover:bg-white/5 transition-colors">Design Examination & Calculations</a>
+            <a href="service-international-sourcing.html" class="block px-4 py-2.5 text-xs font-bold text-white hover:text-brand-orange hover:bg-white/5 transition-colors">International Sourcing Inspection</a>
+            <a href="service-project-shutdown-qa.html" class="block px-4 py-2.5 text-xs font-bold text-white hover:text-brand-orange hover:bg-white/5 transition-colors">Project & Shutdown QA/QC</a>
+            <a href="service-performance-hydro-tests.html" class="block px-4 py-2.5 text-xs font-bold text-white hover:text-brand-orange hover:bg-white/5 transition-colors">Performance & Hydro-Test Witness</a>
+            <a href="service-qa-qc-documentation.html" class="block px-4 py-2.5 text-xs font-bold text-white hover:text-brand-orange hover:bg-white/5 transition-colors">QA/QC Documentation & MRB</a>
+            <a href="service-owners-engineer.html" class="block px-4 py-2.5 text-xs font-bold text-white hover:text-brand-orange hover:bg-white/5 transition-colors">Owner's Engineer & Governance</a>
+            <a href="service-api-tank-inspection.html" class="block px-4 py-2.5 text-xs font-bold text-white hover:text-brand-orange hover:bg-white/5 transition-colors">API Storage Tank Inspection</a>
+            <a href="service-process-piping.html" class="block px-4 py-2.5 text-xs font-bold text-white hover:text-brand-orange hover:bg-white/5 transition-colors">Process Piping Surveillance</a>
+            <a href="service-process-qualification.html" class="block px-4 py-2.5 text-xs font-bold text-white hover:text-brand-orange hover:bg-white/5 transition-colors">Process Qualification & Audits</a>
+            <a href="service-training.html" class="block px-4 py-2.5 text-xs font-bold text-white hover:text-brand-orange hover:bg-white/5 transition-colors">Technical Training Programs</a>
+          </div>
+        </div>
+
+        <a href="we-hear-you.html" class="text-brand-blue hover:text-brand-orange transition-colors duration-300">We Hear You</a>
+
+        <!-- Highlighted CTA Button -->
+        <a href="contact-us.html" class="btn-premium-orange px-5 py-2.5 rounded-xl text-xs sm:text-sm font-black uppercase tracking-wider inline-flex items-center gap-2 shadow-lg shadow-orange-500/20 hover:shadow-orange-500/40 transition-all duration-300 group">
+          <span>Contact Us</span>
+          <svg class="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+        </a>
+      </nav>
+
+      <!-- Mobile Menu Button -->
+      <div class="flex lg:hidden justify-end">
+        <button id="mobile-menu-btn" type="button" class="p-2 text-brand-blue hover:text-brand-orange rounded-md border border-slate-200">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Menu Dropdown -->
+    <div id="mobile-menu" class="hidden lg:hidden border-t border-slate-200 bg-white px-6 py-4 space-y-3">
+      <a href="about.html" class="block text-base font-bold text-brand-blue hover:text-brand-orange">About Us</a>
+      <a href="services.html" class="block text-base font-bold text-brand-blue hover:text-brand-orange">Services</a>
+      <a href="we-hear-you.html" class="block text-base font-bold text-brand-blue hover:text-brand-orange">We Hear You</a>
+      <div class="pt-2 border-t border-slate-100">
+        <a href="contact-us.html" class="btn-premium-orange w-full py-3 rounded-xl text-center text-xs sm:text-sm font-black uppercase tracking-wider block shadow-md">Contact Us →</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Side Floating Desk Buttons -->
+  <aside aria-label="Quick Action Floating Desk" class="fixed right-0 top-1/2 -translate-y-1/2 z-40 flex flex-col space-y-2.5">
+    <button onclick="openModal('inquiryModal')" class="bg-brand-orange hover:bg-orange-700 text-white font-bold text-xs uppercase tracking-wider py-4 px-3 rounded-l-xl shadow-xl flex items-center justify-center transition-transform hover:-translate-x-2 [writing-mode:vertical-rl] rotate-180 cursor-pointer group">
+      <span>Get in touch</span>
+    </button>
+    <button onclick="openModal('trainingModal')" class="bg-brand-blue hover:bg-brand-dark text-white font-bold text-xs uppercase tracking-wider py-4 px-3 rounded-l-xl shadow-xl flex items-center justify-center transition-transform hover:-translate-x-2 [writing-mode:vertical-rl] rotate-180 cursor-pointer group">
+      <span>Training Inquiry</span>
+    </button>
+  </aside>
+
+  <main>
+    <!-- Hero Banner with Consultation & Support Image -->
+    <section class="relative bg-white text-slate-800 py-12 sm:py-16 overflow-hidden border-b border-slate-100">
+      <div class="absolute inset-0 z-0 pointer-events-none">
+        <div class="absolute -top-32 -left-32 w-96 h-96 bg-brand-blue/10 rounded-full blur-3xl"></div>
+        <div class="absolute -bottom-32 -right-32 w-96 h-96 bg-brand-orange/10 rounded-full blur-3xl"></div>
+      </div>
+      <div class="max-w-7xl mx-auto px-6 lg:px-12 relative z-10">
+        
+        <!-- Breadcrumb -->
+        <nav class="flex items-center gap-2 text-xs font-semibold text-slate-400 mb-6 uppercase tracking-wider">
+          <a href="index.html" class="hover:text-brand-orange transition-colors">Home</a>
+          <span>/</span>
+          <span class="text-brand-orange font-bold">Contact Us</span>
+        </nav>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+          <!-- Text Content -->
+          <div class="lg:col-span-7 space-y-6">
+            <span class="inline-block bg-brand-orange/15 text-brand-orange text-xs font-extrabold uppercase tracking-wider px-3.5 py-1.5 rounded-full border border-brand-orange/30 shadow-xs">
+              GET IN TOUCH • 24/7 TECHNICAL ASSURANCE
+            </span>
+            <h1 class="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark tracking-tight leading-tight">
+              Contact Us
+            </h1>
+            <p class="text-slate-600 text-base sm:text-lg leading-relaxed">
+              Connect with our certified quality engineers, expeditors, and inspection leads for project inquiries, technical audits, vendor evaluations, and global surveillance.
+            </p>
+            <div class="flex flex-wrap items-center gap-4 pt-2">
+              <a href="tel:+918200441159" class="btn-premium-orange py-3.5 px-6 rounded-xl text-xs font-extrabold uppercase tracking-wider inline-flex items-center gap-2 cursor-pointer shadow-md">
+                <span>Call Desk: +91 8200441159</span>
+                <span>→</span>
+              </a>
+              <a href="mailto:info@aksharengineeringservices.com" class="btn-premium-blue py-3.5 px-6 rounded-xl text-xs font-extrabold uppercase tracking-wider inline-flex items-center gap-2 text-center">
+                <span>Send Email</span>
+                <span>✉</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Hero Image Container in Banner -->
+          <div class="lg:col-span-5 flex justify-center lg:justify-end">
+            <div class="relative group w-full max-w-md">
+              <div class="relative rounded-2xl overflow-hidden border-2 border-slate-200/80 shadow-xl bg-white hover:shadow-2xl transition-all duration-500 ease-out hover:-translate-y-1">
+                <img src="assets/contact_hero.jpg" alt="Akshar Engineering Services Headquarters" class="w-full h-[280px] sm:h-[340px] object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out">
+                <div class="absolute inset-0 bg-gradient-to-t from-brand-navy/90 via-brand-navy/20 to-transparent pointer-events-none"></div>
+                <div class="absolute bottom-4 left-4 right-4 text-white">
+                  <span class="text-[11px] font-black text-brand-orange uppercase tracking-wider block">Akshar Engineering Headquarters</span>
+                  <span class="text-sm font-bold text-white">Chandkheda, Ahmedabad, Gujarat</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- 3 Direct Reach Large Bento Cards Section -->
+    <div class="py-16 bg-white">
+      <div class="max-w-7xl mx-auto px-6 lg:px-12 space-y-16">
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          
+          <!-- Call Card -->
+          <div class="p-8 sm:p-10 rounded-3xl bg-slate-50 border-2 border-slate-200/80 hover:border-brand-orange shadow-md hover:shadow-2xl transition-all duration-300 flex flex-col justify-between group">
+            <div>
+              <div class="w-14 h-14 rounded-2xl bg-brand-orange/10 text-brand-orange flex items-center justify-center mb-6 font-bold text-2xl group-hover:scale-110 transition-transform">☎</div>
+              <span class="text-xs font-extrabold text-brand-orange uppercase tracking-wider block mb-2">Direct Phone / WhatsApp</span>
+              <a href="tel:+918200441159" class="text-2xl sm:text-3xl lg:text-4xl font-black text-brand-dark hover:text-brand-orange transition-colors tracking-tight block mb-4">
+                +91 8200441159
+              </a>
+              <p class="text-sm text-slate-600 leading-relaxed mb-6 font-normal">Direct engineering support, rapid surveyor dispatch & inspection scheduling.</p>
+            </div>
+            <div class="pt-6 border-t border-slate-200 flex flex-wrap items-center gap-3">
+              <a href="tel:+918200441159" class="btn-premium-orange py-3 px-5 rounded-xl text-xs font-bold uppercase inline-flex items-center gap-1.5 shadow-sm">
+                <span>Call Direct</span>
+                <span>→</span>
+              </a>
+              <a href="https://wa.me/918200441159" target="_blank" class="px-4 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold uppercase inline-flex items-center gap-1.5 transition-colors shadow-sm">
+                <span>WhatsApp ↗</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Email Card -->
+          <div class="p-8 sm:p-10 rounded-3xl bg-slate-50 border-2 border-slate-200/80 hover:border-brand-blue shadow-md hover:shadow-2xl transition-all duration-300 flex flex-col justify-between group">
+            <div>
+              <div class="w-14 h-14 rounded-2xl bg-brand-blue/10 text-brand-blue flex items-center justify-center mb-6 font-bold text-2xl group-hover:scale-110 transition-transform">✉</div>
+              <span class="text-xs font-extrabold text-brand-blue uppercase tracking-wider block mb-2">Official Email & RFQ Desk</span>
+              <a href="mailto:info@aksharengineeringservices.com" class="text-lg sm:text-xl lg:text-2xl font-black text-brand-dark hover:text-brand-blue transition-colors tracking-tight block break-all mb-4">
+                info@aksharengineeringservices.com
+              </a>
+              <p class="text-sm text-slate-600 leading-relaxed mb-6 font-normal">Send engineering drawings, ITPs, purchase orders, or RFQ specifications.</p>
+            </div>
+            <div class="pt-6 border-t border-slate-200 flex items-center justify-between">
+              <a href="mailto:info@aksharengineeringservices.com" class="btn-premium-blue py-3 px-5 rounded-xl text-xs font-bold uppercase inline-flex items-center gap-1.5 shadow-sm">
+                <span>Compose Email</span>
+                <span>→</span>
+              </a>
+              <span class="text-xs font-bold text-slate-400">Response within 24h</span>
+            </div>
+          </div>
+
+          <!-- Address Card -->
+          <div class="p-8 sm:p-10 rounded-3xl bg-slate-50 border-2 border-slate-200/80 hover:border-slate-400 shadow-md hover:shadow-2xl transition-all duration-300 flex flex-col justify-between group">
+            <div>
+              <div class="w-14 h-14 rounded-2xl bg-slate-900 text-brand-orange flex items-center justify-center mb-6 font-bold text-2xl group-hover:scale-110 transition-transform">📍</div>
+              <span class="text-xs font-extrabold text-slate-500 uppercase tracking-wider block mb-2">Registered & Corporate Headquarters</span>
+              <p class="text-sm sm:text-base font-bold text-slate-800 leading-relaxed mb-3">
+                Tryksha Desire – 302, Near Shree Kirtidham Derasar, Opp. Shiv Shakti RTS bus Stand, Chandkheda, Ahmedabad – 382424, Gujarat, India.
+              </p>
+              <span class="text-xs text-brand-orange font-bold block mb-4">⏰ Monday – Saturday (9:00 AM – 7:00 PM IST)</span>
+            </div>
+            <div class="pt-6 border-t border-slate-200 flex items-center justify-between">
+              <a href="https://maps.google.com/maps?q=Tryksha+Desire%2C+Near+Shree+Kirtidham+Derasar%2C+Opp+Shiv+Shakti+BRTS+Stand%2C+Chandkheda%2C+Ahmedabad%2C+Gujarat+382424" target="_blank" class="text-xs font-bold text-brand-blue hover:text-brand-orange transition-colors inline-flex items-center gap-1">
+                <span>Get Directions</span>
+                <span>↗</span>
+              </a>
+              <span class="text-xs font-bold text-slate-400">Ahmedabad, Gujarat</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Full-Width Interactive Google Maps Card -->
+        <div class="space-y-6 pt-6">
+          <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-4 border-b border-slate-200">
+            <div>
+              <span class="text-xs font-extrabold text-brand-orange uppercase tracking-wider block mb-1.5">Interactive Location & Directions</span>
+              <h2 class="text-2xl sm:text-3xl lg:text-4xl font-black text-brand-dark">Find Our Headquarters</h2>
+              <p class="text-sm sm:text-base text-slate-600 mt-1 font-medium">
+                Tryksha Desire – 302, Near Shree Kirtidham Derasar, Opp. Shiv Shakti RTS bus Stand, Chandkheda, Ahmedabad – 382424, Gujarat, India.
+              </p>
+            </div>
+            <a href="https://maps.google.com/maps?q=Tryksha+Desire%2C+Near+Shree+Kirtidham+Derasar%2C+Opp+Shiv+Shakti+BRTS+Stand%2C+Chandkheda%2C+Ahmedabad%2C+Gujarat+382424" target="_blank" class="inline-flex items-center gap-2 text-xs font-bold text-brand-blue hover:text-brand-orange transition-colors shrink-0 bg-slate-100 hover:bg-slate-200 px-5 py-3 rounded-xl border border-slate-200 shadow-sm">
+              <span>Open in Google Maps</span>
+              <span>↗</span>
+            </a>
+          </div>
+
+          <div class="w-full rounded-3xl overflow-hidden shadow-2xl border-2 border-slate-200 relative bg-slate-100" style="height: 520px; min-height: 520px;">
+            <iframe 
+              src="https://maps.google.com/maps?q=Tryksha+Desire%2C+Near+Shree+Kirtidham+Derasar%2C+Opp+Shiv+Shakti+BRTS+Stand%2C+Chandkheda%2C+Ahmedabad%2C+Gujarat+382424&t=&z=16&ie=UTF8&iwloc=&output=embed" 
+              width="100%" 
+              height="100%" 
+              style="border:0; width: 100%; height: 100%; min-height: 520px; display: block;" 
+              allowfullscreen="" 
+              loading="lazy" 
+              referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- Global Footer -->
+  <footer class="relative bg-[#070e22] text-slate-300 text-sm border-t-2 border-brand-orange">
+    <div class="w-full max-w-[1600px] mx-auto px-6 sm:px-10 lg:px-16 2xl:px-20 py-12 sm:py-14">
+      <div class="footer-grid">
+        <!-- Brand Info -->
+        <div class="space-y-4">
+          <a href="index.html" class="inline-block bg-white p-2 rounded-xl shadow-md transition-transform hover:scale-105 duration-200">
+            <img src="assets/akshar_logo.png" alt="Akshar Engineering Services Logo" class="h-12 w-auto object-contain">
+          </a>
+          <p class="text-slate-300 text-xs leading-relaxed max-w-sm font-normal">
+            Independent Third Party Inspection, Quality Assurance, Expediting, and Technical Advisory Services operating globally across critical industrial infrastructure.
+          </p>
+          <div class="space-y-2 pt-1 text-xs text-slate-300 font-medium">
+            <div class="flex items-center gap-2">
+              <span class="text-brand-orange font-bold text-xs">✉</span>
+              <span class="text-slate-400 text-[11px]">Direct Support:</span>
+              <a href="mailto:info@aksharengineeringservices.com" class="text-slate-200 hover:text-brand-orange transition-colors font-semibold">info@aksharengineeringservices.com</a>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="text-brand-orange font-bold text-xs">☎</span>
+              <span class="text-slate-400 text-[11px]">Helpline:</span>
+              <a href="tel:+918200441159" class="text-slate-200 hover:text-brand-orange transition-colors font-semibold">+91 8200441159</a>
+            </div>
+          </div>
+          <div class="pt-2 flex flex-wrap gap-2.5">
+            <button type="button" onclick="openModal('verifyDocModal')" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-white/5 hover:bg-brand-orange hover:text-white text-xs font-bold text-slate-200 border border-white/10 transition-all cursor-pointer group">
+              <svg class="w-3.5 h-3.5 text-brand-orange group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+              <span>Verify IRN Report</span>
+            </button>
+            <button type="button" onclick="openModal('companyProfileModal')" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-white/5 hover:bg-brand-blue hover:text-white text-xs font-bold text-slate-200 border border-white/10 transition-all cursor-pointer">
+              <span>📖</span>
+              <span>Brochure Flipbook</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Quick Links -->
+        <div>
+          <span class="footer-heading">Quick Links</span>
+          <div class="footer-list">
+            <a href="index.html">Home</a>
+            <a href="about.html">About Us</a>
+            <a href="services.html">All Services</a>
+            <a href="careers.html">Careers & Vacancies</a>
+            <a href="join-us.html">Join as Inspector</a>
+            <a href="we-hear-you.html">We Hear You</a>
+            <a href="contact-us.html">Contact Us</a>
+          </div>
+        </div>
+
+        <!-- Primary Services -->
+        <div>
+          <span class="footer-heading">Inspection & Audits</span>
+          <div class="footer-list">
+            <a href="service-tpi.html">Third Party Inspection (TPI)</a>
+            <a href="service-vendor-assessment.html">Vendor Assessment & Audits</a>
+            <a href="service-expediting.html">Expediting Services</a>
+            <a href="service-pre-shipment-inspection.html">Pre-Shipment Inspection</a>
+            <a href="service-welding-engineering.html">Welding Engineering & WPS</a>
+            <a href="service-ndt-inspection.html">NDT Inspection Services</a>
+            <a href="service-api-tank-inspection.html">API Storage Tank Inspection</a>
+          </div>
+        </div>
+
+        <!-- Specialized Services -->
+        <div>
+          <span class="footer-heading">Specialized Services</span>
+          <div class="footer-list">
+            <a href="service-design-examination.html">Design Examination</a>
+            <a href="service-international-sourcing.html">International Sourcing</a>
+            <a href="service-project-shutdown-qa.html">Project & Shutdown QA</a>
+            <a href="service-performance-hydro-tests.html">Performance & Hydro-Tests</a>
+            <a href="service-qa-qc-documentation.html">QA/QC Documentation & MRB</a>
+            <a href="service-owners-engineer.html">Owner's Engineer Governance</a>
+            <a href="service-training.html">Technical Training Programs</a>
+          </div>
+        </div>
+
+        <!-- Corporate Address -->
+        <div>
+          <span class="footer-heading">Corporate Office</span>
+          <p class="text-xs text-slate-300 leading-relaxed font-normal">
+            Tryksha Desire – 302, Near Shree Kirtidham Derasar, Opp. Shiv Shakti RTS bus Stand, Chandkheda, Ahmedabad – 382424, Gujarat, India.
+          </p>
+          <div class="pt-3">
+            <a href="https://maps.google.com/maps?q=Tryksha+Desire%2C+Near+Shree+Kirtidham+Derasar%2C+Opp+Shiv+Shakti+BRTS+Stand%2C+Chandkheda%2C+Ahmedabad%2C+Gujarat+382424" target="_blank" class="inline-flex items-center gap-1.5 text-brand-orange hover:underline text-xs font-bold">
+              <span>View On Google Maps</span>
+              <span>↗</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-12 pt-6 border-t border-slate-800/80 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-slate-400">
+        <p>© 2026 Akshar Engineering Services Pvt. Ltd. All rights reserved.</p>
+        <p class="text-slate-300">Excellence in Engineering Inspection & Quality Assurance.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Floating Modals -->
+  <div id="inquiryModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4">
+    <div class="modal-backdrop fixed inset-0" onclick="closeModal('inquiryModal')"></div>
+    <div class="relative bg-white rounded-2xl max-w-lg w-full p-6 sm:p-8 z-10 shadow-2xl border border-slate-100 max-h-[90vh] overflow-y-auto">
+      <div class="flex justify-between items-center mb-6">
+        <div>
+          <span class="text-xs font-extrabold text-brand-orange uppercase tracking-wider block">Direct Technical Desk</span>
+          <h3 class="text-xl font-black text-brand-dark">Request Inspection / RFQ</h3>
+        </div>
+        <button onclick="closeModal('inquiryModal')" class="text-slate-400 hover:text-slate-600 p-1 rounded-lg hover:bg-slate-100 text-xl font-bold">✕</button>
+      </div>
+      <div class="space-y-4 text-xs text-slate-600">
+        <p>Connect immediately with our coordination desk to schedule inspection visits or receive technical proposals.</p>
+        <div class="p-4 bg-slate-50 rounded-xl space-y-2 border border-slate-200">
+          <div><strong class="text-slate-800">Phone:</strong> <a href="tel:+918200441159" class="text-brand-orange font-bold">+91 8200441159</a></div>
+          <div><strong class="text-slate-800">Email:</strong> <a href="mailto:info@aksharengineeringservices.com" class="text-brand-blue font-bold">info@aksharengineeringservices.com</a></div>
+          <div><strong class="text-slate-800">Location:</strong> Chandkheda, Ahmedabad, Gujarat</div>
+        </div>
+        <div class="pt-2">
+          <a href="tel:+918200441159" class="btn-premium-orange w-full py-3 rounded-xl text-center text-xs font-bold uppercase block shadow-md">Call Now (+91 8200441159)</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="trainingModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4">
+    <div class="modal-backdrop fixed inset-0" onclick="closeModal('trainingModal')"></div>
+    <div class="relative bg-white rounded-2xl max-w-lg w-full p-6 sm:p-8 z-10 shadow-2xl border border-slate-100 max-h-[90vh] overflow-y-auto">
+      <div class="flex justify-between items-center mb-6">
+        <div>
+          <span class="text-xs font-extrabold text-brand-blue uppercase tracking-wider block">Technical Excellence</span>
+          <h3 class="text-xl font-black text-brand-dark">Training Programs</h3>
+        </div>
+        <button onclick="closeModal('trainingModal')" class="text-slate-400 hover:text-slate-600 p-1 rounded-lg hover:bg-slate-100 text-xl font-bold">✕</button>
+      </div>
+      <div class="space-y-4 text-xs text-slate-600">
+        <p>Inquire about ASNT Level II NDT courses, Welding Inspector training, and ASME code certifications.</p>
+        <div class="p-4 bg-slate-50 rounded-xl space-y-2 border border-slate-200">
+          <div><strong class="text-slate-800">Coordinator:</strong> Technical Training Lead</div>
+          <div><strong class="text-slate-800">Email:</strong> <a href="mailto:info@aksharengineeringservices.com" class="text-brand-blue font-bold">info@aksharengineeringservices.com</a></div>
+        </div>
+        <div class="pt-2">
+          <a href="service-training.html" class="btn-premium-blue w-full py-3 rounded-xl text-center text-xs font-bold uppercase block shadow-md">Explore Training Syllabus →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function openModal(id) {
+      var m = document.getElementById(id);
+      if (m) m.classList.remove('hidden');
+    }
+    function closeModal(id) {
+      var m = document.getElementById(id);
+      if (m) m.classList.add('hidden');
+    }
+    
+    // Mobile menu toggle
+    var menuBtn = document.getElementById('mobile-menu-btn');
+    var mobileMenu = document.getElementById('mobile-menu');
+    if (menuBtn && mobileMenu) {
+      menuBtn.addEventListener('click', function() {
+        mobileMenu.classList.toggle('hidden');
+      });
+    }
+
+    // Mega Dropdown Hover & Click Handling
+    (function () {
+      var dropdown = document.querySelector('.nav-item-dropdown');
+      var menu = document.querySelector('.mega-dropdown-menu');
+      var closeTimer = null;
+
+      if (dropdown && menu) {
+        function openMenu() {
+          if (closeTimer) {
+            clearTimeout(closeTimer);
+            closeTimer = null;
+          }
+          menu.classList.add('is-open');
+        }
+
+        function scheduleClose() {
+          if (closeTimer) clearTimeout(closeTimer);
+          closeTimer = setTimeout(function () {
+            menu.classList.remove('is-open');
+          }, 260);
+        }
+
+        dropdown.addEventListener('mouseenter', openMenu);
+        dropdown.addEventListener('mouseleave', scheduleClose);
+        menu.addEventListener('mouseenter', openMenu);
+        menu.addEventListener('mouseleave', scheduleClose);
+      }
+    })();
+  </script>
+</body>
+</html>
