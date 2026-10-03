@@ -1049,61 +1049,49 @@
   <!-- 10. INTERACTIVE POPUP MODALS                                      -->
   <!-- ================================================================= -->
 
-  <!-- Modal: Company Profile Native Interactive Flipbook Reader -->
+  <!-- Modal: Company Profile PDF Reader -->
   <div id="companyProfileModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-2 sm:p-4 modal-backdrop bg-black/85 backdrop-blur-md">
-    <div class="bg-[#0b1633] text-white rounded-2xl shadow-2xl max-w-6xl w-full h-[94vh] flex flex-col border border-slate-700/80 overflow-hidden relative">
+    <div class="bg-[#0b1633] text-white rounded-2xl shadow-2xl max-w-5xl w-full h-[90vh] flex flex-col border border-slate-700/80 overflow-hidden relative">
       
-      <!-- Modal Header -->
-      <div class="bg-[#0b1633] px-4 sm:px-6 py-3 flex justify-between items-center shrink-0 border-b border-white/10">
+      <!-- PDF Header -->
+      <div class="bg-[#0b1633] px-4 sm:px-6 py-3.5 flex justify-between items-center shrink-0 border-b border-white/10">
         <div class="flex items-center space-x-3">
-          <span class="text-2xl text-brand-orange">&#128214;</span>
+          <span class="text-2xl text-brand-orange">📄</span>
           <div>
-            <h3 class="text-sm sm:text-base font-extrabold text-white leading-tight">Akshar Engineering Services — Interactive Brochure</h3>
-            <span id="aesFlipbookPageLabel" class="text-xs text-brand-orange font-bold">Page 1 of 8 — Cover</span>
+            <h3 class="text-sm sm:text-base font-extrabold text-white leading-tight">Akshar Engineering Services — Company Profile</h3>
+            <span class="text-xs text-slate-400 font-medium">Official Corporate Brochure & Scope Catalog</span>
           </div>
         </div>
-        <div class="flex items-center space-x-2">
-          <button onclick="window.aesToggleZoom()" class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-xs font-bold text-white transition-colors border border-white/10 cursor-pointer">
-            <span>&#128065;</span> <span id="aesZoomBtnText">Zoom 125%</span>
-          </button>
-          <button onclick="window.aesToggleFullscreen()" class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-xs font-bold text-white transition-colors border border-white/10 cursor-pointer">
-            <span>&#x26F6;</span> Fullscreen
-          </button>
-          <a href="assets/Company Profile.pdf" download="AES_Company_Profile.pdf" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-brand-orange hover:bg-orange-600 text-xs font-bold text-white shadow-md transition-colors">
-            <span>&#128190;</span> Download PDF
+        <div class="flex items-center space-x-2.5">
+          <a class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-brand-orange hover:bg-orange-600 text-xs font-bold text-white shadow-md transition-all duration-200 hover:scale-105" download="Akshar-Engineering-Company-Profile.pdf" href="assets/Company Profile.pdf">
+            <span>📥</span> <span>Download PDF</span>
           </a>
-          <button onclick="closeModal('companyProfileModal')" class="p-1.5 text-slate-400 hover:text-white text-2xl font-bold leading-none ml-1 cursor-pointer">&times;</button>
+          <a class="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-xs font-bold text-white transition-colors border border-white/10" target="_blank" href="assets/Company Profile.pdf">
+            <span>↗</span> <span>Open Fullscreen</span>
+          </a>
+          <button class="p-2 text-slate-400 hover:text-white rounded-lg hover:bg-white/10 transition-colors cursor-pointer text-xl leading-none font-bold" onclick="closeModal('companyProfileModal')">✕</button>
         </div>
       </div>
 
-      <!-- Flipbook Main Stage with Side Arrows -->
-      <div id="aesFlipbookContainer" class="flex-1 w-full bg-slate-950 relative flex items-center justify-center p-2 sm:p-4 overflow-hidden select-none">
-        
-        <!-- Left Flip Arrow -->
-        <button onclick="window.aesFlipPrev()" class="absolute left-2 sm:left-4 z-20 w-10 sm:w-12 h-10 sm:h-12 rounded-full bg-black/60 hover:bg-brand-orange text-white flex items-center justify-center text-lg sm:text-xl font-black shadow-xl transition-all duration-200 border border-white/20 hover:scale-110 cursor-pointer backdrop-blur-xs" aria-label="Previous Page">
-          &#10094;
-        </button>
-
-        <!-- Dynamic Book Stage -->
-        <div id="aesFlipbookStage" class="w-full h-full flex items-center justify-center overflow-auto">
-          <!-- Injected via flipbook-reader.js -->
-        </div>
-
-        <!-- Right Flip Arrow -->
-        <button onclick="window.aesFlipNext()" class="absolute right-2 sm:right-4 z-20 w-10 sm:w-12 h-10 sm:h-12 rounded-full bg-black/60 hover:bg-brand-orange text-white flex items-center justify-center text-lg sm:text-xl font-black shadow-xl transition-all duration-200 border border-white/20 hover:scale-110 cursor-pointer backdrop-blur-xs" aria-label="Next Page">
-          &#10095;
-        </button>
+      <!-- PDF Viewer Body -->
+      <div class="flex-1 w-full bg-slate-900 relative">
+        <iframe 
+          src="assets/Company Profile.pdf#toolbar=1&navpanes=0&view=FitH" 
+          class="w-full h-full border-0" 
+          title="Akshar Engineering Services Company Profile">
+          <p class="p-8 text-center text-slate-300 text-sm">
+            Your browser does not support inline PDF viewing. 
+            <a href="assets/Company Profile.pdf" class="text-brand-orange underline font-bold" download>Click here to download the PDF</a>.
+          </p>
+        </iframe>
       </div>
 
-      <!-- Bottom Thumbnail Navigation Strip -->
-      <div class="bg-[#080f24] px-4 py-2.5 border-t border-white/10 shrink-0 flex items-center justify-between gap-4">
-        <span class="hidden md:inline-block text-[11px] font-bold text-slate-400 uppercase tracking-wider">Brochure Pages:</span>
-        <div id="aesFlipbookThumbStrip" class="flex items-center gap-2 overflow-x-auto py-1 max-w-full no-scrollbar mx-auto">
-          <!-- Injected via flipbook-reader.js -->
-        </div>
-        <div class="hidden md:flex items-center gap-2 text-slate-400 text-xs font-semibold">
-          <span>Use &#x2B05; &#x27A1; arrow keys</span>
-        </div>
+      <!-- PDF Footer -->
+      <div class="bg-[#070e22] px-4 sm:px-6 py-2.5 flex justify-between items-center shrink-0 border-t border-white/10 text-xs text-slate-400">
+        <span>Akshar Engineering Services Pvt. Ltd.</span>
+        <a href="assets/Company Profile.pdf" download="Akshar-Engineering-Company-Profile.pdf" class="text-brand-orange hover:underline font-bold inline-flex items-center gap-1">
+          <span>Download Official PDF Brochure (9.9 MB)</span> <span>⬇</span>
+        </a>
       </div>
 
     </div>
