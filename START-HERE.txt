@@ -1,0 +1,27 @@
+AES WORDPRESS THEME — LOCAL INSTALLATION
+
+1. In Local select your working WordPress site and click Site folder.
+2. Open app/public/wp-content/themes.
+3. Extract this ZIP and copy its akshar-engineering folder there.
+   Correct location: app/public/wp-content/themes/akshar-engineering/style.css
+   Do not copy the outer ZIP wrapper or replace WordPress core files.
+4. In WP Admin > Appearance > Themes activate Akshar Engineering CMS.
+5. Open AES Website in the dashboard sidebar and click Import AES pages.
+6. Click Open site in Local.
+
+Import creates 23 website pages and six starter jobs, sets Home as the front
+page and reuses published pages with matching addresses. Repeating the import
+does not duplicate pages or reset editable field values. Import runs only when
+you click its button.
+
+EDITING
+AES Website: shared navigation/contact details and links to editable page fields.
+Pages: edit AES content fields for each page.
+AES Jobs: manage vacancies.
+Form Submissions: view the private inbox. PDF/JPG/PNG attachments are limited
+to 2 MB each and 5 MB per submission. Email notifications are off by default.
+The original layouts, images and videos are bundled; no paid plugin is needed.
+
+This is a theme, not a full WordPress site/database backup. Use your existing
+Local site's WordPress admin login; root/root database credentials are not
+WordPress admin credentials. A theme cannot repair a missing wp-config.php.

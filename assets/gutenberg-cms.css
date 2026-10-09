@@ -1,0 +1,274 @@
+/* AES Gutenberg Visual Block Editor Styles */
+.editor-styles-wrapper {
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif !important;
+  color: #1e293b;
+  background-color: #f8fafc;
+}
+
+/* Make the Gutenberg canvas full-width so the page looks identical to frontend */
+.editor-styles-wrapper .wp-block {
+  max-width: 100% !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+.editor-styles-wrapper .block-editor-block-list__layout.is-root-container > :where(:not(.alignleft):not(.alignright):not(.alignfull)) {
+  max-width: 100% !important;
+}
+
+/* Theme utility classes from data/*.json styles */
+.aes-gb-canvas .btn-premium-orange,
+.aes-gb-canvas .btn-theme {
+  background-color: #f16826 !important;
+  color: #ffffff !important;
+  border: 2px solid transparent;
+  box-shadow: 0 4px 12px rgba(241, 104, 38, 0.25);
+  transition: all 0.25s ease;
+  cursor: pointer;
+}
+
+.aes-gb-canvas .btn-premium-blue {
+  background-color: #1b3574 !important;
+  color: #ffffff !important;
+  border: 2px solid #1b3574;
+  box-shadow: 0 4px 12px rgba(27, 53, 116, 0.25);
+  transition: all 0.25s ease;
+  cursor: pointer;
+}
+
+.aes-gb-canvas .heading-line-track {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 4px;
+  border-radius: 9999px;
+  background: rgba(226, 232, 240, 0.6);
+}
+
+.aes-gb-canvas .section-accent-line {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 60px;
+  height: 100%;
+  background-color: #f16826;
+  border-radius: 9999px;
+  opacity: 1 !important;
+}
+
+/* Ensure Core Services slide-up drawer text is always visible and editable in editor */
+.aes-gb-canvas .service-slide-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 1rem;
+}
+
+.aes-gb-canvas .service-card-drawer {
+  transform: translateY(0) !important;
+  max-height: 100% !important;
+}
+
+.aes-gb-canvas .service-drawer-desc {
+  opacity: 1 !important;
+}
+
+/* Pause infinite marquee inside editor so client logos can be clicked and edited */
+.aes-gb-canvas .animate-marquee-ltr {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  width: 100% !important;
+  animation: none !important;
+  transform: none !important;
+}
+
+/* Section Wrapper Bar in Gutenberg */
+.aes-gb-section-wrap {
+  position: relative;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  margin-bottom: 18px;
+  background: #ffffff;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.06);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.aes-gb-section-wrap:hover,
+.aes-gb-section-wrap.is-selected {
+  border-color: #f16826;
+  box-shadow: 0 8px 24px rgba(241, 104, 38, 0.14);
+}
+
+.aes-gb-section-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 16px;
+  background: #0f172a;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 700;
+  font-family: system-ui, -apple-system, sans-serif;
+  border-radius: 6px 6px 0 0;
+}
+
+.aes-gb-section-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #f16826;
+  color: #ffffff;
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+
+.aes-gb-section-badge.is-global {
+  background: #2563eb;
+}
+
+.aes-gb-bar-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.aes-gb-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 11px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff !important;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.aes-gb-btn:hover {
+  background: #f16826;
+  border-color: #f16826;
+}
+
+.aes-gb-btn.is-primary {
+  background: #f16826;
+  border-color: #f16826;
+}
+
+.aes-gb-btn.is-danger {
+  background: #e11d48;
+  border-color: #e11d48;
+}
+
+/* Editable elements hover & active states */
+.aes-gb-canvas [contenteditable="true"]:hover {
+  outline: 1px dashed rgba(241, 104, 38, 0.65);
+  outline-offset: 2px;
+}
+
+.aes-gb-canvas [contenteditable="true"]:focus {
+  outline: 2px solid #f16826 !important;
+  outline-offset: 3px;
+  background-color: rgba(241, 104, 38, 0.08);
+  border-radius: 3px;
+}
+
+.aes-gb-canvas img {
+  cursor: pointer;
+  transition: outline 0.15s ease;
+}
+
+.aes-gb-canvas img:hover {
+  outline: 3px solid #3b82f6 !important;
+  outline-offset: 2px;
+}
+
+.aes-gb-active-element {
+  outline: 2px solid #2563eb !important;
+  outline-offset: 3px;
+}
+
+/* Floating Contextual Action Toolbar inside Block */
+.aes-gb-context-bar {
+  position: sticky;
+  top: 0;
+  z-index: 60;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 16px;
+  background: #1e293b;
+  border-bottom: 2px solid #f16826;
+  color: #f8fafc;
+  font-family: system-ui, -apple-system, sans-serif;
+  font-size: 12px;
+}
+
+.aes-gb-context-group {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.aes-gb-input {
+  background: #0f172a !important;
+  color: #ffffff !important;
+  border: 1px solid #475569 !important;
+  border-radius: 5px !important;
+  padding: 4px 8px !important;
+  font-size: 12px !important;
+  min-width: 200px;
+}
+
+/* Visual Services Dropdown Editor Panel */
+.aes-gb-dropdown-editor {
+  background: #0b1633;
+  border-top: 3px solid #f16826;
+  padding: 16px 20px;
+  color: #ffffff;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+.aes-gb-dropdown-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.aes-gb-dropdown-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 8px;
+  padding: 10px 12px;
+}
+
+.aes-gb-dropdown-item-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.aes-gb-dropdown-item input {
+  width: 100%;
+  background: #070e22 !important;
+  color: #ffffff !important;
+  border: 1px solid #334155 !important;
+  border-radius: 5px !important;
+  padding: 5px 8px !important;
+  font-size: 12px !important;
+}

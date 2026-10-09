@@ -1,0 +1,94 @@
+{
+  "about": {
+    "title": "About Us",
+    "file": "about.html"
+  },
+  "careers": {
+    "title": "Careers",
+    "file": "careers.html"
+  },
+  "home": {
+    "title": "Home",
+    "file": "index.html"
+  },
+  "join-us": {
+    "title": "Join Us",
+    "file": "join-us.html"
+  },
+  "service-api-tank-inspection": {
+    "title": "API Storage Tank Inspection (650/653)",
+    "file": "service-api-tank-inspection.html"
+  },
+  "service-design-examination": {
+    "title": "Engineering Design Examination",
+    "file": "service-design-examination.html"
+  },
+  "service-expediting": {
+    "title": "Supply Chain Expediting Services",
+    "file": "service-expediting.html"
+  },
+  "service-international-sourcing": {
+    "title": "International Sourcing Surveillance",
+    "file": "service-international-sourcing.html"
+  },
+  "service-ndt-inspection": {
+    "title": "NDT Inspection Services Level II & III",
+    "file": "service-ndt-inspection.html"
+  },
+  "service-owners-engineer": {
+    "title": "Owner's Engineer & Quality Governance",
+    "file": "service-owners-engineer.html"
+  },
+  "service-performance-hydro-tests": {
+    "title": "Performance & Hydro-Tests Witness",
+    "file": "service-performance-hydro-tests.html"
+  },
+  "service-pre-shipment-inspection": {
+    "title": "Pre-Shipment & Pre-Despatch Inspection",
+    "file": "service-pre-shipment-inspection.html"
+  },
+  "service-process-piping": {
+    "title": "Process Piping Quality Surveillance (ASME B31.3)",
+    "file": "service-process-piping.html"
+  },
+  "service-process-qualification": {
+    "title": "Process Qualification & Special Processes",
+    "file": "service-process-qualification.html"
+  },
+  "service-project-shutdown-qa": {
+    "title": "Project & Shutdown Turnaround QA",
+    "file": "service-project-shutdown-qa.html"
+  },
+  "service-qa-qc-documentation": {
+    "title": "QA/QC Documentation & MRB Support",
+    "file": "service-qa-qc-documentation.html"
+  },
+  "service-tpi": {
+    "title": "Third Party Inspection (TPI)",
+    "file": "service-tpi.html"
+  },
+  "service-training": {
+    "title": "QA/QC & NDT Technical Training Programs",
+    "file": "service-training.html"
+  },
+  "service-vendor-assessment": {
+    "title": "Vendor Assessment & Auditing",
+    "file": "service-vendor-assessment.html"
+  },
+  "service-welding-engineering": {
+    "title": "Welding Engineering & Qualification",
+    "file": "service-welding-engineering.html"
+  },
+  "services": {
+    "title": "Akshar Engineering Services",
+    "file": "services.html"
+  },
+  "we-hear-you": {
+    "title": "We Hear You",
+    "file": "we-hear-you.html"
+  },
+  "contact-us": {
+    "title": "Contact Us",
+    "file": "contact-us.html"
+  }
+}
