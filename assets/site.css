@@ -143,22 +143,17 @@ body > header a:is([aria-current=page], [aria-current=true]) { color: var(--aes-
 .aes-menu-toggle:hover { background: #fff4ed; }
 .aes-menu-toggle svg { width: 16px; height: 16px; transition: transform 200ms ease; }
 .aes-menu-toggle[aria-expanded=true] svg { transform: rotate(180deg); }
-:is(.btn-premium-orange, .btn-premium-blue) {
+:is(.btn-premium-orange, .btn-premium-blue, .btn-theme) {
   background-image: none; min-height: 48px;
   box-shadow: 0 4px 12px rgba(27, 53, 116, 0.15);
   transition: background-color 220ms ease, color 220ms ease, border-color 220ms ease, box-shadow 220ms ease, transform 220ms var(--aes-ease);
 }
-.btn-premium-orange { background-color: var(--aes-blue); color: #fff; border: 2px solid var(--aes-blue); }
-.btn-premium-blue { background-color: var(--aes-blue); color: #fff; border: 2px solid var(--aes-blue); }
-.btn-premium-orange:is(:hover, :focus-visible) { background-color: var(--aes-orange); color: #fff; border-color: var(--aes-orange);
-  box-shadow: 0 12px 24px -4px rgba(27, 53, 116, 0.4), 0 4px 8px -2px rgba(27, 53, 116, 0.25);
+.btn-premium-orange, .btn-premium-blue, .btn-theme { background-color: var(--aes-blue) !important; color: #fff !important; border: 2px solid var(--aes-blue) !important; }
+:is(.btn-premium-orange, .btn-premium-blue, .btn-theme):is(:hover, :focus-visible) { background-color: var(--aes-orange) !important; color: #fff !important; border-color: var(--aes-orange) !important;
+  box-shadow: 0 12px 24px -4px rgba(241, 104, 38, 0.4), 0 4px 8px -2px rgba(241, 104, 38, 0.25);
   transform: translateY(-2px);
 }
-.btn-premium-blue:is(:hover, :focus-visible) { background-color: var(--aes-orange); color: #fff; border-color: var(--aes-orange);
-  box-shadow: 0 12px 24px -4px rgba(27, 53, 116, 0.35), 0 4px 8px -2px rgba(27, 53, 116, 0.2);
-  transform: translateY(-2px);
-}
-:is(.btn-premium-orange, .btn-premium-blue):active {
+:is(.btn-premium-orange, .btn-premium-blue, .btn-theme):active {
   background-color: var(--aes-orange) !important; color: #fff !important; border-color: var(--aes-orange) !important;
   transform: translateY(0); box-shadow: 0 4px 10px rgba(241, 104, 38, 0.4) !important;
 }

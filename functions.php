@@ -122,13 +122,14 @@ function aes_render($key) {
 }
 
 add_action('wp_enqueue_scripts', function () {
-    wp_enqueue_style('aes-utilities', get_template_directory_uri() . '/assets/compiled.css', [], '2.0');
-    wp_enqueue_style('aes-site', get_template_directory_uri() . '/assets/site.css', ['aes-utilities'], '2.0');
+    $ver = filemtime(AES_DIR . '/assets/site.css') ?: '3.0';
+    wp_enqueue_style('aes-utilities', get_template_directory_uri() . '/assets/compiled.css', [], $ver);
+    wp_enqueue_style('aes-site', get_template_directory_uri() . '/assets/site.css', ['aes-utilities'], $ver);
     wp_enqueue_style('aes-fonts', 'https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600;1,700&display=swap', [], null);
-    wp_enqueue_script('aes-site', get_template_directory_uri() . '/assets/site.js', [], '2.0', true);
+    wp_enqueue_script('aes-site', get_template_directory_uri() . '/assets/site.js', [], $ver, true);
     wp_localize_script('aes-site', 'AES', ['theme' => get_template_directory_uri(), 'ajax' => admin_url('admin-ajax.php'), 'nonce' => wp_create_nonce('aes_submit')]);
-    wp_enqueue_script('aes-flipbook', get_template_directory_uri() . '/assets/flipbook-reader.js', ['aes-site'], '2.0', true);
-    wp_enqueue_script('aes-forms', get_template_directory_uri() . '/assets/forms.js', ['aes-site'], '2.0', true);
+    wp_enqueue_script('aes-flipbook', get_template_directory_uri() . '/assets/flipbook-reader.js', ['aes-site'], $ver, true);
+    wp_enqueue_script('aes-forms', get_template_directory_uri() . '/assets/forms.js', ['aes-site'], $ver, true);
     wp_add_inline_style('aes-site', '#wpadminbar{position:fixed!important;top:0!important}.admin-bar > header{top:32px}.aes-form-status{padding:12px;margin-top:12px;font-size:14px}.aes-form-status[data-error="true"]{color:#b91c1c}.aes-form-status[data-error="false"]{color:#166534}.aes-trap{position:absolute!important;left:-9999px!important}.aes-generic{max-width:1100px;margin:auto;padding:60px 24px}.aes-generic h1{font-size:40px;font-weight:800}.aes-generic p{margin:16px 0}@media(max-width:782px){.admin-bar > header{top:46px}}');
 });
 
@@ -148,7 +149,7 @@ function aes_job_cards() {
     $html = '';
     foreach ($jobs as $job) {
         $d = (array) get_post_meta($job->ID, '_aes_job', true);
-        $html .= '<article class="bouncy-card bg-white rounded-2xl p-7 border border-slate-200 shadow-sm flex flex-col justify-between"><div><div class="flex items-center justify-between gap-2 mb-4"><span class="bg-orange-100 text-brand-orange text-[11px] font-extrabold px-3 py-1 rounded-full">' . esc_html($d['type'] ?? '') . '</span><span class="text-xs text-slate-400">' . esc_html($d['location'] ?? '') . '</span></div><h3 class="text-lg font-black text-brand-dark mb-2">' . esc_html($job->post_title) . '</h3><div class="text-xs text-slate-600 leading-relaxed mb-4">' . wp_kses_post(wpautop($job->post_content)) . '</div><p class="text-xs text-slate-500"><strong>Experience:</strong> ' . esc_html($d['experience'] ?? '') . '</p><p class="text-xs text-slate-500"><strong>Key skills:</strong> ' . esc_html($d['skills'] ?? '') . '</p></div><div class="mt-6 pt-4 border-t border-slate-100"><button type="button" data-aes-role="' . esc_attr($job->post_title) . '" class="bouncy-btn w-full btn-premium-orange py-3 rounded-xl text-xs font-bold uppercase">Apply for this role →</button></div></article>';
+        $html .= '<article class="bouncy-card bg-white rounded-2xl p-7 border border-slate-200 shadow-sm flex flex-col justify-between"><div><div class="flex items-center justify-between gap-2 mb-4"><span class="bg-orange-100 text-brand-orange text-[11px] font-extrabold px-3 py-1 rounded-full">' . esc_html($d['type'] ?? '') . '</span><span class="text-xs text-slate-400">' . esc_html($d['location'] ?? '') . '</span></div><h3 class="text-lg font-black text-brand-dark mb-2">' . esc_html($job->post_title) . '</h3><div class="text-xs text-slate-600 leading-relaxed mb-4">' . wp_kses_post(wpautop($job->post_content)) . '</div><p class="text-xs text-slate-500"><strong>Experience:</strong> ' . esc_html($d['experience'] ?? '') . '</p><p class="text-xs text-slate-500"><strong>Key skills:</strong> ' . esc_html($d['skills'] ?? '') . '</p></div><div class="mt-6 pt-4 border-t border-slate-100"><button type="button" data-aes-role="' . esc_attr($job->post_title) . '" class="bouncy-btn w-full btn-premium-orange bg-brand-blue hover:bg-brand-orange text-white py-3 rounded-xl text-xs font-bold uppercase transition-colors">Apply for this role →</button></div></article>';
     }
     return $html;
 }
@@ -201,7 +202,5 @@ add_action('admin_post_aes_setup', function () {
     wp_safe_redirect(admin_url('admin.php?page=aes-cms&ready=1'));
     exit;
 });
-
-
 
 
