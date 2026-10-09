@@ -45,12 +45,22 @@ input[type=file]:focus-visible { outline-offset: -4px; }
 .aes-skip-link:focus { transform: translateY(0); }
 body .max-w-7xl { padding-inline: var(--aes-gutter); }
 body > header {
+  position: sticky; top: 0; z-index: 50;
   transition: box-shadow 250ms ease, background-color 250ms ease;
-  background: rgb(255 255 255 / 97%); isolation: isolate;
+  background-color: #ffffff !important; background: #ffffff !important; isolation: isolate;
 }
 body > header.aes-scrolled { box-shadow: 0 4px 24px rgb(11 22 51 / 8%); }
 body > header > div:first-child {
   max-width: 1280px; margin-inline: auto; padding-inline: var(--aes-gutter); gap: 24px;
+  min-height: 7.5rem;
+}
+body > header > div:first-child > a img {
+  height: 6.75rem !important;
+  max-height: 6.75rem !important;
+  width: auto !important;
+}
+aside button[onclick*="trainingModal"] {
+  display: none !important;
 }
 body > header nav > a, .nav-item-dropdown > a {
   position: relative; padding-block: 10px; font-size: .9375rem; font-weight: 700;
@@ -173,10 +183,10 @@ body > header a:is([aria-current=page], [aria-current=true]) { color: var(--aes-
 .aes-hero h1 > span {
   font-size: clamp(2.05rem, 4.4vw, 3.8rem); line-height: 1.12; letter-spacing: -.035em;
 }
-.aes-hero video { opacity: .8; }
+.aes-hero video, #heroVideo { opacity: 0.45 !important; }
 .aes-hero > .absolute { background: var(--aes-navy); }
-.aes-hero > .absolute > .bg-gradient-to-r {
-  background: linear-gradient(90deg, rgb(11 22 51 / 85%), rgb(11 22 51 / 48%) 55%, rgb(11 22 51 / 12%));
+.aes-hero > .absolute > .bg-gradient-to-r, #heroVideo + div {
+  background: linear-gradient(90deg, rgb(11 22 51 / 85%) 0%, rgb(11 22 51 / 60%) 55%, rgb(11 22 51 / 35%) 100%) !important;
 }
 @keyframes marqueeLTR {
   0% {
@@ -350,7 +360,7 @@ footer a:hover { color: var(--aes-orange) !important; }
 @media (max-width: 639px) {
   :root { --aes-header-height: 80px; }
   body > header > div:first-child > a { min-width: 0; }
-  body > header > div:first-child > a img { max-width: min(64vw, 270px); height: auto; max-height: 48px; }
+  body > header > div:first-child > a img { max-width: min(68vw, 290px); height: auto !important; max-height: 60px !important; }
   .aes-hero { min-height: 650px; }
   .aes-hero > .relative { padding-top: 64px; padding-bottom: 100px; }
   .aes-hero h1 > span { font-size: clamp(1.8rem, 6.8vw, 2.65rem); }

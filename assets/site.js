@@ -76,9 +76,18 @@
     megaMenu.inert = !open;
     if (menuButton) menuButton.setAttribute('aria-expanded', String(open));
   }
+  $$('aside button[onclick*="trainingModal"]').forEach(btn => btn.remove());
   if (dropdown && megaMenu) {
     megaMenu.id = megaMenu.id || 'services-navigation';
     megaMenu.setAttribute('aria-label', 'All engineering services');
+    const shutdownLink = $$('a', megaMenu).find(a => a.href.includes('service-project-shutdown-qa') || /shutdown/i.test(a.textContent));
+    if (shutdownLink) {
+      shutdownLink.textContent = 'Project & Shutdown Inspection';
+      const menuLinks = $$('a', megaMenu);
+      if (menuLinks.length >= 3 && menuLinks[2] !== shutdownLink) {
+        megaMenu.insertBefore(shutdownLink, menuLinks[2]);
+      }
+    }
     const link = $('a', dropdown);
     menuButton = document.createElement('button');
     menuButton.type = 'button';
@@ -312,6 +321,10 @@
     video.playsInline = true;
     video.preload = 'auto';
     video.playbackRate = 1.0;
+    video.addEventListener('ended', () => {
+      video.currentTime = 0;
+      video.play().catch(() => {});
+    });
 
     const hero = video.closest('section');
     let inView = true;

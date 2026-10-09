@@ -274,6 +274,51 @@ add_action('init', function () {
         aes_ensure_all_pages_migrated();
         update_option('aes_gutenberg_migrated_v3', 1, false);
     }
+
+    // Sync updated homepage structure, global header dropdown, and services page order
+    if (!get_option('aes_home_synced_v7')) {
+        $shared_vals = get_option('aes_shared_values', []);
+        if (is_array($shared_vals)) {
+            unset($shared_vals['gca3ee6126502']);
+            update_option('aes_shared_values', $shared_vals, false);
+        }
+        delete_option('aes_global_header_html');
+
+        $ids = get_option('aes_page_ids', []);
+        $home_id = !empty($ids['home']) ? intval($ids['home']) : intval(get_option('page_on_front'));
+        if ($home_id && get_post($home_id)) {
+            $page_vals = get_post_meta($home_id, '_aes_values', true);
+            if (is_array($page_vals)) {
+                unset($page_vals['f218'], $page_vals['f219'], $page_vals['f220'], $page_vals['f221'], $page_vals['f222']);
+                update_post_meta($home_id, '_aes_values', $page_vals);
+            }
+            $home_blocks = aes_build_gutenberg_content_for_page('home', $home_id);
+            if ($home_blocks) {
+                wp_update_post([
+                    'ID'           => $home_id,
+                    'post_content' => wp_slash($home_blocks),
+                ]);
+            }
+        }
+
+        $services_id = !empty($ids['services']) ? intval($ids['services']) : 0;
+        if ($services_id && get_post($services_id)) {
+            $svc_vals = get_post_meta($services_id, '_aes_values', true);
+            if (is_array($svc_vals)) {
+                unset($svc_vals['f238'], $svc_vals['f240']);
+                update_post_meta($services_id, '_aes_values', $svc_vals);
+            }
+            $svc_blocks = aes_build_gutenberg_content_for_page('services', $services_id);
+            if ($svc_blocks) {
+                wp_update_post([
+                    'ID'           => $services_id,
+                    'post_content' => wp_slash($svc_blocks),
+                ]);
+            }
+        }
+
+        update_option('aes_home_synced_v7', 1, false);
+    }
 }, 20);
 
 // Also check single page when opening post.php in admin
