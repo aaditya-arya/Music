@@ -16,6 +16,11 @@
     text: normalize(element.textContent + ' ' + element.dataset.serviceKeywords)
   }));
   let category = 'all';
+  controls.forEach(button => {
+    const badge = button.querySelector(':scope > span:last-child:not(.aes-stage-top)');
+    if (button.classList.contains('aes-service-stage')) return;
+    if (badge) badge.textContent = button.dataset.serviceFilter === 'all' ? cards.length : cards.filter(card => card.category === button.dataset.serviceFilter).length;
+  });
   const labels = { source: 'Source & approve', inspect: 'Inspect & verify', build: 'Build & commission', qualify: 'Qualify & develop' };
   const update = () => {
     const terms = normalize(search.value).trim().split(/\s+/).filter(Boolean);

@@ -18,16 +18,77 @@ function aes_controls($defs,$values) {
     } echo '</div>';
 }
 
-function aes_admin_screen(){
-    if(!current_user_can('manage_options')) return;
-    echo '<div class="wrap"><h1>Akshar Engineering Website</h1><p>Edit pages directly in the WordPress Gutenberg Visual Block Editor.</p>';
-    if(isset($_GET['ready']))echo '<div class="notice notice-success inline"><p>Pages imported and converted to Visual Gutenberg Blocks. Home is now the front page.</p></div>';
-    if(isset($_GET['saved']))echo '<div class="notice notice-success inline"><p>Settings saved.</p></div>';
-    echo '<h2>1. Import the existing website</h2><p>This creates the 23 supplied pages as Gutenberg Visual Block pages and six supplied job listings.</p><form method="post" action="'.esc_url(admin_url('admin-post.php')).'">';
-    wp_nonce_field('aes_setup');echo '<input type="hidden" name="action" value="aes_setup">';submit_button('Import AES pages', 'primary', 'submit', false);echo '</form>';
-    echo '<h2>2. Edit pages (Gutenberg Visual Block Editor)</h2><p>Open any page below to edit text, images, cards, and the Services Dropdown visually in the Gutenberg Block Editor.</p><ul>';
-    foreach(get_option('aes_page_ids',[]) as $k=>$id) if(get_post($id))echo '<li><a href="'.esc_url(get_edit_post_link($id)).'">'.esc_html(get_the_title($id)).'</a> · <a target="_blank" rel="noopener" href="'.esc_url(get_permalink($id)).'">View</a></li>';
-    echo '</ul><h2>3. Email notifications</h2><p>Submissions are saved even when email is disabled. Keep notifications disabled during local testing. Configure and test SMTP on your hosting before enabling them.</p><form method="post" action="'.esc_url(admin_url('admin-post.php')).'">';wp_nonce_field('aes_email');echo '<input type="hidden" name="action" value="aes_email"><label><input type="checkbox" name="enabled" value="1" '.checked(get_option('aes_email_enabled',0),1,false).'> Email the site administrator when a new submission is saved</label>';submit_button('Save notification setting');echo '</form></div>';
+function aes_admin_screen() {
+    if (!current_user_can('manage_options')) return;
+    $pages = array_filter((array) get_option('aes_page_ids', []), 'get_post');
+    $jobs = wp_count_posts('aes_job');
+    $requests = wp_count_posts('aes_submission');
+    ?>
+    <div class="wrap aes-admin-wrap aes-website-dashboard">
+        <div class="aes-glass-banner">
+            <span class="aes-glass-tag">WEBSITE MANAGEMENT</span>
+            <h1 class="aes-banner-title">Akshar Engineering Website</h1>
+            <p class="aes-banner-subtitle">Keep the website current. Edit page content, manage opportunities and review incoming requests from one place.</p>
+            <div class="aes-dashboard-shortcuts">
+                <a class="btn-glass btn-glass-orange" href="<?php echo esc_url(home_url('/')); ?>" target="_blank" rel="noopener">Preview website</a>
+                <a class="btn-glass" href="<?php echo esc_url(admin_url('admin.php?page=aes-submissions')); ?>">Requests <strong><?php echo intval($requests->private ?? 0); ?></strong></a>
+                <a class="btn-glass" href="<?php echo esc_url(admin_url('edit.php?post_type=aes_job')); ?>">Job listings <strong><?php echo intval($jobs->publish ?? 0); ?></strong></a>
+            </div>
+        </div>
+        <?php if (isset($_GET['ready']) || isset($_GET['saved'])): ?><div class="notice notice-success inline"><p><?php echo isset($_GET['ready']) ? 'Pages imported successfully.' : 'Settings saved.'; ?></p></div><?php endif; ?>
+        <div class="aes-dashboard-grid">
+            <section class="aes-dashboard-panel">
+                <h2>Edit website pages <span class="aes-dashboard-count"><?php echo count($pages); ?></span></h2>
+                <label for="aesPageSearch">Find a page</label><input type="search" id="aesPageSearch" class="widefat" placeholder="Search Home, Careers or an inspection service">
+                <div class="aes-page-list">
+                <?php foreach ($pages as $key => $id): ?>
+                    <div class="aes-page-row" data-page-search="<?php echo esc_attr(strtolower(get_the_title($id) . ' ' . $key)); ?>">
+                        <div><a href="<?php echo esc_url(get_edit_post_link($id)); ?>"><strong><?php echo esc_html(get_the_title($id)); ?></strong></a><small><?php echo str_starts_with($key, 'service-') ? 'Service detail' : 'Main page'; ?></small></div>
+                        <div class="aes-page-actions"><a class="button" href="<?php echo esc_url(get_edit_post_link($id)); ?>">Edit</a><a href="<?php echo esc_url(get_permalink($id)); ?>" target="_blank" rel="noopener" aria-label="<?php echo esc_attr('Preview ' . get_the_title($id)); ?>">Preview</a></div>
+                    </div>
+                <?php endforeach; ?>
+                <p id="aesPageSearchEmpty" hidden>No matching pages. Try another name.</p>
+                </div>
+            </section>
+            <div>
+                <section class="aes-dashboard-panel aes-editing-guide">
+                    <h2>Make an update</h2>
+                    <ol><li>Open a page and click the text or image you want to change.</li><li>Use the card toolbar to duplicate, move or remove a card. Select a Services card to change its category and search keywords.</li><li>For We Hear You, select the main block and open <strong>Request form copy</strong> in the block sidebar to edit each request type.</li><li>Click <strong>Save / Update</strong>, then preview the page.</li></ol>
+                    <p>Header and footer edits are shared across all pages. Jobs are managed in <a href="<?php echo esc_url(admin_url('edit.php?post_type=aes_job')); ?>">AES Jobs</a>. Homepage video changes stay in WordPress until you choose another video.</p>
+                    <p class="aes-dashboard-note">Advanced template tools can replace page edits. Use them only when intentionally restoring the theme's starting content.</p>
+                </section>
+                <section class="aes-dashboard-panel">
+                    <h2>Email notifications</h2><p>Requests are always saved in Form Submissions. Email is currently <strong><?php echo get_option('aes_email_enabled') ? 'enabled' : 'disabled'; ?></strong>.</p>
+                    <form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>">
+                        <?php wp_nonce_field('aes_email'); ?><input type="hidden" name="action" value="aes_email">
+                        <label><input type="checkbox" name="enabled" value="1" <?php checked(get_option('aes_email_enabled', 0), 1); ?>> Notify the site administrator about new requests</label>
+                        <p class="description">Keep this off during local testing. Configure your hosting email service before enabling it.</p>
+                        <?php submit_button('Save notifications', 'secondary'); ?>
+                    </form>
+                </section>
+            </div>
+        </div>
+        <section class="aes-dashboard-panel" id="policy-documents">
+            <h2>Policy documents</h2><p>Four draft starter pages are ready for your approved content. Replace the prompts and publish when complete; the footer links then appear automatically. To use a PDF or another page, enter its full URL below. Leave the URL blank to use the WordPress page.</p>
+            <form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>">
+                <?php wp_nonce_field('aes_policies'); ?><input type="hidden" name="action" value="aes_policies">
+                <div class="aes-policy-grid">
+                <?php $policy_ids = (array) get_option('aes_policy_page_ids', []); $urls = (array) get_option('aes_policy_urls', []);
+                foreach (aes_policy_definitions() as $key => $definition): $id = intval($policy_ids[$key] ?? 0); ?>
+                    <div class="aes-policy-setting"><label for="policy-<?php echo esc_attr($key); ?>"><?php echo esc_html($definition['title']); ?></label>
+                        <?php if ($id && get_post($id)): ?><p><a href="<?php echo esc_url(get_edit_post_link($id)); ?>">Edit starter page</a> <span class="aes-dashboard-count"><?php echo esc_html(get_post_status($id)); ?></span></p><?php endif; ?>
+                        <input type="url" class="widefat" id="policy-<?php echo esc_attr($key); ?>" name="policy_url[<?php echo esc_attr($key); ?>]" value="<?php echo esc_attr($urls[$key] ?? ''); ?>" placeholder="https://example.com/policy.pdf" aria-describedby="policy-url-help">
+                    </div>
+                <?php endforeach; ?>
+                </div><p id="policy-url-help" class="description">An override URL takes priority over the starter page. Unpublished drafts without an override stay hidden from the footer.</p>
+                <?php submit_button('Save document links', 'secondary'); ?>
+            </form>
+        </section>
+        <details class="aes-dashboard-panel aes-dashboard-advanced"><summary>Advanced setup</summary><p>Import any missing starter pages and job listings. Existing pages are retained.</p>
+            <form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>"><?php wp_nonce_field('aes_setup'); ?><input type="hidden" name="action" value="aes_setup"><?php submit_button('Import missing AES pages', 'secondary', 'submit', false); ?></form>
+        </details>
+    </div>
+    <?php
 }
 
 function aes_clean_values($defs,$raw){
@@ -62,6 +123,6 @@ add_action('save_post',function($id){
 
 add_action('admin_enqueue_scripts',function(){
     $screen=get_current_screen(); if(!$screen||!($screen->id==='toplevel_page_aes-cms'||$screen->id==='toplevel_page_aes-submissions'||in_array($screen->post_type,['aes_job','aes_submission'],true)))return;
-    wp_enqueue_media(); wp_enqueue_script('aes-admin',get_template_directory_uri().'/assets/admin-cms.js',['jquery'], '2.0',true);
-    wp_enqueue_style('aes-admin',get_template_directory_uri().'/assets/admin-cms.css',[],'2.0');
+    wp_enqueue_media(); wp_enqueue_script('aes-admin',get_template_directory_uri().'/assets/admin-cms.js',['jquery'], filemtime(AES_DIR . '/assets/admin-cms.js'),true);
+    wp_enqueue_style('aes-admin',get_template_directory_uri().'/assets/admin-cms.css',[],filemtime(AES_DIR . '/assets/admin-cms.css'));
 });

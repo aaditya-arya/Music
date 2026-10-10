@@ -250,7 +250,7 @@ body > header #mobile-menu a { font-size: 18px; font-weight: 650; }
 .aes-service-sections > section { margin: 0 !important; }
 .aes-service-content h2 { font-size: clamp(28px, 2.7vw, 38px); line-height: 1.3; font-weight: 750; }
 .aes-service-content h3 { font-size: 22px; line-height: 1.4; font-weight: 700; }
-.aes-service-content :is(p, li, .prose) { font-size: 18px !important; line-height: 1.85; }
+.aes-service-content :is(p, li, .prose) { font-size: 18px !important; line-height: 1.85; overflow-wrap: anywhere; }
 .aes-service-content .prose { max-width: 1050px; }
 .aes-service-content .prose p + p { margin-top: 22px; }
 .aes-service-content section > .grid { gap: 24px; }

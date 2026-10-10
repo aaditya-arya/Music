@@ -1,0 +1,140 @@
+{
+  "inquiry": {
+    "title": "Quick Inquiry",
+    "heading": "Tell us about your project",
+    "submit": "Submit inquiry",
+    "label": "Project scope & location *",
+    "placeholder": "Tell us the equipment, project location, inspection stage and target dates.",
+    "contextTitle": "For a project inquiry",
+    "context": "Include the equipment, vendor or project location, inspection stage and target dates. A specification or inspection plan is a useful starting point.",
+    "fields": []
+  },
+  "feedback": {
+    "title": "Feedback",
+    "heading": "Tell us about your experience",
+    "submit": "Submit feedback",
+    "label": "Your feedback & suggestions *",
+    "placeholder": "What worked well? What could we improve about the inspection, reporting or communication?",
+    "contextTitle": "For useful feedback",
+    "context": "Share the project or report reference if available. Tell us what worked well and where the service could improve.",
+    "fields": [
+      {
+        "id": "feedbackRating",
+        "label": "Overall service rating",
+        "type": "select",
+        "required": true,
+        "placeholder": "",
+        "options": [
+          "5 - Exceptional",
+          "4 - Very good",
+          "3 - Satisfactory",
+          "2 - Needs improvement",
+          "1 - Unsatisfactory"
+        ]
+      },
+      {
+        "id": "feedbackArea",
+        "label": "Feedback area",
+        "type": "select",
+        "required": false,
+        "placeholder": "",
+        "options": [
+          "Inspector technical knowledge",
+          "Report delivery",
+          "Communication",
+          "Project coordination",
+          "Other"
+        ]
+      },
+      {
+        "id": "feedbackReference",
+        "label": "Project / report reference",
+        "type": "text",
+        "required": false,
+        "placeholder": "Reference or project name (optional)",
+        "options": []
+      }
+    ]
+  },
+  "complaint_appeal": {
+    "title": "Complaint / Appeal",
+    "heading": "Help us understand your concern",
+    "submit": "Submit complaint / appeal",
+    "label": "Grounds for complaint or appeal *",
+    "placeholder": "Describe the relevant events, the observation or decision in question and the outcome you are seeking.",
+    "contextTitle": "For a complaint or appeal",
+    "context": "Include the inspection or project reference, relevant dates and the outcome you are seeking. A supporting report can help explain your concern.",
+    "fields": [
+      {
+        "id": "complaintReference",
+        "label": "Job / report reference",
+        "type": "text",
+        "required": true,
+        "placeholder": "Report reference or project name",
+        "options": []
+      },
+      {
+        "id": "manufacturerName",
+        "label": "Manufacturer / vendor",
+        "type": "text",
+        "required": true,
+        "placeholder": "Manufacturer or vendor name",
+        "options": []
+      },
+      {
+        "id": "urgencyLevel",
+        "label": "Urgency",
+        "type": "select",
+        "required": false,
+        "placeholder": "",
+        "options": [
+          "Cargo waiting for dispatch",
+          "Upcoming project milestone",
+          "Routine follow-up"
+        ]
+      }
+    ]
+  },
+  "doc_verify": {
+    "title": "Inspection Certificate Verification",
+    "heading": "Request a document check",
+    "submit": "Request verification",
+    "label": "Document details & purpose of verification *",
+    "placeholder": "Tell us what you need to confirm about this document. Add the issuing details if known.",
+    "contextTitle": "For certificate verification",
+    "context": "Provide the document number and type, plus the issue date if known. You may attach a copy. Our team will review the request against the relevant records.",
+    "fields": [
+      {
+        "id": "certificateNumber",
+        "label": "Document / certificate number",
+        "type": "text",
+        "required": true,
+        "placeholder": "e.g. AES-IRN-2026-XXXX",
+        "options": []
+      },
+      {
+        "id": "documentType",
+        "label": "Document type",
+        "type": "select",
+        "required": true,
+        "placeholder": "",
+        "options": [
+          "Inspection Release Note (IRN)",
+          "Material certificate endorsement",
+          "WPS / PQR / WPQ certificate",
+          "NDT certificate",
+          "Vendor audit dossier",
+          "Other AES document"
+        ]
+      },
+      {
+        "id": "issueDate",
+        "label": "Date of issue (if known)",
+        "type": "date",
+        "required": false,
+        "placeholder": "",
+        "options": []
+      }
+    ]
+  }
+}

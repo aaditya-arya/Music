@@ -293,7 +293,7 @@ add_action('init', function () {
             if (!empty($attrs['isGlobalFooter'])) {
                 $opt_html = get_option('aes_global_footer_html', '');
                 if ($opt_html) $html = $opt_html;
-                return aes_resolve(aes_refine_footer_markup($html));
+                return aes_resolve(aes_policy_footer_links(aes_refine_footer_markup($html)));
             }
             $html = str_replace(
                 ['@@JOBS@@', '@@JOB_OPTIONS@@', '@@AJAX@@'],
@@ -756,9 +756,9 @@ add_action('enqueue_block_editor_assets', function () {
     wp_enqueue_media();
     wp_enqueue_style(
         'aes-gutenberg-fonts',
-        'https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Source+Sans+3:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&display=swap',
+        get_template_directory_uri() . '/assets/fonts.css',
         [],
-        null
+        filemtime(AES_DIR . '/assets/fonts.css')
     );
 
     $ver_util    = file_exists(AES_DIR . '/assets/compiled.css') ? filemtime(AES_DIR . '/assets/compiled.css') : '3.0';
@@ -808,6 +808,7 @@ add_action('enqueue_block_editor_assets', function () {
         'nonce'        => wp_create_nonce('aes_gutenberg_sync'),
         'postId'       => $post_id,
         'layout'       => $layout,
+        'supportRequests' => aes_data('support-requests'),
     ]);
 });
 

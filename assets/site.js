@@ -266,7 +266,11 @@
   }
   window.openModal = id => {
     const modal = document.getElementById(id);
-    if (!modal || !modal.classList.contains('modal-backdrop')) return;
+    if (!modal || !modal.classList.contains('modal-backdrop')) {
+      const reason = { inquiryModal: 'inquiry', trainingModal: 'inquiry', verifyDocModal: 'doc_verify' }[id];
+      if (reason && window.AES?.supportUrl) location.assign(AES.supportUrl + '#' + reason);
+      return;
+    }
     if (activeModal === modal) return;
     if (!activeModal) {
       returnFocus = document.activeElement;
@@ -346,6 +350,13 @@
     $$('input:not([type=hidden]), select, textarea', root).forEach(field => {
       if (field.labels && field.labels.length) return;
       const parent = field.parentElement;
+      const challenge = Array.from(parent.children).find(node => node.tagName === 'SPAN' && /Are you human\?/i.test(node.textContent));
+      if (challenge) {
+        challenge.id = challenge.id || 'aes-challenge-' + (++fieldNumber);
+        field.setAttribute('aria-labelledby', challenge.id);
+        field.dataset.aesLabel = 'Human verification';
+        return;
+      }
       const label = $('label', parent) || (field.type === 'file' && parent.parentElement ? $('label', parent.parentElement) : null);
       if (!label || label.htmlFor) return;
       if (!field.id) {

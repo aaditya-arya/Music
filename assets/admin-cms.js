@@ -38,6 +38,20 @@
     }));
   });
 
+  const pageSearch = document.getElementById('aesPageSearch');
+  pageSearch?.addEventListener('input', () => {
+    const query = pageSearch.value.trim().toLowerCase(); let count = 0;
+    document.querySelectorAll('[data-page-search]').forEach(row => { row.hidden = !row.dataset.pageSearch.includes(query); if (!row.hidden) count++; });
+    document.getElementById('aesPageSearchEmpty').hidden = count > 0;
+  });
+  const announce = message => {
+    let status = document.getElementById('aesAdminFeedback');
+    if (!status) {
+      status = document.createElement('p'); status.id = 'aesAdminFeedback'; status.className = 'aes-admin-feedback'; status.setAttribute('role', 'status');
+      document.querySelector('.aes-toolbar-card')?.appendChild(status);
+    }
+    status.textContent = message;
+  };
   // 2. Submissions Hub Logic
   let activeCategory = 'all';
 
@@ -50,6 +64,7 @@
         tab.classList.remove('active');
       }
     });
+    document.querySelectorAll('.btn-glass-tab').forEach(tab => tab.setAttribute('aria-pressed', String(tab.dataset.filter === cat)));
     aesApplyFilters();
   };
 
@@ -76,10 +91,11 @@
 
     const emptyRow = document.querySelector('.aes-empty-row');
     if (emptyRow) {
-      emptyRow.style.display = (visibleCount === 0 && rows.length > 0) ? '' : 'none';
+      emptyRow.style.display = (visibleCount === 0) ? '' : 'none';
     }
   };
 
+  let modalReturnFocus, bodyOverflow, inertElements = [];
   window.aesOpenDetailModal = function (id) {
     const data = (window.AES_SUBMISSIONS || []).find(s => s.id === id);
     if (!data) return;
@@ -129,19 +145,31 @@
         a.href = f.url;
         a.className = 'btn-glass btn-glass-file';
         a.target = '_blank';
-        a.innerHTML = `<span>📥 ${f.name}</span>`;
+        a.textContent = f.name;
+        a.rel = 'noopener';
         attachList.appendChild(a);
       });
     } else {
       attachSection.style.display = 'none';
     }
 
-    modal.style.display = 'flex';
+    if (modal.style.display !== 'flex') {
+      modalReturnFocus = document.activeElement; bodyOverflow = document.body.style.overflow;
+      inertElements = [...document.body.children].filter(element => !element.contains(modal) && !['SCRIPT', 'STYLE', 'LINK'].includes(element.tagName)).map(element => [element, element.inert]);
+      inertElements.forEach(([element]) => { element.inert = true; });
+    }
+    document.body.style.overflow = 'hidden';
+    modal.style.display = 'flex'; modal.setAttribute('aria-hidden', 'false');
+    modal.querySelector('.aes-modal-close').focus();
   };
 
   window.aesCloseDetailModal = function () {
     const modal = document.getElementById('aesDetailModal');
-    if (modal) modal.style.display = 'none';
+    if (!modal || modal.style.display === 'none') return;
+    modal.style.display = 'none'; modal.setAttribute('aria-hidden', 'true');
+    inertElements.forEach(([element, wasInert]) => { element.inert = wasInert; }); inertElements = [];
+    document.body.style.overflow = bodyOverflow || '';
+    modalReturnFocus?.focus();
   };
 
   window.aesCopyModalDetails = function () {
@@ -154,11 +182,14 @@
         text += `${th}: ${td}\n`;
       }
     });
-    navigator.clipboard.writeText(text).then(() => {
-      alert('Submission details copied to clipboard!');
-    }).catch(() => {
-      alert('Unable to copy to clipboard.');
-    });
+    const copyButton = document.querySelector('[onclick="aesCopyModalDetails()"]');
+    const copied = () => { copyButton.textContent = 'Copied'; setTimeout(() => { copyButton.textContent = 'Copy all text'; }, 1800); };
+    if (navigator.clipboard) navigator.clipboard.writeText(text).then(copied).catch(() => announce('Copy was unavailable. Select and copy the details manually.'));
+    else {
+      const field = document.createElement('textarea'); field.value = text; document.getElementById('aesDetailModal').appendChild(field); field.select();
+      if (document.execCommand('copy')) copied(); else announce('Select and copy the details manually.');
+      field.remove(); copyButton.focus();
+    }
   };
 
   window.aesDeleteSubmission = async function (id) {
@@ -191,7 +222,9 @@
           if (Array.isArray(window.AES_SUBMISSIONS)) {
             window.AES_SUBMISSIONS = window.AES_SUBMISSIONS.filter(s => s.id !== id);
           }
+          updateCounts();
           aesApplyFilters();
+          announce(`Submission AES-${id} deleted.`);
         }, 200);
       }
     } catch (err) {
@@ -199,46 +232,46 @@
     }
   };
 
-  window.aesExportCSV = function () {
+  const updateCounts = () => {
     const data = window.AES_SUBMISSIONS || [];
-    if (data.length === 0) {
-      alert('No submission data available to export.');
-      return;
-    }
-
-    const headers = ['Ref ID', 'Date', 'Form Type', 'Category', 'Name', 'Email', 'Phone', 'Company / Organization', 'Key Details', 'Notification Status'];
-    const rows = [headers];
-
-    data.forEach(item => {
-      rows.push([
-        `AES-${item.id}`,
-        item.date || '',
-        item.form_title || '',
-        item.category || '',
-        item.name || '',
-        item.email || '',
-        item.phone || '',
-        item.company || '',
-        (item.snippet || '').replace(/"/g, '""'),
-        item.notification || ''
-      ]);
+    document.querySelectorAll('.aes-stat-card, .btn-glass-tab').forEach(control => {
+      const category = control.dataset.cat || control.dataset.filter;
+      const count = category === 'all' ? data.length : data.filter(item => item.category === category).length;
+      const number = control.querySelector('.aes-stat-value, .aes-tab-count'); if (number) number.textContent = count;
     });
-
-    const csvContent = 'data:text/csv;charset=utf-8,' + rows.map(e => e.map(val => `"${val}"`).join(',')).join('\n');
-    const encodedUri = encodeURI(csvContent);
-    const link = document.createElement('a');
-    link.setAttribute('href', encodedUri);
-    link.setAttribute('download', `aes_submissions_export_${new Date().toISOString().slice(0,10)}.csv`);
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
   };
-
-  // Keyboard shortcut for closing modal
-  document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') {
-      aesCloseDetailModal();
+  window.aesExportCSV = function () {
+    const visible = new Set([...document.querySelectorAll('.aes-sub-row')].filter(row => row.style.display !== 'none').map(row => Number(row.dataset.id)));
+    const data = (window.AES_SUBMISSIONS || []).filter(item => visible.has(item.id));
+    if (!data.length) { announce('No matching submissions to export.'); return; }
+    const headers = ['Ref ID', 'Date', 'Form Type', 'Category', 'Name', 'Email', 'Phone', 'Company / Organization', 'Key Details', 'Notification Status'];
+    const rows = [headers, ...data.map(item => [`AES-${item.id}`, item.date, item.form_title, item.category, item.name, item.email, item.phone, item.company, item.snippet, item.notification])];
+    const cell = value => {
+      let text = String(value ?? '');
+      if (/^\s*[=+@-]/.test(text)) text = "'" + text;
+      return '"' + text.replace(/"/g, '""') + '"';
+    };
+    const csv = '\uFEFF' + rows.map(row => row.map(cell).join(',')).join('\r\n');
+    const url = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8' }));
+    const link = document.createElement('a'); link.href = url; link.download = `aes_submissions_${new Date().toISOString().slice(0,10)}.csv`;
+    document.body.appendChild(link); link.click(); link.remove(); setTimeout(() => URL.revokeObjectURL(url), 1000);
+    announce(`Exported ${data.length} matching submissions.`);
+  };
+  document.querySelectorAll('.aes-stat-card').forEach(card => {
+    card.tabIndex = 0; card.setAttribute('role', 'button');
+    card.addEventListener('keydown', event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); card.click(); } });
+  });
+  document.addEventListener('keydown', event => {
+    const modal = document.getElementById('aesDetailModal');
+    if (!modal || modal.style.display === 'none') return;
+    if (event.key === 'Escape') { event.preventDefault(); aesCloseDetailModal(); }
+    if (event.key === 'Tab') {
+      const controls = [...modal.querySelectorAll('a[href], button, input, textarea')].filter(element => element.getClientRects().length);
+      const first = controls[0], last = controls[controls.length - 1];
+      if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+      else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
     }
   });
+  if (document.getElementById('aesSubmissionsTable')) aesApplyFilters();
 
 })();

@@ -135,9 +135,10 @@ add_action('wp_enqueue_scripts', function () {
     if (aes_current_key() === 'we-hear-you') {
         wp_enqueue_style('aes-support-page', get_template_directory_uri() . '/assets/support-page.css', ['aes-public-pages'], filemtime(AES_DIR . '/assets/support-page.css'));
         wp_enqueue_script('aes-support-page', get_template_directory_uri() . '/assets/support-page.js', ['aes-site', 'aes-forms'], filemtime(AES_DIR . '/assets/support-page.js'), true);
+        wp_localize_script('aes-support-page', 'AES_SUPPORT_REQUESTS', aes_data('support-requests'));
     }
     wp_enqueue_script('aes-site', get_template_directory_uri() . '/assets/site.js', [], filemtime(AES_DIR . '/assets/site.js'), true);
-    wp_localize_script('aes-site', 'AES', ['theme' => get_template_directory_uri(), 'ajax' => admin_url('admin-ajax.php'), 'nonce' => wp_create_nonce('aes_submit')]);
+    wp_localize_script('aes-site', 'AES', ['theme' => get_template_directory_uri(), 'ajax' => admin_url('admin-ajax.php'), 'nonce' => wp_create_nonce('aes_submit'), 'supportUrl' => aes_page_url('we-hear-you')]);
     wp_enqueue_script('aes-brochure', get_template_directory_uri() . '/assets/brochure-reader.js', ['aes-site'], filemtime(AES_DIR . '/assets/brochure-reader.js'), true);
     wp_enqueue_script('aes-forms', get_template_directory_uri() . '/assets/forms.js', ['aes-site'], filemtime(AES_DIR . '/assets/forms.js'), true);
     wp_add_inline_style('aes-site', '#wpadminbar{position:fixed!important;top:0!important}.admin-bar > header{top:32px}.aes-form-status{padding:12px;margin-top:12px;font-size:14px}.aes-form-status[data-error="true"]{color:#b91c1c}.aes-form-status[data-error="false"]{color:#166534}.aes-trap{position:absolute!important;left:-9999px!important}.aes-generic{max-width:1100px;margin:auto;padding:60px 24px}.aes-generic h1{font-size:40px;font-weight:800}.aes-generic p{margin:16px 0}@media(max-width:782px){.admin-bar > header{top:46px}}');
@@ -158,6 +159,7 @@ require AES_DIR . '/inc/public-pages.php';
 require AES_DIR . '/inc/services-directory.php';
 require AES_DIR . '/inc/support-updates.php';
 require AES_DIR . '/inc/admin.php';
+require AES_DIR . '/inc/policies.php';
 require AES_DIR . '/inc/submissions.php';
 
 function aes_register_types() {

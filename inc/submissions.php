@@ -38,7 +38,7 @@ function aes_submit() {
             wp_send_json_error(['message' => 'One field is too long.'], 400);
         }
         $map[$name] = $value;
-        $clean[] = ['label' => $label, 'value' => $value];
+        $clean[] = ['name' => $name, 'label' => $label, 'value' => $value];
     }
     foreach ($schema['fields'] as $d) {
         $v = $map[sanitize_key($d['name'])] ?? '';
@@ -217,7 +217,17 @@ function aes_submissions_admin_screen() {
         // Classify Category
         $cat = 'other';
         $title_lower = strtolower($form_title . ' ' . $form_key);
-        if (str_contains($title_lower, 'inquiry') || str_contains($title_lower, 'rfq') || str_contains($title_lower, 'feedback') || str_contains($title_lower, 'contact')) {
+        if ($form_key === 'we-hear-you-0') {
+            $reason = '';
+            foreach ($details as $detail) {
+                if (($detail['name'] ?? '') === 'reasondropdown' || preg_match('/^(request type|selected reason)/i', $detail['label'] ?? '')) $reason .= ' ' . strtolower($detail['value'] ?? '');
+            }
+            $cat = preg_match('/doc_verify|certificate|verification/i', $reason) ? 'verify' : 'inquiry';
+            $stats[$cat]++;
+            foreach ($details as $detail) {
+                if (($detail['name'] ?? '') === 'selectedreasoninput' || preg_match('/^selected reason/i', $detail['label'] ?? '')) { $form_title = $detail['value']; break; }
+            }
+        } elseif (str_contains($title_lower, 'inquiry') || str_contains($title_lower, 'rfq') || str_contains($title_lower, 'feedback') || str_contains($title_lower, 'contact')) {
             $cat = 'inquiry';
             $stats['inquiry']++;
         } elseif (str_contains($title_lower, 'verify') || str_contains($title_lower, 'doc') || str_contains($title_lower, 'irn')) {
@@ -244,6 +254,7 @@ function aes_submissions_admin_screen() {
             $lbl = strtolower($row['label'] ?? '');
             $val = trim($row['value'] ?? '');
             if (!$val) continue;
+            if (preg_match('/^(selected reason|request type|human verification)/', $lbl)) continue;
 
             if (!$name && (str_contains($lbl, 'name') || str_contains($lbl, 'candidate') || str_contains($lbl, 'user'))) {
                 $name = $val;
@@ -299,7 +310,7 @@ function aes_submissions_admin_screen() {
                 </div>
                 <div class="aes-banner-actions">
                     <button type="button" onclick="aesExportCSV()" class="btn-glass btn-glass-orange">
-                        <span>📥 Export CSV</span>
+                        <span>📥 Export filtered CSV</span>
                     </button>
                     <button type="button" onclick="window.location.reload()" class="btn-glass btn-glass-blue">
                         <span>🔄 Refresh</span>
@@ -367,7 +378,7 @@ function aes_submissions_admin_screen() {
                 <!-- Search Input -->
                 <div class="aes-search-wrap">
                     <span class="aes-search-icon">🔍</span>
-                    <input type="search" id="aesSubmissionSearch" class="aes-search-input" placeholder="Filter by name, email, phone, reference..." oninput="aesApplyFilters()">
+                    <input type="search" id="aesSubmissionSearch" aria-label="Search submissions" class="aes-search-input" placeholder="Filter by name, email, phone, reference..." oninput="aesApplyFilters()">
                 </div>
             </div>
         </div>
@@ -458,6 +469,7 @@ function aes_submissions_admin_screen() {
                                 </td>
                             </tr>
                             <?php endforeach; ?>
+                            <tr class="aes-empty-row" style="display:none"><td colspan="7" style="text-align:center;padding:36px">No matching submissions. Try another search or category.</td></tr>
                         <?php endif; ?>
                     </tbody>
                 </table>
@@ -465,7 +477,7 @@ function aes_submissions_admin_screen() {
         </div>
 
         <!-- Detail Modal Backdrop & Container -->
-        <div id="aesDetailModal" class="aes-modal-overlay" style="display:none;" onclick="if(event.target===this)aesCloseDetailModal()">
+        <div id="aesDetailModal" class="aes-modal-overlay" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="modalTitle" style="display:none;" onclick="if(event.target===this)aesCloseDetailModal()">
             <div class="aes-modal-dialog">
                 <div class="aes-modal-header">
                     <div>
@@ -473,7 +485,7 @@ function aes_submissions_admin_screen() {
                         <h2 id="modalTitle" class="aes-modal-title">Submission Details</h2>
                         <span id="modalSubtitle" class="aes-modal-sub">Reference ID & Timestamp</span>
                     </div>
-                    <button type="button" class="aes-modal-close" onclick="aesCloseDetailModal()">✕</button>
+                    <button type="button" class="aes-modal-close" aria-label="Close details" onclick="aesCloseDetailModal()">✕</button>
                 </div>
 
                 <div class="aes-modal-body">

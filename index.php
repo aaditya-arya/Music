@@ -9,6 +9,7 @@ $data=$known ? aes_data($key) : [];
 <?php endif; if($known) echo aes_resolve($data['styles']); wp_head(); ?>
 </head><body <?php body_class($data['body_class']??'bg-white text-slate-800'); ?>><?php wp_body_open(); ?>
 <?php if($known) echo aes_render($key); else { ?>
-<header class="bg-white border-b p-6"><a href="<?php echo esc_url(home_url('/')); ?>" class="text-brand-blue font-bold"><?php bloginfo('name'); ?></a><a class="ml-6" href="<?php echo esc_url(aes_page_url('services')); ?>">Services</a><a class="ml-6" href="<?php echo esc_url(aes_page_url('we-hear-you')); ?>">Contact</a></header>
+<?php $shared_header = get_option('aes_global_header_html', ''); if ($shared_header) echo aes_resolve($shared_header); else { ?>
+<header class="bg-white border-b p-6"><a href="<?php echo esc_url(home_url('/')); ?>" class="text-brand-blue font-bold"><?php bloginfo('name'); ?></a><a class="ml-6" href="<?php echo esc_url(aes_page_url('services')); ?>">Services</a><a class="ml-6" href="<?php echo esc_url(aes_page_url('we-hear-you')); ?>">Contact</a></header><?php } ?>
 <main class="aes-generic"><?php if(have_posts()): while(have_posts()):the_post(); ?><article><h1><?php if(is_singular()) the_title(); else { ?><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a><?php } ?></h1><?php the_content(); ?></article><?php endwhile; the_posts_pagination(); else: ?><h1>Page not found</h1><p>Use the navigation to return to the website.</p><?php endif; ?></main>
-<?php } wp_footer(); ?></body></html>
+<?php echo aes_resolve(aes_policy_footer_links(aes_refine_footer_markup(get_option('aes_global_footer_html', '')))); } wp_footer(); ?></body></html>

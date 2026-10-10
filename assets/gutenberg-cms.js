@@ -2,7 +2,7 @@
   const { registerBlockType } = wp.blocks || {};
   const { createElement: el, useState, useEffect, useRef, Fragment } = wp.element || {};
   const { InspectorControls } = wp.blockEditor || wp.editor || {};
-  const { PanelBody, TextControl, Button } = wp.components || {};
+  const { PanelBody, TextControl, TextareaControl, SelectControl, Button } = wp.components || {};
 
   /**
    * Parse Services Dropdown items from Header HTML
@@ -58,6 +58,13 @@
     clone.querySelectorAll('[contenteditable]').forEach((node) => {
       node.removeAttribute('contenteditable');
     });
+    clone.querySelectorAll('[data-aes-editor-events]').forEach(node => {
+      for (const [name, value] of Object.entries(JSON.parse(node.dataset.aesEditorEvents))) node.setAttribute(name, value);
+      node.removeAttribute('data-aes-editor-events');
+    });
+    clone.querySelectorAll('[data-aes-editor-disabled]').forEach(node => {
+      node.setAttribute('disabled', ''); node.removeAttribute('data-aes-editor-disabled');
+    });
     clone.querySelectorAll('.aes-gb-active-element').forEach((node) => {
       node.classList.remove('aes-gb-active-element');
       if (node.getAttribute('class') === '') node.removeAttribute('class');
@@ -70,11 +77,19 @@
    */
   function enableInlineEditing(container) {
     if (!container) return;
-    const selectors = 'h1, h2, h3, h4, h5, h6, p, span, strong, em, cite, li, a, button, label, div';
+    container.querySelectorAll('*').forEach(node => {
+      const events = {};
+      for (const attribute of [...node.attributes]) if (/^on/i.test(attribute.name)) {
+        events[attribute.name] = attribute.value; node.removeAttribute(attribute.name);
+      }
+      if (Object.keys(events).length) node.dataset.aesEditorEvents = JSON.stringify(events);
+      if (node.matches('button[disabled]')) { node.dataset.aesEditorDisabled = '1'; node.disabled = false; }
+    });
+    const selectors = 'h1, h2, h3, h4, h5, h6, p, span, strong, em, cite, li, a, button, label, div, dd, dt, summary, address, legend';
     container.querySelectorAll(selectors).forEach((node) => {
       // Only make leaf text containers or inline text containers contenteditable
-      const hasBlockChildren = node.querySelector('div, section, ul, ol, table, article, header, footer, nav, form');
-      if (!hasBlockChildren && node.textContent.trim().length > 0) {
+      const hasBlockChildren = node.querySelector('div, section, ul, ol, dl, table, article, header, footer, nav, form, fieldset, input, select, textarea, h1, h2, h3, h4, h5, h6, p');
+      if (!hasBlockChildren && node.textContent.trim().length > 0 && !node.parentElement.closest('[contenteditable="true"]') && !node.closest('svg, [aria-hidden="true"]')) {
         node.setAttribute('contenteditable', 'true');
       }
     });
@@ -93,7 +108,8 @@
     while (curr && curr !== root && curr.parentElement && curr.parentElement !== root) {
       const parent = curr.parentElement;
       const tag = curr.tagName.toLowerCase();
-      if (tag === 'li' || tag === 'article' || curr.classList.contains('service-slide-card')) {
+      if (tag === 'li' || tag === 'article' || curr.matches('.service-slide-card, .aes-directory-card')) {
+        if (curr.querySelector('form')) return null;
         return curr;
       }
       // Only match repeatable cards inside an explicit grid or list
@@ -139,6 +155,46 @@
       );
       const [contextState, setContextState] = useState(null); // { type: 'image'|'video'|'element', src, alt, href, hasCard, tagName }
       const [showCodeEditor, setShowCodeEditor] = useState(false);
+      const [requestType, setRequestType] = useState('inquiry');
+      const isSupport = decodedHtml.includes('aes-support-page');
+      const supportDefaults = window.AES_GUTENBERG?.supportRequests || {};
+      const getSupportConfig = () => {
+        const node = canvasRef.current?.querySelector('.aes-support-page');
+        let saved = {};
+        try { saved = JSON.parse(node?.dataset.supportConfig || '{}'); } catch (error) {}
+        const defaults = supportDefaults[requestType] || {};
+        const config = { ...defaults, ...(saved[requestType] || {}) };
+        config.fields = (defaults.fields || []).map(field => ({ ...field, ...(saved[requestType]?.fields?.find(item => item.id === field.id) || {}) }));
+        if (requestType === 'inquiry' && node) {
+          for (const [key, selector] of Object.entries({ title: '#selectedReasonInput', heading: '#request-form-heading', submit: '#formSubmitBtn', label: '#messageLabel', placeholder: '#messageTextarea', contextTitle: '#support-context-title', context: '#support-context-copy' })) {
+            const target = node.querySelector(selector);
+            if (target) config[key] = key === 'title' ? target.value : key === 'placeholder' ? target.placeholder : target.textContent.trim();
+          }
+        }
+        return config;
+      };
+      const updateSupportCopy = (key, value, fieldId = null) => {
+        const root = canvasRef.current?.querySelector('.aes-support-page');
+        if (!root) return;
+        let saved = {};
+        try { saved = JSON.parse(root.dataset.supportConfig || '{}'); } catch (error) {}
+        const config = getSupportConfig();
+        if (fieldId) config.fields = config.fields.map(field => field.id === fieldId ? { ...field, [key]: value } : field);
+        else config[key] = value;
+        saved[requestType] = config;
+        root.dataset.supportConfig = JSON.stringify(saved);
+        if (requestType === 'inquiry' && !fieldId) {
+          const target = root.querySelector({ title: '#selectedReasonInput', heading: '#request-form-heading', submit: '#formSubmitBtn', label: '#messageLabel', placeholder: '#messageTextarea', contextTitle: '#support-context-title', context: '#support-context-copy' }[key]);
+          if (key === 'title') target.value = value;
+          else if (key === 'placeholder') target.placeholder = value;
+          else {
+            const svg = target.querySelector('svg')?.cloneNode(true);
+            target.textContent = value;
+            if (svg) target.appendChild(svg);
+          }
+        }
+        syncDomToAttributes();
+      };
 
       const isHeroSection =
         sectionId === 'home-sec-1' ||
@@ -324,6 +380,11 @@
         });
 
         const target = e.target;
+        if (target.matches('input:not([type=hidden]):not([type=file]), select, textarea')) {
+          activeNodeRef.current = target;
+          setContextState({ type: 'field', placeholder: target.getAttribute('placeholder') || '', options: target.tagName === 'SELECT' ? [...target.options].map(option => option.textContent).join('\n') : null, src: null, href: null, hasCard: false });
+          return;
+        }
         // If user clicked "Services" dropdown trigger in header, open the Services Dropdown Editor
         if (isGlobalHeader && target.closest('.nav-item-dropdown')) {
           setShowDropdownEditor(true);
@@ -438,6 +499,16 @@
         if (!card || !card.parentElement) return;
         const clone = card.cloneNode(true);
         clone.classList.remove('aes-gb-active-element');
+        const suffix = '-copy-' + Date.now();
+        const ids = new Map();
+        [clone, ...clone.querySelectorAll('[id]')].forEach(node => {
+          if (node.id) { ids.set(node.id, node.id + suffix); node.id += suffix; }
+        });
+        clone.querySelectorAll('[for], [aria-labelledby], [aria-describedby], [aria-controls]').forEach(node => {
+          for (const attr of ['for', 'aria-labelledby', 'aria-describedby', 'aria-controls']) {
+            if (node.hasAttribute(attr)) node.setAttribute(attr, node.getAttribute(attr).split(/\s+/).map(id => ids.get(id) || id).join(' '));
+          }
+        });
         card.parentElement.insertBefore(clone, card.nextSibling);
         enableInlineEditing(clone);
         syncDomToAttributes();
@@ -604,6 +675,7 @@
       }
 
       const pagesList = (window.AES_GUTENBERG && window.AES_GUTENBERG.pages) || [];
+      const requestConfig = isSupport ? getSupportConfig() : {};
 
       return el(
         Fragment,
@@ -611,21 +683,42 @@
         el(
           InspectorControls,
           null,
+          isSupport && el(PanelBody, { title: 'Request form copy', initialOpen: true },
+            el('p', null, 'Edit the wording for each request type. Field names and validation stay connected to the form.'),
+            el(SelectControl, { label: 'Request type to edit', value: requestType, options: Object.entries(supportDefaults).map(([value, item]) => ({ value, label: item.title })), onChange: setRequestType }),
+            Object.entries({ title: 'Saved request label', heading: 'Form heading', submit: 'Submit button', label: 'Message label', placeholder: 'Message placeholder', contextTitle: 'Guidance heading', context: 'Guidance text' }).map(([key, label]) => el(key === 'context' || key === 'placeholder' ? TextareaControl : TextControl, { key, label, value: requestConfig[key] || '', onChange: value => updateSupportCopy(key, value) })),
+            (requestConfig.fields || []).map(field => el('div', { key: field.id, className: 'aes-gb-field-settings' },
+              el(TextControl, { label: field.id + ' — label', value: field.label, onChange: value => updateSupportCopy('label', value, field.id) }),
+              field.type === 'select' ? el(TextareaControl, { label: 'Options (one per line)', value: field.options.join('\n'), onChange: value => updateSupportCopy('options', value.split('\n').filter(Boolean), field.id) }) : field.type !== 'date' && el(TextControl, { label: 'Placeholder', value: field.placeholder, onChange: value => updateSupportCopy('placeholder', value, field.id) })
+            ))
+          ),
+          contextState?.hasCard && activeCardRef.current?.matches('.aes-directory-card') && el(PanelBody, { title: 'Service card settings', initialOpen: true },
+            el(SelectControl, { label: 'Service category', value: activeCardRef.current.dataset.serviceCategory, options: [{ value: 'source', label: 'Source & approve' }, { value: 'inspect', label: 'Inspect & verify' }, { value: 'build', label: 'Build & commission' }, { value: 'qualify', label: 'Qualify & develop' }], onChange: value => { activeCardRef.current.dataset.serviceCategory = value; syncDomToAttributes(); } }),
+            el(TextControl, { label: 'Search keywords', value: activeCardRef.current.dataset.serviceKeywords || '', onChange: value => { activeCardRef.current.dataset.serviceKeywords = value; syncDomToAttributes(); } })
+          ),
+          contextState?.type === 'field' && el(PanelBody, { title: 'Form field wording', initialOpen: true },
+            el(TextControl, { label: 'Placeholder', value: contextState.placeholder, onChange: value => { activeNodeRef.current.setAttribute('placeholder', value); setContextState(previous => ({ ...previous, placeholder: value })); syncDomToAttributes(); } }),
+            contextState.options !== null && el(TextareaControl, { label: 'Option labels (one per line; keep their order)', help: 'Existing option values are preserved so form routing continues to work.', value: contextState.options, onChange: value => {
+              const labels = value.split('\n'), select = activeNodeRef.current;
+              [...select.options].forEach((option, index) => { if (labels[index] !== undefined) { const oldValue = option.value; option.textContent = labels[index]; option.value = oldValue; } });
+              setContextState(previous => ({ ...previous, options: value })); syncDomToAttributes();
+            } })
+          ),
           el(
             PanelBody,
             {
               title:
-                'Code Template Sync (' +
+                'Advanced template tools (' +
                 (window.AES_GUTENBERG && AES_GUTENBERG.layout ? AES_GUTENBERG.layout + '.html' : 'Code') +
                 ')',
-              initialOpen: true,
+              initialOpen: false,
             },
             el(
               'p',
               { style: { fontSize: '12px', color: '#64748b', lineHeight: 1.4 } },
-              'Whenever you edit templates/' +
+              'Restores starter content from templates/' +
                 (window.AES_GUTENBERG && AES_GUTENBERG.layout ? AES_GUTENBERG.layout : 'template') +
-                '.html or theme CSS in your code editor, click below to immediately pull the updated code into the WordPress Gutenberg editor.'
+                '.html. This replaces saved page edits. Normal content changes only need Save / Update.'
             ),
             el(
               Button,
