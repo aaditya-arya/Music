@@ -12,7 +12,32 @@
   const megaMenu = $('.mega-dropdown-menu');
   const focusable = 'a[href], button:not([disabled]), input:not([disabled]):not([type=hidden]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
   const visibleControls = root => $$(focusable, root).filter(el => el.getClientRects().length && !el.closest('[inert]'));
+  // Capture each button's existing colors so motion never changes its brand color.
+  window.aesEnhanceButtons = (root = document) => {
+    $$('button, a[class*="btn-"], a.aes-action', root).forEach(button => {
+      if (button.classList.contains('aes-button-depth')) return;
+      const style = getComputedStyle(button);
+      button.style.setProperty('--aes-button-bg', style.backgroundColor);
+      button.style.setProperty('--aes-button-color', style.color);
+      button.style.setProperty('--aes-button-border', style.borderColor);
+      const solid = style.backgroundColor !== 'rgba(0, 0, 0, 0)' && style.backgroundColor !== 'transparent';
+      if (!solid) button.classList.add('aes-button-depth--quiet');
+      button.classList.add('aes-button-depth');
+    });
+  };
+  window.aesEnhanceButtons();
   const main = $('main');
+  $$('.aes-reach-card h2 a[href^="mailto:"]').forEach(link => {
+    const email = link.textContent.trim();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return;
+    const [user, domain] = email.split('@');
+    const parts = domain.split(/(?=engineering)/);
+    link.replaceChildren(document.createTextNode(user + '@'), document.createElement('wbr'));
+    parts.forEach((part, index) => {
+      if (index) link.appendChild(document.createElement('wbr'));
+      link.appendChild(document.createTextNode(part));
+    });
+  });
   if (main) {
     if (!main.id) main.id = 'main-content';
     main.tabIndex = -1;
@@ -32,6 +57,11 @@
   });
   $$('a[target="_blank"]').forEach(link => link.relList.add('noopener', 'noreferrer'));
   $$('a[href*="wa.me"]').forEach(link => link.setAttribute('aria-label', 'Chat with AES on WhatsApp (opens in a new tab)'));
+  $$('header a[href], footer a[href]').forEach(link => {
+    if (!link.querySelector('img, svg') && !link.matches('.btn-premium-orange, .btn-premium-blue, .btn-theme, .aes-social-link') && !link.classList.contains('group')) {
+      link.classList.add('aes-quick-link');
+    }
+  });
 
   function closeMobile(restoreFocus = false) {
     if (!mobileMenu || !mobileButton) return;
@@ -68,10 +98,45 @@
 
   let menuButton;
   let menuTimer;
+  let servicePanel;
+  let contactButton;
+  function measureMega() {
+    if (!header || !desktop.matches) return;
+    const height = Math.min(innerHeight - 16, 720, Math.max(560, innerHeight * .5, megaMenu.scrollHeight + 128));
+    const row = $(':scope > div:first-child', header);
+    header.style.setProperty('--aes-panel-height', height + 'px');
+    header.style.setProperty('--aes-logo-shift-y', (height - row.getBoundingClientRect().height) / 2 + 'px');
+    const brand = $('.aes-header-brand', header);
+    const spacer = $('.aes-services-panel__spacer', header);
+    if (brand && spacer) {
+      const slot = spacer.getBoundingClientRect();
+      const scale = innerWidth < 1280 ? .8 : .92;
+      const currentX = parseFloat(getComputedStyle(brand).translate) || 0;
+      const targetLeft = slot.left + (slot.width - brand.offsetWidth * scale) / 2;
+      header.style.setProperty('--aes-logo-shift-x', (targetLeft - brand.getBoundingClientRect().left + currentX) + 'px');
+    }
+    if (contactButton) {
+      const rect = contactButton.getBoundingClientRect();
+      const transform = getComputedStyle(contactButton).transform;
+      const matrix = transform === 'none' ? { m41: 0, m42: 0 } : new DOMMatrixReadOnly(transform);
+      const gutter = parseFloat(getComputedStyle(row).paddingRight);
+      const left = document.documentElement.clientWidth - gutter - rect.width;
+      const top = row.getBoundingClientRect().bottom + 18;
+      header.style.setProperty('--aes-contact-shift-x', (left - rect.left + matrix.m41) + 'px');
+      header.style.setProperty('--aes-contact-shift-y', (top - rect.top + matrix.m42) + 'px');
+    }
+  }
   function setMega(open) {
     if (!dropdown || !megaMenu) return;
+    open = open && desktop.matches && !document.documentElement.classList.contains('aes-intro-active');
     clearTimeout(menuTimer);
+    if (open) measureMega();
     dropdown.dataset.aesMenu = open ? 'open' : 'closed';
+    header.classList.toggle('aes-services-open', open);
+    if (servicePanel) {
+      servicePanel.setAttribute('aria-hidden', String(!open));
+      servicePanel.inert = !open;
+    }
     megaMenu.setAttribute('aria-hidden', String(!open));
     megaMenu.inert = !open;
     if (menuButton) menuButton.setAttribute('aria-expanded', String(open));
@@ -97,31 +162,81 @@
     menuButton.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>';
     const previousIcon = $('svg', link);
     if (previousIcon) previousIcon.remove();
-    dropdown.insertBefore(menuButton, megaMenu);
+    dropdown.appendChild(menuButton);
+    // Reuse the saved WordPress menu and contact details in a full-width header panel.
+    header.classList.add('aes-expanded-header');
+    $(':scope > div:first-child > a', header)?.classList.add('aes-header-brand');
+    contactButton = $('nav > .btn-premium-orange, nav > .btn-theme', header);
+    contactButton?.classList.add('aes-header-contact');
+    servicePanel = document.createElement('div');
+    servicePanel.className = 'aes-services-panel';
+    servicePanel.id = 'aes-services-panel';
+    servicePanel.innerHTML = '<div class="aes-services-panel__inner"><div class="aes-services-panel__spacer" aria-hidden="true"></div><div class="aes-services-panel__links"></div><div class="aes-services-panel__contact"></div></div>';
+    $('.aes-services-panel__links', servicePanel).appendChild(megaMenu);
+    const contactArea = $('.aes-services-panel__contact', servicePanel);
+    const whatsapp = $('footer a[href*="wa.me/"]');
+    const email = $('footer a[href^="mailto:"]');
+    const phone = whatsapp ? new URL(whatsapp.href).pathname.replace(/\D/g, '') : '918200441159';
+    const mail = email ? email.getAttribute('href').slice(7).split('?')[0] : 'info@aksharengineeringservices.com';
+    function addContact(href, label, value, svg, newTab = false) {
+      const anchor = document.createElement('a');
+      anchor.className = 'aes-menu-contact';
+      anchor.href = href;
+      if (newTab) { anchor.target = '_blank'; anchor.rel = 'noopener noreferrer'; }
+      anchor.innerHTML = '<span class="aes-menu-contact__icon" aria-hidden="true"></span><span class="aes-menu-contact__copy"><span class="aes-menu-contact__label"></span><span class="aes-menu-contact__value"></span></span>';
+      $('.aes-menu-contact__label', anchor).textContent = label;
+      const valueElement = $('.aes-menu-contact__value', anchor);
+      if (label === 'Email us' && value.includes('@')) {
+        const [localPart, domain] = value.split('@');
+        valueElement.append(localPart + '@', document.createElement('wbr'), domain);
+      } else valueElement.textContent = value;
+      $('.aes-menu-contact__icon', anchor).innerHTML = svg;
+      contactArea.appendChild(anchor);
+    }
+    const whatsappIcon = whatsapp?.querySelector('svg')?.outerHTML || '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 11.5a9 9 0 0 1-13.4 7.9L3 21l1.6-4.6A9 9 0 1 1 21 11.5Z"/></svg>';
+    const phoneLabel = phone.length === 12 && phone.startsWith('91') ? '+91 ' + phone.slice(2, 7) + ' ' + phone.slice(7) : '+' + phone;
+    addContact('https://wa.me/' + phone, 'WhatsApp', phoneLabel, whatsappIcon, true);
+    addContact('mailto:' + mail, 'Email us', mail, '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7 8 6 8-6"/></svg>');
+    header.appendChild(servicePanel);
+    menuButton.setAttribute('aria-controls', servicePanel.id);
+    measureMega();
     setMega(false);
     menuButton.addEventListener('click', () => setMega(dropdown.dataset.aesMenu !== 'open'));
     dropdown.addEventListener('mouseenter', () => {
       if (matchMedia('(hover: hover)').matches) setMega(true);
     });
-    dropdown.addEventListener('mouseleave', () => {
+    header.addEventListener('mouseleave', () => {
       menuTimer = setTimeout(() => {
-        if (!dropdown.contains(document.activeElement)) setMega(false);
+        if (!header.contains(document.activeElement) || !document.activeElement.matches(':focus-visible')) setMega(false);
       }, 180);
     });
-    dropdown.addEventListener('focusout', () => queueMicrotask(() => {
-      if (!dropdown.contains(document.activeElement)) setMega(false);
+    header.addEventListener('mouseenter', () => clearTimeout(menuTimer));
+    header.addEventListener('focusout', () => queueMicrotask(() => {
+      if (!header.contains(document.activeElement)) setMega(false);
     }));
+    header.addEventListener('focusin', event => {
+      if (servicePanel.contains(event.target)) setMega(true);
+      else if (!dropdown.contains(event.target) && event.target !== contactButton) setMega(false);
+    });
+    $$('nav > a:not(.aes-header-contact)', header).forEach(anchor => anchor.addEventListener('mouseenter', () => setMega(false)));
     dropdown.addEventListener('keydown', event => {
       if (event.key === 'ArrowDown' && (event.target === link || event.target === menuButton)) {
         event.preventDefault(); setMega(true);
         const first = $('a', megaMenu);
-        if (first) first.focus();
+        requestAnimationFrame(() => {
+          if (first && dropdown.dataset.aesMenu === 'open') first.focus({ preventScroll: true });
+        });
       }
     });
     document.addEventListener('click', event => {
-      if (!dropdown.contains(event.target)) setMega(false);
+      if (!header.contains(event.target)) setMega(false);
     });
     desktop.addEventListener('change', () => setMega(false));
+    window.addEventListener('resize', () => {
+      measureMega();
+      if (!desktop.matches) setMega(false);
+    }, { passive: true });
+    document.fonts?.ready.then(measureMega);
   }
 
   // One modal controller preserves the existing openModal / closeModal API.
@@ -275,38 +390,142 @@
     if (!title) return;
     const measure = () => {
       const padding = parseFloat(getComputedStyle(drawer).paddingTop);
-      drawer.style.setProperty('--aes-drawer-peek', Math.ceil(title.getBoundingClientRect().height + padding * 2) + 'px');
+      const eyebrow = drawer.firstElementChild !== title ? drawer.firstElementChild.getBoundingClientRect().height + 4 : 0;
+      drawer.style.setProperty('--aes-drawer-peek', Math.ceil(title.getBoundingClientRect().height + eyebrow + padding * 2) + 'px');
     };
     measure();
     if ('ResizeObserver' in window) new ResizeObserver(measure).observe(title);
   });
-  $$('.service-slide-card').forEach(card => {
-    card.addEventListener('click', () => card.blur());
-    card.addEventListener('mouseleave', () => card.blur());
+
+  // Reset the drawer, trace one rounded border from top centre, then navigate the new tab.
+  $$('a.service-slide-card[href]').forEach(card => {
+    card.target = '_blank';
+    card.relList.add('noopener', 'noreferrer');
+    let opening = false;
+    let openDirectly = false;
+    const releaseReset = () => {
+      if (!opening) card.classList.remove('aes-card-reset');
+    };
+    card.addEventListener('mouseleave', releaseReset);
+    card.addEventListener('focusout', releaseReset);
+    card.addEventListener('click', async event => {
+      if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      if (opening) { event.preventDefault(); event.stopImmediatePropagation(); return; }
+      if (openDirectly) { openDirectly = false; return; }
+      card.classList.add('aes-card-reset');
+      if (motion.matches || !card.animate) return;
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      opening = true;
+      card.blur();
+      const href = card.href;
+
+      card.classList.remove('card-highlighted');
+      $$('.card-trace-svg, .aes-card-click-trace', card).forEach(trace => trace.remove());
+      const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      svg.classList.add('aes-card-click-trace');
+      svg.setAttribute('aria-hidden', 'true');
+      const width = card.clientWidth, height = card.clientHeight;
+      svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
+      svg.setAttribute('preserveAspectRatio', 'none');
+      const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      const edge = 3, right = width - edge, bottom = height - edge;
+      const radius = Math.min(14, width / 4, height / 4);
+      path.setAttribute('d', `M ${width / 2} ${edge} H ${right - radius} Q ${right} ${edge} ${right} ${edge + radius} V ${bottom - radius} Q ${right} ${bottom} ${right - radius} ${bottom} H ${edge + radius} Q ${edge} ${bottom} ${edge} ${bottom - radius} V ${edge + radius} Q ${edge} ${edge} ${edge + radius} ${edge} H ${width / 2}`);
+      svg.appendChild(path);
+      card.appendChild(svg);
+      const length = path.getTotalLength();
+      path.style.strokeDasharray = `${length} ${length}`;
+      path.style.strokeDashoffset = String(length);
+      try {
+        await path.animate([{ strokeDashoffset: length }, { strokeDashoffset: 0 }], {
+          duration: 850, easing: 'linear', fill: 'forwards'
+        }).finished;
+        await svg.animate([{ opacity: 1 }, { opacity: 0 }], {
+          duration: 360, easing: 'ease-in-out', fill: 'forwards'
+        }).finished;
+        // Let the transparent final frame paint before the browser opens the destination.
+        await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+      } catch (error) { /* Reduced-motion changes cancel the trace and continue navigation. */ }
+      finally {
+        svg.remove();
+        opening = false;
+        if (!card.matches(':hover') || !matchMedia('(hover: hover)').matches) releaseReset();
+        // Keep the whole sequence short enough to retain the click's transient user activation.
+        const destination = window.open('', '_blank');
+        if (destination) {
+          destination.opener = null;
+          destination.location.replace(href);
+        } else {
+          // A blocked popup leaves the real anchor usable on the next trusted click.
+          openDirectly = true;
+          card.title = 'Click again to open this service in a new tab';
+        }
+      }
+    }, true);
   });
   $$('#equipment .grid > div, #sectors .grid > div, #openings .grid > div, main section .grid > div.border').forEach(card => {
     if (!card.querySelector('form')) card.classList.add('aes-content-card');
   });
 
   // Content remains visible if animation APIs are unavailable or JavaScript is interrupted.
-  const revealTargets = $$('main h2, .service-slide-card, .service-card-target, .aes-content-card');
+  const revealCandidates = $$('main h1, main h2, main .grid > *, main .service-slide-card, main .aes-contact-channel, main .aes-process-step, main .aes-reach-card, main .aes-culture-card, main .aes-jobs-grid > article, main .aes-hiring-map > li, .aes-detail-hero__copy, footer .footer-grid > div, main > section:first-child > .relative > div > *');
+  const revealSet = new Set(revealCandidates);
+  const revealTargets = revealCandidates.filter(target => {
+    // Animate each content group once; nested animations would compound the movement.
+    for (let parent = target.parentElement; parent; parent = parent.parentElement) {
+      if (revealSet.has(parent)) return false;
+    }
+    return !target.closest('.modal-backdrop, form') && !target.querySelector('form');
+  });
   if ('IntersectionObserver' in window && !motion.matches) {
     const observer = new IntersectionObserver(entries => {
       entries.forEach(entry => {
         if (!entry.isIntersecting) return;
         observer.unobserve(entry.target);
         if (motion.matches || !entry.target.animate) return;
+        const siblings = Array.from(entry.target.parentElement.children);
+        const delay = Math.min(siblings.indexOf(entry.target) * 45, 135);
+        const sideways = entry.target.classList.contains('service-slide-card');
         entry.target.animate([
-          { opacity: .55, translate: '0 16px' },
+          { opacity: .35, translate: sideways ? '-18px 8px' : '0 18px' },
           { opacity: 1, translate: '0 0' }
-        ], { duration: 550, easing: 'cubic-bezier(.22, 1, .36, 1)' });
+        ], { duration: 700, delay, easing: 'cubic-bezier(.22, 1, .36, 1)', fill: 'backwards' });
       });
     }, { threshold: .08 });
     revealTargets.forEach(target => observer.observe(target));
   }
   motion.addEventListener('change', () => {
     if (motion.matches) document.getAnimations().forEach(animation => animation.cancel());
+    updateImagePan();
   });
+
+  // A small horizontal image pan follows scroll progress; vertical hover movement stays independent.
+  const panCards = $$('.service-slide-card').filter(card => $(':scope > img', card));
+  const visiblePanCards = new Set(panCards);
+  function updateImagePan() {
+    if (motion.matches) {
+      panCards.forEach(card => card.style.removeProperty('--aes-pan-x'));
+      return;
+    }
+    const viewport = window.innerHeight;
+    const positions = Array.from(visiblePanCards, card => ({ card, rect: card.getBoundingClientRect() }));
+    positions.forEach(({ card, rect }) => {
+      const progress = Math.max(0, Math.min(1, (viewport - rect.top) / (viewport + rect.height)));
+      card.style.setProperty('--aes-pan-x', (-12 + progress * 24).toFixed(2) + 'px');
+    });
+  }
+  if ('IntersectionObserver' in window) {
+    const panObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) visiblePanCards.add(entry.target);
+        else visiblePanCards.delete(entry.target);
+      });
+      updateImagePan();
+    }, { rootMargin: '80px 0px' });
+    panCards.forEach(card => panObserver.observe(card));
+  }
+  window.addEventListener('resize', () => requestAnimationFrame(updateImagePan), { passive: true });
 
   const video = $('video#heroVideo') || $('video');
   if (video) {
@@ -355,10 +574,12 @@
     if (logo) logo.focus({ preventScroll: true });
   });
   document.body.appendChild(backTop);
+  window.aesEnhanceButtons(document.body);
   let scrollPending = false;
   function updateScroll() {
     if (header) header.classList.toggle('aes-scrolled', scrollY > 12);
     backTop.classList.toggle('is-visible', scrollY > 650);
+    updateImagePan();
     scrollPending = false;
   }
   window.addEventListener('scroll', () => {

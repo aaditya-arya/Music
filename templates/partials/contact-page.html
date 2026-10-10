@@ -1,0 +1,60 @@
+<main class="aes-public-page aes-contact-page">
+  <section class="aes-public-hero">
+    <div class="aes-public-hero__photo" aria-hidden="true"><img src="@@FIELD:c_hero_img@@" alt="" fetchpriority="high" decoding="async" /></div>
+    <div class="aes-public-shell">
+      <nav class="aes-breadcrumb" aria-label="Breadcrumb"><a href="@@PAGE:home@@">Home</a><span>/</span><span>Contact Us</span></nav>
+      <div class="aes-public-hero__copy">
+        <span class="aes-eyebrow">Contact AES</span>
+        <h1>Good engineering starts with <em>a conversation.</em></h1>
+        <p>@@FIELD:c_subtitle@@</p>
+        <a class="btn-premium-orange aes-action" href="#contactInquiry">Tell us about your project <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></a>
+      </div>
+    </div>
+  </section>
+  <section class="aes-contact-reach aes-public-shell" aria-label="Contact options">
+    <article class="aes-reach-card">
+      <svg class="aes-reach-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 3H9l2 5-3 2c1 3 3 5 6 6l2-3 5 2v4c0 1-1 2-2 2C10 21 3 14 3 5c0-1 1-2 2-2Z"/></svg>
+      <span class="aes-eyebrow">Speak to our team</span><h2><a href="@@FIELD:c_call_link@@">@@FIELD:c_call_num@@</a></h2>
+      <p>@@FIELD:c_call_desc@@</p>
+      <a class="aes-inline-link" href="https://wa.me/918200441159" target="_blank" rel="noopener noreferrer">Chat on WhatsApp <span aria-hidden="true">↗</span></a>
+    </article>
+    <article class="aes-reach-card">
+      <svg class="aes-reach-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 6 9 7 9-7"/></svg>
+      <span class="aes-eyebrow">Share your requirements</span><h2><a href="@@FIELD:c_mail_link@@">@@FIELD:c_mail_address@@</a></h2>
+      <p>@@FIELD:c_mail_desc@@</p>
+      <a class="aes-inline-link" href="@@FIELD:c_mail_link@@">Write to AES <span aria-hidden="true">↗</span></a>
+    </article>
+    <article class="aes-reach-card">
+      <svg class="aes-reach-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M19 10c0 5-7 11-7 11S5 15 5 10a7 7 0 1 1 14 0Z"/><circle cx="12" cy="10" r="2.5"/></svg>
+      <span class="aes-eyebrow">Visit our office</span><h2>Ahmedabad, Gujarat</h2>
+      <address class="aes-contact-address">@@FIELD:c_addr_text@@</address>
+      <a class="aes-inline-link" href="https://maps.google.com/maps?q=Tryksha+Desire%2C+Chandkheda%2C+Ahmedabad+382424" target="_blank" rel="noopener noreferrer">Get directions <span aria-hidden="true">↗</span></a>
+    </article>
+  </section>
+  <section class="aes-public-shell aes-contact-inquiry" id="contactInquiry">
+    <div class="aes-form-introduction">
+      <span class="aes-eyebrow">Your next project</span><h2>Let’s make it<br /><em>move forward.</em></h2>
+      <p>Share what you’re working on. Our team can help with inspection, testing, vendor assessment and quality assurance.</p>
+      <div class="aes-contact-hours"><span>Office hours</span><p>@@FIELD:c_addr_hours@@</p></div>
+      <a class="aes-inline-link" href="@@PAGE:services@@">Explore our services <span aria-hidden="true">↗</span></a>
+    </div>
+    <div class="aes-form-panel">
+      <div class="aes-form-panel__heading"><h3>Send a project inquiry</h3><p>Fields marked * are required.</p></div>
+      <form action="@@AJAX@@" method="post" data-aes-form="contact-us-inquiry" id="contactInquiryForm" class="aes-designed-form">
+        <div class="aes-field-grid">
+          <div><label for="contactName">Full name *</label><input id="contactName" name="contactName" autocomplete="name" placeholder="Your full name" required type="text" /></div>
+          <div><label for="contactEmail">Email address *</label><input id="contactEmail" name="contactEmail" autocomplete="email" placeholder="you@company.com" required type="email" /></div>
+          <div><label for="contactPhone">Phone / WhatsApp *</label><input id="contactPhone" name="contactPhone" autocomplete="tel" placeholder="Include your country code" required type="tel" /></div>
+          <div><label for="contactCompany">Company</label><input id="contactCompany" name="contactCompany" autocomplete="organization" placeholder="Company or organization" type="text" /></div>
+        </div>
+        <div><label for="contactService">How can we help?</label><select id="contactService" name="contactService"><option value="">Select a service (optional)</option><option>Third Party Inspection</option><option>Vendor Assessment</option><option>Project &amp; Shutdown Inspection</option><option>NDT Inspection</option><option>Welding Engineering</option><option>QA/QC Documentation</option><option>Expediting Services</option><option>Training</option><option>Other / General Inquiry</option></select></div>
+        <div><label for="contactMessage">Project details *</label><textarea id="contactMessage" name="contactMessage" rows="5" placeholder="Tell us the service, project location and timeline you have in mind." required></textarea></div>
+        <div class="aes-form-submit"><p>Your details help us respond to your inquiry.</p><button class="btn-premium-orange aes-action" type="submit">Send inquiry <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></button></div>
+      </form>
+    </div>
+  </section>
+  <section class="aes-public-shell aes-office-section">
+    <div class="aes-office-copy"><span class="aes-eyebrow">Find us</span><h2>Our office.<br />Your starting point.</h2><p>@@FIELD:c_map_desc@@</p><address>@@FIELD:c_addr_text@@</address><a class="btn-premium-blue aes-action" href="https://maps.google.com/maps?q=Tryksha+Desire%2C+Chandkheda%2C+Ahmedabad+382424" target="_blank" rel="noopener noreferrer">Open directions <span aria-hidden="true">↗</span></a></div>
+    <div class="aes-office-map"><iframe title="Akshar Engineering Services office in Chandkheda, Ahmedabad" src="https://maps.google.com/maps?q=Tryksha+Desire%2C+Near+Shree+Kirtidham+Derasar%2C+Opp+Shiv+Shakti+BRTS+Stand%2C+Chandkheda%2C+Ahmedabad%2C+Gujarat+382424&amp;z=16&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe></div>
+  </section>
+</main>

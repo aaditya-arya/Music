@@ -1,5 +1,5 @@
 (() => {
- document.addEventListener('click',e=>{const btn=e.target.closest('[data-aes-role]');if(btn){const select=document.getElementById('appPosition');if(select)select.value=btn.dataset.aesRole;document.getElementById('applyForm')?.scrollIntoView({behavior:'smooth'});}});
+ document.addEventListener('click',e=>{const btn=e.target.closest('[data-aes-role]');if(btn){const select=document.getElementById('appPosition');if(select)select.value=btn.dataset.aesRole;(document.getElementById('applyForm')||document.getElementById('careerApplyForm'))?.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth',block:'start'});select?.focus({preventScroll:true});}});
  document.querySelectorAll('form[data-aes-form]').forEach(form=>{
   form.removeAttribute('onsubmit');form.onsubmit=null;
   const trap=document.createElement('div');trap.className='aes-trap';trap.setAttribute('aria-hidden','true');trap.innerHTML='<label>Leave blank<input name="website" tabindex="-1" autocomplete="off"></label>';form.appendChild(trap);

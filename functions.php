@@ -13,7 +13,7 @@ add_action('after_setup_theme', function () {
     add_theme_support('post-thumbnails');
     add_theme_support('html5', ['search-form', 'gallery', 'caption', 'style', 'script']);
     add_theme_support('editor-styles');
-    add_editor_style(['assets/compiled.css', 'assets/site.css', 'assets/gutenberg-cms.css']);
+    add_editor_style(['assets/fonts.css', 'assets/compiled.css', 'assets/site.css', 'assets/brand-refinements.css', 'assets/public-pages.css', 'assets/gutenberg-cms.css']);
     register_nav_menus([
         'primary' => 'Services Dropdown Menu'
     ]);
@@ -125,15 +125,28 @@ add_action('wp_enqueue_scripts', function () {
     $ver = filemtime(AES_DIR . '/assets/site.css') ?: '3.0';
     wp_enqueue_style('aes-utilities', get_template_directory_uri() . '/assets/compiled.css', [], $ver);
     wp_enqueue_style('aes-site', get_template_directory_uri() . '/assets/site.css', ['aes-utilities'], $ver);
-    wp_enqueue_style('aes-fonts', 'https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600;1,700&display=swap', [], null);
-    wp_enqueue_script('aes-site', get_template_directory_uri() . '/assets/site.js', [], $ver, true);
+    wp_enqueue_style('aes-brand-refinements', get_template_directory_uri() . '/assets/brand-refinements.css', ['aes-site'], filemtime(AES_DIR . '/assets/brand-refinements.css'));
+    wp_enqueue_style('aes-fonts', get_template_directory_uri() . '/assets/fonts.css', [], filemtime(AES_DIR . '/assets/fonts.css'));
+    wp_enqueue_style('aes-public-pages', get_template_directory_uri() . '/assets/public-pages.css', ['aes-brand-refinements'], filemtime(AES_DIR . '/assets/public-pages.css'));
+    wp_enqueue_script('aes-site', get_template_directory_uri() . '/assets/site.js', [], filemtime(AES_DIR . '/assets/site.js'), true);
     wp_localize_script('aes-site', 'AES', ['theme' => get_template_directory_uri(), 'ajax' => admin_url('admin-ajax.php'), 'nonce' => wp_create_nonce('aes_submit')]);
-    wp_enqueue_script('aes-flipbook', get_template_directory_uri() . '/assets/flipbook-reader.js', ['aes-site'], $ver, true);
-    wp_enqueue_script('aes-forms', get_template_directory_uri() . '/assets/forms.js', ['aes-site'], $ver, true);
+    wp_enqueue_script('aes-brochure', get_template_directory_uri() . '/assets/brochure-reader.js', ['aes-site'], filemtime(AES_DIR . '/assets/brochure-reader.js'), true);
+    wp_enqueue_script('aes-forms', get_template_directory_uri() . '/assets/forms.js', ['aes-site'], filemtime(AES_DIR . '/assets/forms.js'), true);
     wp_add_inline_style('aes-site', '#wpadminbar{position:fixed!important;top:0!important}.admin-bar > header{top:32px}.aes-form-status{padding:12px;margin-top:12px;font-size:14px}.aes-form-status[data-error="true"]{color:#b91c1c}.aes-form-status[data-error="false"]{color:#166534}.aes-trap{position:absolute!important;left:-9999px!important}.aes-generic{max-width:1100px;margin:auto;padding:60px 24px}.aes-generic h1{font-size:40px;font-weight:800}.aes-generic p{margin:16px 0}@media(max-width:782px){.admin-bar > header{top:46px}}');
 });
 
+add_action('wp_head', function () {
+    foreach (['inter', 'manrope'] as $font) {
+        echo '<link rel="preload" href="' . esc_url(get_template_directory_uri() . '/assets/fonts/' . $font . '-latin.woff2') . '" as="font" type="font/woff2" crossorigin />';
+    }
+}, 1);
+
+require AES_DIR . '/inc/hero-video.php';
+require AES_DIR . '/inc/brand-intro.php';
 require AES_DIR . '/inc/gutenberg-cms.php';
+require AES_DIR . '/inc/presentation-updates.php';
+require AES_DIR . '/inc/detail-pages.php';
+require AES_DIR . '/inc/public-pages.php';
 require AES_DIR . '/inc/admin.php';
 require AES_DIR . '/inc/submissions.php';
 
@@ -202,5 +215,3 @@ add_action('admin_post_aes_setup', function () {
     wp_safe_redirect(admin_url('admin.php?page=aes-cms&ready=1'));
     exit;
 });
-
-

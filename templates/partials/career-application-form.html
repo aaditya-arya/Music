@@ -1,0 +1,92 @@
+<form action="@@AJAX@@" class="space-y-6" data-aes-form="careers-apply" enctype="multipart/form-data" id="careerApplyForm" method="post">
+
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+<div>
+<label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Full Name *</label>
+<input class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:outline-none focus:border-brand-orange focus:bg-white text-xs font-medium transition-all" data-aes-label="Full Name *" id="candidateName" name="candidateName" placeholder="e.g. Rajesh Kumar Sharma" required="" type="text"/>
+</div>
+<div>
+<label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Work Email Address *</label>
+<input class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:outline-none focus:border-brand-orange focus:bg-white text-xs font-medium transition-all" data-aes-label="Email Address *" id="candidateEmail" name="candidateEmail" placeholder="rajesh@company.com" required="" type="email"/>
+</div>
+</div>
+
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+<div>
+<label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Phone / WhatsApp No. *</label>
+<input class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:outline-none focus:border-brand-orange focus:bg-white text-xs font-medium transition-all" data-aes-label="Phone / WhatsApp No *" id="candidatePhone" inputmode="numeric" maxlength="10" minlength="10" name="candidatePhone" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10);" pattern="[0-9]{10}" placeholder="e.g. 9876543210 (10 digits)" required="" type="tel"/>
+</div>
+<div>
+<label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Total Experience (Years) *</label>
+<input class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:outline-none focus:border-brand-orange focus:bg-white text-xs font-medium transition-all" data-aes-label="Total Experience (Years) *" id="candidateExperience" max="50" min="0" name="candidateExperience" placeholder="e.g. 5" required="" type="number"/>
+</div>
+</div>
+
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+<div>
+<label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Educational Qualification *</label>
+<input class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:outline-none focus:border-brand-orange focus:bg-white text-xs font-medium transition-all" data-aes-label="Educational Qualification *" id="eduQualification" name="eduQualification" placeholder="e.g. Diploma / B.E. / B.Tech in Mechanical" required="" type="text"/>
+</div>
+<div>
+<label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Professional Qualification / Certifications *</label>
+<input class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:outline-none focus:border-brand-orange focus:bg-white text-xs font-medium transition-all" data-aes-label="Professional Qualification / Certifications *" id="profQualification" name="profQualification" placeholder="e.g. CSWIP 3.1, AWS-CWI, ASNT Level II RT/UT, API 510" required="" type="text"/>
+</div>
+</div>
+
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+<div>
+<label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Stream / Engineering Discipline *</label>
+<select class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:outline-none focus:border-brand-orange focus:bg-white text-xs font-medium transition-all" data-aes-label="Stream / Discipline *" id="candidateStream" name="candidateStream" required="">
+<option value="">Select Primary Stream</option>
+<option value="Mechanical &amp; Static Equipment">Mechanical &amp; Static Equipment (Pressure Vessels / Heat Exchangers)</option>
+<option value="Welding &amp; Fabrication Inspection">Welding &amp; Fabrication Inspection (CSWIP / AWS)</option>
+<option value="Non-Destructive Testing (NDT)">Non-Destructive Testing (NDT Level II/III RT/UT/MPT/DPT)</option>
+<option value="Process Piping &amp; Pipelines">Process Piping &amp; Cross-Country Pipelines (ASME B31.3 / B31.4 / B31.8)</option>
+<option value="Storage Tanks Surveillance">Storage Tanks Surveillance (API 650 / API 653)</option>
+<option value="Painting, Coating &amp; Insulation">Painting, Coating &amp; Corrosion (NACE / FROSIO / BGAS)</option>
+<option value="Vendor Assessment &amp; Expediting">Vendor Assessment &amp; Shop-Floor Expediting</option>
+<option value="Electrical &amp; Instrumentation">Electrical &amp; Instrumentation (Hazardous Area / ATEX)</option>
+<option value="Civil &amp; Structural Engineering">Civil &amp; Heavy Structural Fabrication</option>
+<option value="Quality Assurance &amp; Auditing">Quality Assurance &amp; ISO 9001/17020 Auditing</option>
+</select>
+</div>
+<div>
+<label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Current Base City / Availability</label>
+<input class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:outline-none focus:border-brand-orange focus:bg-white text-xs font-medium transition-all" data-aes-label="Current Base City" id="candidateLocation" name="candidateLocation" placeholder="e.g. Vadodara / Mumbai (Immediate)" type="text"/>
+</div>
+</div>
+
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-5 pt-2 border-t border-slate-200">
+<div>
+<label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+Attachment 1: CV / Resume *
+</label>
+<div class="p-3 bg-slate-50 border border-dashed border-slate-300 rounded-xl">
+<input accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" class="w-full text-xs text-slate-600 file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-brand-blue file:text-white hover:file:bg-brand-orange file:cursor-pointer" id="attachment_cv" name="attachment_cv" required="" type="file"/>
+<span class="block text-[10px] text-slate-400 mt-1.5">PDF, DOC, DOCX, JPG or PNG (Max 2MB)</span>
+</div>
+</div>
+<div>
+<label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+Attachment 2: Technical Certificate(s) *
+</label>
+<div class="p-3 bg-slate-50 border border-dashed border-slate-300 rounded-xl">
+<input accept=".pdf,.jpg,.jpeg,.png" class="w-full text-xs text-slate-600 file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-brand-blue file:text-white hover:file:bg-brand-orange file:cursor-pointer" id="attachment_cert" name="attachment_cert" required="" type="file"/>
+<span class="block text-[10px] text-slate-400 mt-1.5">CSWIP / AWS / ASNT / API / Degree (PDF, JPG, PNG - Max 2MB)</span>
+</div>
+</div>
+</div>
+
+<div>
+<label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Summary of Key Projects &amp; Major Codes Handled</label>
+<textarea class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:outline-none focus:border-brand-orange focus:bg-white text-xs font-medium transition-all" data-aes-label="Summary of Key Projects" id="candidateSummary" name="candidateSummary" placeholder="Briefly highlight your major shop-floor inspection achievements, client projects, and code experience..." rows="3"></textarea>
+</div>
+
+<div class="pt-2">
+<button class="w-full btn-premium-orange py-4 px-8 rounded-xl font-black text-xs uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer shadow-lg" id="careerApplySubmitBtn" type="submit">
+<span>Submit Application to AES</span>
+<span>→</span>
+</button>
+</div>
+
+</form>

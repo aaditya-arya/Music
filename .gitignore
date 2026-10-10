@@ -1,0 +1,8 @@
+# Local debugging output and temporary files are not theme assets.
+*_post.txt
+clear-cache.php
+*.log
+*.tmp
+node_modules/
+.DS_Store
+Thumbs.db
