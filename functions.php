@@ -13,7 +13,7 @@ add_action('after_setup_theme', function () {
     add_theme_support('post-thumbnails');
     add_theme_support('html5', ['search-form', 'gallery', 'caption', 'style', 'script']);
     add_theme_support('editor-styles');
-    add_editor_style(['assets/fonts.css', 'assets/compiled.css', 'assets/site.css', 'assets/brand-refinements.css', 'assets/public-pages.css', 'assets/gutenberg-cms.css']);
+    add_editor_style(['assets/fonts.css', 'assets/compiled.css', 'assets/site.css', 'assets/brand-refinements.css', 'assets/public-pages.css', 'assets/services-page.css', 'assets/gutenberg-cms.css']);
     register_nav_menus([
         'primary' => 'Services Dropdown Menu'
     ]);
@@ -128,6 +128,10 @@ add_action('wp_enqueue_scripts', function () {
     wp_enqueue_style('aes-brand-refinements', get_template_directory_uri() . '/assets/brand-refinements.css', ['aes-site'], filemtime(AES_DIR . '/assets/brand-refinements.css'));
     wp_enqueue_style('aes-fonts', get_template_directory_uri() . '/assets/fonts.css', [], filemtime(AES_DIR . '/assets/fonts.css'));
     wp_enqueue_style('aes-public-pages', get_template_directory_uri() . '/assets/public-pages.css', ['aes-brand-refinements'], filemtime(AES_DIR . '/assets/public-pages.css'));
+    if (aes_current_key() === 'services') {
+        wp_enqueue_style('aes-services-page', get_template_directory_uri() . '/assets/services-page.css', ['aes-public-pages'], filemtime(AES_DIR . '/assets/services-page.css'));
+        wp_enqueue_script('aes-services-page', get_template_directory_uri() . '/assets/services-page.js', ['aes-site'], filemtime(AES_DIR . '/assets/services-page.js'), true);
+    }
     wp_enqueue_script('aes-site', get_template_directory_uri() . '/assets/site.js', [], filemtime(AES_DIR . '/assets/site.js'), true);
     wp_localize_script('aes-site', 'AES', ['theme' => get_template_directory_uri(), 'ajax' => admin_url('admin-ajax.php'), 'nonce' => wp_create_nonce('aes_submit')]);
     wp_enqueue_script('aes-brochure', get_template_directory_uri() . '/assets/brochure-reader.js', ['aes-site'], filemtime(AES_DIR . '/assets/brochure-reader.js'), true);
@@ -147,6 +151,7 @@ require AES_DIR . '/inc/gutenberg-cms.php';
 require AES_DIR . '/inc/presentation-updates.php';
 require AES_DIR . '/inc/detail-pages.php';
 require AES_DIR . '/inc/public-pages.php';
+require AES_DIR . '/inc/services-directory.php';
 require AES_DIR . '/inc/admin.php';
 require AES_DIR . '/inc/submissions.php';
 

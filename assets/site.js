@@ -398,7 +398,7 @@
   });
 
   // Reset the drawer, trace one rounded border from top centre, then navigate the new tab.
-  $$('a.service-slide-card[href]').forEach(card => {
+  $$('a.service-slide-card[href], a.aes-directory-card[href]').forEach(card => {
     card.target = '_blank';
     card.relList.add('noopener', 'noreferrer');
     let opening = false;
@@ -469,7 +469,7 @@
   });
 
   // Content remains visible if animation APIs are unavailable or JavaScript is interrupted.
-  const revealCandidates = $$('main h1, main h2, main .grid > *, main .service-slide-card, main .aes-contact-channel, main .aes-process-step, main .aes-reach-card, main .aes-culture-card, main .aes-jobs-grid > article, main .aes-hiring-map > li, .aes-detail-hero__copy, footer .footer-grid > div, main > section:first-child > .relative > div > *');
+  const revealCandidates = $$('main h1, main h2, main .grid > *, main .service-slide-card, main .aes-directory-card, main .aes-service-stage, main .aes-engagement-map > li, main .aes-contact-channel, main .aes-process-step, main .aes-reach-card, main .aes-culture-card, main .aes-jobs-grid > article, main .aes-hiring-map > li, .aes-detail-hero__copy, footer .footer-grid > div, main > section:first-child > .relative > div > *');
   const revealSet = new Set(revealCandidates);
   const revealTargets = revealCandidates.filter(target => {
     // Animate each content group once; nested animations would compound the movement.
