@@ -171,6 +171,25 @@
   .aes-reach-card:hover, .aes-culture-card:hover, .aes-culture-card:hover img, .aes-action:hover svg, .aes-inline-link:hover > span { translate: none; }
 }
 
+/* Four visual working principles, connected from left to right. */
+.aes-culture-gallery .aes-section-introduction { grid-template-columns: 1fr; margin-bottom: 42px; }
+.aes-culture-gallery .aes-culture-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 64px; padding: 8px 0 24px; }
+.aes-culture-gallery .aes-culture-card { position: relative; display: flex; flex-direction: column; border: 0; border-radius: 0; overflow: visible; background: transparent; box-shadow: none; }
+.aes-culture-gallery .aes-culture-card__image { width: 100%; height: auto; aspect-ratio: 4 / 5; overflow: hidden; border-radius: 18px; box-shadow: 0 6px 12px -8px rgb(51 35 24 / 22%), 0 24px 36px -22px rgb(51 35 24 / 26%); transition: box-shadow 350ms ease; }
+.aes-culture-gallery .aes-culture-card__image img { display: block; width: 100%; height: calc(100% + 8px); max-width: none; object-fit: cover; object-position: center; }
+.aes-culture-gallery .aes-culture-card:first-child img { object-position: 70% center; }
+.aes-culture-gallery .aes-culture-card h3 { font-size: clamp(21px, 1.6vw, 26px); line-height: 1.4; color: #2d2a27; margin-top: 24px; letter-spacing: -.025em; }
+.aes-culture-gallery .aes-culture-card:hover { box-shadow: none; translate: none; }
+.aes-culture-gallery .aes-culture-card:hover .aes-culture-card__image { box-shadow: 0 8px 20px -10px rgb(51 35 24 / 24%), 0 28px 42px -20px rgb(51 35 24 / 30%); }
+.aes-culture-arrow { position: absolute; width: 56px; height: 40px; left: calc(100% + 4px); top: 42%; color: #cf5821; stroke-width: 3.3px; stroke-linecap: round; stroke-linejoin: round; pointer-events: none; }
+.aes-culture-gallery .aes-culture-grid:focus-visible { outline: 3px solid #bc4f1b; outline-offset: 8px; border-radius: 8px; }
+@media (max-width: 1023px) {
+  .aes-culture-gallery .aes-culture-grid { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: min(70vw, calc(100% - 80px), 320px); gap: 64px; overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scrollbar-width: thin; scrollbar-color: #d4b096 #f5ede6; padding-bottom: 30px; }
+  .aes-culture-gallery .aes-culture-card { scroll-snap-align: start; }
+  .aes-culture-gallery .aes-culture-card h3 { font-size: 24px; }
+  .aes-culture-gallery .aes-culture-card__image { height: auto; }
+}
+
 /* A plain, continuous PDF reader with only the controls needed for reading. */
 #companyProfileModal.aes-brochure-modal { padding: clamp(12px, 2vw, 28px); background: rgb(6 15 31 / 78%); backdrop-filter: blur(8px); z-index: 80; }
 .aes-pdf-panel { width: min(100%, 1280px); height: 92dvh; max-height: 1100px; display: flex; flex-direction: column; overflow: hidden; border-radius: 18px; background: #eceef2; box-shadow: 0 30px 100px rgb(0 0 0 / 35%); }

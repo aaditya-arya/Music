@@ -70,6 +70,7 @@ function aes_prepare_career_form($html) {
 
 function aes_prepare_public_markup($html, $key) {
     if ($key !== 'careers') return $html;
+    $html = aes_simplify_career_culture($html);
     return preg_replace_callback('/<form\b[^>]*id="careerApplyForm"[^>]*>.*?<\/form>/s', function ($match) {
         return aes_prepare_career_form($match[0]);
     }, $html);

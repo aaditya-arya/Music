@@ -52,6 +52,19 @@ function aes_submit() {
             $email = sanitize_email($v);
         }
     }
+    if ($form === 'we-hear-you-0') {
+        $reason = $map['reasondropdown'] ?? '';
+        $required_by_reason = [
+            'inquiry' => ['primaryService' => 'Primary service'],
+            'feedback' => ['feedbackRating' => 'Overall service rating'],
+            'complaint_appeal' => ['complaintReference' => 'Job / report reference', 'manufacturerName' => 'Manufacturer / vendor'],
+            'doc_verify' => ['certificateNumber' => 'Document / certificate number', 'documentType' => 'Document type'],
+        ];
+        if (!isset($required_by_reason[$reason])) wp_send_json_error(['message' => 'Select a valid request type.'], 400);
+        foreach ($required_by_reason[$reason] as $name => $label) {
+            if (trim($map[sanitize_key($name)] ?? '') === '') wp_send_json_error(['message' => 'Please complete: ' . $label], 400);
+        }
+    }
     if (!$clean) {
         wp_send_json_error(['message' => 'Complete the form before submitting.'], 400);
     }

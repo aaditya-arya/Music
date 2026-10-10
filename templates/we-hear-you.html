@@ -74,195 +74,62 @@
 <span>@@FIELD:ge05c38052c70@@</span>
 </button>
 </aside>
-<div class="max-w-7xl mx-auto px-6 lg:px-12 relative z-10 pt-10">
-<nav class="flex items-center gap-2 text-xs font-semibold text-slate-400 mb-6 uppercase tracking-wider">
-<a class="hover:text-white transition-colors" href="@@FIELD:f2@@">@@FIELD:f3@@</a>
-<span>/</span>
-<span class="text-brand-orange">@@FIELD:f4@@</span>
-</nav>
-<div class="max-w-3xl">
-<span class="inline-block bg-brand-orange/20 text-brand-orange text-xs font-extrabold uppercase tracking-wider px-3.5 py-1.5 rounded-full border border-brand-orange/30 mb-4">
-        @@FIELD:f5@@
-      </span>
-<h1 class="text-3xl sm:text-5xl font-black text-brand-dark tracking-tight mb-4 leading-tight">
-        @@FIELD:f6@@
-      </h1>
-<p class="text-slate-600 text-base sm:text-lg leading-relaxed">
-        @@FIELD:f7@@
-      </p>
-</div>
-</div>
-
-<main class="py-12 max-w-5xl mx-auto px-6 lg:px-12">
-<div class="bg-gradient-to-br from-slate-900 via-brand-navy to-brand-blue text-white rounded-3xl p-8 sm:p-12 shadow-2xl relative overflow-hidden">
-<div class="mb-8 relative z-10">
-<span class="text-xs font-extrabold text-brand-orange uppercase tracking-wider block mb-1">@@FIELD:f8@@</span>
-<h2 class="text-2xl sm:text-3xl font-black text-white">@@FIELD:f9@@</h2>
-<p class="text-slate-300 text-xs sm:text-sm mt-1.5 leading-relaxed">
-          @@FIELD:f10@@
-        </p>
-</div>
-
-<div class="mb-8 relative z-10">
-<label class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-3">Select Your Reason for Contact:</label>
-<div class="flex flex-wrap gap-2.5" id="reasonPillsContainer">
-<button class="reason-pill active px-4 py-2.5 rounded-xl text-xs font-bold border border-slate-700 bg-brand-blue hover:bg-brand-orange transition-all" id="pill-complaint_appeal" onclick="selectReason('complaint_appeal')" type="button">
-            @@FIELD:f12@@
-          </button>
-<button class="reason-pill px-4 py-2.5 rounded-xl text-xs font-bold border border-slate-700 bg-brand-blue hover:bg-brand-orange transition-all" id="pill-feedback" onclick="selectReason('feedback')" type="button">
-            @@FIELD:f13@@
-          </button>
-<button class="reason-pill px-4 py-2.5 rounded-xl text-xs font-bold border border-slate-700 bg-brand-blue hover:bg-brand-orange transition-all" id="pill-doc_verify" onclick="selectReason('doc_verify')" type="button">
-            @@FIELD:f14@@
-          </button>
-<button class="reason-pill px-4 py-2.5 rounded-xl text-xs font-bold border border-slate-700 bg-brand-blue hover:bg-brand-orange transition-all" id="pill-inquiry" onclick="selectReason('inquiry')" type="button">
-            @@FIELD:f11@@
-          </button>
-</div>
-</div>
-
-<div class="bg-white text-slate-800 p-6 sm:p-10 rounded-2xl shadow-2xl relative z-10">
-<form action="@@AJAX@@" class="space-y-5 text-xs" data-aes-form="we-hear-you-0" id="reasonWiseForm" method="post">
-<input data-aes-label="Selected Reason" id="selectedReasonInput" name="selectedReasonInput" type="hidden" value="Complaint / Appeal"/>
-
-<div>
-<label class="block font-bold text-slate-700 uppercase tracking-wider mb-1.5">Category / Reason for Contact *</label>
-<select class="w-full bg-slate-50 border border-slate-300 rounded-lg px-4 py-2.5 text-slate-900 focus:outline-none focus:border-brand-orange focus:bg-white transition-all text-xs font-semibold" id="reasonDropdown" onchange="selectReason(this.value)">
-<option value="complaint_appeal">Complaint / Appeal</option>
-<option value="feedback">Feedback</option>
-<option value="doc_verify">Inspection Certificate Verification</option>
-<option value="inquiry">Quick Inquiry</option>
-</select>
-</div>
-
-<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-<div>
-<label class="block font-bold text-slate-700 uppercase tracking-wider mb-1.5">Full Name *</label>
-<input class="w-full bg-slate-50 border border-slate-300 rounded-lg px-4 py-2.5 text-slate-900 focus:outline-none focus:border-brand-orange focus:bg-white transition-all text-xs" data-aes-label="Full Name *" id="inquiryFullName" name="inquiryFullName" placeholder="e.g. Rajesh Patel" required="" type="text"/>
-</div>
-<div>
-<label class="block font-bold text-slate-700 uppercase tracking-wider mb-1.5">Company / Organization *</label>
-<input class="w-full bg-slate-50 border border-slate-300 rounded-lg px-4 py-2.5 text-slate-900 focus:outline-none focus:border-brand-orange focus:bg-white transition-all text-xs" data-aes-label="Company / Organization *" id="inquiryCompany" name="inquiryCompany" placeholder="e.g. L&amp;T Hydrocarbon / ISGEC" required="" type="text"/>
-</div>
-</div>
-
-<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-<div>
-<label class="block font-bold text-slate-700 uppercase tracking-wider mb-1.5">Work Email Address *</label>
-<input class="w-full bg-slate-50 border border-slate-300 rounded-lg px-4 py-2.5 text-slate-900 focus:outline-none focus:border-brand-orange focus:bg-white transition-all text-xs" data-aes-label="Work Email Address *" id="inquiryEmail" name="inquiryEmail" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" placeholder="name@company.com" required="" title="Please enter a valid email address (e.g. name@company.com)" type="email"/>
-</div>
-<div>
-<label class="block font-bold text-slate-700 uppercase tracking-wider mb-1.5">Phone / WhatsApp Number *</label>
-<input class="w-full bg-slate-50 border border-slate-300 rounded-lg px-4 py-2.5 text-slate-900 focus:outline-none focus:border-brand-orange focus:bg-white transition-all text-xs" data-aes-label="Phone / WhatsApp Number *" id="inquiryPhone" inputmode="numeric" maxlength="10" minlength="10" name="inquiryPhone" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10);" pattern="[0-9]{10}" placeholder="e.g. 9876543210 (10 digits)" required="" title="Please enter exactly 10 digits" type="tel"/>
-</div>
-</div>
-
-<div class="space-y-4 pt-1 border-t border-slate-100" id="dynamicFormFields"></div>
-
-<div>
-<label class="block font-bold text-slate-700 uppercase tracking-wider mb-1.5" id="messageLabel">Detailed Message / Scope Requirements *</label>
-<textarea class="w-full bg-slate-50 border border-slate-300 rounded-lg px-4 py-2.5 text-slate-900 focus:outline-none focus:border-brand-orange focus:bg-white transition-all text-xs" data-aes-label="Detailed Message / Scope Requirements *" id="messageTextarea" name="messageTextarea" placeholder="Provide full details, vendor locations, inspection stages, or observations..." required="" rows="4"></textarea>
-</div>
-
-<div class="pt-2 flex flex-col sm:flex-row items-center justify-between gap-4">
-<button class="btn-premium-orange w-full sm:w-auto text-white font-bold text-xs uppercase tracking-wider px-8 py-3.5 rounded-lg shadow-md" id="formSubmitBtn" type="submit">
-              Submit Technical Request
-            </button>
-<div class="text-[11px] text-slate-500 text-center sm:text-right">
-              Priority Technical Routing • Guaranteed Response within <span class="font-bold text-slate-800">4 Hours</span>
-</div>
-</div>
-</form>
-</div>
-</div>
+<main class="aes-public-page aes-support-page">
+  <section class="aes-public-hero aes-support-hero" aria-labelledby="support-heading">
+    <div class="aes-public-hero__photo"><img src="@@ASSET@@/assets/service_qa_qc.jpg" alt="AES technical team reviewing project documents together" fetchpriority="high" decoding="async" /></div>
+    <div class="aes-public-shell">
+      <nav class="aes-breadcrumb" aria-label="Breadcrumb"><a href="@@FIELD:f2@@">@@FIELD:f3@@</a><span aria-hidden="true">/</span><span>@@FIELD:f4@@</span></nav>
+      <div class="aes-public-hero__copy"><span class="aes-eyebrow">A conversation that moves things forward</span><h1 id="support-heading">@@FIELD:f6@@.<br /><em>Let’s move forward.</em></h1><p>Share a question, an observation or a project requirement. We’ll help you take the next step with the right technical team.</p><div class="aes-hero-actions"><a class="aes-action aes-support-primary" href="#supportRequest">Send a request <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" /></svg></a><a class="aes-inline-link" href="tel:+918200441159">Speak to our team <span aria-hidden="true">↗</span></a></div></div>
+    </div>
+  </section>
+  <section class="aes-public-shell aes-support-choices" aria-labelledby="request-choice-heading">
+    <div class="aes-section-introduction"><div><span class="aes-eyebrow">Start with what you need</span><h2 id="request-choice-heading">How can we help?</h2></div><p>Choose a request type. We’ll show the details that help our team understand your situation.</p></div>
+    <div class="aes-support-reasons" id="reasonPillsContainer" role="group" aria-label="Request type">
+      <button class="reason-pill active aes-support-reason" id="pill-inquiry" data-support-reason="inquiry" aria-pressed="true" aria-controls="reasonWiseForm" type="button" disabled><svg class="aes-support-icon" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M6 7h20v15H14l-8 5V7Z"/><path d="M11 12h10m-10 5h7"/></svg><strong>Quick inquiry</strong><span>Discuss an inspection scope, a technical need or a new project.</span><svg class="aes-support-reason-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" /></svg></button>
+      <button class="reason-pill aes-support-reason" id="pill-feedback" data-support-reason="feedback" aria-pressed="false" aria-controls="reasonWiseForm" type="button" disabled><svg class="aes-support-icon" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 6h22v17H15l-7 5v-5H5V6Z"/><path d="m10 15 4 4 8-9"/></svg><strong>Feedback</strong><span>Tell us about your experience and what we can improve.</span><svg class="aes-support-reason-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" /></svg></button>
+      <button class="reason-pill aes-support-reason" id="pill-complaint_appeal" data-support-reason="complaint_appeal" aria-pressed="false" aria-controls="reasonWiseForm" type="button" disabled><svg class="aes-support-icon" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="m16 4 12 5v8c0 6-12 12-12 12S4 23 4 17V9l12-5Z"/><path d="M16 10v9m0 3v1"/></svg><strong>Complaint / appeal</strong><span>Raise a concern about a service, report or inspection decision.</span><svg class="aes-support-reason-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" /></svg></button>
+      <button class="reason-pill aes-support-reason" id="pill-doc_verify" data-support-reason="doc_verify" aria-pressed="false" aria-controls="reasonWiseForm" type="button" disabled><svg class="aes-support-icon" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M7 3h12l6 6v20H7V3Z"/><path d="M19 3v7h6m-13 7 3 3 6-6M12 24h9"/></svg><strong>Certificate verification</strong><span>Ask our team to confirm an AES inspection document or certificate.</span><svg class="aes-support-reason-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" /></svg></button>
+    </div>
+  </section>
+  <section class="aes-public-shell aes-support-request" id="supportRequest" aria-labelledby="request-form-heading">
+    <div class="aes-support-guide">
+      <span class="aes-eyebrow">A little context makes a difference</span><h2>Help us understand<br /><em>what matters.</em></h2><p>Share the relevant details once. Your request and supporting documents will be available to our website administrator for review.</p>
+      <div class="aes-support-context"><h3 id="support-context-title">For a project inquiry</h3><p id="support-context-copy">Include the equipment, vendor or project location, inspection stage and target dates. A specification or inspection plan is a useful starting point.</p></div>
+      <div class="aes-support-direct"><span class="aes-eyebrow">Prefer to talk?</span><a href="tel:+918200441159">+91 82004 41159 <span aria-hidden="true">↗</span></a><a class="aes-support-email" href="mailto:info@aksharengineeringservices.com">info@<wbr />aksharengineeringservices.com</a><a class="aes-inline-link" href="@@PAGE:contact-us@@">Office &amp; contact details <span aria-hidden="true">↗</span></a></div>
+    </div>
+    <div class="aes-form-panel aes-support-form-panel">
+      <div class="aes-form-panel__heading"><span class="aes-eyebrow">Your request</span><h3 id="request-form-heading" tabindex="-1">Tell us about your project</h3><p>Fields marked * are required.</p></div>
+      <noscript><p>Enable JavaScript to send this form, or call or email our team using the details alongside it.</p></noscript>
+      <form action="@@AJAX@@" method="post" data-aes-form="we-hear-you-0" id="reasonWiseForm" class="aes-designed-form" enctype="multipart/form-data">
+        <input data-aes-label="Selected reason" id="selectedReasonInput" name="selectedReasonInput" type="hidden" value="Quick Inquiry" />
+        <div><label for="reasonDropdown">Request type *</label><select id="reasonDropdown" name="reasonDropdown" required><option value="inquiry" selected>Quick inquiry</option><option value="feedback">Feedback</option><option value="complaint_appeal">Complaint / appeal</option><option value="doc_verify">Inspection certificate verification</option></select></div>
+        <fieldset><legend><span>01</span> Your details</legend><div class="aes-field-grid">
+          <div><label for="inquiryFullName">Full name *</label><input id="inquiryFullName" name="inquiryFullName" autocomplete="name" placeholder="Your full name" required type="text" /></div>
+          <div><label for="inquiryCompany">Company / organization *</label><input id="inquiryCompany" name="inquiryCompany" autocomplete="organization" placeholder="Company or organization" required type="text" /></div>
+          <div><label for="inquiryEmail">Work email address *</label><input id="inquiryEmail" name="inquiryEmail" autocomplete="email" placeholder="you@company.com" required type="email" /></div>
+          <div><label for="inquiryPhone">Phone / WhatsApp number *</label><input id="inquiryPhone" name="inquiryPhone" autocomplete="tel" placeholder="Include your country code" required type="tel" /></div>
+        </div></fieldset>
+        <fieldset><legend><span>02</span> Request details</legend>
+          <div id="dynamicFormFields" class="aes-field-grid">
+            <div><label for="primaryService">Primary service *</label><select id="primaryService" name="primaryService" required><option value="">Select a service</option><option>Third Party Inspection</option><option>Vendor Assessment</option><option>Project &amp; Shutdown Inspection</option><option>QA/QC Documentation</option><option>Pre-Shipment Inspection</option><option>Welding Engineering</option><option>NDT Inspection Services</option><option>Expediting Services</option><option>Design Examination</option><option>International Sourcing</option><option>Performance &amp; Hydro-Tests</option><option>Process Qualification</option><option>API Tank Inspection</option><option>Owner’s Engineer</option><option>Process Piping (B31.3)</option><option>QA/QC &amp; NDT Training</option><option>Other / Not sure yet</option></select></div>
+            <div><label for="mobilizationTimeline">Expected timeline</label><select id="mobilizationTimeline" name="mobilizationTimeline"><option value="">Select a timeline (optional)</option><option>As soon as possible</option><option>Within 1–2 weeks</option><option>Next month / upcoming project</option><option>Budgetary / planning stage</option></select></div>
+          </div>
+          <div class="aes-support-message"><label for="messageTextarea" id="messageLabel">Project scope &amp; location *</label><textarea id="messageTextarea" name="messageTextarea" placeholder="Tell us the equipment, project location, inspection stage and target dates." rows="5" required></textarea></div>
+        </fieldset>
+        <div class="aes-upload-field"><label for="supportAttachment">Supporting document (optional)</label><div><input type="file" id="supportAttachment" name="supportAttachment" accept=".pdf,.jpg,.jpeg,.png" /><span>Attach a relevant specification, report or certificate. PDF, JPG or PNG, up to 2 MB.</span></div></div>
+        <div class="aes-form-submit"><p>You’ll receive a reference number once your request is saved.</p><button id="formSubmitBtn" class="aes-action aes-support-primary" type="submit">Submit inquiry <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" /></svg></button></div>
+      </form>
+    </div>
+  </section>
+  <section class="aes-public-shell aes-support-next" aria-labelledby="support-next-heading">
+    <span class="aes-eyebrow">After you press send</span><h2 id="support-next-heading">A clear next step.</h2>
+    <ol><li><span>01</span><h3>Your request is recorded</h3><p>The confirmation includes a reference number for your request.</p></li><li><span>02</span><h3>Our team reviews the details</h3><p>The information you provide helps us understand the scope or concern.</p></li><li><span>03</span><h3>We follow up with you</h3><p>Your email and phone details let the team discuss the next steps.</p></li></ol>
+  </section>
+  <section class="aes-public-shell aes-support-help" id="technicalBlog" aria-labelledby="support-help-heading">
+    <div><span class="aes-eyebrow">Before you send</span><h2 id="support-help-heading">A few helpful answers.</h2><p>Looking for an inspection service? Explore our portfolio to see the scope and expected outputs.</p><a class="aes-inline-link" href="@@PAGE:services@@">Explore AES services <span aria-hidden="true">↗</span></a></div>
+    <div class="aes-support-faq"><details><summary>What should I include in a complaint or appeal?<span aria-hidden="true">+</span></summary><p>Include the report or project reference, manufacturer or vendor, the relevant events and the outcome you are seeking. If you do not have a report reference yet, use the project name.</p></details><details><summary>How does certificate verification work?<span aria-hidden="true">+</span></summary><p>Select certificate verification and provide the document number, document type and issue date if known. You can attach a copy for context. Our team reviews the request; the form does not verify documents instantly.</p></details><details><summary>Can I send a request before my scope is final?<span aria-hidden="true">+</span></summary><p>Yes. Choose quick inquiry and share your equipment, location and current project stage. Select “Other / Not sure yet” if you need help identifying the service.</p></details><details><summary>How do I apply for a role at AES?<span aria-hidden="true">+</span></summary><p>Visit <a href="@@PAGE:careers@@#applyNow">Careers at AES</a> to explore openings and submit your CV through the application form.</p></details></div>
+  </section>
 </main>
-
-
-
-<section class="py-16 bg-slate-50 border-t border-slate-200" id="technicalBlog">
-<div class="max-w-7xl mx-auto px-6 lg:px-12">
-<div class="text-center max-w-3xl mx-auto mb-12">
-<div class="inline-block">
-<h2 class="text-2xl sm:text-3xl font-black text-brand-dark tracking-tight">@@FIELD:f18@@</h2>
-<div class="heading-line-track track-center mx-auto mt-2 mb-3">
-<div class="section-accent-line"></div>
-</div>
-</div>
-<p class="text-slate-600 text-xs sm:text-sm leading-relaxed">
-          @@FIELD:f19@@
-        </p>
-</div>
-
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-
-<article class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between group">
-<div class="p-6 sm:p-8 space-y-4">
-<div class="flex items-center justify-between text-xs text-slate-500">
-<span class="bg-blue-50 text-brand-blue font-bold px-3 py-1 rounded-full uppercase tracking-wider text-[10px]">@@FIELD:f20@@</span>
-<span>@@FIELD:f21@@</span>
-</div>
-<h3 class="text-lg font-bold text-brand-dark group-hover:text-brand-orange transition-colors leading-snug">
-              @@FIELD:f22@@
-            </h3>
-<p class="text-xs text-slate-600 leading-relaxed">
-              @@FIELD:f23@@
-            </p>
-</div>
-<div class="px-6 sm:px-8 pb-6 pt-2 border-t border-slate-100 flex items-center justify-between">
-<span class="text-[11px] font-semibold text-slate-500">@@FIELD:f24@@</span>
-<button class="bg-brand-blue hover:bg-brand-orange text-white font-bold text-xs flex items-center gap-1 px-3.5 py-2 rounded-lg transition-colors" onclick="openModal('inquiryModal')">
-              @@FIELD:f25@@
-            </button>
-</div>
-</article>
-
-<article class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between group">
-<div class="p-6 sm:p-8 space-y-4">
-<div class="flex items-center justify-between text-xs text-slate-500">
-<span class="bg-orange-50 text-brand-orange font-bold px-3 py-1 rounded-full uppercase tracking-wider text-[10px]">@@FIELD:f26@@</span>
-<span>@@FIELD:f27@@</span>
-</div>
-<h3 class="text-lg font-bold text-brand-dark group-hover:text-brand-orange transition-colors leading-snug">
-              @@FIELD:f28@@
-            </h3>
-<p class="text-xs text-slate-600 leading-relaxed">
-              @@FIELD:f29@@
-            </p>
-</div>
-<div class="px-6 sm:px-8 pb-6 pt-2 border-t border-slate-100 flex items-center justify-between">
-<span class="text-[11px] font-semibold text-slate-500">@@FIELD:f30@@</span>
-<button class="bg-brand-blue hover:bg-brand-orange text-white font-bold text-xs flex items-center gap-1 px-3.5 py-2 rounded-lg transition-colors" onclick="openModal('inquiryModal')">
-              @@FIELD:f31@@
-            </button>
-</div>
-</article>
-
-<article class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between group">
-<div class="p-6 sm:p-8 space-y-4">
-<div class="flex items-center justify-between text-xs text-slate-500">
-<span class="bg-emerald-50 text-emerald-700 font-bold px-3 py-1 rounded-full uppercase tracking-wider text-[10px]">@@FIELD:f32@@</span>
-<span>@@FIELD:f33@@</span>
-</div>
-<h3 class="text-lg font-bold text-brand-dark group-hover:text-brand-orange transition-colors leading-snug">
-              @@FIELD:f34@@
-            </h3>
-<p class="text-xs text-slate-600 leading-relaxed">
-              @@FIELD:f35@@
-            </p>
-</div>
-<div class="px-6 sm:px-8 pb-6 pt-2 border-t border-slate-100 flex items-center justify-between">
-<span class="text-[11px] font-semibold text-slate-500">@@FIELD:f36@@</span>
-<button class="bg-brand-blue hover:bg-brand-orange text-white font-bold text-xs flex items-center gap-1 px-3.5 py-2 rounded-lg transition-colors" onclick="openModal('inquiryModal')">
-              @@FIELD:f37@@
-            </button>
-</div>
-</article>
-</div>
-</div>
-</section>
-
-
-
 <footer class="relative bg-[#060b1b] text-slate-300 text-sm border-t-4 border-brand-orange select-none">
 <div class="w-full max-w-[1700px] mx-auto px-6 sm:px-10 lg:px-16 2xl:px-24 py-16 sm:py-20 lg:py-24 relative z-10">
 <div class="footer-grid">
@@ -466,157 +333,7 @@ Apply for Career Empanelment →
 </div>
 </footer>
 
-<script>
-    var reasonsData = {
-      complaint_appeal: {
-        title: 'Complaint / Appeal',
-        btnText: 'Submit Complaint / Appeal',
-        messageLabel: 'Detailed Grounds for Complaint or Appeal *',
-        messagePlaceholder: 'Specify the inspection reference, timeline, observations disputed, and corrective action sought...',
-        html: `
-          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <div>
-              <label class="block font-bold text-slate-700 uppercase tracking-wider mb-1.5">Job / Report Reference No. *</label>
-              <input type="text" required placeholder="e.g. AES-IRN-2026-XXXX" class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3.5 py-2.5 text-slate-900 focus:outline-none focus:border-brand-orange text-xs" data-aes-label="Job / Report Reference No. *">
-            </div>
-            <div>
-              <label class="block font-bold text-slate-700 uppercase tracking-wider mb-1.5">Manufacturer / Vendor Name *</label>
-              <input type="text" required placeholder="e.g. ISGEC Heavy Engineering" class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3.5 py-2.5 text-slate-900 focus:outline-none focus:border-brand-orange text-xs" data-aes-label="Manufacturer / Vendor Name *">
-            </div>
-            <div>
-              <label class="block font-bold text-slate-700 uppercase tracking-wider mb-1.5">Urgency Level</label>
-              <select class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3.5 py-2.5 text-slate-900 focus:outline-none focus:border-brand-orange text-xs" data-aes-label="Urgency Level">
-                <option>Critical (Cargo waiting for dispatch)</option>
-                <option>Standard (Within 24 hours)</option>
-                <option>Routine Status Check</option>
-              </select>
-            </div>
-          </div>
-        `
-      },
-      feedback: {
-        title: 'Feedback',
-        btnText: 'Submit Client Feedback',
-        messageLabel: 'Detailed Feedback / Suggestions for Improvement *',
-        messagePlaceholder: 'Please share your experience regarding surveyor competence, reporting timeliness, technical accuracy, and customer support...',
-        html: `
-          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <div>
-              <label class="block font-bold text-slate-700 uppercase tracking-wider mb-1.5">Overall Service Rating *</label>
-              <select class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3.5 py-2.5 text-slate-900 focus:outline-none focus:border-brand-orange text-xs" data-aes-label="Overall Service Rating *">
-                <option>⭐⭐⭐⭐⭐ 5 Stars - Exceptional</option>
-                <option>⭐⭐⭐⭐ 4 Stars - Very Good</option>
-                <option>⭐⭐⭐ 3 Stars - Satisfactory</option>
-                <option>⭐⭐ 2 Stars - Needs Improvement</option>
-                <option>⭐ 1 Star - Unsatisfactory</option>
-              </select>
-            </div>
-            <div>
-              <label class="block font-bold text-slate-700 uppercase tracking-wider mb-1.5">Feedback Area</label>
-              <select class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3.5 py-2.5 text-slate-900 focus:outline-none focus:border-brand-orange text-xs" data-aes-label="Feedback Area">
-                <option>Inspector Technical Knowledge</option>
-                <option>Report Delivery Timeliness</option>
-                <option>Communication & Responsiveness</option>
-                <option>Overall Project Coordination</option>
-              </select>
-            </div>
-            <div>
-              <label class="block font-bold text-slate-700 uppercase tracking-wider mb-1.5">Project / Report Ref (Optional)</label>
-              <input type="text" placeholder="e.g. Refinery Package 4" class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3.5 py-2.5 text-slate-900 focus:outline-none focus:border-brand-orange text-xs" data-aes-label="Project / Report Ref (Optional)">
-            </div>
-          </div>
-        `
-      },
-      doc_verify: {
-        title: 'Inspection Certificate Verification',
-        btnText: 'Verify Inspection Certificate',
-        messageLabel: 'Document Details / Purpose of Verification *',
-        messagePlaceholder: 'Please list the certificate numbers, date of issue, or upload context you wish to confirm with our QA record database...',
-        html: `
-          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <div>
-              <label class="block font-bold text-slate-700 uppercase tracking-wider mb-1.5">Document / Certificate No. *</label>
-              <input type="text" required placeholder="e.g. AES-IRN-2026-8849" class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3.5 py-2.5 text-slate-900 focus:outline-none focus:border-brand-orange text-xs" data-aes-label="Document / Certificate No. *">
-            </div>
-            <div>
-              <label class="block font-bold text-slate-700 uppercase tracking-wider mb-1.5">Document Type *</label>
-              <select class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3.5 py-2.5 text-slate-900 focus:outline-none focus:border-brand-orange text-xs" data-aes-label="Document Type *">
-                <option>Inspection Release Note (IRN)</option>
-                <option>EN 10204 Type 3.2 Endorsement</option>
-                <option>WPS / PQR / WPQ Certificate</option>
-                <option>ASNT Level II NDT Certificate</option>
-                <option>Vendor Audit Approval Dossier</option>
-              </select>
-            </div>
-            <div>
-              <label class="block font-bold text-slate-700 uppercase tracking-wider mb-1.5">Approx Date of Issue</label>
-              <input type="date" class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3.5 py-2.5 text-slate-900 focus:outline-none focus:border-brand-orange text-xs" data-aes-label="Approx Date of Issue">
-            </div>
-          </div>
-        `
-      },
-      inquiry: {
-        title: 'Quick Inquiry',
-        btnText: 'Submit Quick Inquiry',
-        messageLabel: 'Inspection Scope & Vendor Location Details *',
-        messagePlaceholder: 'Please specify the equipment type, fabrication stage, vendor city/country, and required mobilization date...',
-        html: `
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label class="block font-bold text-slate-700 uppercase tracking-wider mb-1.5">Primary Service Required *</label>
-              <select class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3.5 py-2.5 text-slate-900 focus:outline-none focus:border-brand-orange text-xs" data-aes-label="Primary Service Required *">
-                <option>Third Party Inspection (TPI)</option>
-                <option>Vendor Assessment & Auditing</option>
-                <option>QA/QC Documentation & 3.2 Certification</option>
-                <option>Pre-Shipment & Pre-Despatch Inspection</option>
-                <option>Welding Engineering & Inspection</option>
-                <option>NDT Inspection Services (UT/RT/MPT/DPT)</option>
-                <option>Supply Chain Expediting Services</option>
-                <option>API Tank & Piping Inspection</option>
-              </select>
-            </div>
-            <div>
-              <label class="block font-bold text-slate-700 uppercase tracking-wider mb-1.5">Estimated Mobilization Timeline</label>
-              <select class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3.5 py-2.5 text-slate-900 focus:outline-none focus:border-brand-orange text-xs" data-aes-label="Estimated Mobilization Timeline">
-                <option>Immediate (Within 24 to 48 Hours)</option>
-                <option>Within 1 to 2 Weeks</option>
-                <option>Next Month / Upcoming Turnaround</option>
-                <option>Budgetary / Pre-tender Estimation</option>
-              </select>
-            </div>
-          </div>
-        `
-      }
-    };
-    reasonsData['report_update'] = reasonsData['complaint_appeal'];
-    reasonsData['client_feedback'] = reasonsData['feedback'];
 
-    function selectReason(key) {
-      if (!document.getElementById('selectedReasonInput')) return;
-      if (key === 'report_update') key = 'complaint_appeal';
-      if (key === 'client_feedback') key = 'feedback';
-      var data = reasonsData[key] || reasonsData['complaint_appeal'];
-      var pills = document.querySelectorAll('.reason-pill');
-      pills.forEach(function(p) { p.classList.remove('active'); });
-      var activePill = document.getElementById('pill-' + key);
-      if (activePill) activePill.classList.add('active');
-
-      var selectDropdown = document.getElementById('reasonDropdown');
-      if (selectDropdown && selectDropdown.value !== key) {
-        selectDropdown.value = key;
-      }
-
-      document.getElementById('selectedReasonInput').value = data.title;
-      document.getElementById('formSubmitBtn').textContent = data.btnText;
-      document.getElementById('messageLabel').textContent = data.messageLabel;
-      document.getElementById('messageTextarea').placeholder = data.messagePlaceholder;
-      document.getElementById('dynamicFormFields').innerHTML = data.html;
-    }
-
-    selectReason('complaint_appeal');
-
-
-  </script>
 <script>
     // Mega Dropdown Hover & Click Handling with Instant Close
     (function () {

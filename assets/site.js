@@ -486,7 +486,7 @@
         if (motion.matches || !entry.target.animate) return;
         const siblings = Array.from(entry.target.parentElement.children);
         const delay = Math.min(siblings.indexOf(entry.target) * 45, 135);
-        const sideways = entry.target.classList.contains('service-slide-card');
+        const sideways = entry.target.classList.contains('service-slide-card') || !!entry.target.closest('.aes-culture-gallery');
         entry.target.animate([
           { opacity: .35, translate: sideways ? '-18px 8px' : '0 18px' },
           { opacity: 1, translate: '0 0' }

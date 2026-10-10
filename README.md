@@ -18,6 +18,8 @@ The Services directory explains all 16 scopes in plain language, including when 
 
 Contact Us includes an inline inquiry form. Careers keeps its application fields and attachment validation, with optional role selection linked to published vacancies. One-time migrations update existing page designs without repeatedly replacing page edits. The footer takes its corporate address from Contact Us and omits the accreditation paragraph.
 
+We Hear You has four request categories with relevant fields, supporting documents and clear next steps. Category drafts are retained while switching; both browser and server validate the required details. Careers presents its four working principles as an image row with headings and connecting arrows, with horizontal scrolling on smaller screens.
+
 The company brochure opens in a scrolling PDF viewer with zoom, download and close controls. [PDF.js](https://github.com/mozilla/pdf.js) is bundled locally and loaded when the brochure opens. Its Apache 2.0 license and version are included in `assets/vendor/pdfjs`. Font licenses are included in `assets/fonts`.
 
 ## Deployment

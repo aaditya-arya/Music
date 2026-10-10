@@ -1,0 +1,92 @@
+/* A quiet, readable client support page with one focused request form. */
+.aes-support-page [hidden] { display: none !important; }
+.aes-support-page section { scroll-margin-top: 150px; }
+.aes-support-hero { min-height: 570px; }
+.aes-support-hero h1 { font-size: clamp(40px, 4.4vw, 68px); }
+.aes-support-hero .aes-public-hero__photo img { object-position: 62% center; }
+.aes-support-page .aes-support-primary { background: #d9561b; color: #fff; border: 1px solid #d9561b; font-size: 16px; }
+.aes-support-choices { padding-bottom: 80px; }
+.aes-support-reasons { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 22px; }
+.aes-support-page .aes-support-reason { position: relative; display: flex; flex-direction: column; align-items: flex-start; text-align: left; min-width: 0; background: #fff; color: #302b27; border: 1px solid #e9e1da; border-radius: 18px; padding: 28px; gap: 16px; cursor: pointer; }
+.aes-support-page .aes-support-reason, .aes-support-page .aes-support-reason.active { background: #fff !important; color: #302b27 !important; border-color: #e9e1da !important; }
+.aes-support-reason:disabled { cursor: default; opacity: 1 !important; }
+.aes-support-icon { width: 34px; height: 34px; color: #bc4d1a; margin-bottom: 6px; }
+.aes-support-reason strong { font-family: Manrope, sans-serif; font-size: 22px; line-height: 1.35; font-weight: 700; letter-spacing: -.025em; }
+.aes-support-reason > span { font-size: 16px; font-weight: 400; line-height: 1.7; color: #655f58; }
+.aes-support-reason-arrow { width: 24px; height: 24px; color: #c6531d; margin-top: auto; transition: translate 280ms ease; }
+.aes-support-reason:hover .aes-support-reason-arrow { translate: 4px 0; }
+.aes-support-reason::after { content: ''; position: absolute; inset: 0; border: 2px solid #da5c22; border-radius: inherit; opacity: 0; transition: opacity 200ms ease; pointer-events: none; }
+.aes-support-reason.active::after { opacity: 1; }
+.aes-support-request { display: grid; grid-template-columns: .78fr 1.22fr; gap: clamp(40px, 6vw, 88px); padding-bottom: 110px; align-items: start; }
+.aes-support-guide { padding-top: 34px; position: sticky; top: 155px; }
+.aes-support-guide > p { margin-top: 26px; max-width: 44ch; }
+.aes-support-context { margin-top: 38px; padding: 28px; border-radius: 16px; background: linear-gradient(125deg, #fff6ee, #fffbf7); }
+.aes-support-context h3 { font-size: 21px; color: #34302b; }
+.aes-support-context p { margin-top: 12px; font-size: 16px; line-height: 1.8; }
+.aes-support-direct { display: flex; flex-direction: column; align-items: flex-start; gap: 18px; margin-top: 38px; }
+.aes-support-direct .aes-eyebrow { margin: 0; }
+.aes-support-direct > a { font-size: 24px; line-height: 1.5; font-weight: 650; color: #243e72; }
+.aes-support-direct > .aes-support-email { font-size: 17px; overflow-wrap: anywhere; }
+.aes-support-direct > .aes-inline-link { font-size: 16px; }
+.aes-support-form-panel { padding: 40px; scroll-margin-top: 150px; }
+.aes-support-message { margin-top: 24px; }
+.aes-support-page .aes-designed-form input[type=hidden] { display: none; }
+.aes-support-page :is(input, textarea, select, button, a, summary):focus-visible { outline: 3px solid #b84b19; outline-offset: 4px; }
+.aes-support-next { padding-bottom: 100px; }
+.aes-support-next ol { list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 48px; padding: 0; margin-top: 42px; }
+.aes-support-next li > span { display: block; margin-bottom: 18px; font-size: 14px; color: #c6531d; font-weight: 700; }
+.aes-support-next h3 { color: #34302b; font-size: 23px; }
+.aes-support-next p { margin-top: 16px; font-size: 17px; }
+.aes-support-help { display: grid; grid-template-columns: .78fr 1.22fr; gap: clamp(40px, 6vw, 88px); padding-bottom: 100px; }
+.aes-support-help > div > p { margin-top: 24px; }
+.aes-support-help .aes-inline-link { margin-top: 28px; }
+.aes-support-faq { border-top: 1px solid #e4dcd5; }
+.aes-support-faq details { border-bottom: 1px solid #e4dcd5; }
+.aes-support-faq summary { display: flex; gap: 22px; align-items: center; justify-content: space-between; list-style: none; padding: 26px 0; font-size: 19px; font-weight: 650; line-height: 1.6; color: #34302b; cursor: pointer; }
+.aes-support-faq summary::-webkit-details-marker { display: none; }
+.aes-support-faq summary span { flex-shrink: 0; font-size: 28px; line-height: 1; color: #b84b19; transition: rotate 250ms ease; }
+.aes-support-faq details[open] summary span { rotate: 45deg; }
+.aes-support-faq details p { padding-bottom: 28px; font-size: 17px; }
+.aes-support-faq p a { color: #243e72; text-decoration: underline; text-underline-offset: 4px; }
+@media (max-width: 1100px) {
+  .aes-support-reasons { gap: 16px; }
+  .aes-support-reason { padding: 22px !important; }
+  .aes-support-reason strong { font-size: 19px; }
+  .aes-support-reason > span { font-size: 15px; }
+  .aes-support-request, .aes-support-help { grid-template-columns: 1fr 1.35fr; gap: 36px; }
+  .aes-support-form-panel { padding: 30px; }
+}
+@media (max-width: 850px) {
+  .aes-support-reasons { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .aes-support-request, .aes-support-help { grid-template-columns: 1fr; }
+  .aes-support-guide { position: static; padding-top: 0; }
+  .aes-support-guide > p { max-width: 65ch; }
+  .aes-support-direct { margin-top: 28px; }
+  .aes-support-next ol { gap: 28px; }
+  .aes-support-next h3 { font-size: 20px; }
+  .aes-support-choices, .aes-support-request, .aes-support-next, .aes-support-help { padding-bottom: 72px; }
+}
+@media (max-width: 540px) {
+  .aes-support-reasons { grid-template-columns: 1fr; }
+  .aes-support-page .aes-support-reason { padding: 24px !important; display: grid; grid-template-columns: 38px 1fr 24px; gap: 10px 16px; }
+  .aes-support-icon { grid-column: 1; grid-row: 1 / 3; margin-top: 3px; }
+  .aes-support-reason strong { grid-column: 2; font-size: 20px; }
+  .aes-support-reason > span { grid-column: 2; font-size: 15px; }
+  .aes-support-reason-arrow { grid-column: 3; grid-row: 1 / 3; align-self: center; margin: 0; }
+  .aes-support-form-panel { padding: 26px 22px; }
+  .aes-support-form-panel .aes-form-submit .aes-action { width: 100%; }
+  .aes-support-context { padding: 24px; }
+  .aes-support-next ol { grid-template-columns: 1fr; gap: 32px; }
+  .aes-support-next h3 { font-size: 23px; }
+  .aes-support-faq summary { font-size: 18px; }
+}
+@media (max-width: 380px) {
+  .aes-support-page .aes-support-reason { padding: 22px !important; grid-template-columns: 30px 1fr; gap: 10px 14px; }
+  .aes-support-icon { width: 29px; }
+  .aes-support-reason-arrow { display: none; }
+  .aes-support-reason strong { font-size: 19px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .aes-support-page .aes-support-reason-arrow { translate: none !important; }
+  .aes-support-page *, .aes-support-page *::after { transition: none !important; }
+}
