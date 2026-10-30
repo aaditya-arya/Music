@@ -65,6 +65,7 @@ function aes_refine_footer_markup($html) {
     foreach ($root->childNodes as $child) $clean .= $doc->saveHTML($child);
     // HTML parsing lowercases SVG's case-sensitive viewBox attribute.
     $clean = preg_replace('/\bviewbox=/i', 'viewBox=', $clean);
+    if (function_exists('aes_blog_footer_links')) $clean = aes_blog_footer_links($clean);
     return $cache[$key] = $clean;
 }
 

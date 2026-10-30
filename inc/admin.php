@@ -33,6 +33,7 @@ function aes_admin_screen() {
                 <a class="btn-glass btn-glass-orange" href="<?php echo esc_url(home_url('/')); ?>" target="_blank" rel="noopener">Preview website</a>
                 <a class="btn-glass" href="<?php echo esc_url(admin_url('admin.php?page=aes-submissions')); ?>">Requests <strong><?php echo intval($requests->private ?? 0); ?></strong></a>
                 <a class="btn-glass" href="<?php echo esc_url(admin_url('edit.php?post_type=aes_job')); ?>">Job listings <strong><?php echo intval($jobs->publish ?? 0); ?></strong></a>
+                <a class="btn-glass" href="<?php echo esc_url(admin_url('edit.php')); ?>">Blog articles</a>
             </div>
         </div>
         <?php if (isset($_GET['ready']) || isset($_GET['saved'])): ?><div class="notice notice-success inline"><p><?php echo isset($_GET['ready']) ? 'Pages imported successfully.' : 'Settings saved.'; ?></p></div><?php endif; ?>

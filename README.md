@@ -14,10 +14,13 @@ For the existing local project, open Local, select **akshar**, click **Start sit
 - Use **AES Website** to search the page list and open an editor or preview. On the Services page, selecting a card exposes its filter category and search keywords in the block sidebar.
 - On We Hear You, select the main visual block and open **Request form copy** in the block sidebar. Each request type has editable headings, guidance, button wording and relevant field labels/options. The form's field names and validation remain connected.
 - Four policy starter pages remain drafts under **AES Website → Policy documents**. Replace their editorial prompts with approved content and publish when ready. Published pages appear in the footer automatically; an optional full page/PDF URL overrides the starter page. Unpublished drafts without an override stay hidden.
+- Publish blog articles under **Posts → Add New**, or use **AES Website → Blog articles**. Add a title, content, excerpt, category and optional featured image, then publish. The `/blog/` page automatically lists published posts with search, topic filters and pagination; drafts remain private. Edit its title and introductory copy under **Pages → Engineering Insights**. Both the footer Blog card and Quick Links point to this page. The untouched default WordPress welcome post is omitted from the article listing.
 
 ## Presentation
 
 The theme includes locally hosted Montserrat and Inter fonts, a first-visit five-second brand introduction, subtle scroll and hover motion, an expanded Services menu, visual service workflows, and redesigned Contact Us and Careers pages. Motion preferences are respected.
+
+The Services menu uses hover intent, a short exit grace period and reversible transitions; its links fade with the panel. Shared action buttons provide depth, arrow movement and a brief click ripple without delaying their action. Header/footer links retain the existing colors, with smooth underline and pressed feedback. Reduced-motion users receive immediate state changes without the ripple or hover movement.
 
 The Services directory explains all 16 scopes in plain language, including when to use them and the expected outputs. Project-need filters and search work together; the complete portfolio remains readable without JavaScript. Its one-time migration preserves shared navigation, the footer and later page edits.
 

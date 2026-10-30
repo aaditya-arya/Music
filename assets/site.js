@@ -17,9 +17,47 @@
     $$('button, a[class*="btn-"], a.aes-action', root).forEach(button => {
       if (button.classList.contains('aes-button-depth')) return;
       button.classList.add('aes-button-depth');
+      if (getComputedStyle(button).position === 'static') button.classList.add('aes-motion-surface');
+      if (button.lastElementChild?.tagName.toLowerCase() === 'svg' && button.textContent.trim()) button.lastElementChild.classList.add('aes-action-arrow');
     });
   };
   window.aesEnhanceButtons();
+  // A clipped, disposable ripple never intercepts the control's native action.
+  function pressFeedback(control, x, y) {
+    if (!control || motion.matches || !control.animate || control.matches(':disabled, [aria-disabled="true"]')) return;
+    $('.aes-press-feedback', control)?.remove();
+    const rect = control.getBoundingClientRect();
+    const layer = document.createElement('span');
+    layer.className = 'aes-press-feedback';
+    layer.setAttribute('aria-hidden', 'true');
+    const wave = document.createElement('span');
+    const size = Math.hypot(rect.width, rect.height) * 2;
+    wave.style.cssText = `width:${size}px;height:${size}px;left:${x - size / 2}px;top:${y - size / 2}px`;
+    layer.appendChild(wave);
+    // Preserve first/last label selectors on compound choice cards.
+    if (control.children.length > 1) control.insertBefore(layer, control.lastElementChild);
+    else control.appendChild(layer);
+    wave.animate([{ transform: 'scale(0)', opacity: .16 }, { transform: 'scale(1)', opacity: 0 }], {
+      duration: 560, easing: 'cubic-bezier(.2,.65,.3,1)',
+    }).finished.catch(() => {}).finally(() => layer.remove());
+  }
+  document.addEventListener('pointerdown', event => {
+    if (event.button !== 0) return;
+    const control = event.target.closest('.aes-button-depth');
+    if (!control) return;
+    const rect = control.getBoundingClientRect();
+    pressFeedback(control, event.clientX - rect.left, event.clientY - rect.top);
+  }, { passive: true });
+  document.addEventListener('keydown', event => {
+    if (event.repeat || !['Enter', ' '].includes(event.key)) return;
+    const control = event.target.closest('.aes-button-depth');
+    if (!control || (event.key === ' ' && control.tagName !== 'BUTTON')) return;
+    pressFeedback(control, control.clientWidth / 2, control.clientHeight / 2);
+  });
+  $$('main a[href]').forEach(link => {
+    if (!link.matches('[class*="btn-"], .aes-action') && !link.querySelector('img, svg, div, h2, h3, p') &&
+        !link.closest('.service-slide-card, .aes-directory-card')) link.classList.add('aes-text-link');
+  });
   const main = $('main');
   $$('.aes-reach-card h2 a[href^="mailto:"]').forEach(link => {
     const email = link.textContent.trim();
@@ -104,6 +142,7 @@
 
   let menuButton;
   let menuTimer;
+  let menuOpenTimer;
   let servicePanel;
   let contactButton;
   function measureMega() {
@@ -136,7 +175,9 @@
     if (!dropdown || !megaMenu) return;
     open = open && desktop.matches && !document.documentElement.classList.contains('aes-intro-active');
     clearTimeout(menuTimer);
-    if (open) measureMega();
+    clearTimeout(menuOpenTimer);
+    // Re-focusing an open menu must not remeasure its moving logo or CTA.
+    if (open && dropdown.dataset.aesMenu !== 'open') measureMega();
     dropdown.dataset.aesMenu = open ? 'open' : 'closed';
     header.classList.toggle('aes-services-open', open);
     if (servicePanel) {
@@ -209,12 +250,16 @@
     setMega(false);
     menuButton.addEventListener('click', () => setMega(dropdown.dataset.aesMenu !== 'open'));
     dropdown.addEventListener('mouseenter', () => {
-      if (matchMedia('(hover: hover)').matches) setMega(true);
+      clearTimeout(menuTimer);
+      if (matchMedia('(hover: hover)').matches) menuOpenTimer = setTimeout(() => setMega(true), 70);
     });
+    dropdown.addEventListener('mouseleave', () => clearTimeout(menuOpenTimer));
     header.addEventListener('mouseleave', () => {
+      clearTimeout(menuOpenTimer);
+      clearTimeout(menuTimer);
       menuTimer = setTimeout(() => {
         if (!header.contains(document.activeElement) || !document.activeElement.matches(':focus-visible')) setMega(false);
-      }, 180);
+      }, 240);
     });
     header.addEventListener('mouseenter', () => clearTimeout(menuTimer));
     header.addEventListener('focusout', event => {
@@ -225,7 +270,14 @@
       if (servicePanel.contains(event.target)) setMega(true);
       else if (!dropdown.contains(event.target) && event.target !== contactButton) setMega(false);
     });
-    $$('nav > a:not(.aes-header-contact)', header).forEach(anchor => anchor.addEventListener('mouseenter', () => setMega(false)));
+    $$('nav > a:not(.aes-header-contact)', header).forEach(anchor => {
+      anchor.addEventListener('mouseenter', () => {
+        clearTimeout(menuOpenTimer);
+        clearTimeout(menuTimer);
+        menuTimer = setTimeout(() => setMega(false), 160);
+      });
+      anchor.addEventListener('mouseleave', () => clearTimeout(menuTimer));
+    });
     dropdown.addEventListener('keydown', event => {
       if (event.key === 'ArrowDown' && (event.target === link || event.target === menuButton)) {
         event.preventDefault(); setMega(true);

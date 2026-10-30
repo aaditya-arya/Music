@@ -161,6 +161,7 @@ require AES_DIR . '/inc/services-directory.php';
 require AES_DIR . '/inc/support-updates.php';
 require AES_DIR . '/inc/admin.php';
 require AES_DIR . '/inc/policies.php';
+require AES_DIR . '/inc/blog.php';
 require AES_DIR . '/inc/submissions.php';
 
 function aes_register_types() {
