@@ -66,6 +66,18 @@ body > header > div:first-child > a img {
   max-height: 6.75rem !important;
   width: auto !important;
 }
+aside[aria-label="Quick Action Floating Desk"],
+aside.fixed.right-0 {
+  top: 38% !important;
+}
+aside[aria-label="Quick Action Floating Desk"] button[onclick*="inquiryModal"],
+aside.fixed.right-0 button[onclick*="inquiryModal"] {
+  background-color: var(--aes-orange) !important;
+}
+aside[aria-label="Quick Action Floating Desk"] button[onclick*="inquiryModal"]:hover,
+aside.fixed.right-0 button[onclick*="inquiryModal"]:hover {
+  background-color: #d85517 !important;
+}
 aside button[onclick*="trainingModal"] {
   display: none !important;
 }
@@ -81,7 +93,7 @@ body > header nav > a::after, .nav-item-dropdown > a::after {
 body > header nav > a:is(:hover, :focus-visible, [aria-current=page])::after,
 .nav-item-dropdown > a:is(:hover, :focus-visible, [aria-current=page])::after { transform: scaleX(1); }
 body > header a:is([aria-current=page], [aria-current=true]) { color: var(--aes-orange); }
-#mobile-menu-btn { min-width: 44px; min-height: 44px; transition: background-color 180ms, border-color 180ms; }
+#mobile-menu-btn { min-width: 48px; min-height: 48px; transition: background-color 180ms, border-color 180ms; }
 #mobile-menu-btn[aria-expanded=true] { background: #fff4ed; border-color: var(--aes-orange); }
 #mobile-menu {
   position: absolute; inset-inline: 0; top: 100%;
@@ -90,9 +102,9 @@ body > header a:is([aria-current=page], [aria-current=true]) { color: var(--aes-
   overscroll-behavior: contain; box-shadow: 0 18px 32px rgb(11 22 51 / 12%);
 }
 #mobile-menu:not(.hidden) { animation: aes-menu-in 220ms var(--aes-ease) both; }
-#mobile-menu > a { padding: 10px 12px; border-radius: 8px; }
+#mobile-menu > a { padding: 12px 14px; min-height: 48px; display: flex; align-items: center; border-radius: 8px; }
 #mobile-menu > a:is(:hover, :focus-visible, [aria-current=page]) { background: #f4f6fb; }
-#mobile-menu button { min-height: 44px; }
+#mobile-menu button { min-height: 48px; }
 .nav-item-dropdown {
   position: relative;
 }
@@ -161,7 +173,7 @@ body > header a:is([aria-current=page], [aria-current=true]) { color: var(--aes-
   color: var(--aes-orange) !important;
 }
 .aes-menu-toggle {
-  display: grid; place-items: center; width: 32px; height: 44px;
+  display: grid; place-items: center; width: 48px; height: 48px; min-width: 48px; min-height: 48px;
   margin-left: 4px; color: var(--aes-blue); border-radius: 6px;
 }
 .aes-menu-toggle:hover { background: #fff4ed; }
@@ -531,3 +543,5 @@ header .aes-quick-link:is(:hover, :focus-visible) { color: var(--aes-orange); }
   border: 0 !important;
   display: block;
 }
+
+aside[aria-label] button { min-width: 48px !important; min-height: 48px !important; }

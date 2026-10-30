@@ -20,7 +20,7 @@ $canonical = get_permalink($page_id);
             <p class="aes-blog-eyebrow">Engineering insights</p><h1><?php echo esc_html(get_the_title()); ?></h1>
             <p class="aes-blog-meta"><time datetime="<?php echo esc_attr(get_the_date('c')); ?>"><?php echo esc_html(get_the_date()); ?></time><span aria-hidden="true">·</span><span>Akshar Engineering Services</span></p>
         </header>
-        <?php if (has_post_thumbnail()): ?><figure class="aes-blog-feature aes-blog-shell"><?php the_post_thumbnail('large', ['fetchpriority' => 'high', 'decoding' => 'async']); ?></figure><?php endif; ?>
+        <?php if (has_post_thumbnail()): ?><figure class="aes-blog-feature aes-blog-shell"><?php the_post_thumbnail('large', ['fetchpriority' => 'high', 'decoding' => 'async']); ?></figure><?php elseif ($aes_post_img = get_post_meta(get_the_ID(), 'aes_post_image', true)): $aes_post_src = str_starts_with($aes_post_img, 'http') ? $aes_post_img : get_template_directory_uri() . '/' . ltrim($aes_post_img, '/'); ?><figure class="aes-blog-feature aes-blog-shell"><img src="<?php echo esc_url($aes_post_src); ?>" alt="<?php echo esc_attr(get_the_title()); ?>" fetchpriority="high" decoding="async" /></figure><?php endif; ?>
         <div class="aes-blog-content"><?php the_content(); wp_link_pages(); ?></div>
         <div class="aes-blog-article__end aes-blog-content"><a class="aes-action" href="<?php echo esc_url(aes_blog_url()); ?>">Explore all insights →</a><a class="aes-blog-text-link" href="<?php echo esc_url(aes_page_url('contact-us')); ?>">Discuss your project</a></div>
     </article>
@@ -47,7 +47,7 @@ $canonical = get_permalink($page_id);
             <div class="aes-blog-grid">
             <?php while ($posts->have_posts()): $posts->the_post(); $categories = get_the_category(); ?>
                 <article class="aes-blog-card"><a href="<?php the_permalink(); ?>">
-                    <div class="aes-blog-card__image"><?php if (has_post_thumbnail()): the_post_thumbnail('medium_large', ['loading' => 'lazy', 'decoding' => 'async']); else: ?><img class="aes-blog-card__monogram" src="<?php echo esc_url(get_template_directory_uri() . '/assets/aes-watermark.svg'); ?>" alt="" width="460" height="460" loading="lazy"><?php endif; ?></div>
+                    <div class="aes-blog-card__image"><?php if (has_post_thumbnail()): the_post_thumbnail('medium_large', ['loading' => 'lazy', 'decoding' => 'async']); elseif ($aes_card_img = get_post_meta(get_the_ID(), 'aes_post_image', true)): $aes_card_src = str_starts_with($aes_card_img, 'http') ? $aes_card_img : get_template_directory_uri() . '/' . ltrim($aes_card_img, '/'); echo '<img src="' . esc_url($aes_card_src) . '" alt="' . esc_attr(get_the_title()) . '" loading="lazy" decoding="async" />'; else: ?><img class="aes-blog-card__monogram" src="<?php echo esc_url(get_template_directory_uri() . '/assets/aes-watermark.svg'); ?>" alt="" width="460" height="460" loading="lazy"><?php endif; ?></div>
                     <div class="aes-blog-card__copy"><span class="aes-blog-eyebrow"><?php echo esc_html($categories[0]->name ?? 'Engineering insight'); ?></span><h2><?php echo esc_html(get_the_title()); ?></h2><p><?php echo esc_html(wp_trim_words(get_the_excerpt(), 28)); ?></p><span class="aes-blog-card__bottom"><time datetime="<?php echo esc_attr(get_the_date('c')); ?>"><?php echo esc_html(get_the_date()); ?></time><span>Read article <span aria-hidden="true">↗</span></span></span></div>
                 </a></article>
             <?php endwhile; wp_reset_postdata(); ?>

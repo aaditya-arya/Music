@@ -88,6 +88,49 @@ function aes_fields($key) {
     return $data['fields'] ?? [];
 }
 
+function aes_optimize_html_standards($html) {
+    if (!$html || !is_string($html)) return $html;
+    static $size_cache = [];
+
+    // Auto-enrich images with width/height, loading=lazy, decoding=async
+    return preg_replace_callback('/<img\b([^>]*)>/i', function ($match) use (&$size_cache) {
+        $attrs = $match[1];
+
+        // Skip loading="lazy" if fetchpriority="high"
+        $is_high = stripos($attrs, 'fetchpriority="high"') !== false || stripos($attrs, "fetchpriority='high'") !== false;
+        if (!$is_high && stripos($attrs, 'loading=') === false) {
+            $attrs .= ' loading="lazy"';
+        }
+        if (stripos($attrs, 'decoding=') === false) {
+            $attrs .= ' decoding="async"';
+        }
+
+        // Detect dimensions for local assets if missing width or height
+        $has_width = stripos($attrs, 'width=') !== false;
+        $has_height = stripos($attrs, 'height=') !== false;
+        if ((!$has_width || !$has_height) && preg_match('~src=["\']([^"\'?#]+)~i', $attrs, $src_m)) {
+            $src = $src_m[1];
+            $asset_name = '';
+            if (preg_match('~/assets/([^"\'?#]+)~i', $src, $name_m)) {
+                $asset_name = $name_m[1];
+            }
+            if ($asset_name) {
+                if (!isset($size_cache[$asset_name])) {
+                    $file_path = AES_DIR . '/assets/' . $asset_name;
+                    $size_cache[$asset_name] = file_exists($file_path) ? @getimagesize($file_path) : false;
+                }
+                $size = $size_cache[$asset_name];
+                if ($size && !empty($size[0]) && !empty($size[1])) {
+                    if (!$has_width) $attrs .= ' width="' . intval($size[0]) . '"';
+                    if (!$has_height) $attrs .= ' height="' . intval($size[1]) . '"';
+                }
+            }
+        }
+
+        return '<img' . $attrs . '>';
+    }, $html);
+}
+
 function aes_render($key) {
     if (!isset(aes_data('manifest')[$key])) return '';
     $post_id = get_queried_object_id();
@@ -115,11 +158,33 @@ function aes_render($key) {
     if ($post && !empty($post->post_content) && has_blocks($post->post_content)) {
         $parts = aes_split_template_parts($resolved_full);
         $blocks_html = do_blocks($post->post_content);
-        return aes_resolve($parts['aside'] . $blocks_html . $parts['tail']);
+        if (strpos($blocks_html, '<main') === false) {
+            $blocks_html = preg_replace_callback(
+                '/(<\/header>)(.*?)(<footer\b)/is',
+                function ($m) {
+                    return $m[1] . '<main id="main-content">' . $m[2] . '</main>' . $m[3];
+                },
+                $blocks_html,
+                1
+            );
+        }
+        $full_output = aes_resolve($parts['aside'] . $blocks_html . $parts['tail']);
+        return aes_optimize_html_standards($full_output);
     }
 
-    return aes_resolve($resolved_full);
+    $full_output = aes_resolve($resolved_full);
+    return aes_optimize_html_standards($full_output);
 }
+
+add_action('send_headers', function () {
+    if (headers_sent()) return;
+    header_remove('X-Powered-By');
+    header('X-Content-Type-Options: nosniff');
+    header('X-Frame-Options: SAMEORIGIN');
+    header('Referrer-Policy: strict-origin-when-cross-origin');
+    header('Permissions-Policy: camera=(), microphone=(), geolocation=()');
+    header("Content-Security-Policy: frame-ancestors 'self'");
+});
 
 add_action('wp_enqueue_scripts', function () {
     $ver = filemtime(AES_DIR . '/assets/site.css') ?: '3.0';

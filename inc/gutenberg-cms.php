@@ -57,7 +57,10 @@ function aes_get_resolved_template_html($key, $post_id = 0) {
         $parts = aes_split_template_parts($html);
         foreach ($parts['sections'] as &$section) {
             $section = aes_refine_detail_block($section, $key);
-            if ($key === 'about') $section = aes_prepare_about_owner($section);
+            if ($key === 'about') {
+                $section = aes_prepare_about_owner($section, true);
+                $section = aes_refine_about_leadership($section);
+            }
         }
         unset($section);
         $html = $parts['header'] . $parts['aside'] . implode("\n", $parts['sections']) . $parts['footer'] . $parts['tail'];
@@ -529,6 +532,25 @@ add_action('init', function () {
             }
         }
         update_option('aes_footer_minimal_synced_v8', 1, false);
+    }
+
+    // Sync semantic H1 on home and updated about layout
+    if (!get_option('aes_standards_synced_v2')) {
+        $ids = get_option('aes_page_ids', []);
+        foreach (['home', 'about'] as $k) {
+            $pid = intval($ids[$k] ?? 0);
+            if (!$pid) continue;
+            $p = get_post($pid);
+            if (!$p) continue;
+            $new_content = aes_build_gutenberg_content_for_page($k, $pid);
+            if ($new_content) {
+                wp_update_post([
+                    'ID'           => $pid,
+                    'post_content' => wp_slash($new_content),
+                ]);
+            }
+        }
+        update_option('aes_standards_synced_v2', 1, false);
     }
 }, 20);
 
