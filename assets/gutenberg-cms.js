@@ -373,6 +373,8 @@
         // Prevent links, buttons, or inline onclick handlers from navigating away inside the editor
         e.preventDefault();
         e.stopPropagation();
+        // The canvas stops navigation events, so select its block explicitly.
+        wp.data.dispatch('core/block-editor').selectBlock(props.clientId);
 
         if (!canvasRef.current) return;
         canvasRef.current.querySelectorAll('.aes-gb-active-element').forEach((n) => {

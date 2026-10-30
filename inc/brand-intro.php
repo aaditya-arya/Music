@@ -88,6 +88,10 @@ add_action('wp_body_open', function () {
                 const fade = intro.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 220, easing: 'ease-out', fill: 'forwards' });
                 fade.finished.then(() => {
                     if (intro.contains(document.activeElement)) document.activeElement.blur();
+                    // Release the page as soon as the white overlay clears.
+                    // The decorative logo can finish travelling independently.
+                    document.documentElement.classList.remove('aes-intro-active', 'aes-intro-pending');
+                    document.removeEventListener('keydown', handleKey, true);
                     intro.remove();
                 }).catch(() => {});
             };

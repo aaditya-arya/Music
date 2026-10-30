@@ -70,6 +70,15 @@
     mobileButton.setAttribute('aria-label', 'Open navigation');
     if (restoreFocus) mobileButton.focus();
   }
+  function measureHeader() {
+    if (!header) return;
+    const rect = header.getBoundingClientRect();
+    document.documentElement.style.setProperty('--aes-header-height', Math.ceil(rect.height) + 'px');
+    if (mobileMenu) mobileMenu.style.maxHeight = Math.max(0, innerHeight - rect.bottom - 12) + 'px';
+  }
+  measureHeader();
+  if (header && 'ResizeObserver' in window) new ResizeObserver(measureHeader).observe(header);
+  window.addEventListener('resize', measureHeader, { passive: true });
   if (mobileButton && mobileMenu) {
     mobileButton.setAttribute('aria-controls', mobileMenu.id);
     mobileButton.setAttribute('aria-expanded', 'false');
@@ -80,6 +89,7 @@
     mobileButton.addEventListener('click', event => {
       event.stopImmediatePropagation();
       const opening = mobileMenu.classList.contains('hidden');
+      if (opening) measureHeader();
       mobileMenu.classList.toggle('hidden', !opening);
       mobileButton.setAttribute('aria-expanded', String(opening));
       mobileButton.setAttribute('aria-label', opening ? 'Close navigation' : 'Open navigation');
@@ -258,6 +268,8 @@
     $$('button[onclick*="closeModal"]', modal).forEach(button => {
       button.type = 'button';
       button.setAttribute('aria-label', 'Close dialog');
+      const headingRow = button.closest('.modal-backdrop > div > div');
+      headingRow?.classList.add('aes-modal-heading');
     });
   });
   function restoreBackground() {

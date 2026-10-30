@@ -2,6 +2,8 @@
 
 This repository contains the complete custom WordPress theme for Akshar Engineering Services. Keep the folder at `wp-content/themes/akshar-engineering` and activate **Akshar Engineering CMS**. On a new site, use **AES Website → Import AES pages** to create the pages and starter vacancies.
 
+For the existing local project, open Local, select **akshar**, click **Start site**, then open `http://akshar.local/`. Use **WP Admin** to edit the site. The theme has no Node development server or frontend build step.
+
 ## Editing the site
 
 - Edit page content through the visual AES blocks in the WordPress page editor.
@@ -9,6 +11,9 @@ This repository contains the complete custom WordPress theme for Akshar Engineer
 - Change the home video through the dedicated WordPress video setting. Later page saves preserve that selection.
 - Manage vacancies in **AES Jobs**. Both Careers and Join Us use the published job records.
 - Read inquiry and application records in **Form Submissions**. Attachments support PDF, JPG and PNG, up to 2 MB each and 5 MB total. Notifications remain controlled by the existing WordPress setting.
+- Use **AES Website** to search the page list and open an editor or preview. On the Services page, selecting a card exposes its filter category and search keywords in the block sidebar.
+- On We Hear You, select the main visual block and open **Request form copy** in the block sidebar. Each request type has editable headings, guidance, button wording and relevant field labels/options. The form's field names and validation remain connected.
+- Four policy starter pages remain drafts under **AES Website → Policy documents**. Replace their editorial prompts with approved content and publish when ready. Published pages appear in the footer automatically; an optional full page/PDF URL overrides the starter page. Unpublished drafts without an override stay hidden.
 
 ## Presentation
 
@@ -31,3 +36,7 @@ WordPress content, submissions, credentials and uploaded media are stored outsid
 ## Validation
 
 The implementation was checked in Chromium at desktop, tablet and mobile widths. Checks cover all 23 page routes, form validation and local submissions with PDF attachments, vacancy selection, menu and modal interactions, brochure rendering and controls, stable button colors, reduced motion, and preservation of the saved home video. Temporary test submissions were removed.
+
+The responsiveness audit covered all 23 routes at 320, 360, 390, 540, 768, 820, 1024, 1280, 1440 and 1920 pixels, plus 270 popup/viewport combinations. Phone inquiry fields stack in one column, popup headings and close controls stay visible while scrolling, and the mobile menu measures the available space below the header, including short landscape viewports. The welcome overlay releases scrolling and keyboard navigation as soon as it fades away.
+
+Real Gutenberg saves were checked on isolated draft copies of Services, We Hear You, Contact Us, Careers, About and a service detail page. Checks include reloading the editor, viewing saved content, changing support-form copy/options and duplicating service cards with updated filter counts. Admin search, request classification, filtered CSV export, keyboard navigation and deletion were tested with temporary records. The audit preserved all live page content, shared header/footer, the selected home video and notification settings; test drafts, submissions and the temporary administrator session were removed.
