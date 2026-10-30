@@ -145,7 +145,7 @@ add_action('wp_enqueue_scripts', function () {
 });
 
 add_action('wp_head', function () {
-    foreach (['inter', 'manrope'] as $font) {
+    foreach (['inter', 'montserrat'] as $font) {
         echo '<link rel="preload" href="' . esc_url(get_template_directory_uri() . '/assets/fonts/' . $font . '-latin.woff2') . '" as="font" type="font/woff2" crossorigin />';
     }
 }, 1);

@@ -17,7 +17,7 @@ For the existing local project, open Local, select **akshar**, click **Start sit
 
 ## Presentation
 
-The theme includes locally hosted Inter and Manrope fonts, a first-visit five-second brand introduction, subtle scroll and hover motion, an expanded Services menu, visual service workflows, and redesigned Contact Us and Careers pages. Motion preferences are respected.
+The theme includes locally hosted Montserrat and Inter fonts, a first-visit five-second brand introduction, subtle scroll and hover motion, an expanded Services menu, visual service workflows, and redesigned Contact Us and Careers pages. Motion preferences are respected.
 
 The Services directory explains all 16 scopes in plain language, including when to use them and the expected outputs. Project-need filters and search work together; the complete portfolio remains readable without JavaScript. Its one-time migration preserves shared navigation, the footer and later page edits.
 
@@ -35,8 +35,10 @@ WordPress content, submissions, credentials and uploaded media are stored outsid
 
 ## Validation
 
-The implementation was checked in Chromium at desktop, tablet and mobile widths. Checks cover all 23 page routes, form validation and local submissions with PDF attachments, vacancy selection, menu and modal interactions, brochure rendering and controls, stable button colors, reduced motion, and preservation of the saved home video. Temporary test submissions were removed.
+The implementation was checked in Chromium at desktop, tablet and mobile widths. Checks cover all 23 page routes, form validation and local submissions with PDF attachments, vacancy selection, menu and modal interactions, brochure rendering and controls, blue buttons with orange selected/pressed states, reduced motion, and preservation of the saved home video. Temporary test submissions were removed.
 
 The responsiveness audit covered all 23 routes at 320, 360, 390, 540, 768, 820, 1024, 1280, 1440 and 1920 pixels, plus 270 popup/viewport combinations. Phone inquiry fields stack in one column, popup headings and close controls stay visible while scrolling, and the mobile menu measures the available space below the header, including short landscape viewports. The welcome overlay releases scrolling and keyboard navigation as soon as it fades away.
 
 Real Gutenberg saves were checked on isolated draft copies of Services, We Hear You, Contact Us, Careers, About and a service detail page. Checks include reloading the editor, viewing saved content, changing support-form copy/options and duplicating service cards with updated filter counts. Admin search, request classification, filtered CSV export, keyboard navigation and deletion were tested with temporary records. The audit preserved all live page content, shared header/footer, the selected home video and notification settings; test drafts, submissions and the temporary administrator session were removed.
+
+Main headings use Montserrat; subheadings and supporting copy use Inter. Buttons use the shared blue palette, with orange pressed/selected states. Header Contact buttons have no resting shadow or underline. Core Services, Sectors and Services directory cards use blue text panels with white copy and an orange image/copy divider on hover. Homepage heading rules align with the first letter, fill once on scroll and remain filled. Mobile menu links stay in place through focus changes so native navigation can complete.

@@ -6,6 +6,8 @@
 }
 
 /* Header Navigation Typography inside Gutenberg Visual Editor */
+.aes-gb-canvas header a[class*="btn-"] { box-shadow: none !important; }
+.aes-gb-canvas header a[class*="btn-"]::after { content: none !important; }
 .editor-styles-wrapper header nav > a,
 .editor-styles-wrapper .nav-item-dropdown > a,
 .aes-gb-canvas header nav > a,
@@ -62,11 +64,15 @@
 .aes-gb-canvas .btn-premium-orange:hover,
 .aes-gb-canvas .btn-premium-blue:hover,
 .aes-gb-canvas .btn-theme:hover {
-  background-color: var(--aes-orange, #f16826) !important;
-  border-color: var(--aes-orange, #f16826) !important;
+  background-color: var(--aes-blue, #1b3574) !important;
+  border-color: var(--aes-blue, #1b3574) !important;
   color: #ffffff !important;
   box-shadow: 0 12px 24px -4px rgba(241, 104, 38, 0.4), 0 4px 8px -2px rgba(241, 104, 38, 0.25);
   transform: translateY(-2px);
+}
+.aes-gb-canvas :is(.btn-premium-orange, .btn-premium-blue, .btn-theme):active {
+  background-color: var(--aes-orange, #f16826) !important;
+  border-color: var(--aes-orange, #f16826) !important;
 }
 
 .aes-gb-canvas .heading-line-track {

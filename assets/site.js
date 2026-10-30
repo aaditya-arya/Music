@@ -12,16 +12,10 @@
   const megaMenu = $('.mega-dropdown-menu');
   const focusable = 'a[href], button:not([disabled]), input:not([disabled]):not([type=hidden]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
   const visibleControls = root => $$(focusable, root).filter(el => el.getClientRects().length && !el.closest('[inert]'));
-  // Capture each button's existing colors so motion never changes its brand color.
+  // Shared button motion; the stylesheet owns normal, selected and pressed colors.
   window.aesEnhanceButtons = (root = document) => {
     $$('button, a[class*="btn-"], a.aes-action', root).forEach(button => {
       if (button.classList.contains('aes-button-depth')) return;
-      const style = getComputedStyle(button);
-      button.style.setProperty('--aes-button-bg', style.backgroundColor);
-      button.style.setProperty('--aes-button-color', style.color);
-      button.style.setProperty('--aes-button-border', style.borderColor);
-      const solid = style.backgroundColor !== 'rgba(0, 0, 0, 0)' && style.backgroundColor !== 'transparent';
-      if (!solid) button.classList.add('aes-button-depth--quiet');
       button.classList.add('aes-button-depth');
     });
   };
@@ -95,13 +89,15 @@
       mobileButton.setAttribute('aria-label', opening ? 'Close navigation' : 'Open navigation');
     }, true);
     mobileMenu.addEventListener('click', event => {
-      if (event.target.closest('a, button')) closeMobile();
+      // Keep the link in place until the browser has performed its default action.
+      if (event.target.closest('a, button')) setTimeout(() => closeMobile(), 0);
     });
     document.addEventListener('click', event => {
       if (header && !header.contains(event.target)) closeMobile();
     });
-    header.addEventListener('focusout', () => {
-      queueMicrotask(() => { if (!header.contains(document.activeElement)) closeMobile(); });
+    header.addEventListener('focusout', event => {
+      if (event.relatedTarget && header.contains(event.relatedTarget)) return;
+      setTimeout(() => { if (!header.contains(document.activeElement)) closeMobile(); }, 0);
     });
     desktop.addEventListener('change', () => closeMobile());
   }
@@ -221,9 +217,10 @@
       }, 180);
     });
     header.addEventListener('mouseenter', () => clearTimeout(menuTimer));
-    header.addEventListener('focusout', () => queueMicrotask(() => {
-      if (!header.contains(document.activeElement)) setMega(false);
-    }));
+    header.addEventListener('focusout', event => {
+      if (event.relatedTarget && header.contains(event.relatedTarget)) return;
+      setTimeout(() => { if (!header.contains(document.activeElement)) setMega(false); }, 0);
+    });
     header.addEventListener('focusin', event => {
       if (servicePanel.contains(event.target)) setMega(true);
       else if (!dropdown.contains(event.target) && event.target !== contactButton) setMega(false);
@@ -492,6 +489,29 @@
   });
 
   // Content remains visible if animation APIs are unavailable or JavaScript is interrupted.
+  // Each homepage heading owns a line aligned with its first letter.
+  const headingRules = [];
+  if (document.body.classList.contains('home')) $$('section h2').forEach(heading => {
+    if (heading.closest('.service-slide-card, .modal-backdrop, form, footer')) return;
+    if (heading.nextElementSibling?.matches('.heading-line-track')) heading.nextElementSibling.remove();
+    heading.classList.add('aes-home-heading');
+    if (getComputedStyle(heading).textAlign === 'center') heading.classList.add('aes-home-heading--center');
+    const rule = document.createElement('span');
+    rule.className = 'aes-heading-rule'; rule.setAttribute('aria-hidden', 'true');
+    rule.innerHTML = '<span class="aes-heading-rule__fill"></span>';
+    heading.appendChild(rule); headingRules.push(rule);
+  });
+  if (headingRules.length) {
+    const fill = rule => rule.classList.add('is-filled');
+    if (motion.matches || !('IntersectionObserver' in window)) headingRules.forEach(fill);
+    else {
+      const headingObserver = new IntersectionObserver(entries => entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        fill(entry.target); headingObserver.unobserve(entry.target);
+      }), { threshold: 1, rootMargin: '0px 0px -12% 0px' });
+      headingRules.forEach(rule => headingObserver.observe(rule));
+    }
+  }
   const revealCandidates = $$('main h1, main h2, main .grid > *, main .service-slide-card, main .aes-directory-card, main .aes-service-stage, main .aes-engagement-map > li, main .aes-contact-channel, main .aes-process-step, main .aes-reach-card, main .aes-culture-card, main .aes-jobs-grid > article, main .aes-hiring-map > li, .aes-detail-hero__copy, footer .footer-grid > div, main > section:first-child > .relative > div > *');
   const revealSet = new Set(revealCandidates);
   const revealTargets = revealCandidates.filter(target => {
