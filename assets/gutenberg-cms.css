@@ -8,6 +8,7 @@
 /* Header Navigation Typography inside Gutenberg Visual Editor */
 .aes-gb-canvas header a[class*="btn-"] { box-shadow: none !important; }
 .aes-gb-canvas header a[class*="btn-"]::after { content: none !important; }
+.aes-gb-canvas .aes-about-owner-visual { pointer-events: auto !important; }
 .editor-styles-wrapper header nav > a,
 .editor-styles-wrapper .nav-item-dropdown > a,
 .aes-gb-canvas header nav > a,

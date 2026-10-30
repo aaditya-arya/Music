@@ -55,7 +55,10 @@ function aes_get_resolved_template_html($key, $post_id = 0) {
     if ($key === 'about' || strpos($key, 'service-') === 0) {
         // Refine only content blocks; leave modal scripts and shared navigation intact.
         $parts = aes_split_template_parts($html);
-        foreach ($parts['sections'] as &$section) $section = aes_refine_detail_block($section, $key);
+        foreach ($parts['sections'] as &$section) {
+            $section = aes_refine_detail_block($section, $key);
+            if ($key === 'about') $section = aes_prepare_about_owner($section);
+        }
         unset($section);
         $html = $parts['header'] . $parts['aside'] . implode("\n", $parts['sections']) . $parts['footer'] . $parts['tail'];
     }

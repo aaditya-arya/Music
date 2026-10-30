@@ -69,3 +69,36 @@ add_action('init', function () {
     update_post_meta($post->ID, '_aes_values', $values);
     update_option('aes_services_tagline_v1', 1, false);
 }, 36);
+
+/** Replace the redundant all-services button without replacing edited service cards. */
+function aes_refine_services_controls($html) {
+    if (strpos($html, 'aes-services-page') === false) return $html;
+    $html = preg_replace_callback('/<button\b[^>]*class="aes-service-all"[^>]*>(.*?)<\/button>/s', function ($match) {
+        return '<div class="aes-service-all">' . $match[1] . '</div>';
+    }, $html);
+    if (strpos($html, 'data-service-clear') === false) {
+        $html = preg_replace('/(<p\b[^>]*id="aes-service-count"[^>]*>.*?<\/p>)/s', '$1<button type="button" class="aes-service-clear" data-service-clear hidden>Clear filters</button>', $html, 1);
+    }
+    return $html;
+}
+
+add_action('init', function () {
+    if (get_option('aes_services_controls_v1')) return;
+    $id = intval(get_option('aes_page_ids', [])['services'] ?? 0); if (!$id) return;
+    $post = get_post($id); if (!$post) return;
+    $blocks = parse_blocks($post->post_content); $changed = false;
+    foreach ($blocks as &$block) {
+        if (($block['blockName'] ?? '') !== 'aes/section' || !empty($block['attrs']['isGlobalHeader']) || !empty($block['attrs']['isGlobalFooter'])) continue;
+        $old = rawurldecode($block['attrs']['html'] ?? ''); $new = aes_refine_services_controls($old);
+        if ($old !== $new) { $block['attrs']['html'] = rawurlencode($new); $changed = true; }
+    }
+    unset($block);
+    if ($changed) {
+        foreach ($blocks as &$block) foreach (['isGlobalHeader' => 'aes_global_header_html', 'isGlobalFooter' => 'aes_global_footer_html'] as $flag => $option) {
+            if (!empty($block['attrs'][$flag]) && get_option($option)) $block['attrs']['html'] = rawurlencode(get_option($option));
+        }
+        unset($block);
+        $result = wp_update_post(['ID' => $id, 'post_content' => wp_slash(serialize_blocks($blocks))], true); if (is_wp_error($result)) return;
+    }
+    update_option('aes_services_controls_v1', 1, false);
+}, 39);

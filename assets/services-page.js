@@ -7,6 +7,7 @@
   const search = root.querySelector('#aes-service-search');
   const count = root.querySelector('#aes-service-count');
   const empty = root.querySelector('.aes-service-empty');
+  const clear = root.querySelector('[data-service-clear]');
   const controls = [...root.querySelectorAll('[data-service-filter]')];
   if (!grid || !search || !count || !empty || !controls.length) return;
   const normalize = text => text.normalize('NFKD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
@@ -16,6 +17,8 @@
     text: normalize(element.textContent + ' ' + element.dataset.serviceKeywords)
   }));
   let category = 'all';
+  const total = root.querySelector('.aes-service-all > span');
+  if (total) total.textContent = cards.length;
   controls.forEach(button => {
     const badge = button.querySelector(':scope > span:last-child:not(.aes-stage-top)');
     if (button.classList.contains('aes-service-stage')) return;
@@ -34,15 +37,18 @@
     count.textContent = visible === cards.length && !terms.length ? `Showing all ${cards.length} services` : `Showing ${visible} of ${cards.length} services${category === 'all' ? '' : ' · ' + labels[category]}`;
     empty.hidden = visible !== 0;
     grid.hidden = visible === 0;
+    if (clear) clear.hidden = category === 'all' && !terms.length;
   };
   controls.forEach(button => {
     button.disabled = false;
-    button.addEventListener('click', () => { category = button.dataset.serviceFilter; update(); });
+    button.addEventListener('click', () => { category = category === button.dataset.serviceFilter ? 'all' : button.dataset.serviceFilter; update(); });
   });
   search.addEventListener('input', update);
-  root.querySelector('[data-service-reset]')?.addEventListener('click', () => {
+  const reset = () => {
     category = 'all'; search.value = ''; update(); search.focus({ preventScroll: true });
-  });
+  };
+  root.querySelector('[data-service-reset]')?.addEventListener('click', reset);
+  clear?.addEventListener('click', reset);
   // Existing links to a particular service still work after someone filters the page.
   const revealLinkedCard = () => {
     let id;

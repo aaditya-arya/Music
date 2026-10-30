@@ -341,13 +341,12 @@ body > header a[class]:is(.btn-premium-orange, .btn-premium-blue, .btn-theme):is
 body > header a:is(.btn-premium-orange, .btn-premium-blue, .btn-theme)::after { content: none !important; }
 
 /* Image cards share blue copy panels and an orange image/copy divider on hover. */
-body .service-slide-card .service-card-drawer, .aes-services-page .aes-directory-card__copy {
+body .service-slide-card .service-card-drawer {
   position: relative; background: var(--aes-blue) !important; color: #fff;
 }
 body .service-slide-card .service-card-drawer { position: absolute; backdrop-filter: none; box-shadow: 0 -8px 24px -12px rgb(9 22 48 / 40%); }
 body .service-slide-card .service-card-drawer :is(h3, p, span, a),
-body.home :is(#services, #sectors) .service-slide-card .service-card-drawer :is(h3, p, span, a),
-.aes-services-page .aes-directory-card__copy :is(h3, p, dt, dd, span, svg) { color: #fff !important; }
+body.home :is(#services, #sectors) .service-slide-card .service-card-drawer :is(h3, p, span, a) { color: #fff !important; }
 body .service-slide-card .service-card-drawer::before, .aes-directory-card__copy::before {
   content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
   background: var(--aes-orange); transform: scaleX(0); transform-origin: left; pointer-events: none;
@@ -355,7 +354,36 @@ body .service-slide-card .service-card-drawer::before, .aes-directory-card__copy
 }
 .service-slide-card:is(:hover, :focus-within) .service-card-drawer::before,
 .aes-directory-card:is(:hover, :focus-visible) .aes-directory-card__copy::before { transform: scaleX(1); }
-.aes-services-page .aes-directory-card { background: var(--aes-blue); }
+.aes-services-page .aes-directory-card { background: #fff; }
+.aes-services-page .aes-directory-card__copy { position: relative; background: #fff !important; color: #536071; }
+.aes-services-page .aes-directory-card__copy :is(h3, dt, .aes-directory-card__specialism, .aes-directory-card__link, svg) { color: var(--aes-blue) !important; }
+.aes-services-page .aes-directory-card__copy :is(p, dd) { color: #536071 !important; }
+.aes-services-page .aes-directory-card__specialism, .aes-services-page .aes-directory-card__copy dt { font-size: 13px; }
+.aes-services-page .aes-directory-card__copy dd { font-size: 16px; }
+
+/* Filter cards and request choices are white surfaces, separate from action buttons. */
+body .aes-services-page button.aes-service-stage[class][type],
+body .aes-support-page button.aes-support-reason[class][type] {
+  background: #fff !important; color: var(--aes-blue) !important; border-color: #dfe5ef !important;
+  box-shadow: 0 8px 24px -18px rgb(27 53 116 / 25%) !important;
+}
+body .aes-services-page button.aes-service-stage[class][type] > span:last-child,
+body .aes-support-page button.aes-support-reason[class][type] > span { color: #536071 !important; }
+.aes-service-stage .aes-stage-top, .aes-support-reason .aes-support-icon, .aes-support-reason .aes-support-reason-arrow { color: var(--aes-blue); }
+.aes-service-stage strong, .aes-support-reason strong { color: var(--aes-blue) !important; }
+body .aes-services-page button.aes-service-stage[class][type]:is(:hover, :focus-visible),
+body .aes-support-page button.aes-support-reason[class][type]:is(:hover, :focus-visible) { border-color: #a8b9d6 !important; box-shadow: 0 16px 30px -22px rgb(27 53 116 / 34%) !important; }
+
+body .aes-service-all { display: inline-flex; align-items: center; gap: 12px; padding: 0; min-height: 48px; border: 0; background: transparent; color: var(--aes-blue); font-size: 22px; font-weight: 700; cursor: default; }
+body .aes-service-all > span { display: grid; place-items: center; min-width: 32px; height: 32px; padding-inline: 7px; background: #edf2fa; color: var(--aes-blue); border-radius: 50%; font-size: 14px; }
+.aes-service-clear { margin-left: auto; min-height: 40px; padding: 8px 14px; border-radius: 8px; font-size: 14px; font-weight: 600; }
+.aes-service-results { flex-wrap: wrap; }
+
+body > header .nav-item-dropdown button.aes-menu-toggle[class][type] {
+  background: transparent !important; color: var(--aes-blue) !important; border-color: transparent !important;
+  box-shadow: none !important; translate: none !important; scale: 1 !important;
+}
+body > header .nav-item-dropdown button.aes-menu-toggle[class][type]:hover { color: var(--aes-orange) !important; }
 
 /* The rule starts at the heading's left edge and fills only on first reveal. */
 .home h2.aes-home-heading { display: table; max-width: 100%; }
@@ -421,6 +449,23 @@ footer .aes-footer-inner > div:last-child:not(.footer-grid) a { font-size: 15px 
 
 /* About: keep the inspection image intact and give leadership its own clear space. */
 .aes-about-detail .aes-detail-hero__photo { object-position: 65% top; }
+#companyJourney .aes-about-owner-visual {
+  width: min(38%, 480px); height: auto; top: 36px; bottom: 56px;
+  right: max(24px, calc((100% - 1440px) / 2 + clamp(24px, 4vw, 64px)));
+  display: flex; flex-direction: column; align-items: center; gap: 18px; z-index: 0; mask-image: none;
+}
+#companyJourney .aes-about-owner-photo { flex: 1; min-height: 0; height: calc(100% - 72px) !important; width: 100% !important; object-fit: contain; object-position: center; mask-image: linear-gradient(#000 94%, transparent); }
+.aes-about-owner-label { text-align: center; color: var(--aes-blue); padding-bottom: 4px; }
+.aes-about-owner-label strong { display: block; font-size: 22px; font-weight: 700; line-height: 1.5; }
+.aes-about-owner-label span { display: block; font-size: 14px; margin-top: 4px; line-height: 1.6; color: #536071; }
+@media (max-width: 1023px) {
+  #companyJourney .aes-detail-hero { display: flex; flex-direction: column; }
+  #companyJourney .aes-detail-hero__inner { order: 1; width: 100%; padding-bottom: 28px; min-height: 0; }
+  #companyJourney .aes-detail-hero__copy { width: 100%; max-width: none; }
+  #companyJourney .aes-detail-hero__breadcrumb { margin-bottom: 32px; }
+  #companyJourney .aes-about-owner-visual { position: relative; order: 2; inset: auto; width: min(calc(100% - 48px), 380px); margin: 0 auto 40px; }
+  #companyJourney .aes-about-owner-photo { flex: none; height: auto !important; max-height: 460px; }
+}
 body:has(#companyJourney) section > .max-w-7xl, .aes-about-shell {
   width: 100%; max-width: 1440px; margin-inline: auto; padding-inline: clamp(24px, 4vw, 64px);
 }

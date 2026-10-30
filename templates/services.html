@@ -102,10 +102,10 @@
     <button type="button" class="aes-service-stage" data-service-filter="qualify" aria-pressed="false" aria-controls="aes-service-grid" disabled><span class="aes-stage-top"><span>04</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></span><strong>Qualify &amp; develop</strong><span>Welding, specialist processes and people’s skills.</span></button>
   </div>
   <div class="aes-service-tools" hidden>
-    <button type="button" class="aes-service-all" data-service-filter="all" aria-pressed="true" aria-controls="aes-service-grid">All services <span>16</span></button>
+    <div class="aes-service-all">All services <span>16</span></div>
     <div class="aes-service-search"><label for="aes-service-search">Search services</label><div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></svg><input id="aes-service-search" type="search" placeholder="Try welding, supplier or testing…" autocomplete="off" aria-controls="aes-service-grid"/></div></div>
   </div>
-  <div class="aes-service-results"><p id="aes-service-count" role="status" aria-live="polite" aria-atomic="true">Showing all 16 services</p><span>Service details open in a new tab <span aria-hidden="true">↗</span></span></div>
+  <div class="aes-service-results"><p id="aes-service-count" role="status" aria-live="polite" aria-atomic="true">Showing all 16 services</p><button type="button" class="aes-service-clear" data-service-clear hidden>Clear filters</button><span>Service details open in a new tab <span aria-hidden="true">↗</span></span></div>
   <div class="aes-service-grid" id="aes-service-grid">
     <a class="aes-directory-card service-card-target" id="tpi" href="@@FIELD:f188@@" target="_blank" rel="noopener noreferrer" data-service-category="inspect" data-service-keywords="inspection witness ITP hold point factory">
       <div class="aes-directory-card__image"><img src="@@FIELD:f189@@" alt="@@FIELD:f190@@" loading="lazy" decoding="async"/></div>

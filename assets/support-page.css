@@ -11,7 +11,7 @@
 .aes-support-page .aes-support-reason, .aes-support-page .aes-support-reason.active { background: #fff !important; color: #302b27 !important; border-color: #e9e1da !important; }
 .aes-support-reason:disabled { cursor: default; opacity: 1 !important; }
 .aes-support-icon { width: 34px; height: 34px; color: #bc4d1a; margin-bottom: 6px; }
-.aes-support-reason strong { font-family: Manrope, sans-serif; font-size: 22px; line-height: 1.35; font-weight: 700; letter-spacing: -.025em; }
+.aes-support-reason strong { font-family: Montserrat, sans-serif; font-size: 22px; line-height: 1.35; font-weight: 700; letter-spacing: -.025em; }
 .aes-support-reason > span { font-size: 16px; font-weight: 400; line-height: 1.7; color: #655f58; }
 .aes-support-reason-arrow { width: 24px; height: 24px; color: #c6531d; margin-top: auto; transition: translate 280ms ease; }
 .aes-support-reason:hover .aes-support-reason-arrow { translate: 4px 0; }
