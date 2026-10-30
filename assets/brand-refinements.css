@@ -11,6 +11,7 @@ section :is(.bg-slate-50, .bg-blue-50, .bg-orange-50) { background-color: #fffdf
 .home :is(#services, #sectors, #clients, #work-with-us) :is(h2, h3) { color: #2d2a27; }
 .home :is(#services, #sectors, #clients, #work-with-us) :is(.text-brand-blue, .text-brand-dark) { color: #2d2a27 !important; }
 .home #clients .text-slate-500 { color: #796655; }
+.home :is(.aes-hero, section:has(h1)) p { color: #fff !important; text-shadow: 0 1px 3px rgb(0 0 0 / 65%), 0 3px 16px rgb(0 0 0 / 30%); }
 .home .heading-line-track { background: #efdfd2; }
 .home .service-slide-card { background: #302923; box-shadow: 0 4px 8px -4px rgb(51 35 24 / 17%), 0 18px 32px -14px rgb(51 35 24 / 28%); }
 .home .service-slide-card::after {
@@ -114,7 +115,8 @@ html.aes-intro-active { overflow: hidden; }
   .aes-expanded-header .aes-header-brand img { transform: none !important; }
   .aes-expanded-header .aes-header-contact { transform: translate(0, 0) !important; transition: transform 440ms cubic-bezier(.22, .7, .24, 1), background-color 180ms ease, border-color 180ms ease, box-shadow 280ms ease, translate 280ms var(--aes-ease), scale 180ms ease !important; }
   .aes-expanded-header.aes-services-open .aes-header-contact { transform: translate(var(--aes-contact-shift-x), var(--aes-contact-shift-y)) !important; }
-  .aes-expanded-header.aes-services-open .aes-header-contact { background: #e65e1b !important; border-color: #e65e1b !important; color: #fff !important; }
+  .aes-expanded-header.aes-services-open .aes-header-contact { background: var(--aes-blue) !important; border-color: var(--aes-blue) !important; color: #fff !important; }
+  .aes-expanded-header.aes-services-open .aes-header-contact:active { background: var(--aes-orange) !important; border-color: var(--aes-orange) !important; }
   .aes-expanded-header.aes-services-open nav .text-brand-blue { color: #3e3935; }
   .aes-expanded-header .aes-header-contact svg { transform: rotate(0deg) !important; transition: transform 400ms var(--aes-ease) !important; }
   .aes-expanded-header.aes-services-open .aes-header-contact svg { transform: rotate(90deg) !important; }
@@ -147,7 +149,7 @@ html.aes-intro-active { overflow: hidden; }
   body > header.aes-expanded-header .mega-dropdown-menu a:is(:hover, :focus-visible)::after { opacity: 1; scale: 1; }
   .aes-services-panel__contact { padding-top: 100px; display: flex; flex-direction: column; gap: 32px; align-items: flex-start; min-width: 0; }
   .aes-menu-contact { display: flex; align-items: flex-start; gap: 14px; color: #3e3935; max-width: 100%; transition: color 250ms ease; }
-  .aes-menu-contact__icon { width: 40px; height: 44px; flex-shrink: 0; display: grid; place-items: center; color: #ca541c; }
+  .aes-menu-contact__icon { width: 40px; height: 44px; flex-shrink: 0; display: grid; place-items: center; color: var(--aes-blue); }
   .aes-menu-contact__icon svg { display: block; width: 30px !important; height: 30px !important; }
   .aes-menu-contact[href*="wa.me"] svg { fill: currentColor; }
   .aes-menu-contact__copy { display: flex; flex-direction: column; gap: 7px; min-width: 0; }
@@ -350,7 +352,7 @@ body .aes-back-top[class]:is(:hover, :focus-visible) {
 }
 @media (prefers-reduced-motion: reduce) { body .aes-button-depth[class]:is(:hover, :focus-visible, :active) { translate: none; scale: none; } }
 
-/* The header CTA elevates and shifts to brand orange on hover. */
+/* The header CTA elevates on hover and keeps the navy action color. */
 body > header a[class]:is(.btn-premium-orange, .btn-premium-blue, .btn-theme) {
   display: inline-flex; align-items: center; justify-content: center; gap: 10px;
   min-height: 48px; padding: 13px 22px; border-radius: 12px;
@@ -364,6 +366,10 @@ body > header a[class]:is(.btn-premium-orange, .btn-premium-blue, .btn-theme):is
   box-shadow: 0 10px 22px -6px rgb(241 104 38 / 42%) !important;
 }
 body > header a:is(.btn-premium-orange, .btn-premium-blue, .btn-theme)::after { content: none !important; }
+body > header a.aes-header-contact[class]:is(:hover, :focus-visible):not(:active) {
+  background: var(--aes-blue) !important; border-color: var(--aes-blue) !important;
+  box-shadow: 0 10px 22px -6px rgb(27 53 116 / 32%) !important;
+}
 
 /* Image cards share blue copy panels and an orange image/copy divider on hover. */
 body .service-slide-card .service-card-drawer {
@@ -534,10 +540,10 @@ body:has(#companyJourney) section > .max-w-7xl, .aes-about-shell {
   pointer-events: none; z-index: 3; isolation: isolate; line-height: 0;
 }
 .aes-press-feedback > span { position: absolute; border-radius: 50%; background: currentColor; pointer-events: none; }
-body .aes-button-depth > :is(.aes-action-arrow, svg:last-child) { transition: translate 280ms var(--aes-ease), transform 280ms var(--aes-ease); }
-body .aes-button-depth:is(:hover, :focus-visible) > :is(.aes-action-arrow, svg:last-child) { translate: 4px 0; }
+body .aes-button-depth > .aes-action-arrow { transition: translate 280ms var(--aes-ease); }
+body .aes-button-depth:is(:hover, :focus-visible) > .aes-action-arrow { translate: 4px 0; }
 body > header.aes-services-open .aes-header-contact > svg:last-child { translate: 0 0; }
-body .aes-button-depth:active > :is(.aes-action-arrow, svg:last-child) { translate: 1px 0; }
+body .aes-button-depth:active > .aes-action-arrow { translate: 1px 0; }
 body > header .aes-menu-toggle svg { transition: transform 340ms cubic-bezier(.22, .7, .24, 1); }
 header .aes-quick-link, footer .aes-quick-link { transition: color 240ms ease, translate 220ms var(--aes-ease) !important; }
 header .aes-quick-link:active, footer .aes-quick-link:active { translate: 0 1px; }
