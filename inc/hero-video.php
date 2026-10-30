@@ -29,7 +29,7 @@ function aes_apply_hero_video($html, $is_hero = false) {
     }
     if (!$is_hero) return $html;
     // Restore video even when an older editor save removed its entire element.
-    $video = '<video id="heroVideo" class="w-full h-full object-cover" autoplay loop muted playsinline>' . $source . '</video>';
+    $video = '<video id="heroVideo" class="w-full h-full object-cover" autoplay muted playsinline>' . $source . '</video>';
     return preg_replace_callback('/<div\b[^>]*class=["\'][^"\']*absolute inset-0[^"\']*["\'][^>]*>/i', function ($open) use ($video) {
         return $open[0] . $video;
     }, $html, 1);

@@ -624,29 +624,163 @@
 
   const video = $('video#heroVideo') || $('video');
   if (video) {
-    // Play the video selected in WordPress.
-    if (!video.getAttribute('poster')) {
-      video.poster = AES.theme + "/assets/hero_inspection.jpg";
-    }
+    // Strip any poster image to prevent static image flashing during video transitions
+    video.removeAttribute('poster');
 
     video.setAttribute('aria-hidden', 'true');
     video.muted = true;
-    video.loop = true;
     video.playsInline = true;
     video.preload = 'auto';
     video.playbackRate = 1.0;
-    video.addEventListener('ended', () => {
-      video.currentTime = 0;
-      video.play().catch(() => {});
+
+    // Playlist: loop through wind_turbine.mp4 and solar_plant.mp4
+    const playlistAttr = video.getAttribute('data-playlist');
+    let playlist = [];
+    if (playlistAttr) {
+      playlist = playlistAttr.split(',').map(s => s.trim()).filter(Boolean);
+    }
+    if (!playlist.length) {
+      playlist = [
+        AES.theme + '/video/wind_turbine.mp4',
+        AES.theme + '/video/solar_plant.mp4'
+      ];
+    }
+
+    let currentIdx = 0;
+    const initialSource = video.querySelector('source')?.getAttribute('src') || video.currentSrc || video.src || '';
+    if (initialSource) {
+      const foundIdx = playlist.findIndex(url => initialSource.includes(url.split('/').pop()));
+      if (foundIdx !== -1) currentIdx = foundIdx;
+    }
+
+    video.removeAttribute('loop');
+    video.loop = false;
+
+    // Dual-buffer ping-pong player: pre-decodes the next video in the background for zero-delay (0ms gap) handoff
+    let bufferVideo = document.getElementById('heroVideoBuffer');
+    if (!bufferVideo && video.parentNode && playlist.length > 1) {
+      bufferVideo = document.createElement('video');
+      bufferVideo.id = 'heroVideoBuffer';
+      bufferVideo.className = video.className;
+      bufferVideo.muted = true;
+      bufferVideo.playsInline = true;
+      bufferVideo.preload = 'auto';
+      bufferVideo.playbackRate = 1.0;
+      bufferVideo.setAttribute('aria-hidden', 'true');
+      video.parentNode.insertBefore(bufferVideo, video.nextSibling);
+    }
+
+    if (bufferVideo) {
+      bufferVideo.removeAttribute('poster');
+      bufferVideo.muted = true;
+      bufferVideo.playsInline = true;
+      bufferVideo.preload = 'auto';
+    }
+
+    let activeVideo = video;
+    let idleVideo = bufferVideo;
+
+    function applyVideoStates() {
+      if (activeVideo) {
+        activeVideo.classList.add('aes-hero-video-active');
+        activeVideo.classList.remove('aes-hero-video-idle');
+        activeVideo.style.zIndex = '3';
+        activeVideo.style.opacity = '0.92';
+      }
+      if (idleVideo) {
+        idleVideo.classList.add('aes-hero-video-idle');
+        idleVideo.classList.remove('aes-hero-video-active');
+        idleVideo.style.zIndex = '1';
+        idleVideo.style.opacity = '0';
+      }
+    }
+    applyVideoStates();
+
+    function prepareIdle() {
+      if (!idleVideo || playlist.length < 2) return;
+      const nextIdx = (currentIdx + 1) % playlist.length;
+      const nextUrl = playlist[nextIdx];
+      idleVideo.removeAttribute('poster');
+      if (idleVideo.src !== nextUrl) {
+        idleVideo.src = nextUrl;
+        idleVideo.load();
+      }
+      idleVideo.currentTime = 0;
+    }
+    prepareIdle();
+
+    let switching = false;
+    function switchNext() {
+      if (switching || playlist.length < 2 || !idleVideo) {
+        if (playlist.length === 1 && activeVideo) {
+          activeVideo.currentTime = 0;
+          activeVideo.play().catch(() => {});
+        }
+        return;
+      }
+      switching = true;
+
+      // Start the pre-buffered idle video immediately with zero delay
+      idleVideo.play().then(() => {
+        const prevActive = activeVideo;
+        activeVideo = idleVideo;
+        idleVideo = prevActive;
+
+        currentIdx = (currentIdx + 1) % playlist.length;
+        applyVideoStates();
+
+        // Delay loading the next clip on the retired video until the new active video is firmly displayed
+        setTimeout(() => {
+          prevActive.pause();
+          prepareIdle();
+          switching = false;
+        }, 150);
+      }).catch(() => {
+        const prevActive = activeVideo;
+        activeVideo = idleVideo;
+        idleVideo = prevActive;
+        currentIdx = (currentIdx + 1) % playlist.length;
+        applyVideoStates();
+        setTimeout(() => {
+          prepareIdle();
+          switching = false;
+        }, 150);
+      });
+    }
+
+    function onTimeUpdate(e) {
+      const v = e.target;
+      if (v !== activeVideo) return;
+      if (v.duration && v.currentTime >= v.duration - 0.08) {
+        switchNext();
+      }
+    }
+
+    function onEnded(e) {
+      if (e.target !== activeVideo) return;
+      switchNext();
+    }
+
+    function onError(e) {
+      if (e.target === activeVideo) {
+        setTimeout(switchNext, 200);
+      }
+    }
+
+    [video, bufferVideo].filter(Boolean).forEach(v => {
+      v.addEventListener('timeupdate', onTimeUpdate);
+      v.addEventListener('ended', onEnded);
+      v.addEventListener('error', onError);
     });
 
     const hero = video.closest('section');
     let inView = true;
     function syncVideo() {
       if (document.hidden || !inView) {
-        video.pause();
+        if (activeVideo) activeVideo.pause();
+        if (idleVideo) idleVideo.pause();
       } else {
-        video.play().catch(() => {});
+        if (activeVideo) activeVideo.play().catch(() => {});
       }
     }
     document.addEventListener('visibilitychange', syncVideo);

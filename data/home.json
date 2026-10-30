@@ -1087,7 +1087,7 @@
       "label": "Quick view — , "
     },
     "f182": {
-      "default": "@@ASSET@@/video/video.mp4",
+      "default": "@@ASSET@@/video/wind_turbine.mp4",
       "type": "url",
       "group": "Page content",
       "label": "src — source"

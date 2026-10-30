@@ -645,7 +645,7 @@ function aes_render_home_video_meta_box($post) {
         }
     }
     if ($video_url === null) {
-        $video_url = get_template_directory_uri() . '/video/video.mp4';
+        $video_url = get_template_directory_uri() . '/video/wind_turbine.mp4';
     }
     ?>
     <div class="aes-video-metabox" style="padding:4px 0;">

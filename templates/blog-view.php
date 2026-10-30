@@ -31,7 +31,7 @@ $canonical = get_permalink($page_id);
     $topics = get_categories(['hide_empty' => true]);
 ?>
     <section class="aes-blog-hero">
-        <div class="aes-blog-hero__visual" aria-hidden="true"><img src="<?php echo esc_url(get_template_directory_uri() . '/assets/service_qa_qc.jpg'); ?>" alt="" fetchpriority="high" width="1376" height="768"></div>
+        <div class="aes-blog-hero__visual" aria-hidden="true"><img src="<?php echo esc_url(get_template_directory_uri() . '/assets/service_design_calc.jpg'); ?>" alt="" fetchpriority="high" width="1376" height="768"></div>
         <div class="aes-blog-shell"><nav class="aes-blog-breadcrumb" aria-label="Breadcrumb"><a href="<?php echo esc_url(home_url('/')); ?>">Home</a><span aria-hidden="true">/</span><span>Blog</span></nav><div class="aes-blog-hero__copy"><p class="aes-blog-eyebrow">The AES journal</p><h1><?php echo esc_html(get_the_title($page_id)); ?></h1><div class="aes-blog-introduction"><?php echo apply_filters('the_content', get_post_field('post_content', $page_id)); ?></div><a class="aes-blog-text-link" href="#latest-insights">Explore the articles ↓</a></div></div>
     </section>
     <section class="aes-blog-shell aes-blog-library" id="latest-insights" aria-labelledby="aes-blog-library-title">
