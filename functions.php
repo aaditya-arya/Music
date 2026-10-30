@@ -155,6 +155,7 @@ require AES_DIR . '/inc/brand-intro.php';
 require AES_DIR . '/inc/gutenberg-cms.php';
 require AES_DIR . '/inc/presentation-updates.php';
 require AES_DIR . '/inc/detail-pages.php';
+require AES_DIR . '/inc/about-updates.php';
 require AES_DIR . '/inc/public-pages.php';
 require AES_DIR . '/inc/services-directory.php';
 require AES_DIR . '/inc/support-updates.php';

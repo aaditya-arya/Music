@@ -418,3 +418,36 @@ footer .aes-footer-inner > div:last-child:not(.footer-grid) a { font-size: 15px 
   footer .aes-footer-brand p:first-child { font-size: 26px !important; }
   footer .aes-footer-inner > div:last-child:not(.footer-grid) { margin-top: 56px !important; }
 }
+
+/* About: keep the inspection image intact and give leadership its own clear space. */
+.aes-about-detail .aes-detail-hero__photo { object-position: 65% top; }
+body:has(#companyJourney) section > .max-w-7xl, .aes-about-shell {
+  width: 100%; max-width: 1440px; margin-inline: auto; padding-inline: clamp(24px, 4vw, 64px);
+}
+#mdLeadership.aes-about-leadership { padding-block: 72px 88px; background: #fffdfb; }
+.aes-about-leadership__intro { position: relative; isolation: isolate; overflow: hidden; padding: clamp(28px, 4vw, 56px); margin-bottom: 48px; border: 1px solid #e4e7ed; border-radius: 24px; background: #fff; }
+.aes-about-leadership__watermark { position: absolute; width: 360px; height: 360px; max-width: none; right: -90px; top: 50%; translate: 0 -50%; object-fit: contain; opacity: .065; pointer-events: none; }
+.aes-about-leadership__intro-copy { position: relative; z-index: 1; width: calc(100% - 170px); }
+.aes-about-leadership__eyebrow { display: block; color: #bd4c1a; font-size: 12px; font-weight: 700; letter-spacing: .1em; line-height: 1.7; text-transform: uppercase; margin-bottom: 16px; }
+#mdLeadership .aes-about-leadership__heading { font-size: clamp(28px, 3.1vw, 44px); line-height: 1.25; letter-spacing: -.025em; color: #172a50; margin: 0; }
+#mdLeadership .aes-about-leadership__summary { font-size: 18px; line-height: 1.8; color: #575f6d; max-width: 64ch; margin-top: 20px; }
+.aes-about-leadership__body { display: grid; grid-template-columns: 1.2fr 1fr; gap: clamp(32px, 5vw, 72px); align-items: start; }
+.aes-about-leadership__body > * { min-width: 0; }
+.aes-about-leadership__story h3 { font-size: clamp(24px, 2.2vw, 30px); line-height: 1.4; color: #172a50; margin: 0 0 22px; }
+.aes-about-leadership__story p { color: #535b67; font-size: 18px; line-height: 1.85; margin: 0; }
+.aes-about-leadership__story p + p { margin-top: 22px; }
+.aes-about-leadership__quote { margin: 0; padding: clamp(26px, 3vw, 40px); border-radius: 20px; border-left: 4px solid var(--aes-orange); background: var(--aes-blue); box-shadow: 0 16px 36px -24px rgb(18 39 85 / 32%); }
+#mdLeadership .aes-about-leadership__quote p { margin: 0; font-size: 20px; line-height: 1.8; color: #fff; font-style: italic; }
+#mdLeadership .aes-about-leadership__quote cite { display: block; margin-top: 28px; color: #fff; font-size: 14px; font-weight: 650; line-height: 1.8; font-style: normal; text-transform: none; letter-spacing: 0; }
+#mdLeadership .aes-about-leadership__quote cite span { display: block; color: #e5ecfb; font-size: 13px; font-weight: 500; margin-top: 4px; }
+@media (max-width: 899px) {
+  .aes-about-leadership__body { grid-template-columns: 1fr; gap: 32px; }
+  .aes-about-leadership__intro-copy { width: 100%; }
+  .aes-about-leadership__watermark { width: 260px; height: 260px; right: -110px; opacity: .045; }
+}
+@media (max-width: 639px) {
+  #mdLeadership.aes-about-leadership { padding-block: 40px 60px; }
+  .aes-about-leadership__intro { padding: 26px 24px; margin-bottom: 32px; border-radius: 18px; }
+  #mdLeadership .aes-about-leadership__heading { font-size: 28px; overflow-wrap: anywhere; }
+  #mdLeadership .aes-about-leadership__quote p { font-size: 18px; }
+}
