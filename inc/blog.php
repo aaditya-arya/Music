@@ -157,3 +157,30 @@ add_action('init', function () {
 
     update_option('aes_blog_seeded_v3', 1, false);
 }, 43);
+
+/** Ensure blog post URLs use only the post title slug without /YYYY/MM/DD/ date segments. */
+add_action('init', function () {
+    if (get_option('permalink_structure') !== '/%postname%/') {
+        global $wp_rewrite;
+        if ($wp_rewrite) {
+            $wp_rewrite->set_permalink_structure('/%postname%/');
+            flush_rewrite_rules(false);
+        } else {
+            update_option('permalink_structure', '/%postname%/');
+        }
+    } elseif (!get_option('aes_service_rewrite_flushed_v1')) {
+        flush_rewrite_rules(false);
+        update_option('aes_service_rewrite_flushed_v1', 1, false);
+    }
+}, 45);
+
+add_action('template_redirect', function () {
+    $path = trim(parse_url($_SERVER['REQUEST_URI'] ?? '', PHP_URL_PATH), '/');
+    if (preg_match('#^\d{4}/\d{1,2}/\d{1,2}/([a-z0-9-]+)$#i', $path, $m)) {
+        $post = get_page_by_path($m[1], OBJECT, 'post');
+        if ($post && $post->post_status === 'publish') {
+            wp_safe_redirect(home_url('/' . $post->post_name . '/'), 301);
+            exit;
+        }
+    }
+});

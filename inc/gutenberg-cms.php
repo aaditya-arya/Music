@@ -284,8 +284,12 @@ add_action('init', function () {
             'isGlobalHeader' => ['type' => 'boolean', 'default' => false],
             'isGlobalFooter' => ['type' => 'boolean', 'default' => false],
             'html'           => ['type' => 'string', 'default' => ''],
+            'heroPlaylist'   => ['type' => 'array', 'default' => []],
+            'heroPlaylistManaged' => ['type' => 'boolean', 'default' => false],
+            'sectionHidden' => ['type' => 'boolean', 'default' => false],
         ],
         'render_callback' => function ($attrs) {
+            if (!empty($attrs['sectionHidden']) && empty($attrs['isGlobalHeader']) && empty($attrs['isGlobalFooter'])) return '';
             $html = isset($attrs['html']) ? rawurldecode($attrs['html']) : '';
             if (!empty($attrs['isGlobalHeader'])) {
                 $opt_html = get_option('aes_global_header_html', '');
@@ -306,7 +310,7 @@ add_action('init', function () {
                 [aes_job_cards(), aes_job_options(), esc_url(admin_url('admin-ajax.php'))],
                 $html
             );
-            $html = aes_apply_hero_video($html, ($attrs['sectionId'] ?? '') === 'home-sec-1');
+            $html = aes_apply_hero_video($html, ($attrs['sectionId'] ?? '') === 'home-sec-1', get_the_ID(), !empty($attrs['heroPlaylistManaged']) ? ($attrs['heroPlaylist'] ?? []) : null);
             return aes_resolve($html);
         },
     ]);
@@ -442,6 +446,29 @@ add_action('init', function () {
             }
         }
         update_option('aes_home_synced_v11', 1, false);
+    }
+
+    // Sync updated homepage structure (removed Work With Us section while preserving all saved blocks and footer)
+    if (!get_option('aes_home_synced_v12')) {
+        $ids = get_option('aes_page_ids', []);
+        $home_id = !empty($ids['home']) ? intval($ids['home']) : intval(get_option('page_on_front'));
+        $home = $home_id ? get_post($home_id) : null;
+        if ($home) {
+            $blocks = parse_blocks($home->post_content);
+            $filtered = [];
+            foreach ($blocks as $b) {
+                $bhtml = rawurldecode($b['attrs']['html'] ?? '');
+                if (($b['blockName'] ?? '') === 'aes/section' && preg_match('/\bid=["\']work-with-us["\']/i', $bhtml)) {
+                    continue;
+                }
+                $filtered[] = $b;
+            }
+            wp_update_post([
+                'ID'           => $home_id,
+                'post_content' => wp_slash(serialize_blocks($filtered)),
+            ]);
+        }
+        update_option('aes_home_synced_v12', 1, false);
     }
 
     // Sync updated About page structure (Company Journey 1st, MD Intro with AES logo watermark 2nd, Distinct Mission & Vision 3rd)
@@ -594,6 +621,9 @@ add_action('save_post_page', function ($post_id, $post) {
     foreach ($blocks as $block) {
         if (($block['blockName'] ?? '') !== 'aes/section') continue;
         $attrs = $block['attrs'] ?? [];
+        if (($attrs['sectionId'] ?? '') === 'home-sec-1' && !empty($attrs['heroPlaylistManaged']) && aes_is_home_page($post_id)) {
+            aes_save_hero_playlist($post_id, $attrs['heroPlaylist'] ?? []);
+        }
         if (!empty($attrs['isGlobalHeader']) && !empty($attrs['html'])) {
             update_option('aes_global_header_html', rawurldecode($attrs['html']), false);
         }
@@ -602,8 +632,9 @@ add_action('save_post_page', function ($post_id, $post) {
         }
     }
 
-    // AJAX is authoritative. Ignore unchanged legacy meta-box fields on later page saves.
+    // Legacy single-video forms cannot overwrite a managed playlist.
     if (aes_is_home_page($post_id) && current_user_can('edit_post', $post_id)
+        && !metadata_exists('post', $post_id, '_aes_hero_video_playlist')
         && isset($_POST['aes_hero_video_url'], $_POST['aes_home_video_nonce'])
         && wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['aes_home_video_nonce'])), 'aes_save_home_video')) {
         $new_video = esc_url_raw(trim(wp_unslash($_POST['aes_hero_video_url'])));
@@ -617,140 +648,9 @@ add_action('save_post_page', function ($post_id, $post) {
     update_post_meta($post_id, '_aes_template_synced_mtime', max($tpl_mtime, time()));
 }, 10, 2);
 
-// Register Admin Meta Box for Homepage Background Video
-add_action('add_meta_boxes', function () {
-    global $post;
-    if (!$post || $post->post_type !== 'page') return;
-    $layout = get_post_meta($post->ID, '_aes_layout', true);
-    $front_id = (int) get_option('page_on_front');
-    if ($layout === 'home' || $post->ID === $front_id || $post->post_name === 'home') {
-        add_meta_box(
-            'aes_home_hero_video_box',
-            '🎬 Homepage Hero Background Video',
-            'aes_render_home_video_meta_box',
-            'page',
-            'side',
-            'high'
-        );
-    }
-});
+// The numbered block playlist replaces the competing legacy homepage meta box.
 
-function aes_render_home_video_meta_box($post) {
-    wp_nonce_field('aes_save_home_video', 'aes_home_video_nonce');
-    $video_url = get_option('aes_hero_video_url', null);
-    if ($video_url === null) {
-        $page_vals = get_post_meta($post->ID, '_aes_values', true);
-        if (is_array($page_vals) && !empty($page_vals['f182'])) {
-            $video_url = aes_resolve($page_vals['f182']);
-        }
-    }
-    if ($video_url === null) {
-        $video_url = get_template_directory_uri() . '/video/wind_turbine.mp4';
-    }
-    ?>
-    <div class="aes-video-metabox" style="padding:4px 0;">
-        <p style="font-size:12px;color:#64748b;margin:0 0 10px 0;line-height:1.4;">
-            Upload, change, or remove the MP4 / WebM background video playing in the Homepage Hero section.
-        </p>
-        <div id="aes-video-preview-wrap" style="background:#070e22;border-radius:8px;overflow:hidden;margin-bottom:10px;border:1px solid #334155;<?php echo empty($video_url) ? 'display:none;' : ''; ?>">
-            <video id="aes-admin-hero-preview" src="<?php echo esc_url($video_url); ?>" controls muted playsinline style="width:100%;max-height:160px;display:block;object-fit:cover;"></video>
-        </div>
-        <p style="margin:0 0 4px 0;"><label for="aes_hero_video_input" style="font-size:11px;font-weight:700;color:#334155;">Video URL:</label></p>
-        <input type="hidden" id="aes_hero_video_initial" name="aes_hero_video_initial" value="<?php echo esc_attr($video_url); ?>" />
-        <input type="text" id="aes_hero_video_input" name="aes_hero_video_url" value="<?php echo esc_attr($video_url); ?>" class="widefat" style="margin-bottom:8px;font-size:12px;" placeholder="https://.../video.mp4" />
-        <div style="display:flex;gap:6px;margin-bottom:8px;">
-            <button type="button" class="button button-primary" id="aes_choose_video_btn" style="flex:1;">
-                📁 Choose Video
-            </button>
-            <button type="button" class="button button-secondary" id="aes_clear_video_btn" style="color:#b91c1c;">
-                🗑 Remove
-            </button>
-        </div>
-        <button type="button" class="button button-secondary" id="aes_manual_save_video_btn" style="width:100%;font-weight:700;">
-            💾 Save Video to Homepage
-        </button>
-        <div id="aes-video-ajax-status" style="margin-top:8px;font-size:12px;font-weight:700;display:none;"></div>
-        <script>
-        jQuery(document).ready(function($){
-            function saveHeroVideoAjax(url) {
-                $('#aes-video-ajax-status').text('⏳ Saving video to homepage...').css('color', '#f16826').show();
-                $.post(ajaxurl, {
-                    action: 'aes_save_hero_video_ajax',
-                    video_url: url,
-                    post_id: <?php echo (int) $post->ID; ?>,
-                    nonce: '<?php echo wp_create_nonce("aes_ajax_video_nonce"); ?>'
-                }, function(res) {
-                    if (res && res.success) {
-                        $('#aes-video-ajax-status').text('✅ Video saved & active on homepage!').css('color', '#10b981').show();
-                        $('#aes_hero_video_initial').val(res.data.video_url);
-                        window.dispatchEvent(new CustomEvent('aes:hero-video-saved', { detail: { url: res.data.video_url } }));
-                    } else {
-                        $('#aes-video-ajax-status').text('❌ Error saving video.').css('color', '#ef4444').show();
-                    }
-                }).fail(function(){
-                    $('#aes-video-ajax-status').text('Could not save video. Please try again.').css('color', '#ef4444').show();
-                });
-            }
-
-            window.addEventListener('aes:hero-video-saved', function(event){
-                var url = event.detail.url;
-                $('#aes_hero_video_input, #aes_hero_video_initial').val(url);
-                $('#aes-admin-hero-preview').attr('src', url);
-                $('#aes-video-preview-wrap').toggle(Boolean(url));
-            });
-
-            $('#aes_choose_video_btn').on('click', function(e){
-                e.preventDefault();
-                var frame = wp.media({
-                    title: 'Select Homepage Hero Background Video',
-                    button: { text: 'Use this Video' },
-                    library: { type: 'video' },
-                    multiple: false
-                });
-                frame.on('select', function(){
-                    var attachment = frame.state().get('selection').first().toJSON();
-                    if (attachment && attachment.url) {
-                        $('#aes_hero_video_input').val(attachment.url);
-                        $('#aes-admin-hero-preview').attr('src', attachment.url);
-                        $('#aes-video-preview-wrap').show();
-                        saveHeroVideoAjax(attachment.url);
-                    }
-                });
-                frame.open();
-            });
-
-            $('#aes_clear_video_btn').on('click', function(e){
-                e.preventDefault();
-                if (confirm('Remove the background video? The hero will display with a solid dark navy background.')) {
-                    $('#aes_hero_video_input').val('');
-                    $('#aes-admin-hero-preview').attr('src', '');
-                    $('#aes-video-preview-wrap').hide();
-                    saveHeroVideoAjax('');
-                }
-            });
-
-            $('#aes_manual_save_video_btn').on('click', function(e){
-                e.preventDefault();
-                saveHeroVideoAjax($('#aes_hero_video_input').val());
-            });
-
-            $('#aes_hero_video_input').on('change', function(){
-                var u = $(this).val();
-                if (u) {
-                    $('#aes-admin-hero-preview').attr('src', u);
-                    $('#aes-video-preview-wrap').show();
-                } else {
-                    $('#aes-video-preview-wrap').hide();
-                }
-                saveHeroVideoAjax(u);
-            });
-        });
-        </script>
-    </div>
-    <?php
-}
-
-// Both video controls persist only the setting, without rewriting the open editor's page.
+// Compatibility endpoint for old editor tabs; managed playlists require a fresh editor.
 function aes_handle_hero_video_ajax($nonce_action) {
     check_ajax_referer($nonce_action, 'nonce');
     $post_id = isset($_POST['post_id']) ? absint($_POST['post_id']) : 0;
@@ -760,7 +660,11 @@ function aes_handle_hero_video_ajax($nonce_action) {
     if (!isset($_POST['video_url']) || !is_string($_POST['video_url'])) {
         wp_send_json_error(['message' => 'Missing video URL.'], 400);
     }
+    if (metadata_exists('post', $post_id, '_aes_hero_video_playlist')) {
+        wp_send_json_error(['message' => 'Reload the editor and use the numbered video playlist, then Save / Update. The old single-video control cannot overwrite a saved playlist.'], 409);
+    }
     $url = aes_save_hero_video_setting($post_id, wp_unslash($_POST['video_url']));
+    if (is_wp_error($url)) wp_send_json_error(['message' => $url->get_error_message()], 400);
     wp_send_json_success(['video_url' => $url]);
 }
 
@@ -799,10 +703,12 @@ add_action('enqueue_block_editor_assets', function () {
         ['aes-site'],
         $ver_cms_css
     );
+    wp_enqueue_script('aes-page-details-editor', get_template_directory_uri() . '/assets/page-details-editor.js', ['wp-plugins', 'wp-editor', 'wp-data', 'wp-components', 'media-editor', 'aes-gutenberg-cms'], filemtime(AES_DIR . '/assets/page-details-editor.js'), true);
+    wp_enqueue_script('aes-hero-playlist-editor', get_template_directory_uri() . '/assets/hero-playlist-editor.js', ['wp-element', 'wp-components', 'wp-data', 'media-editor'], filemtime(AES_DIR . '/assets/hero-playlist-editor.js'), true);
     wp_enqueue_script(
         'aes-gutenberg-cms',
         get_template_directory_uri() . '/assets/gutenberg-cms.js',
-        ['wp-blocks', 'wp-element', 'wp-editor', 'wp-components', 'wp-block-editor', 'wp-data', 'wp-edit-post'],
+        ['wp-blocks', 'wp-element', 'wp-editor', 'wp-components', 'wp-block-editor', 'wp-data', 'wp-edit-post', 'aes-hero-playlist-editor'],
         $ver_cms_js,
         true
     );
@@ -829,11 +735,13 @@ add_action('enqueue_block_editor_assets', function () {
         'globalFooter' => get_option('aes_global_footer_html', ''),
         'pages'        => $pages_list,
         'menusUrl'     => admin_url('nav-menus.php'),
+        'nativeServiceMenu' => has_nav_menu('primary'),
         'ajaxUrl'      => admin_url('admin-ajax.php'),
         'nonce'        => wp_create_nonce('aes_gutenberg_sync'),
         'postId'       => $post_id,
         'layout'       => $layout,
         'supportRequests' => aes_data('support-requests'),
+        'detailsFields' => array_map(function ($field) { $field['default'] = aes_resolve($field['default']); return $field; }, aes_page_supplemental_fields($post_id)),
     ]);
 });
 

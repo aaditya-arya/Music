@@ -312,3 +312,19 @@
   padding: 5px 8px !important;
   font-size: 12px !important;
 }
+
+/* One numbered list controls the complete background-video playlist. */
+.aes-playlist-editor { padding:20px; background:#f8fafc; border-bottom:2px solid #f16826; color:#1e293b; }
+.aes-playlist-heading { display:flex; justify-content:space-between; gap:18px; align-items:flex-start; }
+.aes-playlist-heading p { margin:6px 0 16px; max-width:760px; font-size:12px; line-height:1.6; }
+.aes-playlist-items { margin:0; padding:0; list-style:none; display:grid; gap:12px; }
+.aes-playlist-item { display:grid; grid-template-columns:150px minmax(0,1fr); gap:16px; padding:14px; background:white; border:1px solid #cbd5e1; border-radius:8px; }
+.aes-playlist-preview > span { display:block; font-size:12px; font-weight:700; margin-bottom:6px; }
+.aes-playlist-preview video { width:150px; height:90px; background:#101827; object-fit:cover; }
+.aes-playlist-fields { min-width:0; }
+.aes-playlist-fields input { width:100%; }
+.aes-playlist-actions { display:flex; flex-wrap:wrap; gap:8px; }
+.aes-playlist-add-url { display:flex; align-items:flex-end; gap:12px; margin-top:16px; }
+.aes-playlist-add-url > div { flex:1; margin:0; }
+.aes-playlist-empty { padding:16px; background:#fff; border:1px dashed #94a3b8; }
+@media(max-width:780px) { .aes-playlist-heading,.aes-playlist-add-url { flex-wrap:wrap; } .aes-playlist-item { grid-template-columns:minmax(0,1fr); } }

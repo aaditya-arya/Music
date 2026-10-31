@@ -19,8 +19,7 @@ function aes_contact_address() {
 function aes_refine_footer_markup($html) {
     if (!$html || !class_exists('DOMDocument')) return $html;
     static $cache = [];
-    $address = aes_contact_address();
-    $key = md5($html . $address);
+    $key = md5($html . '_no_addr_v2');
     if (isset($cache[$key])) return $cache[$key];
     $doc = new DOMDocument('1.0', 'UTF-8');
     $previous = libxml_use_internal_errors(true);
@@ -40,8 +39,18 @@ function aes_refine_footer_markup($html) {
     foreach (iterator_to_array($xpath->query('//footer//p')) as $node) {
         if (preg_match('/ISO\/I(?:EC|ES)\s*170/i', $node->textContent)) $node->parentNode->removeChild($node);
     }
-    $address_node = $xpath->query('//footer//*[contains(@class,"aes-footer-contact")]//p')->item(0);
-    if ($address_node) $address_node->nodeValue = $address;
+    foreach (iterator_to_array($xpath->query('//footer//*[contains(@class,"aes-footer-contact")]//span')) as $node) {
+        if (stripos($node->textContent, 'Corporate Address') !== false) {
+            $block = $node->parentNode;
+            if ($block && $block->parentNode && $block->parentNode instanceof DOMElement && strpos($block->parentNode->getAttribute('class'), 'flex') !== false) {
+                $block = $block->parentNode;
+            }
+            if ($block && $block->parentNode) {
+                $block->parentNode->removeChild($block);
+            }
+            break;
+        }
+    }
     foreach ($xpath->query('//footer//text()') as $node) {
         if (stripos($node->nodeValue, 'flipbook') !== false) $node->nodeValue = 'Read or download our company profile';
         if (preg_match('/ISO\/I(?:EC|ES)\s*170/i', $node->nodeValue)) $node->nodeValue = preg_replace('/\s*[•·]?\s*ISO\/I(?:EC|ES)\s*170[^\r\n]*/u', '', $node->nodeValue);

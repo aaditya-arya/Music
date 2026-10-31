@@ -45,13 +45,52 @@ function aes_get_dynamic_nav() {
 function aes_page_url($key) {
     if ($key === 'home') return home_url('/');
     if ($key === 'admin') return admin_url();
+    if ($key === 'blog') return function_exists('aes_blog_url') ? aes_blog_url() : home_url('/blog/');
+    if (strpos($key, 'service-') === 0) {
+        return home_url('/service/' . substr($key, 8) . '/');
+    }
     $ids = get_option('aes_page_ids', []);
     return !empty($ids[$key]) && get_post_status($ids[$key]) === 'publish' ? get_permalink($ids[$key]) : home_url('/' . $key . '/');
 }
 
+add_filter('page_link', function ($link, $post_id) {
+    $key = get_post_meta($post_id, '_aes_layout', true);
+    if (!$key) {
+        $post = get_post($post_id);
+        if ($post && strpos($post->post_name, 'service-') === 0) {
+            $key = $post->post_name;
+        }
+    }
+    if ($key && strpos($key, 'service-') === 0) {
+        return home_url('/service/' . substr($key, 8) . '/');
+    }
+    return $link;
+}, 10, 2);
+
+add_action('init', function () {
+    add_rewrite_rule('^service/([a-z0-9-]+)/?$', 'index.php?pagename=service-$matches[1]', 'top');
+}, 5);
+
+add_filter('request', function ($query_vars) {
+    $path = trim(parse_url($_SERVER['REQUEST_URI'] ?? '', PHP_URL_PATH), '/');
+    if (preg_match('#^service/([a-z0-9-]+)$#i', $path, $m)) {
+        $service_key = 'service-' . strtolower($m[1]);
+        if (isset(aes_data('manifest')[$service_key])) {
+            $ids = get_option('aes_page_ids', []);
+            if (!empty($ids[$service_key])) {
+                return ['page_id' => intval($ids[$service_key])];
+            }
+            return ['pagename' => $service_key];
+        }
+    }
+    return $query_vars;
+});
+
 function aes_resolve($value) {
     $value = str_replace('@@ASSET@@', untrailingslashit(get_template_directory_uri()), $value);
-    return preg_replace_callback('/@@PAGE:([a-zA-Z0-9_-]+)@@/', function ($m) { return aes_page_url($m[1]); }, $value);
+    $value = preg_replace_callback('/@@PAGE:([a-zA-Z0-9_-]+)@@/', function ($m) { return aes_page_url($m[1]); }, $value);
+    $value = preg_replace('~(/service)-([a-z0-9-]+)(/?)(?=["\'\?#\s>]|$)~i', '$1/$2$3', $value);
+    return $value;
 }
 
 function aes_current_key() {
@@ -64,6 +103,12 @@ function aes_current_key() {
     if (is_front_page()) return 'home';
 
     $path = trim(parse_url($_SERVER['REQUEST_URI'] ?? '', PHP_URL_PATH), '/');
+    if (preg_match('#^service/([a-z0-9-]+)$#i', $path, $m)) {
+        $service_key = 'service-' . strtolower($m[1]);
+        if (isset(aes_data('manifest')[$service_key])) {
+            return $service_key;
+        }
+    }
     $slug = basename($path);
     if ($slug && isset(aes_data('manifest')[$slug])) {
         return $slug;
@@ -75,6 +120,18 @@ function aes_current_key() {
 }
 
 add_action('template_redirect', function () {
+    $path = trim(parse_url($_SERVER['REQUEST_URI'] ?? '', PHP_URL_PATH), '/');
+    if (preg_match('#^service-([a-z0-9-]+)$#i', $path, $m)) {
+        $service_key = 'service-' . strtolower($m[1]);
+        if (isset(aes_data('manifest')[$service_key])) {
+            wp_safe_redirect(home_url('/service/' . strtolower($m[1]) . '/'), 301);
+            exit;
+        }
+    }
+    if (strtolower($path) === 'service') {
+        wp_safe_redirect(aes_page_url('services'), 301);
+        exit;
+    }
     $key = aes_current_key();
     if ($key && isset(aes_data('manifest')[$key]) && is_404()) {
         global $wp_query;
@@ -203,7 +260,7 @@ add_action('wp_enqueue_scripts', function () {
         wp_localize_script('aes-support-page', 'AES_SUPPORT_REQUESTS', aes_data('support-requests'));
     }
     wp_enqueue_script('aes-site', get_template_directory_uri() . '/assets/site.js', [], filemtime(AES_DIR . '/assets/site.js'), true);
-    wp_localize_script('aes-site', 'AES', ['theme' => get_template_directory_uri(), 'ajax' => admin_url('admin-ajax.php'), 'nonce' => wp_create_nonce('aes_submit'), 'supportUrl' => aes_page_url('we-hear-you')]);
+    wp_localize_script('aes-site', 'AES', ['theme' => get_template_directory_uri(), 'ajax' => admin_url('admin-ajax.php'), 'nonce' => wp_create_nonce('aes_submit'), 'supportUrl' => aes_page_url('we-hear-you'), 'brochureUrl' => aes_site_settings()['brochure_url']]);
     wp_enqueue_script('aes-brochure', get_template_directory_uri() . '/assets/brochure-reader.js', ['aes-site'], filemtime(AES_DIR . '/assets/brochure-reader.js'), true);
     wp_enqueue_script('aes-forms', get_template_directory_uri() . '/assets/forms.js', ['aes-site'], filemtime(AES_DIR . '/assets/forms.js'), true);
     wp_add_inline_style('aes-site', '#wpadminbar{position:fixed!important;top:0!important}.admin-bar > header{top:32px}.aes-form-status{padding:12px;margin-top:12px;font-size:14px}.aes-form-status[data-error="true"]{color:#b91c1c}.aes-form-status[data-error="false"]{color:#166534}.aes-trap{position:absolute!important;left:-9999px!important}.aes-generic{max-width:1100px;margin:auto;padding:60px 24px}.aes-generic h1{font-size:40px;font-weight:800}.aes-generic p{margin:16px 0}@media(max-width:782px){.admin-bar > header{top:46px}}');
@@ -215,6 +272,7 @@ add_action('wp_head', function () {
     }
 }, 1);
 
+require AES_DIR . '/inc/site-controls.php';
 require AES_DIR . '/inc/hero-video.php';
 require AES_DIR . '/inc/brand-intro.php';
 require AES_DIR . '/inc/gutenberg-cms.php';
@@ -231,7 +289,7 @@ require AES_DIR . '/inc/submissions.php';
 
 function aes_register_types() {
     register_post_type('aes_job', ['labels' => ['name' => 'AES Jobs', 'singular_name' => 'Job', 'add_new_item' => 'Add job'], 'public' => false, 'show_ui' => true, 'show_in_rest' => true, 'supports' => ['title', 'editor', 'revisions'], 'menu_icon' => 'dashicons-businessperson']);
-    register_post_type('aes_submission', ['labels' => ['name' => 'AES Submissions', 'singular_name' => 'Submission'], 'public' => false, 'publicly_queryable' => false, 'show_ui' => true, 'show_in_rest' => false, 'supports' => ['title'], 'menu_icon' => 'dashicons-email-alt', 'capabilities' => ['edit_post' => 'manage_options', 'read_post' => 'manage_options', 'delete_post' => 'manage_options', 'edit_posts' => 'manage_options', 'edit_others_posts' => 'manage_options', 'publish_posts' => 'manage_options', 'read_private_posts' => 'manage_options', 'delete_posts' => 'manage_options', 'delete_private_posts' => 'manage_options', 'delete_published_posts' => 'manage_options', 'delete_others_posts' => 'manage_options', 'edit_private_posts' => 'manage_options', 'edit_published_posts' => 'manage_options', 'create_posts' => 'do_not_allow'], 'map_meta_cap' => false]);
+    register_post_type('aes_submission', ['labels' => ['name' => 'AES Submissions', 'singular_name' => 'Submission'], 'public' => false, 'publicly_queryable' => false, 'show_ui' => true, 'show_in_menu' => false, 'show_in_rest' => false, 'supports' => ['title'], 'menu_icon' => 'dashicons-email-alt', 'capabilities' => ['edit_post' => 'manage_options', 'read_post' => 'manage_options', 'delete_post' => 'manage_options', 'edit_posts' => 'manage_options', 'edit_others_posts' => 'manage_options', 'publish_posts' => 'manage_options', 'read_private_posts' => 'manage_options', 'delete_posts' => 'manage_options', 'delete_private_posts' => 'manage_options', 'delete_published_posts' => 'manage_options', 'delete_others_posts' => 'manage_options', 'edit_private_posts' => 'manage_options', 'edit_published_posts' => 'manage_options', 'create_posts' => 'do_not_allow'], 'map_meta_cap' => false]);
 }
 add_action('init', 'aes_register_types');
 

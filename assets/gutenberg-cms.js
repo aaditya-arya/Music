@@ -1,8 +1,8 @@
 (function (wp) {
   const { registerBlockType } = wp.blocks || {};
   const { createElement: el, useState, useEffect, useRef, Fragment } = wp.element || {};
-  const { InspectorControls } = wp.blockEditor || wp.editor || {};
-  const { PanelBody, TextControl, TextareaControl, SelectControl, Button } = wp.components || {};
+  const { InspectorControls, useBlockProps } = wp.blockEditor || wp.editor || {};
+  const { PanelBody, TextControl, TextareaControl, SelectControl, ToggleControl, Button } = wp.components || {};
 
   /**
    * Parse Services Dropdown items from Header HTML
@@ -101,7 +101,7 @@
   function findRepeatableCard(target, root) {
     if (!target || !root) return null;
     // Never treat anything inside hero banner, global header, or global footer as a repeatable card
-    if (root.querySelector('#heroVideo') || root.querySelector('video')) {
+    if (root.querySelector('#heroVideo')) {
       return null;
     }
     let curr = target;
@@ -118,7 +118,7 @@
         typeof parentClass === 'string' &&
         (parentClass.includes('grid-cols') || parentClass.includes('footer-list')) &&
         !parentClass.includes('min-h-') &&
-        parent.children.length > 1
+        parent.children.length > 0
       ) {
         return curr;
       }
@@ -137,10 +137,14 @@
       isGlobalHeader: { type: 'boolean', default: false },
       isGlobalFooter: { type: 'boolean', default: false },
       html: { type: 'string', default: '' },
+      heroPlaylist: { type: 'array', default: [] },
+      heroPlaylistManaged: { type: 'boolean', default: false },
+      sectionHidden: { type: 'boolean', default: false },
     },
 
     edit: function (props) {
       const { attributes, setAttributes, isSelected } = props;
+      const blockProps = useBlockProps();
       const { title, isGlobalHeader, isGlobalFooter, html, sectionId } = attributes;
       const decodedHtml = html ? decodeURIComponent(html) : '';
 
@@ -150,6 +154,11 @@
       const activeLinkRef = useRef(null);
 
       const [showDropdownEditor, setShowDropdownEditor] = useState(false);
+      const usesWordPressMenu = !!window.AES_GUTENBERG?.nativeServiceMenu;
+      const editServicesMenu = () => {
+        if (usesWordPressMenu) window.open(window.AES_GUTENBERG.menusUrl, '_blank', 'noopener');
+        else setShowDropdownEditor(!showDropdownEditor);
+      };
       const [dropdownItems, setDropdownItems] = useState(() =>
         isGlobalHeader ? parseDropdownItems(decodedHtml) : []
       );
@@ -196,159 +205,50 @@
         syncDomToAttributes();
       };
 
-      const isHeroSection =
-        sectionId === 'home-sec-1' ||
-        (title && title.toLowerCase().includes('hero')) ||
-        decodedHtml.includes('heroVideo') ||
-        decodedHtml.includes('<video');
-
-      const getVideoUrlFromHtml = (str) => {
-        if (!str) return '';
-        const match = str.match(/<source[^>]+src=["']([^"']*)["']/i) || str.match(/<video[^>]+src=["']([^"']*)["']/i);
-        return match ? match[1] : '';
+      const isHeroSection = window.AES_GUTENBERG?.layout === 'home' && sectionId === 'home-sec-1';
+      const playlist = attributes.heroPlaylistManaged ? attributes.heroPlaylist : window.AESHeroPlaylist.read(decodedHtml);
+      const heroVideoUrl = playlist[0]?.url || '';
+      const getVideoUrlFromHtml = str => {
+        const video = new DOMParser().parseFromString(str, 'text/html').querySelector('video');
+        return video?.querySelector('source')?.getAttribute('src') || video?.getAttribute('src') || '';
       };
-
-      const [heroVideoUrl, setHeroVideoUrl] = useState(() => getVideoUrlFromHtml(decodedHtml));
-      const videoSaveQueue = useRef(Promise.resolve());
-      const latestVideoChoice = useRef(null);
-
-      const persistHeroVideo = (url) => {
-        const config = window.AES_GUTENBERG;
-        if (!config || config.layout !== 'home') return;
-        latestVideoChoice.current = url;
-        // Serialize writes so an earlier upload request cannot replace a newer choice.
-        videoSaveQueue.current = videoSaveQueue.current.catch(() => {}).then(async () => {
-          const data = new URLSearchParams({
-            action: 'aes_save_hero_video', video_url: url,
-            post_id: config.postId, nonce: config.nonce,
-          });
-          try {
-            const response = await fetch(config.ajaxUrl, { method: 'POST', body: data, credentials: 'same-origin' });
-            const result = await response.json();
-            if (!response.ok || !result.success) throw new Error(result.data?.message || 'Could not save the homepage video.');
-            if (latestVideoChoice.current === url) {
-              window.dispatchEvent(new CustomEvent('aes:hero-video-saved', { detail: { url: result.data.video_url } }));
-            }
-          } catch (error) {
-            wp.data.dispatch('core/notices').createErrorNotice(error.message + ' Please select the video again to retry.', { id: 'aes-video-save', isDismissible: true });
-          }
-        });
+      const commitPlaylist = items => {
+        const updated = window.AESHeroPlaylist.apply(canvasRef.current ? serializeCleanHtml(canvasRef.current) : decodedHtml, items);
+        if (canvasRef.current) { canvasRef.current.innerHTML = updated; enableInlineEditing(canvasRef.current); }
+        setAttributes({ html: encodeURIComponent(updated), heroPlaylist: items, heroPlaylistManaged: true });
       };
-
-      useEffect(() => {
+      const openMediaLibraryForHeroVideo = () => window.AESHeroPlaylist.choose(items => {
+        if (isHeroSection) { commitPlaylist(playlist.concat(items)); return; }
+        const root = canvasRef.current?.querySelector('section, main') || canvasRef.current;
+        if (!root) return;
+        for (const item of items) {
+          const video = document.createElement('video'); video.controls = true; video.preload = 'metadata';
+          video.className = 'w-full rounded-xl my-4'; video.src = item.url; root.appendChild(video);
+        }
+        syncDomToAttributes();
+      });
+      const addOrChangeHeroVideo = newUrl => {
         if (isHeroSection) {
-          const detected = getVideoUrlFromHtml(decodedHtml);
-          if (detected !== heroVideoUrl) {
-            setHeroVideoUrl(detected);
-          }
-        }
-      }, [decodedHtml, isHeroSection]);
-
-      const addOrChangeHeroVideo = (newUrl, persist = true) => {
-        if (!newUrl) return;
-        setHeroVideoUrl(newUrl);
-        if (canvasRef.current) {
-          let video = canvasRef.current.querySelector('video');
-          if (!video) {
-            const bgWrapper =
-              canvasRef.current.querySelector('.absolute.inset-0.z-0') ||
-              canvasRef.current.querySelector('.absolute.inset-0') ||
-              canvasRef.current;
-            video = document.createElement('video');
-            video.id = 'heroVideo';
-            video.className = 'w-full h-full object-cover transition-opacity duration-700';
-            video.setAttribute('autoplay', '');
-            video.setAttribute('loop', '');
-            video.setAttribute('muted', '');
-            video.setAttribute('playsinline', '');
-            const source = document.createElement('source');
-            source.setAttribute('src', newUrl);
-            source.setAttribute('type', 'video/mp4');
-            video.appendChild(source);
-            if (bgWrapper) {
-              bgWrapper.insertBefore(video, bgWrapper.firstChild);
-            }
-          } else {
-            let srcNode = video.querySelector('source');
-            if (srcNode) {
-              srcNode.setAttribute('src', newUrl);
-              srcNode.removeAttribute('type');
-              video.removeAttribute('src');
-            } else {
-              video.setAttribute('src', newUrl);
-            }
-          }
-          try {
-            video.load();
-            video.play().catch(() => {});
-          } catch (e) {}
-          syncDomToAttributes();
+          const next = playlist.slice(); next[0] = { id: next[0]?.id || 'first', url: newUrl }; commitPlaylist(next);
         } else {
-          let updated = decodedHtml;
-          if (decodedHtml.includes('<video')) {
-            updated = decodedHtml.replace(/(<source[^>]+src=["'])[^"']*(["'])/i, '$1' + newUrl + '$2');
-          } else {
-            const videoTag =
-              '<video autoplay="" class="w-full h-full object-cover transition-opacity duration-700" id="heroVideo" loop="" muted="" playsinline=""><source src="' +
-              newUrl +
-              '" type="video/mp4"/></video>';
-            updated = updated.replace(/(<div class="absolute inset-0[^>]*>)/i, '$1' + videoTag);
-          }
-          setAttributes({ html: encodeURIComponent(updated) });
+          const video = activeNodeRef.current;
+          if (video?.tagName === 'VIDEO') { video.removeAttribute('src'); video.querySelectorAll('source').forEach(node => node.remove()); video.src = newUrl; setContextState(previous => previous ? { ...previous, src: newUrl } : previous); syncDomToAttributes(); }
         }
-
-        if (persist) persistHeroVideo(newUrl);
       };
+      const replaceActiveVideo = () => window.AESHeroPlaylist.choose(items => { if (items[0]) addOrChangeHeroVideo(items[0].url); }, false);
 
-      const removeHeroVideo = (ask = true, persist = true) => {
-        if (ask && !confirm('Remove the hero background video? The hero will display with a clean solid navy background.')) return;
-        if (canvasRef.current) {
-          const video = canvasRef.current.querySelector('video');
-          if (video) video.remove();
-          syncDomToAttributes();
-        } else {
-          const updated = decodedHtml.replace(/<video[^>]*>[\s\S]*?<\/video>/i, '');
-          setAttributes({ html: encodeURIComponent(updated) });
-        }
-        setHeroVideoUrl('');
+      const removeHeroVideo = () => {
+        if (isHeroSection) {
+          if (confirm('Remove all background videos? You can add them again from the playlist manager.')) commitPlaylist([]);
+        } else { activeNodeRef.current?.remove(); syncDomToAttributes(); }
         setContextState(null);
-
-        if (persist) persistHeroVideo('');
-      };
-
-      useEffect(() => {
-        if (!isHeroSection || window.AES_GUTENBERG?.layout !== 'home') return;
-        const syncVideoControls = (event) => {
-          if (event.detail.url) addOrChangeHeroVideo(event.detail.url, false);
-          else removeHeroVideo(false, false);
-        };
-        window.addEventListener('aes:hero-video-saved', syncVideoControls);
-        return () => window.removeEventListener('aes:hero-video-saved', syncVideoControls);
-      }, [decodedHtml, isHeroSection]);
-
-      const openMediaLibraryForHeroVideo = () => {
-        const frame = wp.media({
-          title: 'Select or Upload Homepage Hero Background Video (MP4 / WebM)',
-          button: { text: 'Use this Video' },
-          library: { type: 'video' },
-          multiple: false,
-        });
-
-        frame.on('select', () => {
-          const attachment = frame.state().get('selection').first().toJSON();
-          if (attachment && attachment.url) {
-            addOrChangeHeroVideo(attachment.url);
-          }
-        });
-
-        frame.open();
       };
 
       // Mount / external HTML update
       useEffect(() => {
         if (!canvasRef.current) return;
         const currentClean = serializeCleanHtml(canvasRef.current);
-        if (currentClean !== decodedHtml && !canvasRef.current.contains(document.activeElement)) {
+        if (currentClean !== decodedHtml && !canvasRef.current.contains(canvasRef.current.ownerDocument.activeElement)) {
           canvasRef.current.innerHTML = decodedHtml || '';
           enableInlineEditing(canvasRef.current);
         } else if (!canvasRef.current.innerHTML && decodedHtml) {
@@ -371,7 +271,7 @@
 
       const handleCanvasClick = (e) => {
         // Prevent links, buttons, or inline onclick handlers from navigating away inside the editor
-        e.preventDefault();
+        if (!(e.target.tagName === 'VIDEO' && e.target.controls)) e.preventDefault();
         e.stopPropagation();
         // The canvas stops navigation events, so select its block explicitly.
         wp.data.dispatch('core/block-editor').selectBlock(props.clientId);
@@ -389,7 +289,7 @@
         }
         // If user clicked "Services" dropdown trigger in header, open the Services Dropdown Editor
         if (isGlobalHeader && target.closest('.nav-item-dropdown')) {
-          setShowDropdownEditor(true);
+          editServicesMenu();
         }
 
         const videoElem = target.closest('video') || (target.id === 'heroVideo' ? target : (target.querySelector ? target.querySelector('video') : null));
@@ -399,7 +299,7 @@
           const isText = target.closest('h1, h2, h3, h4, h5, h6, p, a, button, input');
           if (videoElem || target.id === 'heroVideo' || target.classList.contains('absolute') || !isText) {
             setContextState({
-              type: 'video',
+              type: 'element',
               src: heroVideoUrl || getVideoUrlFromHtml(decodedHtml),
               alt: null,
               href: null,
@@ -432,7 +332,7 @@
             hasCard: false,
             tagName: 'VIDEO',
           });
-        } else if (img && target.tagName === 'IMG') {
+        } else if (img && (target.tagName === 'IMG' || !target.closest('[contenteditable="true"]'))) {
           setContextState({
             type: 'image',
             src: img.getAttribute('src') || '',
@@ -468,7 +368,9 @@
           const attachment = frame.state().get('selection').first().toJSON();
           if (attachment && attachment.url) {
             img.setAttribute('src', attachment.url);
-            if (attachment.alt) img.setAttribute('alt', attachment.alt);
+            img.closest('picture')?.querySelectorAll('source').forEach(source => source.remove());
+            for (const attr of ['srcset', 'sizes', 'width', 'height']) img.removeAttribute(attr);
+            img.setAttribute('alt', attachment.alt || '');
             setContextState((prev) =>
               prev ? Object.assign({}, prev, { src: attachment.url, alt: attachment.alt || prev.alt }) : prev
             );
@@ -484,6 +386,8 @@
         const img = node && node.tagName === 'IMG' ? node : (node && node.querySelector ? node.querySelector('img') : null);
         if (!img) return;
         img.setAttribute('src', newSrc);
+        img.closest('picture')?.querySelectorAll('source').forEach(source => source.remove());
+        for (const attr of ['srcset', 'sizes', 'width', 'height']) img.removeAttribute(attr);
         setContextState((prev) => (prev ? Object.assign({}, prev, { src: newSrc }) : prev));
         syncDomToAttributes();
       };
@@ -519,6 +423,8 @@
       const removeActiveCard = () => {
         const card = activeCardRef.current;
         if (!card || !card.parentElement) return;
+        const starter = document.createElement('div'); starter.appendChild(card.cloneNode(true));
+        card.parentElement.dataset.aesCardTemplate = encodeURIComponent(serializeCleanHtml(starter));
         card.remove();
         activeCardRef.current = null;
         setContextState(null);
@@ -678,6 +584,25 @@
 
       const pagesList = (window.AES_GUTENBERG && window.AES_GUTENBERG.pages) || [];
       const requestConfig = isSupport ? getSupportConfig() : {};
+      const listSelector = '[class*="grid-cols"], ul, ol, .footer-list, [data-aes-card-template]';
+      const listDocument = new DOMParser().parseFromString(decodedHtml, 'text/html');
+      const editableLists = [...listDocument.body.querySelectorAll(listSelector)].map((node, index) => ({ node, index })).filter(({ node }) =>
+        !node.closest('form, header, nav') && !node.querySelector('form, input, select, textarea') &&
+        (node.dataset.aesCardTemplate || node.children.length > 0 && [...node.children].every(item => item.matches('li, article, div, a, figure')))
+      );
+      const addListItem = index => {
+        const parent = canvasRef.current?.querySelectorAll(listSelector)[index];
+        if (!parent) return;
+        const parsed = parent.dataset.aesCardTemplate ? new DOMParser().parseFromString(decodeURIComponent(parent.dataset.aesCardTemplate), 'text/html').body.firstElementChild : parent.firstElementChild;
+        if (!parsed) return;
+        const item = parsed.cloneNode(true), suffix = '-copy-' + Date.now(), ids = new Map();
+        [item, ...item.querySelectorAll('[id]')].forEach(node => { if (node.id) { ids.set(node.id, node.id + suffix); node.id += suffix; } });
+        item.querySelectorAll('[for], [aria-labelledby], [aria-describedby], [aria-controls], a[href^="#"]').forEach(node => {
+          for (const attr of ['for', 'aria-labelledby', 'aria-describedby', 'aria-controls']) if (node.hasAttribute(attr)) node.setAttribute(attr, node.getAttribute(attr).split(/\s+/).map(id => ids.get(id) || id).join(' '));
+          if (node.hasAttribute('href')) { const id = node.getAttribute('href').slice(1); if (ids.has(id)) node.setAttribute('href', '#' + ids.get(id)); }
+        });
+        parent.appendChild(item); enableInlineEditing(item); syncDomToAttributes();
+      };
 
       return el(
         Fragment,
@@ -694,9 +619,20 @@
               field.type === 'select' ? el(TextareaControl, { label: 'Options (one per line)', value: field.options.join('\n'), onChange: value => updateSupportCopy('options', value.split('\n').filter(Boolean), field.id) }) : field.type !== 'date' && el(TextControl, { label: 'Placeholder', value: field.placeholder, onChange: value => updateSupportCopy('placeholder', value, field.id) })
             ))
           ),
+          !isGlobalHeader && editableLists.length > 0 && el(PanelBody, { title: 'Cards and lists', initialOpen: false },
+            el('p', null, 'Add an item even after removing the last one. Click a card in the canvas to edit, move, duplicate or remove it.'),
+            editableLists.map(({ node, index }) => el('div', { key: index, style: { marginBottom: '12px' } },
+              el('p', null, 'List ' + (index + 1) + ': ' + node.children.length + ' items'),
+              el(Button, { variant: 'secondary', onClick: () => addListItem(index) }, 'Add item to list ' + (index + 1))
+            ))
+          ),
           contextState?.hasCard && activeCardRef.current?.matches('.aes-directory-card') && el(PanelBody, { title: 'Service card settings', initialOpen: true },
             el(SelectControl, { label: 'Service category', value: activeCardRef.current.dataset.serviceCategory, options: [{ value: 'source', label: 'Source & approve' }, { value: 'inspect', label: 'Inspect & verify' }, { value: 'build', label: 'Build & commission' }, { value: 'qualify', label: 'Qualify & develop' }], onChange: value => { activeCardRef.current.dataset.serviceCategory = value; syncDomToAttributes(); } }),
             el(TextControl, { label: 'Search keywords', value: activeCardRef.current.dataset.serviceKeywords || '', onChange: value => { activeCardRef.current.dataset.serviceKeywords = value; syncDomToAttributes(); } })
+          ),
+          contextState?.type === 'image' && el(PanelBody, { title: 'Image framing', initialOpen: true },
+            el(SelectControl, { label: 'Image fit', value: activeNodeRef.current?.ownerDocument.defaultView.getComputedStyle(activeNodeRef.current).objectFit || 'cover', options: [{ value: 'cover', label: 'Fill frame (crop edges)' }, { value: 'contain', label: 'Show the whole image' }], onChange: value => { activeNodeRef.current.style.setProperty('object-fit', value, 'important'); syncDomToAttributes(); } }),
+            el(TextControl, { label: 'Image focal position', help: 'For example: 50% 50% (center), 50% 20% (toward the top).', value: contextState.objectPosition ?? (activeNodeRef.current?.style.objectPosition || '50% 50%'), onChange: value => { setContextState(previous => ({ ...previous, objectPosition: value })); activeNodeRef.current.style.setProperty('object-position', value, 'important'); syncDomToAttributes(); } })
           ),
           contextState?.type === 'field' && el(PanelBody, { title: 'Form field wording', initialOpen: true },
             el(TextControl, { label: 'Placeholder', value: contextState.placeholder, onChange: value => { activeNodeRef.current.setAttribute('placeholder', value); setContextState(previous => ({ ...previous, placeholder: value })); syncDomToAttributes(); } }),
@@ -732,53 +668,14 @@
               '🔄 Re-Sync Page from Code Template'
             )
           ),
-          isHeroSection &&
-            el(
-              PanelBody,
-              { title: '🎬 Hero Background Video', initialOpen: true },
-              el(
-                'p',
-                { style: { fontSize: '12px', color: '#64748b', lineHeight: 1.4 } },
-                'Modify, replace, or remove the background video that plays on the homepage hero section.'
-              ),
-              el(
-                'div',
-                { style: { display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '10px' } },
-                el(
-                  Button,
-                  {
-                    isPrimary: true,
-                    style: { width: '100%', justifyContent: 'center' },
-                    onClick: openMediaLibraryForHeroVideo,
-                  },
-                  heroVideoUrl ? '📁 Change / Replace Video' : '➕ Upload / Add Video'
-                ),
-                heroVideoUrl &&
-                  el(
-                    Button,
-                    {
-                      isDestructive: true,
-                      style: { width: '100%', justifyContent: 'center' },
-                      onClick: removeHeroVideo,
-                    },
-                    '🗑 Remove Video Completely'
-                  )
-              ),
-              el(TextControl, {
-                label: 'Video File URL (MP4 / WebM)',
-                value: heroVideoUrl,
-                placeholder: 'https://.../video.mp4',
-                onChange: (val) => addOrChangeHeroVideo(val),
-              }),
-              el(
-                'div',
-                { style: { fontSize: '11px', color: heroVideoUrl ? '#16a34a' : '#f59e0b', fontWeight: 600, marginTop: '4px' } },
-                heroVideoUrl ? ('✓ Active: ' + (heroVideoUrl.split('/').pop() || heroVideoUrl)) : '○ No video (using solid navy background)'
-              )
-            ),
+          isHeroSection && el(PanelBody, { title: 'Homepage video playlist', initialOpen: true },
+            el('p', null, 'Use the numbered video list above the hero to add multiple clips, replace, reorder, or remove an individual video. Save / Update applies the playlist with the rest of this page.')
+          ),
           el(
             PanelBody,
             { title: 'Section Settings', initialOpen: true },
+            !isGlobalHeader && !isGlobalFooter && el(ToggleControl, { label: 'Hide this section on the website', checked: !!attributes.sectionHidden, onChange: value => setAttributes({ sectionHidden: value }), help: 'Your content stays in the editor and can be shown again at any time.' }),
+            !isGlobalHeader && !isGlobalFooter && !isHeroSection && el(Button, { variant: 'secondary', onClick: openMediaLibraryForHeroVideo }, 'Add video to this section'),
             el(TextControl, {
               label: 'Section Label',
               value: title,
@@ -794,10 +691,10 @@
                 Button,
                 {
                   isPrimary: true,
-                  onClick: () => setShowDropdownEditor(!showDropdownEditor),
+                  onClick: editServicesMenu,
                   style: { width: '100%', justifyContent: 'center', marginBottom: '8px' },
                 },
-                showDropdownEditor ? 'Hide Services Dropdown Editor' : 'Edit Services Dropdown (' + dropdownItems.length + ')'
+                usesWordPressMenu ? 'Edit Services menu in WordPress' : showDropdownEditor ? 'Hide Services Dropdown Editor' : 'Edit Services Dropdown (' + dropdownItems.length + ')'
               ),
             el(
               Button,
@@ -813,7 +710,8 @@
 
         el(
           'div',
-          { className: 'aes-gb-section-wrap' + (isSelected ? ' is-selected' : '') },
+          { ...blockProps, className: (blockProps.className || '') + ' aes-gb-section-wrap' + (isSelected ? ' is-selected' : '') },
+          attributes.sectionHidden && el('p', { className: 'aes-gb-hidden-notice', role: 'status' }, 'Hidden on the website. Turn off "Hide this section" in Section Settings to show it again.'),
           // Top Section Header Bar
           el(
             'div',
@@ -856,7 +754,7 @@
                       title: 'Select or upload a video for the hero background',
                       onClick: openMediaLibraryForHeroVideo,
                     },
-                    heroVideoUrl ? '🎬 Change Video' : '🎬 Add Video'
+                    'Add videos'
                   ),
                   heroVideoUrl &&
                     el(
@@ -867,7 +765,7 @@
                         title: 'Remove background video',
                         onClick: removeHeroVideo,
                       },
-                      '🗑 Remove Video'
+                      isHeroSection ? 'Remove all videos' : 'Remove video'
                     )
                 ),
               isGlobalHeader &&
@@ -876,9 +774,9 @@
                   {
                     type: 'button',
                     className: 'aes-gb-btn is-primary',
-                    onClick: () => setShowDropdownEditor(!showDropdownEditor),
+                    onClick: editServicesMenu,
                   },
-                  '▾ Services Dropdown (' + dropdownItems.length + ' items) — Add / Remove'
+                  usesWordPressMenu ? 'Edit Services menu in WordPress' : 'Services Dropdown (' + dropdownItems.length + ' items) - Add / Remove'
                 ),
               el(
                 'button',
@@ -1062,11 +960,11 @@
                       {
                         type: 'button',
                         className: 'aes-gb-btn is-primary',
-                        onClick: openMediaLibraryForHeroVideo,
+                        onClick: replaceActiveVideo,
                       },
-                      heroVideoUrl ? '📁 Change Video (Media Library)' : '➕ Add Video'
+                      'Replace selected video'
                     ),
-                    heroVideoUrl &&
+                    (heroVideoUrl || contextState.src) &&
                       el(
                         'button',
                         {
@@ -1074,7 +972,7 @@
                           className: 'aes-gb-btn is-danger',
                           onClick: removeHeroVideo,
                         },
-                        '🗑 Remove Video'
+                        isHeroSection ? 'Remove all videos' : 'Remove video'
                       ),
                     el('input', {
                       type: 'text',
@@ -1196,64 +1094,7 @@
               )
             ),
 
-          // Persistent Floating Video Action Bar right on top of the Hero Section
-          isHeroSection &&
-            el(
-              'div',
-              {
-                className: 'aes-hero-video-bar-float',
-                style: {
-                  background: '#070e22',
-                  borderBottom: '2px solid #f16826',
-                  padding: '10px 16px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  flexWrap: 'wrap',
-                  gap: '10px',
-                  color: '#ffffff',
-                },
-              },
-              el(
-                'div',
-                { style: { display: 'flex', alignItems: 'center', gap: '8px' } },
-                el(
-                  'span',
-                  { style: { fontWeight: 800, color: '#f16826', fontSize: '12px', textTransform: 'uppercase' } },
-                  '🎬 Homepage Background Video:'
-                ),
-                el(
-                  'span',
-                  { style: { fontSize: '11px', color: heroVideoUrl ? '#34d399' : '#f59e0b', fontWeight: 600 } },
-                  heroVideoUrl
-                    ? '● Active (' + (heroVideoUrl.split('/').pop() || heroVideoUrl) + ')'
-                    : '○ No Video (Using dark navy background)'
-                )
-              ),
-              el(
-                'div',
-                { style: { display: 'flex', alignItems: 'center', gap: '8px' } },
-                el(
-                  'button',
-                  {
-                    type: 'button',
-                    className: 'aes-gb-btn is-primary',
-                    onClick: openMediaLibraryForHeroVideo,
-                  },
-                  heroVideoUrl ? '📁 Change / Replace Video' : '➕ Upload / Add Video'
-                ),
-                heroVideoUrl &&
-                  el(
-                    'button',
-                    {
-                      type: 'button',
-                      className: 'aes-gb-btn is-danger',
-                      onClick: removeHeroVideo,
-                    },
-                    '🗑 Remove Video'
-                  )
-              )
-            ),
+          isHeroSection && el(window.AESHeroPlaylist.Editor, { items: playlist, onChange: commitPlaylist, clientId: props.clientId }),
 
           // Either Raw HTML Code Editor or Live Visual WYSIWYG Canvas
           showCodeEditor

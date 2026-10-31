@@ -8,7 +8,10 @@ For the existing local project, open Local, select **akshar**, click **Start sit
 
 - Edit page content through the visual AES blocks in the WordPress page editor.
 - Shared header and footer blocks use one canonical value across the site.
-- Change the home video through the dedicated WordPress video setting. Later page saves preserve that selection.
+- In Home, use the numbered **Homepage video playlist** above the hero. **Add videos** supports multiple Media Library selections; URLs can also be added individually. Every clip has Replace, Move up/down and Remove controls. Save / Update applies the playlist. Removing a clip leaves the media file intact; removing all clips also removes the buffer player.
+- Select a section and open **Section Settings** to hide/show it or add regular content videos. A selected regular video has its own replace/remove controls. **Cards and lists** can add an item even after the final existing card has been removed. Image selection exposes **Image framing** controls for fit and focal position, including decorative image wrappers.
+- Open the **Page** sidebar's **Page details and popup copy** panel for search descriptions and service quick-view details. These use the normal page Save and native WordPress metadata/revisions; they do not require the HTML editor or the old Meta Boxes drawer.
+- Under **AES Website**, manage the welcome screen switch, duration, company copy/logo and brochure PDF. Blank logo/PDF URLs keep the bundled files.
 - Manage vacancies in **AES Jobs**. Both Careers and Join Us use the published job records.
 - Read inquiry and application records in **Form Submissions**. Attachments support PDF, JPG and PNG, up to 2 MB each and 5 MB total. Notifications remain controlled by the existing WordPress setting.
 - Use **AES Website** to search the page list and open an editor or preview. On the Services page, selecting a card exposes its filter category and search keywords in the block sidebar.
@@ -37,6 +40,10 @@ Install or update the entire theme directory. The theme uses `index.php` for its
 WordPress content, submissions, credentials and uploaded media are stored outside this repository. A Git push updates the theme source; deploy that source to update a hosted WordPress site.
 
 ## Validation
+
+Form Submissions is a paginated admin inbox with unread tracking, follow-up status, priority, private notes, combined filters, CSV exports, bulk actions and recoverable Trash. Full request details and protected attachment downloads open on demand. The October 31 inbox audit passed 76 browser/API checks using temporary fixtures and real public form submissions, including restricted access, attachment bytes, concurrent edits, network recovery and phone/tablet layouts. Test records and sessions were removed and original pages/settings were preserved. Notification delivery was not tested. See [ADMIN-CONTROLS.md](ADMIN-CONTROLS.md) for the daily workflow and verification details.
+
+The October 31, 2026 CMS audit verified all 24 managed page routes with real Gutenberg saves, editor reloads and frontend previews on isolated draft copies. It also checked five-video Media Library selection, removal of the third clip, reordering/replacement, empty-playlist persistence, regular-video controls, restoring an empty card list, service categories/keywords, image framing, section visibility, request-specific copy, popup/search metadata, welcome settings and PDF-reader controls. All 44 checked local images loaded. The 24 test drafts and five temporary media records were removed; published page content and original settings matched the baseline after cleanup. See [ADMIN-CONTROLS.md](ADMIN-CONTROLS.md) for the editing map and verification scope.
 
 The implementation was checked in Chromium at desktop, tablet and mobile widths. Checks cover all 23 page routes, form validation and local submissions with PDF attachments, vacancy selection, menu and modal interactions, brochure rendering and controls, blue buttons with orange selected/pressed states, reduced motion, and preservation of the saved home video. Temporary test submissions were removed.
 

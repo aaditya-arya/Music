@@ -34,16 +34,8 @@ $canonical = get_permalink($page_id);
         <div class="aes-blog-hero__visual" aria-hidden="true"><img src="<?php echo esc_url(get_template_directory_uri() . '/assets/service_design_calc.jpg'); ?>" alt="" fetchpriority="high" width="1376" height="768"></div>
         <div class="aes-blog-shell"><nav class="aes-blog-breadcrumb" aria-label="Breadcrumb"><a href="<?php echo esc_url(home_url('/')); ?>">Home</a><span aria-hidden="true">/</span><span>Blog</span></nav><div class="aes-blog-hero__copy"><p class="aes-blog-eyebrow">The AES journal</p><h1><?php echo esc_html(get_the_title($page_id)); ?></h1><div class="aes-blog-introduction"><?php echo apply_filters('the_content', get_post_field('post_content', $page_id)); ?></div><a class="aes-blog-text-link" href="#latest-insights">Explore the articles ↓</a></div></div>
     </section>
-    <section class="aes-blog-shell aes-blog-library" id="latest-insights" aria-labelledby="aes-blog-library-title">
-        <div class="aes-blog-section-title"><div><p class="aes-blog-eyebrow">Ideas, experience & perspective</p><h2 id="aes-blog-library-title">Latest insights</h2></div><p>Inspection. Quality. Safer tomorrow.</p></div>
-        <form class="aes-blog-filters" method="get" action="<?php echo esc_url(aes_blog_url()); ?>" role="search" aria-label="Search blog articles">
-            <div><label for="aes-blog-search">Find an article</label><input id="aes-blog-search" name="blog_search" type="search" value="<?php echo esc_attr($query_text); ?>" placeholder="Search inspection, quality or a topic"></div>
-            <div><label for="aes-blog-topic">Topic</label><select id="aes-blog-topic" name="blog_topic"><option value="0">All topics</option><?php foreach ($topics as $category): ?><option value="<?php echo intval($category->term_id); ?>" <?php selected($topic, $category->term_id); ?>><?php echo esc_html($category->name); ?></option><?php endforeach; ?></select></div>
-            <button class="aes-action" type="submit">Search articles</button>
-            <?php if ($query_text || $topic): ?><a class="aes-blog-text-link" href="<?php echo esc_url(aes_blog_url()); ?>#latest-insights">Clear filters</a><?php endif; ?>
-        </form>
+    <section class="aes-blog-shell aes-blog-library" id="latest-insights" aria-label="Engineering insights">
         <?php if ($posts->have_posts()): ?>
-            <p class="aes-blog-result-count"><?php echo intval($posts->found_posts); ?> <?php echo $posts->found_posts === 1 ? 'article' : 'articles'; ?><?php if ($query_text): ?> matching “<?php echo esc_html($query_text); ?>”<?php endif; ?></p>
             <div class="aes-blog-grid">
             <?php while ($posts->have_posts()): $posts->the_post(); $categories = get_the_category(); ?>
                 <article class="aes-blog-card"><a href="<?php the_permalink(); ?>">

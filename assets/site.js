@@ -83,9 +83,9 @@
   // Keep the current page and its service family visible in navigation.
   const currentFile = location.pathname.replace(/\/$/, '') || '/';
   $$('header a[href]').forEach(link => {
-    const file = new URL(link.href).pathname.replace(/\/$/, '') || '/';
+    const file = new URL(link.href, location.origin).pathname.replace(/\/$/, '') || '/';
     if (file === currentFile) link.setAttribute('aria-current', 'page');
-    else if (file === 'services.html' && currentFile.startsWith('service-')) link.setAttribute('aria-current', 'true');
+    else if ((file === '/services' || file === '/services.html') && (currentFile.startsWith('/service/') || currentFile.startsWith('/service-'))) link.setAttribute('aria-current', 'true');
   });
   $$('a[target="_blank"]').forEach(link => link.relList.add('noopener', 'noreferrer'));
   $$('a[href*="wa.me"]').forEach(link => link.setAttribute('aria-label', 'Chat with AES on WhatsApp (opens in a new tab)'));
@@ -143,47 +143,12 @@
   let menuButton;
   let menuTimer;
   let menuOpenTimer;
-  let servicePanel;
-  let contactButton;
-  function measureMega() {
-    if (!header || !desktop.matches) return;
-    const height = Math.min(innerHeight - 16, 720, Math.max(560, innerHeight * .5, megaMenu.scrollHeight + 128));
-    const row = $(':scope > div:first-child', header);
-    header.style.setProperty('--aes-panel-height', height + 'px');
-    header.style.setProperty('--aes-logo-shift-y', (height - row.getBoundingClientRect().height) / 2 + 'px');
-    const brand = $('.aes-header-brand', header);
-    const spacer = $('.aes-services-panel__spacer', header);
-    if (brand && spacer) {
-      const slot = spacer.getBoundingClientRect();
-      const scale = innerWidth < 1280 ? .8 : .92;
-      const currentX = parseFloat(getComputedStyle(brand).translate) || 0;
-      const targetLeft = slot.left + (slot.width - brand.offsetWidth * scale) / 2;
-      header.style.setProperty('--aes-logo-shift-x', (targetLeft - brand.getBoundingClientRect().left + currentX) + 'px');
-    }
-    if (contactButton) {
-      const rect = contactButton.getBoundingClientRect();
-      const transform = getComputedStyle(contactButton).transform;
-      const matrix = transform === 'none' ? { m41: 0, m42: 0 } : new DOMMatrixReadOnly(transform);
-      const gutter = parseFloat(getComputedStyle(row).paddingRight);
-      const left = document.documentElement.clientWidth - gutter - rect.width;
-      const top = row.getBoundingClientRect().bottom + 18;
-      header.style.setProperty('--aes-contact-shift-x', (left - rect.left + matrix.m41) + 'px');
-      header.style.setProperty('--aes-contact-shift-y', (top - rect.top + matrix.m42) + 'px');
-    }
-  }
   function setMega(open) {
     if (!dropdown || !megaMenu) return;
     open = open && desktop.matches && !document.documentElement.classList.contains('aes-intro-active');
     clearTimeout(menuTimer);
     clearTimeout(menuOpenTimer);
-    // Re-focusing an open menu must not remeasure its moving logo or CTA.
-    if (open && dropdown.dataset.aesMenu !== 'open') measureMega();
     dropdown.dataset.aesMenu = open ? 'open' : 'closed';
-    header.classList.toggle('aes-services-open', open);
-    if (servicePanel) {
-      servicePanel.setAttribute('aria-hidden', String(!open));
-      servicePanel.inert = !open;
-    }
     megaMenu.setAttribute('aria-hidden', String(!open));
     megaMenu.inert = !open;
     if (menuButton) menuButton.setAttribute('aria-expanded', String(open));
@@ -192,7 +157,7 @@
   if (dropdown && megaMenu) {
     megaMenu.id = megaMenu.id || 'services-navigation';
     megaMenu.setAttribute('aria-label', 'All engineering services');
-    const shutdownLink = $$('a', megaMenu).find(a => a.href.includes('service-project-shutdown-qa') || /shutdown/i.test(a.textContent));
+    const shutdownLink = $$('a', megaMenu).find(a => a.href.includes('project-shutdown-qa') || /shutdown/i.test(a.textContent));
     if (shutdownLink) {
       shutdownLink.textContent = 'Project & Shutdown Inspection';
       const menuLinks = $$('a', megaMenu);
@@ -200,6 +165,9 @@
         megaMenu.insertBefore(shutdownLink, menuLinks[2]);
       }
     }
+    $$('a', megaMenu).forEach((item, index) => {
+      item.style.setProperty('--ladder-step', String(index));
+    });
     const link = $('a', dropdown);
     menuButton = document.createElement('button');
     menuButton.type = 'button';
@@ -209,74 +177,28 @@
     menuButton.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>';
     const previousIcon = $('svg', link);
     if (previousIcon) previousIcon.remove();
-    dropdown.appendChild(menuButton);
-    // Reuse the saved WordPress menu and contact details in a full-width header panel.
-    header.classList.add('aes-expanded-header');
-    $(':scope > div:first-child > a', header)?.classList.add('aes-header-brand');
-    contactButton = $('nav > .btn-premium-orange, nav > .btn-theme', header);
+    dropdown.insertBefore(menuButton, megaMenu);
+    const contactButton = $('nav > .btn-premium-orange, nav > .btn-theme', header);
     contactButton?.classList.add('aes-header-contact');
-    servicePanel = document.createElement('div');
-    servicePanel.className = 'aes-services-panel';
-    servicePanel.id = 'aes-services-panel';
-    servicePanel.innerHTML = '<div class="aes-services-panel__inner"><div class="aes-services-panel__spacer" aria-hidden="true"></div><div class="aes-services-panel__links"></div><div class="aes-services-panel__contact"></div></div>';
-    $('.aes-services-panel__links', servicePanel).appendChild(megaMenu);
-    const contactArea = $('.aes-services-panel__contact', servicePanel);
-    const whatsapp = $('footer a[href*="wa.me/"]');
-    const email = $('footer a[href^="mailto:"]');
-    const phone = whatsapp ? new URL(whatsapp.href).pathname.replace(/\D/g, '') : '918200441159';
-    const mail = email ? email.getAttribute('href').slice(7).split('?')[0] : 'info@aksharengineeringservices.com';
-    function addContact(href, label, value, svg, newTab = false) {
-      const anchor = document.createElement('a');
-      anchor.className = 'aes-menu-contact';
-      anchor.href = href;
-      if (newTab) { anchor.target = '_blank'; anchor.rel = 'noopener noreferrer'; }
-      anchor.innerHTML = '<span class="aes-menu-contact__icon" aria-hidden="true"></span><span class="aes-menu-contact__copy"><span class="aes-menu-contact__label"></span><span class="aes-menu-contact__value"></span></span>';
-      $('.aes-menu-contact__label', anchor).textContent = label;
-      const valueElement = $('.aes-menu-contact__value', anchor);
-      if (label === 'Email us' && value.includes('@')) {
-        const [localPart, domain] = value.split('@');
-        valueElement.append(localPart + '@', document.createElement('wbr'), domain);
-      } else valueElement.textContent = value;
-      $('.aes-menu-contact__icon', anchor).innerHTML = svg;
-      contactArea.appendChild(anchor);
-    }
-    const whatsappIcon = whatsapp?.querySelector('svg')?.outerHTML || '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 11.5a9 9 0 0 1-13.4 7.9L3 21l1.6-4.6A9 9 0 1 1 21 11.5Z"/></svg>';
-    const phoneLabel = phone.length === 12 && phone.startsWith('91') ? '+91 ' + phone.slice(2, 7) + ' ' + phone.slice(7) : '+' + phone;
-    addContact('https://wa.me/' + phone, 'WhatsApp', phoneLabel, whatsappIcon, true);
-    addContact('mailto:' + mail, 'Email us', mail, '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7 8 6 8-6"/></svg>');
-    header.appendChild(servicePanel);
-    menuButton.setAttribute('aria-controls', servicePanel.id);
-    measureMega();
     setMega(false);
     menuButton.addEventListener('click', () => setMega(dropdown.dataset.aesMenu !== 'open'));
     dropdown.addEventListener('mouseenter', () => {
       clearTimeout(menuTimer);
-      if (matchMedia('(hover: hover)').matches) menuOpenTimer = setTimeout(() => setMega(true), 70);
+      if (matchMedia('(hover: hover)').matches) menuOpenTimer = setTimeout(() => setMega(true), 40);
     });
-    dropdown.addEventListener('mouseleave', () => clearTimeout(menuOpenTimer));
-    header.addEventListener('mouseleave', () => {
+    dropdown.addEventListener('mouseleave', () => {
       clearTimeout(menuOpenTimer);
       clearTimeout(menuTimer);
       menuTimer = setTimeout(() => {
-        if (!header.contains(document.activeElement) || !document.activeElement.matches(':focus-visible')) setMega(false);
-      }, 240);
+        if (!dropdown.contains(document.activeElement) || !document.activeElement.matches(':focus-visible')) setMega(false);
+      }, 160);
     });
-    header.addEventListener('mouseenter', () => clearTimeout(menuTimer));
-    header.addEventListener('focusout', event => {
-      if (event.relatedTarget && header.contains(event.relatedTarget)) return;
-      setTimeout(() => { if (!header.contains(document.activeElement)) setMega(false); }, 0);
+    dropdown.addEventListener('focusout', event => {
+      if (event.relatedTarget && dropdown.contains(event.relatedTarget)) return;
+      setTimeout(() => { if (!dropdown.contains(document.activeElement)) setMega(false); }, 0);
     });
-    header.addEventListener('focusin', event => {
-      if (servicePanel.contains(event.target)) setMega(true);
-      else if (!dropdown.contains(event.target) && event.target !== contactButton) setMega(false);
-    });
-    $$('nav > a:not(.aes-header-contact)', header).forEach(anchor => {
-      anchor.addEventListener('mouseenter', () => {
-        clearTimeout(menuOpenTimer);
-        clearTimeout(menuTimer);
-        menuTimer = setTimeout(() => setMega(false), 160);
-      });
-      anchor.addEventListener('mouseleave', () => clearTimeout(menuTimer));
+    dropdown.addEventListener('focusin', event => {
+      if (megaMenu.contains(event.target)) setMega(true);
     });
     dropdown.addEventListener('keydown', event => {
       if (event.key === 'ArrowDown' && (event.target === link || event.target === menuButton)) {
@@ -285,17 +207,17 @@
         requestAnimationFrame(() => {
           if (first && dropdown.dataset.aesMenu === 'open') first.focus({ preventScroll: true });
         });
+      } else if (event.key === 'Escape') {
+        setMega(false);
       }
     });
     document.addEventListener('click', event => {
-      if (!header.contains(event.target)) setMega(false);
+      if (!dropdown.contains(event.target)) setMega(false);
     });
     desktop.addEventListener('change', () => setMega(false));
     window.addEventListener('resize', () => {
-      measureMega();
       if (!desktop.matches) setMega(false);
     }, { passive: true });
-    document.fonts?.ready.then(measureMega);
   }
 
   // One modal controller preserves the existing openModal / closeModal API.
@@ -622,7 +544,7 @@
   }
   window.addEventListener('resize', () => requestAnimationFrame(updateImagePan), { passive: true });
 
-  const video = $('video#heroVideo') || $('video');
+  const video = $('video#heroVideo');
   if (video) {
     // Strip any poster image to prevent static image flashing during video transitions
     video.removeAttribute('poster');
@@ -633,18 +555,11 @@
     video.preload = 'auto';
     video.playbackRate = 1.0;
 
-    // Playlist: loop through wind_turbine.mp4 and solar_plant.mp4
-    const playlistAttr = video.getAttribute('data-playlist');
+    // Use only the saved playlist. A removed clip must never return as a fallback.
     let playlist = [];
-    if (playlistAttr) {
-      playlist = playlistAttr.split(',').map(s => s.trim()).filter(Boolean);
-    }
-    if (!playlist.length) {
-      playlist = [
-        AES.theme + '/video/wind_turbine.mp4',
-        AES.theme + '/video/solar_plant.mp4'
-      ];
-    }
+    try { playlist = JSON.parse(video.getAttribute('data-aes-playlist') || 'null'); } catch {}
+    if (!Array.isArray(playlist)) playlist = (video.getAttribute('data-playlist') || '').split(',').map(s => s.trim()).filter(Boolean);
+    if (!playlist.length) playlist = [video.querySelector('source')?.getAttribute('src') || video.getAttribute('src')].filter(Boolean);
 
     let currentIdx = 0;
     const initialSource = video.querySelector('source')?.getAttribute('src') || video.currentSrc || video.src || '';

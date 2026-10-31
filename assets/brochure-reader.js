@@ -3,7 +3,7 @@
   'use strict';
   let modal = document.getElementById('companyProfileModal');
   const oldSource = modal?.querySelector('a[download]')?.href;
-  const source = oldSource || AES.theme + '/assets/Company%20Profile.pdf';
+  const source = AES.brochureUrl || oldSource || AES.theme + '/assets/Company%20Profile.pdf';
   if (!modal) {
     modal = document.createElement('div');
     modal.id = 'companyProfileModal';

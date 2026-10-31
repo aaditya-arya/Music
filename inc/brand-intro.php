@@ -3,6 +3,7 @@ if (!defined('ABSPATH')) exit;
 
 // Reserve the welcome screen before styles or body content can paint.
 add_action('wp_head', function () {
+    if (!aes_site_settings()['intro_enabled']) return;
     ?>
     <style id="aes-intro-critical">
         html.aes-intro-pending { background: #fffdfb; }
@@ -27,15 +28,17 @@ add_action('wp_head', function () {
 }, 0);
 
 add_action('wp_body_open', function () {
+    $settings = aes_site_settings();
+    if (!$settings['intro_enabled']) return;
     ?>
     <div id="aes-brand-intro" class="aes-brand-intro" role="dialog" aria-modal="true" aria-labelledby="aes-brand-intro-name" tabindex="-1" hidden>
         <div class="aes-brand-intro__identity">
-            <img class="aes-brand-intro__logo" src="<?php echo esc_url(get_template_directory_uri() . '/assets/logo.png'); ?>" alt="Akshar Engineering Services Pvt. Ltd." width="520" height="196" fetchpriority="high" />
-            <p id="aes-brand-intro-name" class="aes-brand-intro__name">Akshar Engineering</p>
-            <p class="aes-brand-intro__caption">Services Pvt. Ltd.</p>
+            <img class="aes-brand-intro__logo" src="<?php echo esc_url($settings['intro_logo'] ?: get_template_directory_uri() . '/assets/logo.png'); ?>" alt="<?php echo esc_attr($settings['intro_name']); ?>" width="520" height="196" fetchpriority="high" />
+            <p id="aes-brand-intro-name" class="aes-brand-intro__name"><?php echo esc_html($settings['intro_name']); ?></p>
+            <p class="aes-brand-intro__caption"><?php echo esc_html($settings['intro_caption']); ?></p>
             <div class="aes-brand-intro__signature" aria-label="AES. Trusted Inspection - Safer Tomorrow">
                 <span class="aes-brand-intro__letters" aria-hidden="true"><span>A</span><span>E</span><span>S</span></span>
-                <p class="aes-brand-intro__promise">TRUSTED INSPECTION - SAFER TOMORROW</p>
+                <p class="aes-brand-intro__promise"><?php echo esc_html($settings['intro_promise']); ?></p>
             </div>
         </div>
     </div>
@@ -123,10 +126,10 @@ add_action('wp_body_open', function () {
         document.addEventListener('keydown', handleKey, true);
         motion.addEventListener('change', finish);
         intro.focus({ preventScroll: true });
-        const start = () => { if (!finished) setTimeout(dockLogo, Math.max(0, 5000 - (performance.now() - shownAt))); };
+        const start = () => { if (!finished) setTimeout(dockLogo, Math.max(0, <?php echo (int) $settings['intro_seconds'] * 1000; ?> - (performance.now() - shownAt))); };
         if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start, { once: true });
         else start();
-        timer = setTimeout(finish, 9000);
+        timer = setTimeout(finish, <?php echo (int) $settings['intro_seconds'] * 1000 + 4000; ?>);
     })();
     </script>
     <?php

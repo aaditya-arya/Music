@@ -85,6 +85,7 @@ function aes_admin_screen() {
                 <?php submit_button('Save document links', 'secondary'); ?>
             </form>
         </section>
+        <?php aes_site_controls_form(); ?>
         <details class="aes-dashboard-panel aes-dashboard-advanced"><summary>Advanced setup</summary><p>Import any missing starter pages and job listings. Existing pages are retained.</p>
             <form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>"><?php wp_nonce_field('aes_setup'); ?><input type="hidden" name="action" value="aes_setup"><?php submit_button('Import missing AES pages', 'secondary', 'submit', false); ?></form>
         </details>
@@ -123,7 +124,7 @@ add_action('save_post',function($id){
 });
 
 add_action('admin_enqueue_scripts',function(){
-    $screen=get_current_screen(); if(!$screen||!($screen->id==='toplevel_page_aes-cms'||$screen->id==='toplevel_page_aes-submissions'||in_array($screen->post_type,['aes_job','aes_submission'],true)))return;
+    $screen=get_current_screen(); if(!$screen||!($screen->id==='toplevel_page_aes-cms'||$screen->id==='toplevel_page_aes-submissions'||in_array($screen->post_type,['aes_job','aes_submission','page'],true)))return;
     wp_enqueue_media(); wp_enqueue_script('aes-admin',get_template_directory_uri().'/assets/admin-cms.js',['jquery'], filemtime(AES_DIR . '/assets/admin-cms.js'),true);
     wp_enqueue_style('aes-admin',get_template_directory_uri().'/assets/admin-cms.css',[],filemtime(AES_DIR . '/assets/admin-cms.css'));
 });
