@@ -24,4 +24,22 @@ aes_validation_assert(isset(aes_validate_fields('careers-apply', ['candidateexpe
 aes_validation_assert(isset(aes_validate_fields('we-hear-you-0', ['issuedate' => '2099-01-01'])['issuedate']), 'Future issue date accepted.');
 aes_validation_assert(isset(aes_validate_fields('we-hear-you-0', ['issuedate' => '2026-02-30'])['issuedate']), 'Impossible date accepted.');
 aes_validation_assert(isset(aes_validate_fields('home-0', ['field_7' => '8'], wp_create_nonce('aes_math_home-0_10'))['field_7']), 'Wrong verification answer accepted.');
+foreach (['qa@example.invalid / 12345abc67890', 'qa@example.invalid / 12345', 'qa@example.invalid / ++919876543210', 'not-an-email / 9876543210'] as $contact) {
+    aes_validation_assert(isset(aes_validate_fields('about-1', ['field_2' => $contact])['field_2']), 'Invalid combined email/phone accepted.');
+}
+aes_validation_assert(!isset(aes_validate_fields('about-1', ['field_2' => 'qa@example.invalid / +91 9876543210'])['field_2']), 'Valid international combined contact rejected.');
+aes_validation_assert(isset(aes_validate_fields('careers-apply', ['candidateexperience' => '1e2'])['candidateexperience']), 'Scientific notation must not bypass experience bounds.');
+aes_validation_assert(isset(aes_validate_fields('careers-apply', ['candidateexperience' => '1.234'])['candidateexperience']), 'Experience precision must remain bounded.');
+aes_validation_assert(!isset(aes_validate_fields('careers-apply', ['candidateexperience' => '0'])['candidateexperience']), 'Zero years of experience must be allowed.');
+aes_validation_assert(!isset(aes_validate_fields('careers-apply', ['candidateexperience' => '50'])['candidateexperience']), 'The upper experience boundary must be allowed.');
+aes_validation_assert(isset(aes_validate_fields('we-hear-you-0', ['feedbackrating' => 'unlisted-rating'])['feedbackrating']), 'Unknown selection accepted.');
+aes_validation_assert(isset(aes_validate_fields('careers-apply', ['jobid' => '999999999'])['jobid']), 'Nonexistent opening accepted.');
+$published_jobs = get_posts(['post_type' => 'aes_job', 'post_status' => 'publish', 'numberposts' => 1]);
+if ($published_jobs) {
+    $job = $published_jobs[0];
+    aes_validation_assert(isset(aes_validate_fields('careers-apply', ['jobid' => (string) $job->ID, 'candidaterole' => 'A different role'])['candidaterole']), 'An application must match its published role.');
+    $role = ['jobid' => (string) $job->ID, 'candidaterole' => html_entity_decode($job->post_title, ENT_QUOTES | ENT_HTML5, 'UTF-8')];
+    $errors = aes_validate_fields('careers-apply', $role);
+    aes_validation_assert(!isset($errors['jobid']) && !isset($errors['candidaterole']), 'The correct published role binding must be accepted.');
+}
 echo "All form schemas, person names, phones, emails, dates, experience and verification regression checks passed.\n";
