@@ -1,0 +1,155 @@
+/* Shared phone and tablet layouts; desktop retains its existing presentation. */
+#aesJobDetailModal .aes-job-modal-footer > button {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  height: 48px; min-height: 48px; padding-block: 0; line-height: 20px;
+}
+#aesJobDetailModal .aes-job-modal-footer > button > svg { display: block; flex-shrink: 0; width: 16px; height: 16px; }
+
+@media (max-width: 1023px) {
+  body > header > div:first-child { height: auto; min-height: 84px; padding-block: 10px; gap: 16px; }
+  body > header > div:first-child > a { min-width: 0; padding-block: 0; }
+  body > header > div:first-child > a img { height: 64px !important; max-height: 64px !important; max-width: calc(100vw - 112px); object-fit: contain; }
+  body > header #mobile-menu {
+    z-index: 60; background: #fff !important; color: var(--aes-blue);
+    border-top: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0;
+    padding-block: 12px 20px; box-shadow: 0 16px 30px rgb(11 22 51 / 14%);
+  }
+  body > header #mobile-menu > a { font-size: 16px; line-height: 1.5; min-height: 48px; }
+  #mobile-menu-btn {
+    display: grid; place-items: center; flex-shrink: 0; width: 48px; height: 48px;
+    padding: 0; border-radius: 10px; line-height: 1;
+    translate: none !important; transform: none !important; scale: 1 !important;
+  }
+  #mobile-menu-btn > svg { display: block; width: 24px; height: 24px; margin: 0; }
+
+  /* All four working-principle images stay visible, without sideways scrolling. */
+  .aes-culture-gallery .aes-culture-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr)); grid-auto-flow: row;
+    grid-auto-columns: auto; gap: 24px; overflow: visible; scroll-snap-type: none;
+    padding: 0 0 12px;
+  }
+  .aes-culture-gallery .aes-culture-card { min-width: 0; }
+  .aes-culture-gallery .aes-culture-card h3 { font-size: 19px; line-height: 1.4; margin-top: 16px; }
+  .aes-culture-gallery .aes-culture-arrow { display: none; }
+}
+
+@media (max-width: 767px) {
+  body { font-size: 16px; line-height: 1.65; }
+  body section:not(.aes-hero) p:not(.uppercase):not(.aes-careers-invitation__eyebrow) { font-size: 16px; line-height: 1.7; }
+  body > header > div:first-child { min-height: 80px; }
+  body > header > div:first-child > a img { height: 60px !important; max-height: 60px !important; }
+  .aes-public-shell, .aes-blog-shell { padding-inline: 20px; }
+  .aes-public-page h1, .aes-services-hero h1, .aes-support-hero h1, .aes-blog-hero h1 { font-size: clamp(32px, 8.8vw, 40px); line-height: 1.15; }
+  .aes-public-page h2, .aes-support-page h2 { font-size: clamp(27px, 7.3vw, 32px); line-height: 1.25; }
+  .aes-public-hero__copy > p, .aes-services-hero .aes-public-hero__copy > p, .aes-blog-introduction { font-size: 16px; line-height: 1.7; }
+  .aes-public-hero__photo { height: 260px; }
+  .aes-public-hero .aes-breadcrumb { margin-bottom: 100px; font-size: 13px; }
+  .aes-public-hero > .aes-public-shell { padding-bottom: 40px; }
+  .aes-hero-actions { align-items: stretch; flex-direction: column; gap: 12px; margin-top: 28px; }
+  .aes-hero-actions > .aes-action { width: 100%; }
+  .aes-hero-actions > .aes-inline-link { justify-content: center; width: 100%; }
+  .aes-action { min-height: 48px; max-width: 100%; padding: 13px 18px; font-size: 14px; gap: 10px; }
+  .aes-inline-link { max-width: 100%; font-size: 15px; }
+  .aes-action svg, .aes-inline-link > span { flex-shrink: 0; }
+  body .aes-button-depth[class] { box-shadow: inset 0 1px 0 rgb(255 255 255 / 10%), 0 3px 8px rgb(19 29 45 / 14%) !important; }
+  .aes-detail-hero__copy > p { font-size: 16px !important; line-height: 1.7 !important; }
+  .aes-detail-hero__copy > a { max-width: 100%; white-space: normal; text-align: center; }
+  .aes-process-step p { font-size: 16px !important; line-height: 1.7 !important; }
+  .aes-process-step { column-gap: 16px; }
+
+  .aes-culture-gallery .aes-culture-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 16px; }
+  .aes-culture-gallery .aes-culture-card__image { aspect-ratio: 4 / 5; border-radius: 12px; }
+  .aes-culture-gallery .aes-culture-card h3 { font-size: clamp(16px, 4.3vw, 19px); margin-top: 12px; }
+  .aes-culture-gallery .aes-section-introduction { margin-bottom: 28px; }
+  .aes-jobs-grid { gap: 20px; }
+  .aes-jobs-grid > article { padding: 22px 20px; }
+  .aes-jobs-grid > article h3 { font-size: 20px; line-height: 1.35; }
+  [data-aes-job-card] > .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  [data-aes-job-card] > .grid > button {
+    display: flex; align-items: center; justify-content: center; flex-wrap: nowrap;
+    min-width: 0; height: 48px; min-height: 48px; padding: 0 12px; gap: 8px;
+    font-size: 12px; font-weight: 700; line-height: 20px; letter-spacing: .02em; white-space: nowrap;
+  }
+  [data-aes-job-card] > .grid > button svg { display: block; width: 16px; height: 16px; flex-shrink: 0; }
+  [data-aes-job-card] > .grid > button span { display: block; line-height: 20px; white-space: nowrap; }
+  .aes-hiring-map li { column-gap: 16px; }
+  .aes-application-note { padding: 22px 18px; gap: 14px; }
+  .aes-form-panel, .aes-support-form-panel { padding: 24px 18px; }
+  .aes-designed-form :is(input, select, textarea), .aes-support-form-panel :is(input, select, textarea) { min-width: 0; max-width: 100%; font-size: 16px; }
+  .aes-designed-form legend { font-size: 16px; gap: 10px; }
+  .aes-designed-form input[type="file"] { font-size: 13px; }
+  .aes-designed-form input[type="file"]::file-selector-button { min-height: 44px; line-height: 20px; }
+  .aes-form-submit .aes-action { width: 100%; }
+  .aes-service-stages { grid-template-columns: 1fr; gap: 12px; }
+  .aes-service-stage { padding: 20px; }
+  .aes-service-stage strong { font-size: 20px; }
+  .aes-service-stage > span:last-child { font-size: 16px; }
+  .aes-directory-card__copy { padding: 22px 20px; }
+  .aes-support-page .aes-support-reason { grid-template-columns: 30px minmax(0, 1fr) 20px; gap: 10px 12px; padding: 20px !important; }
+  .aes-support-reason strong { font-size: 18px; }
+  .aes-support-reason > span { font-size: 15px; }
+  .aes-support-icon { width: 28px; }
+  .aes-support-reason-arrow { width: 20px; }
+
+  /* Touch cards show their information without relying on a hover gesture. */
+  body.home :is(#services, #sectors) .service-slide-card { display: flex; flex-direction: column; height: auto !important; min-height: 0; }
+  body.home :is(#services, #sectors) .service-slide-card > img {
+    position: relative !important; inset: auto !important; width: 100% !important;
+    max-width: 100% !important; height: 220px !important; object-fit: cover;
+    translate: none !important; transform: none !important;
+  }
+  body.home :is(#services, #sectors) .service-slide-card > .absolute.inset-0 { bottom: auto; height: 220px; }
+  body.home :is(#services, #sectors) .service-card-drawer { position: relative; inset: auto; max-height: none; padding: 20px; transform: none !important; }
+  body.home :is(#services, #sectors) .service-drawer-desc { opacity: 1 !important; }
+  body.home :is(#services, #sectors) .service-card-drawer h3 { font-size: 20px; line-height: 1.35; }
+  body.home #sectors .service-slide-card > img, body.home #sectors .service-slide-card > .absolute.inset-0 { height: 180px !important; }
+  body.home main > section:has(#heroVideo) { min-height: min(660px, calc(100svh - 80px)); }
+  body.home main > section:has(#heroVideo) > .absolute > .bg-gradient-to-r {
+    z-index: 4; background: linear-gradient(90deg, rgb(7 14 34 / 78%), rgb(7 14 34 / 55%)) !important;
+  }
+  body.home main > section:has(#heroVideo) > .relative { padding-block: 56px; }
+  body.home main h1 > span { font-size: clamp(28px, 8vw, 36px); line-height: 1.15; }
+  body.home main h1 + .border-l-4 > p:first-child { font-size: 18px; }
+  body.home main h1 + .border-l-4 > p:last-child { font-size: 16px; }
+  footer .footer-grid { gap: 32px; }
+  footer .footer-list a { padding-block: 8px; min-height: 44px; }
+  footer .aes-footer-portals .group { padding: 20px; }
+  footer :is(a[href^="mailto:"], a[href^="tel:"]) { overflow-wrap: anywhere; }
+  .modal-backdrop { padding: 12px; }
+  .modal-backdrop > div { width: 100%; max-height: calc(100dvh - 24px); }
+  #aesJobDetailModal .aes-job-modal-header { align-items: flex-start; padding: 20px; gap: 16px; }
+  #aesJobDetailModal .aes-job-modal-heading { min-width: 0; }
+  #aesJobDetailModal #aesJobModalTitle { font-size: 20px; line-height: 1.35; }
+  #aesJobDetailModal .aes-job-modal-close {
+    display: grid; place-items: center; flex-shrink: 0; width: 44px; height: 44px;
+    min-width: 44px; padding: 0; line-height: 1;
+  }
+  #aesJobDetailModal .aes-job-modal-close > svg { display: block; width: 20px; height: 20px; }
+  #aesJobDetailModal .aes-job-modal-body { padding: 20px; }
+  #aesJobDetailModal .aes-job-modal-footer { display: grid; grid-template-columns: minmax(0, .75fr) minmax(0, 1.75fr); gap: 12px; padding: 16px 20px; }
+  #aesJobDetailModal .aes-job-modal-footer > button {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    width: 100%; min-width: 0; height: 48px; min-height: 48px;
+    padding: 0 10px; font-size: 12px; font-weight: 700; line-height: 20px; letter-spacing: .01em;
+  }
+  #aesJobDetailModal .aes-job-modal-footer > button > span { line-height: 20px; }
+  #aesJobDetailModal .aes-job-modal-footer > button > svg { display: block; flex-shrink: 0; width: 16px; height: 16px; }
+  .aes-pdf-controls { gap: 6px; flex-wrap: wrap; }
+}
+
+@media (max-width: 1023px) and (hover: none) {
+  /* Touch presses keep the centered control in place instead of retaining a hover lift. */
+  body .aes-button-depth[class] { translate: none !important; }
+  body .aes-button-depth > .aes-action-arrow { translate: none !important; }
+  body .aes-button-depth[class]:where(:not(.aes-service-stage, .aes-support-reason, .aes-service-all, .aes-menu-toggle)):hover:not(:active):not(:focus-visible):not([aria-pressed="true"]):not([aria-expanded="true"]) {
+    background: var(--aes-blue) !important; border-color: var(--aes-blue) !important; color: #fff !important;
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 10%), 0 3px 8px rgb(19 29 45 / 14%) !important;
+  }
+}
+
+@media (max-width: 359px) {
+  .aes-public-shell, .aes-blog-shell { padding-inline: 16px; }
+  .aes-jobs-grid > article { padding: 20px 16px; }
+  [data-aes-job-card] > .grid { grid-template-columns: 1fr; }
+  .aes-culture-gallery .aes-culture-grid { column-gap: 12px; }
+}

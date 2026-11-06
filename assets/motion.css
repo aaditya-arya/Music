@@ -1,0 +1,129 @@
+/* Shared motion rhythm. Keep travel short and native actions immediate. */
+:root {
+  --aes-ease: cubic-bezier(.22, 1, .36, 1);
+  --aes-motion-fast: 220ms;
+  --aes-motion-soft: 360ms;
+  --aes-motion-panel: 440ms;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+
+  body :is(a, button, [role="button"], input[type="submit"], input[type="reset"], summary) {
+    transition-property: color, background-color, border-color, box-shadow, opacity, transform, translate, scale, text-decoration-color;
+    transition-duration: var(--aes-motion-soft);
+    transition-timing-function: var(--aes-ease);
+  }
+  body .aes-button-depth[class],
+  body > header a.aes-button-depth[class]:is(.btn-premium-orange, .btn-premium-blue, .btn-theme),
+  body aside[aria-label] .aes-button-depth[class] {
+    transition: color var(--aes-motion-soft) ease,
+      background-color var(--aes-motion-soft) ease, border-color var(--aes-motion-soft) ease,
+      translate var(--aes-motion-soft) var(--aes-ease), scale var(--aes-motion-fast) var(--aes-ease),
+      transform var(--aes-motion-soft) var(--aes-ease), box-shadow var(--aes-motion-soft) ease,
+      opacity var(--aes-motion-fast) ease !important;
+  }
+  body .aes-button-depth[class]:is(:hover, :focus-visible):not(:disabled) { translate: 0 -2px; }
+  body .aes-button-depth[class]:active:not(:disabled) { translate: 0 0; scale: .985; }
+  body .aes-button-depth > .aes-action-arrow { transition-duration: var(--aes-motion-soft); }
+  body .aes-button-depth:is(:hover, :focus-visible) > .aes-action-arrow { translate: 3px 0; }
+
+  body :is(input, select, textarea) {
+    transition: border-color var(--aes-motion-soft) ease, background-color var(--aes-motion-soft) ease,
+      box-shadow var(--aes-motion-soft) ease, color var(--aes-motion-soft) ease;
+  }
+  body input[type="file"]::file-selector-button {
+    transition: background-color var(--aes-motion-soft) ease, border-color var(--aes-motion-soft) ease;
+  }
+  body :is(.service-slide-card, .service-card-target, .aes-content-card, .aes-directory-card,
+    .aes-reach-card, .aes-contact-channel, .aes-culture-card, .aes-blog-card, .aes-jobs-grid > article) {
+    transition: border-color var(--aes-motion-soft) ease, box-shadow var(--aes-motion-panel) ease,
+      transform var(--aes-motion-panel) var(--aes-ease), translate var(--aes-motion-panel) var(--aes-ease);
+  }
+  body :is(.aes-directory-card__image img, .aes-blog-card__image img) {
+    transition: transform 650ms var(--aes-ease), filter var(--aes-motion-panel) ease;
+  }
+  body > header { transition: box-shadow var(--aes-motion-panel) ease, background-color var(--aes-motion-panel) ease; }
+  body .mega-dropdown-menu {
+    transition: opacity 280ms ease, transform var(--aes-motion-soft) var(--aes-ease), visibility 0s 280ms;
+  }
+  body .nav-item-dropdown[data-aes-menu="open"] .mega-dropdown-menu {
+    transition: opacity 280ms ease, transform var(--aes-motion-soft) var(--aes-ease), visibility 0s;
+  }
+  body .aes-back-top { transition: opacity var(--aes-motion-soft) ease, visibility var(--aes-motion-soft),
+    transform var(--aes-motion-soft) var(--aes-ease), background-color var(--aes-motion-soft) ease; }
+
+  @supports (interpolate-size: allow-keywords) and selector(details::details-content) {
+    .aes-support-faq details { interpolate-size: allow-keywords; }
+    .aes-support-faq details::details-content {
+      block-size: 0; opacity: 0; overflow: clip;
+      transition: block-size var(--aes-motion-soft) var(--aes-ease), opacity 240ms ease,
+        content-visibility var(--aes-motion-soft) allow-discrete;
+    }
+    .aes-support-faq details[open]::details-content { block-size: auto; opacity: 1; }
+  }
+
+  /* Display transitions keep closing panels visible only for their short fade.
+     Browsers without discrete transitions retain the existing instant close. */
+  @supports (transition-behavior: allow-discrete) {
+    body #mobile-menu {
+      opacity: 1; translate: 0 0; transform: none;
+      transition: opacity 280ms ease, translate var(--aes-motion-soft) var(--aes-ease), display var(--aes-motion-soft) allow-discrete;
+    }
+    body #mobile-menu:not(.hidden) { animation: none; }
+    body #mobile-menu.hidden { opacity: 0; translate: 0 -6px; pointer-events: none; }
+
+    body .modal-backdrop, body #aesJobDetailModal {
+      opacity: 1;
+      transition: opacity 280ms ease, display var(--aes-motion-soft) allow-discrete;
+    }
+    body .modal-backdrop:not(.hidden), body .modal-backdrop:not(.hidden) > div { animation: none; }
+    body .modal-backdrop > div {
+      opacity: 1; translate: 0 0; scale: 1;
+      transition: opacity 240ms ease, translate var(--aes-motion-soft) var(--aes-ease), scale var(--aes-motion-soft) var(--aes-ease);
+    }
+    body .modal-backdrop.hidden { opacity: 0; pointer-events: none; }
+    body .modal-backdrop.hidden > div { opacity: 0; translate: 0 10px; scale: .99; }
+
+    @starting-style {
+      body #mobile-menu:not(.hidden) { opacity: 0; translate: 0 -6px; }
+      body .modal-backdrop:not(.hidden) { opacity: 0; }
+      body .modal-backdrop:not(.hidden) > div { opacity: 0; translate: 0 10px; scale: .99; }
+    }
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    body :is(.service-slide-card, .service-card-target, .aes-content-card, .aes-directory-card):hover {
+      transform: translateY(-3px);
+    }
+    .aes-blog-card:has(a:hover), .aes-blog-card:focus-within { translate: 0 -3px; }
+    body :is(a.service-slide-card, a.aes-directory-card):active { transform: translateY(-1px); }
+  }
+}
+
+/* Focus and selection remain clear without spatial motion. */
+body :is(button:disabled, [aria-disabled="true"]) { cursor: default; }
+body [aria-disabled="true"].aes-button-depth { translate: none !important; scale: 1 !important; }
+/* Important declarations in this layer take precedence over legacy component
+   overrides, including the header and floating actions. */
+@layer aes-motion-accessibility {
+ @media (prefers-reduced-motion: reduce) {
+  body *, body *::before, body *::after {
+    animation-duration: .01ms !important; animation-delay: 0ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0s !important; transition-delay: 0ms !important;
+    scroll-behavior: auto !important;
+  }
+  body :is(.aes-button-depth, .aes-content-card, .aes-reach-card, .aes-contact-channel,
+    .aes-culture-card, .aes-blog-card, .aes-jobs-grid > article):is(:hover, :focus-within, :active) {
+    translate: none !important; scale: 1 !important;
+  }
+  body :is(.service-slide-card, .service-card-target, .aes-content-card, .aes-directory-card,
+    .aes-contact-channel):is(:hover, :focus-within, :active) { transform: none !important; }
+  body :is(.aes-culture-card__image img, .aes-reach-icon, .aes-culture-arrow) {
+    translate: none !important; scale: 1 !important;
+  }
+  body :is(.aes-checkmark-circle, .aes-checkmark-check) { stroke-dashoffset: 0; }
+  body .aes-press-feedback { display: none; }
+ }
+}

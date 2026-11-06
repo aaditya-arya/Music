@@ -55,6 +55,10 @@
   function serializeCleanHtml(container) {
     if (!container) return '';
     const clone = container.cloneNode(true);
+    // Store the live-list marker, never the editor's job controls or snapshot.
+    clone.querySelectorAll('[data-aes-editor-job-list]').forEach(node => {
+      node.replaceWith(clone.ownerDocument.createTextNode('@@JOBS@@'));
+    });
     clone.querySelectorAll('[contenteditable]').forEach((node) => {
       node.removeAttribute('contenteditable');
     });
@@ -72,11 +76,63 @@
     return clone.innerHTML.replace(/<!--[\s\S]*?-->/g, '');
   }
 
+  function showJobEditorPreview(container) {
+    const config = window.AES_GUTENBERG || {};
+    if (!config.jobsAdmin?.manage) return;
+    const doc = container.ownerDocument;
+    const walker = doc.createTreeWalker(container, 4);
+    const placeholders = [];
+    while (walker.nextNode()) {
+      if (walker.currentNode.nodeValue.includes('@@JOBS@@')) placeholders.push(walker.currentNode);
+    }
+    const element = (tag, className, text) => {
+      const node = doc.createElement(tag);
+      node.className = className;
+      if (text) node.textContent = text;
+      return node;
+    };
+    const link = (label, url) => {
+      const node = element('a', 'aes-gb-job-action', label);
+      node.href = url;
+      node.target = '_blank';
+      node.rel = 'noopener noreferrer';
+      return node;
+    };
+    placeholders.forEach(placeholder => {
+      const preview = element('div', 'aes-gb-job-preview');
+      preview.dataset.aesEditorJobList = 'true';
+      const heading = element('div', 'aes-gb-job-preview__heading');
+      heading.append(element('strong', '', 'Job openings (' + (config.jobs || []).length + ')'));
+      const actions = element('div', 'aes-gb-job-preview__actions');
+      actions.append(link('Manage / remove jobs', config.jobsAdmin.manage));
+      if (config.jobsAdmin.add) actions.append(link('Add new job', config.jobsAdmin.add));
+      heading.append(actions);
+      preview.append(heading, element('p', 'aes-gb-job-preview__help', 'Choose Edit job to change a role. Use Trash in its editor to remove it. Only published jobs appear on the website.'));
+      const list = element('div', 'aes-gb-job-preview__list');
+      for (const job of config.jobs || []) {
+        const card = element('article', 'aes-gb-job-preview__card');
+        card.dataset.aesEditorJobId = job.id;
+        card.append(element('span', 'aes-gb-job-preview__status', job.status), element('h3', '', job.title || '(Untitled job)'), element('p', '', [job.type, job.location].filter(Boolean).join(' · ')), link('Edit job', job.editUrl));
+        list.append(card);
+      }
+      if (!list.children.length) list.append(element('p', '', 'No job openings yet. Choose Add new job to create the first role.'));
+      preview.append(list);
+      const parts = placeholder.nodeValue.split('@@JOBS@@');
+      const fragment = doc.createDocumentFragment();
+      parts.forEach((part, index) => {
+        if (index) fragment.append(preview.cloneNode(true));
+        fragment.append(doc.createTextNode(part));
+      });
+      placeholder.replaceWith(fragment);
+    });
+  }
+
   /**
    * Make text elements inside the visual canvas directly editable
    */
   function enableInlineEditing(container) {
     if (!container) return;
+    showJobEditorPreview(container);
     container.querySelectorAll('*').forEach(node => {
       const events = {};
       for (const attribute of [...node.attributes]) if (/^on/i.test(attribute.name)) {
@@ -87,6 +143,8 @@
     });
     const selectors = 'h1, h2, h3, h4, h5, h6, p, span, strong, em, cite, li, a, button, label, div, dd, dt, summary, address, legend';
     container.querySelectorAll(selectors).forEach((node) => {
+      // Job records are edited in their manager; keep the live-list marker intact.
+      if (node.textContent.trim() === '@@JOBS@@' || node.closest('[data-aes-editor-job-list]')) return;
       // Only make leaf text containers or inline text containers contenteditable
       const hasBlockChildren = node.querySelector('div, section, ul, ol, dl, table, article, header, footer, nav, form, fieldset, input, select, textarea, h1, h2, h3, h4, h5, h6, p');
       if (!hasBlockChildren && node.textContent.trim().length > 0 && !node.parentElement.closest('[contenteditable="true"]') && !node.closest('svg, [aria-hidden="true"]')) {
@@ -100,6 +158,7 @@
    */
   function findRepeatableCard(target, root) {
     if (!target || !root) return null;
+    if (target.closest('[data-aes-editor-job-list]')) return null;
     // Never treat anything inside hero banner, global header, or global footer as a repeatable card
     if (root.querySelector('#heroVideo')) {
       return null;
@@ -147,6 +206,8 @@
       const blockProps = useBlockProps();
       const { title, isGlobalHeader, isGlobalFooter, html, sectionId } = attributes;
       const decodedHtml = html ? decodeURIComponent(html) : '';
+      const jobsAdmin = window.AES_GUTENBERG?.jobsAdmin;
+      const hasJobListings = decodedHtml.includes('@@JOBS@@') && !!jobsAdmin?.manage;
 
       const canvasRef = useRef(null);
       const activeNodeRef = useRef(null);
@@ -270,6 +331,8 @@
       };
 
       const handleCanvasClick = (e) => {
+        // Editor-only job links retain native navigation to the admin job forms.
+        if (e.target.closest('[data-aes-editor-job-list]')) { e.stopPropagation(); return; }
         // Prevent links, buttons, or inline onclick handlers from navigating away inside the editor
         if (!(e.target.tagName === 'VIDEO' && e.target.controls)) e.preventDefault();
         e.stopPropagation();
@@ -1094,6 +1157,12 @@
               )
             ),
 
+          hasJobListings && el('div', { className: 'aes-gb-jobs-manager', style: { padding: '20px', background: '#f3f6fc', borderBottom: '1px solid #d5dfef' } },
+            el('strong', null, 'Job openings are managed in AES Jobs'),
+            el('p', null, 'Publish a new role, edit job details, or move a closed role to Trash. The latest published jobs appear on Careers and Join Us automatically.'),
+            el(Button, { href: jobsAdmin.manage, target: '_blank', rel: 'noopener noreferrer', variant: 'secondary' }, 'Manage jobs'),
+            jobsAdmin.add && el(Button, { href: jobsAdmin.add, target: '_blank', rel: 'noopener noreferrer', variant: 'primary', style: { marginLeft: '12px' } }, 'Add job')
+          ),
           isHeroSection && el(window.AESHeroPlaylist.Editor, { items: playlist, onChange: commitPlaylist, clientId: props.clientId }),
 
           // Either Raw HTML Code Editor or Live Visual WYSIWYG Canvas

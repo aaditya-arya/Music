@@ -160,7 +160,7 @@
   .aes-culture-card__image { height: 240px; }
   .aes-culture-section, .aes-open-roles, .aes-hiring-section { padding-bottom: 60px; }
   .aes-jobs-grid > article { padding: 26px; }
-  .aes-jobs-grid > article > div > .flex { align-items: flex-start; gap: 12px; flex-wrap: wrap; }
+  .aes-jobs-grid > article > div:first-child > .flex { align-items: flex-start; gap: 12px; flex-wrap: wrap; }
   .aes-hiring-map { grid-template-columns: 1fr; gap: 28px; }
   .aes-hiring-map li { display: grid; grid-template-columns: 52px minmax(0, 1fr); gap: 8px 20px; }
   .aes-hiring-map li > span { grid-row: 1 / 3; grid-column: 1; margin-bottom: 0; }

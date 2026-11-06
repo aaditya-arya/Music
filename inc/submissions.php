@@ -9,6 +9,7 @@ function aes_submit() {
         wp_send_json_error(['message' => 'This page has expired. Refresh and submit again.'], 403);
     }
     $form = sanitize_key(wp_unslash($_POST['form'] ?? ''));
+    $form = ['inquirydesk' => 'contact-us-0', 'trainingregistration' => 'contact-us-1', 'certificateverification' => 'contact-us-2'][$form] ?? $form;
     $schema = aes_data('forms')[$form] ?? null;
     if (!$schema) {
         wp_send_json_error(['message' => 'Unknown form.'], 400);
@@ -29,17 +30,21 @@ function aes_submit() {
     $clean = [];
     $map = [];
     $email = '';
+    $rules = aes_form_rules($form);
     foreach ($raw as $f) {
-        if (!is_array($f)) continue;
+        if (!is_array($f) || !is_scalar($f['name'] ?? null) || !is_scalar($f['value'] ?? null)) wp_send_json_error(['message' => 'Invalid field data.'], 400);
         $name = sanitize_key($f['name'] ?? '');
-        $value = sanitize_textarea_field((string)($f['value'] ?? ''));
-        $label = sanitize_text_field((string)($f['label'] ?? $name));
+        if ((!isset($rules[$name]) && $name !== 'jobid') || isset($map[$name])) wp_send_json_error(['message' => 'Unexpected or duplicate form field. Refresh the page and try again.'], 400);
+        $value = trim(sanitize_textarea_field((string)($f['value'] ?? '')));
+        $label = $name === 'jobid' ? 'Job reference' : $rules[$name]['label'];
         if (strlen($value) > 10000) {
             wp_send_json_error(['message' => 'One field is too long.'], 400);
         }
         $map[$name] = $value;
-        $clean[] = ['name' => $name, 'label' => $label, 'value' => $value];
+        if (($rules[$name]['kind'] ?? '') !== 'challenge' && ($rules[$name]['kind'] ?? '') !== 'hidden') $clean[] = ['name' => $name, 'label' => $label, 'value' => $value];
     }
+    $errors = aes_validate_fields($form, $map, sanitize_text_field(wp_unslash($_POST['math_token'] ?? '')));
+    if ($errors) wp_send_json_error(['message' => reset($errors), 'fields' => $errors], 400);
     foreach ($schema['fields'] as $d) {
         $v = $map[sanitize_key($d['name'])] ?? '';
         if ($d['required'] && $d['type'] !== 'file' && trim($v) === '') {
@@ -70,11 +75,14 @@ function aes_submit() {
     }
     $files = [];
     $total = 0;
-    foreach ($_FILES as $f) {
+    $uploaded = [];
+    foreach ($_FILES as $field_name => $f) {
         if (is_array($f['name'] ?? null)) {
             wp_send_json_error(['message' => 'Invalid attachment.'], 400);
         }
         if (($f['error'] ?? UPLOAD_ERR_NO_FILE) === UPLOAD_ERR_NO_FILE) continue;
+        $field_name = sanitize_key($field_name);
+        if (($rules[$field_name]['kind'] ?? '') !== 'file') wp_send_json_error(['message' => 'Unexpected attachment field. Refresh and try again.'], 400);
         if ($f['error'] !== UPLOAD_ERR_OK || !is_uploaded_file($f['tmp_name'])) {
             wp_send_json_error(['message' => 'Attachment upload failed.'], 400);
         }
@@ -90,15 +98,17 @@ function aes_submit() {
             $mime = 'application/pdf';
         } elseif (in_array($ext, ['jpg', 'jpeg', 'png'], true)) {
             $im = @getimagesize($f['tmp_name']);
-            if ($im && in_array($im['mime'], ['image/jpeg', 'image/png'], true)) {
+            if ($im && $im['mime'] === ($ext === 'png' ? 'image/png' : 'image/jpeg')) {
                 $mime = $im['mime'];
             }
         }
         if (!$mime) {
             wp_send_json_error(['message' => 'Attachments must be PDF, JPG or PNG files.'], 400);
         }
-        $files[] = ['name' => $name, 'mime' => $mime, 'data' => base64_encode($bytes)];
+        $uploaded[] = $field_name;
+        $files[] = ['name' => $name, 'mime' => $mime, 'field' => $field_name, 'label' => $rules[$field_name]['label'], 'data' => base64_encode($bytes)];
     }
+    foreach (aes_form_constraints($form)['required_files'] as $required_file) if (!in_array($required_file, $uploaded, true)) wp_send_json_error(['message' => 'Please attach: ' . ($rules[$required_file]['label'] ?? 'the required document')], 400);
     $id = wp_insert_post([
         'post_type' => 'aes_submission',
         'post_status' => 'private',

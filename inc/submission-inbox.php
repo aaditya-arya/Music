@@ -64,16 +64,35 @@ function aes_inbox_summary($meta) {
         if ($score > $message_score && !preg_match('/reference|certificate number/', $label)) { $summary['message'] = $value; $message_score = $score; }
     }
     $classification = strtolower($form . ' ' . $title);
+    $form_title_lower = strtolower($summary['form_title']);
     if ($form === 'we-hear-you-0') {
         $summary['category'] = ['inquiry' => 'inquiry', 'feedback' => 'feedback', 'complaint_appeal' => 'complaint', 'doc_verify' => 'verify'][$reason] ?? 'other';
-    } elseif (preg_match('/complaint|appeal/', $classification)) $summary['category'] = 'complaint';
-    elseif (str_contains($classification, 'feedback')) $summary['category'] = 'feedback';
-    elseif (preg_match('/training|course/', $classification)) $summary['category'] = 'training';
-    elseif (preg_match('/career|application|job/', $classification)) $summary['category'] = 'job';
-    elseif (preg_match('/verify|verification|document|irn/', $classification)) $summary['category'] = 'verify';
-    elseif (preg_match('/inquiry|enquiry|contact|rfq/', $classification)) $summary['category'] = 'inquiry';
+    } elseif ($title === 'inquiryModal' || preg_match('/inquiry|enquiry|rfq|contact/i', $title) || preg_match('/inquiry|enquiry|rfq|contact/i', $form_title_lower) || $form === 'contact-us-inquiry' || str_ends_with($form, '-0')) {
+        $summary['category'] = 'inquiry';
+    } elseif ($title === 'verifyDocModal' || preg_match('/verify|verification|document|irn/i', $title) || preg_match('/verify|verification|document|irn/i', $form_title_lower)) {
+        $summary['category'] = 'verify';
+    } elseif ($title === 'trainingModal' || preg_match('/training|course/i', $title) || preg_match('/training|course/i', $form_title_lower)) {
+        $summary['category'] = 'training';
+    } elseif ($title === 'feedbackModal' || str_contains($form_title_lower, 'feedback') || str_contains($title, 'feedback')) {
+        $summary['category'] = 'feedback';
+    } elseif (preg_match('/complaint|appeal/i', $title) || preg_match('/complaint|appeal/i', $form_title_lower)) {
+        $summary['category'] = 'complaint';
+    } elseif ($form === 'careers-apply' || $title === 'careersModal' || preg_match('/career|application|job/i', $title) || preg_match('/career|application|job/i', $form_title_lower)) {
+        $summary['category'] = 'job';
+    } else {
+        $summary['category'] = 'other';
+    }
     return $summary;
 }
+
+add_action('init', function () {
+    if (get_option('aes_inbox_reindex_v2')) return;
+    $posts = get_posts(['post_type' => 'aes_submission', 'post_status' => 'any', 'numberposts' => -1]);
+    foreach ($posts as $p) {
+        aes_inbox_index($p->ID);
+    }
+    update_option('aes_inbox_reindex_v2', 1, false);
+}, 30);
 
 function aes_inbox_index($id) {
     if (get_post_type($id) !== 'aes_submission') return;
@@ -181,7 +200,8 @@ function aes_inbox_item($id, $meta, $detail = false) {
         $item['files'] = [];
         foreach ((array) ($meta['_aes_files'] ?? []) as $index => $file) {
             if (!is_array($file) || !isset($file['name'], $file['data'])) continue;
-            $item['files'][] = ['name' => sanitize_file_name($file['name']), 'size' => max(0, (int) (strlen($file['data']) * 3 / 4) - substr_count(substr($file['data'], -2), '=')), 'url' => add_query_arg('_wpnonce', wp_create_nonce('aes_download_' . $id), admin_url('admin-post.php?action=aes_download&id=' . $id . '&file=' . $index))];
+            $url = add_query_arg('_wpnonce', wp_create_nonce('aes_download_' . $id), admin_url('admin-post.php?action=aes_download&id=' . $id . '&file=' . $index));
+            $item['files'][] = ['name' => sanitize_file_name($file['name']), 'label' => sanitize_text_field($file['label'] ?? 'Attachment'), 'mime' => $file['mime'] ?? 'application/octet-stream', 'size' => max(0, (int) (strlen($file['data']) * 3 / 4) - substr_count(substr($file['data'], -2), '=')), 'url' => $url, 'previewUrl' => add_query_arg('preview', '1', $url)];
         }
     }
     return $item;
@@ -325,7 +345,10 @@ function aes_inbox_download() {
     if ($bytes === false || !isset($file['name'])) wp_die('Attachment not found', 404);
     nocache_headers(); header('X-Content-Type-Options: nosniff');
     header('Content-Type: ' . (in_array($file['mime'] ?? '', ['application/pdf', 'image/jpeg', 'image/png'], true) ? $file['mime'] : 'application/octet-stream'));
-    header('Content-Disposition: attachment; filename="' . sanitize_file_name($file['name']) . '"');
+    $preview = isset($_GET['preview']) && $_GET['preview'] === '1';
+    if ($preview && !in_array($file['mime'] ?? '', ['application/pdf', 'image/jpeg', 'image/png'], true)) wp_die('Preview unavailable', 415);
+    header('X-Frame-Options: SAMEORIGIN');
+    header('Content-Disposition: ' . ($preview ? 'inline' : 'attachment') . '; filename="' . sanitize_file_name($file['name']) . '"');
     header('Content-Length: ' . strlen($bytes)); echo $bytes; exit;
 }
 add_action('admin_post_aes_download', 'aes_inbox_download');
@@ -336,6 +359,8 @@ add_action('admin_enqueue_scripts', function () {
     wp_enqueue_style('aes-inbox-fonts', get_template_directory_uri() . '/assets/fonts.css', [], filemtime(AES_DIR . '/assets/fonts.css'));
     wp_enqueue_style('aes-inbox', get_template_directory_uri() . '/assets/submission-inbox.css', ['aes-admin'], filemtime(AES_DIR . '/assets/submission-inbox.css'));
     wp_enqueue_script('aes-inbox', get_template_directory_uri() . '/assets/submission-inbox.js', [], filemtime(AES_DIR . '/assets/submission-inbox.js'), true);
+    wp_enqueue_script('aes-attachment-viewer', get_template_directory_uri() . '/assets/admin-attachment-viewer.js', [], filemtime(AES_DIR . '/assets/admin-attachment-viewer.js'), true);
+    wp_localize_script('aes-attachment-viewer', 'AES_ATTACHMENT_VIEWER', ['theme' => get_template_directory_uri()]);
     wp_localize_script('aes-inbox', 'AES_INBOX', ['ajax' => admin_url('admin-ajax.php'), 'nonce' => wp_create_nonce('aes_inbox'), 'exportUrl' => add_query_arg('_wpnonce', wp_create_nonce('aes_inbox_export'), admin_url('admin-post.php?action=aes_inbox_export')), 'categories' => aes_inbox_categories(), 'statuses' => aes_inbox_statuses(), 'timezone' => wp_timezone_string()]);
 });
 

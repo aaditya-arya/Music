@@ -52,6 +52,13 @@ function aes_admin_screen() {
                 </div>
             </section>
             <div>
+                <section class="aes-dashboard-panel">
+                    <h2>Careers &amp; job openings</h2>
+                    <p>Add a job, update its details, or move a closed role to Trash. Only published jobs appear on Careers, Join Us and the application form.</p>
+                    <p><a class="button button-primary" href="<?php echo esc_url(admin_url('post-new.php?post_type=aes_job')); ?>">Add job</a> <a class="button" href="<?php echo esc_url(admin_url('edit.php?post_type=aes_job')); ?>">Manage jobs</a></p>
+                    <?php if (!empty($pages['careers'])): ?><p><a href="<?php echo esc_url(get_edit_post_link($pages['careers'], 'raw')); ?>">Edit Careers page content</a></p><?php endif; ?>
+                    <p>Use <strong>Draft</strong> to prepare or temporarily hide a job. Use <strong>Trash</strong> to remove it; trashed jobs can be restored.</p>
+                </section>
                 <section class="aes-dashboard-panel aes-editing-guide">
                     <h2>Make an update</h2>
                     <ol><li>Open a page and click the text or image you want to change.</li><li>Use the card toolbar to duplicate, move or remove a card. Select a Services card to change its category and search keywords.</li><li>For We Hear You, select the main block and open <strong>Request form copy</strong> in the block sidebar to edit each request type.</li><li>Click <strong>Save / Update</strong>, then preview the page.</li></ol>
@@ -113,13 +120,28 @@ add_action('admin_post_aes_shared',function(){
 add_action('admin_post_aes_email',function(){if(!current_user_can('manage_options'))wp_die('Not allowed',403);check_admin_referer('aes_email');update_option('aes_email_enabled',empty($_POST['enabled'])?0:1);wp_safe_redirect(admin_url('admin.php?page=aes-cms&saved=1'));exit;});
 
 add_action('add_meta_boxes',function(){
-    add_meta_box('aes-job','Job details',function($p){wp_nonce_field('aes_job','aes_job_nonce');$d=(array)get_post_meta($p->ID,'_aes_job',true);foreach(['type'=>'Employment / assignment type','location'=>'Location','experience'=>'Experience','skills'=>'Key skills'] as $k=>$label)echo '<p><label>'.esc_html($label).'<input class="widefat" name="aes_job['.esc_attr($k).']" value="'.esc_attr($d[$k]??'').'"></label></p>';},'aes_job','normal','high');
+    add_meta_box('aes-job', 'Job details', function ($post) {
+        wp_nonce_field('aes_job', 'aes_job_nonce');
+        $details = (array) get_post_meta($post->ID, '_aes_job', true);
+        echo '<p>Use the main editor for the role overview. The fields below organize the opening and build its public detail page. Write one requirement or skill per line.</p>';
+        foreach (aes_job_editor_fields() as $key => $label) {
+            echo '<p><label for="aes-job-' . esc_attr($key) . '"><strong>' . esc_html($label) . '</strong></label>';
+            if (in_array($key, ['responsibilities', 'requirements', 'qualifications', 'preferred'], true)) echo '<textarea id="aes-job-' . esc_attr($key) . '" class="widefat" rows="5" name="aes_job[' . esc_attr($key) . ']">' . esc_textarea($details[$key] ?? '') . '</textarea>';
+            else echo '<input id="aes-job-' . esc_attr($key) . '" class="widefat" name="aes_job[' . esc_attr($key) . ']" value="' . esc_attr($details[$key] ?? '') . '">';
+            echo '</p>';
+        }
+    }, 'aes_job', 'normal', 'high');
 });
 
 add_action('save_post',function($id){
     if(wp_is_post_revision($id)||wp_is_post_autosave($id)||!current_user_can('edit_post',$id))return;
     if(isset($_POST['aes_job_nonce'])&&wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['aes_job_nonce'])),'aes_job')){
-        $d=[];foreach(['type','location','experience','skills'] as $k)$d[$k]=sanitize_text_field(wp_unslash($_POST['aes_job'][$k]??''));update_post_meta($id,'_aes_job',$d);
+        $d = (array) get_post_meta($id, '_aes_job', true);
+        foreach (aes_job_editor_fields() as $key => $_) {
+            if (!isset($_POST['aes_job'][$key]) || !is_scalar($_POST['aes_job'][$key])) continue;
+            $d[$key] = sanitize_textarea_field(wp_unslash($_POST['aes_job'][$key]));
+        }
+        update_post_meta($id, '_aes_job', $d);
     }
 });
 

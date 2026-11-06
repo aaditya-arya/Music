@@ -12,9 +12,27 @@
   const megaMenu = $('.mega-dropdown-menu');
   const focusable = 'a[href], button:not([disabled]), input:not([disabled]):not([type=hidden]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
   const visibleControls = root => $$(focusable, root).filter(el => el.getClientRects().length && !el.closest('[inert]'));
+  // Reusable, interruptible feedback for content changed by filters and forms.
+  const contentAnimations = new WeakMap();
+  window.aesAnimateChange = (element, delay = 0) => {
+    if (!element) return;
+    contentAnimations.get(element)?.cancel();
+    if (motion.matches || !element.animate || element.hidden) return;
+    const animation = element.animate([
+      { opacity: .6, translate: '0 7px' },
+      { opacity: 1, translate: '0 0' }
+    ], { duration: 420, delay: Math.min(delay, 100), easing: 'cubic-bezier(.22, 1, .36, 1)', fill: 'backwards' });
+    contentAnimations.set(element, animation);
+    animation.finished.catch(() => {}).finally(() => {
+      if (contentAnimations.get(element) === animation) contentAnimations.delete(element);
+    });
+  };
   // Shared button motion; the stylesheet owns normal, selected and pressed colors.
   window.aesEnhanceButtons = (root = document) => {
-    $$('button, a[class*="btn-"], a.aes-action', root).forEach(button => {
+    const selector = 'button, a[class*="btn-"], a.aes-action';
+    const buttons = $$(selector, root);
+    if (root instanceof Element && root.matches(selector)) buttons.unshift(root);
+    buttons.forEach(button => {
       if (button.classList.contains('aes-button-depth')) return;
       button.classList.add('aes-button-depth');
       if (getComputedStyle(button).position === 'static') button.classList.add('aes-motion-surface');
@@ -59,6 +77,11 @@
         !link.closest('.service-slide-card, .aes-directory-card')) link.classList.add('aes-text-link');
   });
   const main = $('main');
+  // The working-principle images now form a visible grid on every screen.
+  $$('.aes-culture-grid').forEach(grid => {
+    grid.setAttribute('aria-label', 'Our working principles');
+    grid.removeAttribute('tabindex');
+  });
   $$('.aes-reach-card h2 a[href^="mailto:"]').forEach(link => {
     const email = link.textContent.trim();
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return;
@@ -98,6 +121,7 @@
   function closeMobile(restoreFocus = false) {
     if (!mobileMenu || !mobileButton) return;
     mobileMenu.classList.add('hidden');
+    mobileMenu.inert = true;
     mobileButton.setAttribute('aria-expanded', 'false');
     mobileButton.setAttribute('aria-label', 'Open navigation');
     if (restoreFocus) mobileButton.focus();
@@ -117,12 +141,14 @@
     mobileButton.setAttribute('aria-label', 'Open navigation');
     mobileMenu.setAttribute('role', 'navigation');
     mobileMenu.setAttribute('aria-label', 'Mobile navigation');
+    mobileMenu.inert = mobileMenu.classList.contains('hidden');
     // Capture replaces the different legacy toggles without double toggling.
     mobileButton.addEventListener('click', event => {
       event.stopImmediatePropagation();
       const opening = mobileMenu.classList.contains('hidden');
       if (opening) measureHeader();
       mobileMenu.classList.toggle('hidden', !opening);
+      mobileMenu.inert = !opening;
       mobileButton.setAttribute('aria-expanded', String(opening));
       mobileButton.setAttribute('aria-label', opening ? 'Close navigation' : 'Open navigation');
     }, true);
@@ -230,6 +256,7 @@
     modal.setAttribute('role', 'dialog');
     modal.setAttribute('aria-modal', 'true');
     modal.setAttribute('aria-hidden', 'true');
+    modal.inert = true;
     modal.tabIndex = -1;
     const heading = $('h2, h3', modal);
     if (heading) {
@@ -260,6 +287,7 @@
       savedOverflow = document.body.style.overflow;
     } else {
       activeModal.classList.add('hidden');
+      activeModal.inert = true;
       activeModal.setAttribute('aria-hidden', 'true');
       restoreBackground();
     }
@@ -267,6 +295,7 @@
     setMega(false);
     activeModal = modal;
     modal.classList.remove('hidden');
+    modal.inert = false;
     modal.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
     document.body.classList.add('overflow-hidden');
@@ -286,6 +315,7 @@
     const modal = document.getElementById(id);
     if (!modal) return;
     modal.classList.add('hidden');
+    modal.inert = true;
     modal.setAttribute('aria-hidden', 'true');
     if (modal !== activeModal) return;
     activeModal = null;
@@ -391,72 +421,10 @@
     if ('ResizeObserver' in window) new ResizeObserver(measure).observe(title);
   });
 
-  // Reset the drawer, trace one rounded border from top centre, then navigate the new tab.
+  // Native service links respond immediately, including modified clicks and new tabs.
   $$('a.service-slide-card[href], a.aes-directory-card[href]').forEach(card => {
     card.target = '_blank';
     card.relList.add('noopener', 'noreferrer');
-    let opening = false;
-    let openDirectly = false;
-    const releaseReset = () => {
-      if (!opening) card.classList.remove('aes-card-reset');
-    };
-    card.addEventListener('mouseleave', releaseReset);
-    card.addEventListener('focusout', releaseReset);
-    card.addEventListener('click', async event => {
-      if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
-      if (opening) { event.preventDefault(); event.stopImmediatePropagation(); return; }
-      if (openDirectly) { openDirectly = false; return; }
-      card.classList.add('aes-card-reset');
-      if (motion.matches || !card.animate) return;
-      event.preventDefault();
-      event.stopImmediatePropagation();
-      opening = true;
-      card.blur();
-      const href = card.href;
-
-      card.classList.remove('card-highlighted');
-      $$('.card-trace-svg, .aes-card-click-trace', card).forEach(trace => trace.remove());
-      const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-      svg.classList.add('aes-card-click-trace');
-      svg.setAttribute('aria-hidden', 'true');
-      const width = card.clientWidth, height = card.clientHeight;
-      svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
-      svg.setAttribute('preserveAspectRatio', 'none');
-      const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-      const edge = 3, right = width - edge, bottom = height - edge;
-      const radius = Math.min(14, width / 4, height / 4);
-      path.setAttribute('d', `M ${width / 2} ${edge} H ${right - radius} Q ${right} ${edge} ${right} ${edge + radius} V ${bottom - radius} Q ${right} ${bottom} ${right - radius} ${bottom} H ${edge + radius} Q ${edge} ${bottom} ${edge} ${bottom - radius} V ${edge + radius} Q ${edge} ${edge} ${edge + radius} ${edge} H ${width / 2}`);
-      svg.appendChild(path);
-      card.appendChild(svg);
-      const length = path.getTotalLength();
-      path.style.strokeDasharray = `${length} ${length}`;
-      path.style.strokeDashoffset = String(length);
-      try {
-        await path.animate([{ strokeDashoffset: length }, { strokeDashoffset: 0 }], {
-          duration: 850, easing: 'linear', fill: 'forwards'
-        }).finished;
-        await svg.animate([{ opacity: 1 }, { opacity: 0 }], {
-          duration: 360, easing: 'ease-in-out', fill: 'forwards'
-        }).finished;
-        // Let the transparent final frame paint before the browser opens the destination.
-        await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
-      } catch (error) { /* Reduced-motion changes cancel the trace and continue navigation. */ }
-      finally {
-        svg.remove();
-        opening = false;
-        if (!card.matches(':hover') || !matchMedia('(hover: hover)').matches) releaseReset();
-        // Keep the whole sequence short enough to retain the click's transient user activation.
-        const destination = window.open('', '_blank');
-        if (destination) {
-          destination.opener = null;
-          destination.location.replace(href);
-        } else {
-          // A blocked popup leaves the real anchor usable on the next trusted click.
-          openDirectly = true;
-          card.title = 'Click again to open this service in a new tab';
-        }
-      }
-    }, true);
   });
   $$('#equipment .grid > div, #sectors .grid > div, #openings .grid > div, main section .grid > div.border').forEach(card => {
     if (!card.querySelector('form')) card.classList.add('aes-content-card');
@@ -505,9 +473,9 @@
         const delay = Math.min(siblings.indexOf(entry.target) * 45, 135);
         const sideways = entry.target.classList.contains('service-slide-card') || !!entry.target.closest('.aes-culture-gallery');
         entry.target.animate([
-          { opacity: .35, translate: sideways ? '-18px 8px' : '0 18px' },
+          { opacity: .55, translate: sideways ? '-8px 4px' : '0 10px' },
           { opacity: 1, translate: '0 0' }
-        ], { duration: 700, delay, easing: 'cubic-bezier(.22, 1, .36, 1)', fill: 'backwards' });
+        ], { duration: 620, delay, easing: 'cubic-bezier(.22, 1, .36, 1)', fill: 'backwards' });
       });
     }, { threshold: .08 });
     revealTargets.forEach(target => observer.observe(target));
@@ -719,6 +687,15 @@
   });
   document.body.appendChild(backTop);
   window.aesEnhanceButtons(document.body);
+  // Modal tools, job listings and confirmation actions may be inserted after load.
+  new MutationObserver(records => {
+    const added = new Set(records.flatMap(record => Array.from(record.addedNodes)).filter(node => node instanceof Element));
+    added.forEach(node => {
+      if (!node.isConnected || node.closest('.aes-press-feedback')) return;
+      if (added.has(node.parentElement)) return;
+      window.aesEnhanceButtons(node);
+    });
+  }).observe(document.body, { childList: true, subtree: true });
   let scrollPending = false;
   function updateScroll() {
     if (header) header.classList.toggle('aes-scrolled', scrollY > 12);

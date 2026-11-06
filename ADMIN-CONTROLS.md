@@ -17,7 +17,7 @@ Verified on `akshar.local`, October 31, 2026. Refresh an already-open editor to 
 | Request-specific form wording and options | We Hear You: select the main block and use **Request form copy**. Required fields, types and submission routing remain connected. |
 | Standard form placeholders and existing option labels | Select the form control in the visual canvas, then **Form field wording**. Dynamic job choices are managed in AES Jobs. |
 | Welcome screen and company brochure | **AES Website → Welcome screen and company brochure**. Set the first-visit switch, duration, name/caption/tagline, logo and PDF URL. Media chooser buttons are provided. |
-| Jobs | **AES Jobs**. Published records feed the existing Careers and Join Us views. |
+| Jobs | Administrators only: **Pages → Careers → Edit**, then scroll to **Job openings**. The editor lists each job with an **Edit job** button, plus **Add new job** and **Manage / remove jobs**. A job-management notice also appears above the page preview. The **AES Jobs** menu and **Careers job openings** sidebar panel lead to the same records. Edit the title, description, employment type, location, experience and key skills, then **Publish / Update**. **Draft** hides a role; **Trash** removes it and **Restore** brings it back. Published jobs update Careers, Join Us and application choices automatically. Reload an open page editor after changing jobs in another tab to refresh its list. Website pages show job details and application controls only, including when an administrator views the website. |
 | Blog articles | **Posts**, including their native publishing, category, excerpt and featured-image controls. Edit the blog page's introductory content in Engineering Insights. |
 | Policies and document links | **AES Website → Policy documents**. Existing starter policies remain drafts until approved content is published. |
 | Requests and email notifications | **Form Submissions** and **AES Website → Email notifications**. The audit did not send notifications. |
@@ -25,6 +25,10 @@ Verified on `akshar.local`, October 31, 2026. Refresh an already-open editor to 
 Ordinary edits require Save / Update. **Sync from Code** deliberately restores starter markup and can replace saved edits; it is not needed for the new controls. PHP/JS/CSS changes in the active theme are used by the site; asset URLs use file modification times for cache refresh.
 
 ## Verification
+
+The openings directory is a native **Job Openings** page at `/openings/`. Each published job has its own role page. Use **AES Jobs → Edit job → Job details** for the department, responsibilities, requirements, required skills/qualifications and preferred skills; use the main editor for the overview. Public cards have an **Apply** link to the role page rather than a Details popup. Role-specific applications reuse the saved Careers form wording and bind the application to the published role.
+
+In **Form Submissions**, open an application to review its role and candidate qualifications summary, complete submitted fields, and labelled attachments. **Preview PDF** provides an in-place reader with page and zoom controls. Preview and download URLs require administrator access and a valid nonce. **Submit another request** resets the public form while keeping its submit label and selected support reason. Validation is enforced independently on the server, including person names, phone/email formats, experience, dates, allowed selections, uploads and verification answers.
 
 All 24 managed pages returned HTTP 200. Their private audit copies accepted a visual or native WordPress content edit, retained it after an editor reload, and showed it in frontend preview:
 

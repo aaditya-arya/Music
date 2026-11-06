@@ -740,6 +740,8 @@ add_action('enqueue_block_editor_assets', function () {
         'nonce'        => wp_create_nonce('aes_gutenberg_sync'),
         'postId'       => $post_id,
         'layout'       => $layout,
+        'jobsAdmin'    => aes_job_admin_links(),
+        'jobs'         => in_array($layout, ['careers', 'join-us'], true) ? aes_job_editor_items() : [],
         'supportRequests' => aes_data('support-requests'),
         'detailsFields' => array_map(function ($field) { $field['default'] = aes_resolve($field['default']); return $field; }, aes_page_supplemental_fields($post_id)),
     ]);

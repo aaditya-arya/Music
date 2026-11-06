@@ -194,3 +194,16 @@ to{transform:translateX(0);opacity:1}
     .aes-inbox-row-view{min-height:36px}
 }
 
+/* Readable attachment records and an authenticated, in-place PDF reader. */
+.aes-inbox-attachment-card { display: flex; flex-direction: column; gap: 8px; padding: 18px; border: 1px solid #d9e1ed; border-radius: 12px; background: #f8fafc; overflow-wrap: anywhere; }
+.aes-inbox-attachment-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px; }
+.aes-inbox-file-viewer:empty { display: none; }
+.aes-inbox-file-viewer { min-width: 0; margin-top: 20px; border: 1px solid #d7dfeb; border-radius: 12px; padding: 16px; background: #f1f5f9; }
+.aes-inbox-viewer-toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.aes-inbox-viewer-stage { width: 100%; max-height: 65dvh; overflow: auto; overscroll-behavior: contain; padding: 12px 0; }
+.aes-inbox-viewer-stage canvas { display: block; margin-inline: auto; background: #fff; box-shadow: 0 3px 12px rgb(20 35 60 / 14%); }
+.aes-inbox-viewer-stage img { display: block; max-width: 100%; height: auto; margin-inline: auto; }
+.aes-inbox-application-facts { display: grid; grid-template-columns: minmax(110px, .7fr) minmax(0, 1.3fr); gap: 12px 20px; margin: 0; }
+.aes-inbox-application-facts dt { font-weight: 650; color: #52647c; }
+.aes-inbox-application-facts dd { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+@media (max-width: 540px) { .aes-inbox-application-facts { grid-template-columns: 1fr; gap: 6px; } .aes-inbox-application-facts dd { margin-bottom: 12px; } }

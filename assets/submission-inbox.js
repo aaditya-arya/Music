@@ -185,6 +185,7 @@
     }
     function closeDetail() {
         if (state.busy) return;
+        state.previewCleanup?.(); state.previewCleanup = null;
         captureDraft(); state.detailController?.abort(); overlay.hidden = true; state.detail = null;
         document.body.classList.remove('aes-inbox-modal-open');
         inertElements.forEach(([node, value]) => { node.inert = value; }); inertElements = [];
@@ -211,6 +212,7 @@
     });
     async function openDetail(id, opener) {
         if (state.busy) return;
+        state.previewCleanup?.(); state.previewCleanup = null;
         captureDraft(); state.detailController?.abort();
         const controller = state.detailController = new AbortController();
         state.detail = null;
@@ -243,6 +245,7 @@
         Object.entries(options).forEach(([key, text]) => { const option = el('option', text); option.value = key; select.append(option); }); select.value = value; wrapper.append(select); select.addEventListener('change', captureDraft); return wrapper;
     }
     function renderDetail(item) {
+        state.previewCleanup?.(); state.previewCleanup = null;
         $('aes-detail-title').textContent = config.categories[item.category] || 'Website request';
         $('aes-detail-date').textContent = `${item.date} at ${item.time} · ${config.timezone}${item.trashed ? ' · In Trash' : ''}`;
         const content = $('aes-detail-content'); content.replaceChildren();
@@ -258,14 +261,28 @@
             controls.append(selectControl('Status', 'aes-detail-status', config.statuses, draft.status), selectControl('Priority', 'aes-detail-priority', { normal: 'Normal', high: 'High priority' }, draft.priority));
             workflow.append(controls); content.append(workflow);
         }
+        if (item.category === 'job') {
+            const application = section('Role & candidate qualifications');
+            const facts = el('dl', undefined, 'aes-inbox-application-facts');
+            const names = { candidaterole: 'Role applied for', appposition: 'Role applied for', candidateexperience: 'Experience (years)', appexperience: 'Experience (years)', eduqualification: 'Education', profqualification: 'Professional certifications', candidatestream: 'Engineering discipline', appqualifications: 'Qualifications', candidatelocation: 'Current location', applocation: 'Current location', appavailability: 'Availability' };
+            item.details.forEach(field => { const label = names[(field.name || '').toLowerCase()]; if (label && field.value) facts.append(el('dt', label), el('dd', field.value)); });
+            application.append(facts); content.append(application);
+        }
         const fields = section('Complete submission'); fields.append(el('p', `Source: ${item.form_title}`, 'aes-inbox-detail-muted'));
         const list = el('dl', undefined, 'aes-inbox-detail-fields');
         item.details.forEach(field => { list.append(el('dt', field.label || field.name || 'Field'), el('dd', field.value || '—')); });
         if (!item.details.length) fields.append(el('p', 'No submitted fields were recorded.', 'aes-inbox-detail-muted'));
         fields.append(list); content.append(fields);
         const files = section(`Attachments (${item.files.length})`); const attachments = el('div', undefined, 'aes-inbox-attachments');
-        item.files.forEach(file => { const link = el('a', undefined, 'aes-inbox-attachment'); link.href = file.url; link.download = file.name; link.append(el('span', file.name), el('small', `${Math.max(1, Math.round(file.size / 1024))} KB ↓`)); attachments.append(link); });
-        files.append(item.files.length ? attachments : el('p', 'No attachments were submitted.', 'aes-inbox-detail-muted')); content.append(files);
+        const preview = el('div');
+        item.files.forEach(file => {
+            const card = el('div', undefined, 'aes-inbox-attachment-card');
+            card.append(el('strong', file.label || 'Attachment'), el('span', file.name), el('small', `${Math.max(1, Math.round(file.size / 1024))} KB`));
+            const actions = el('div', undefined, 'aes-inbox-attachment-actions');
+            if (['application/pdf', 'image/jpeg', 'image/png'].includes(file.mime)) actions.append(button(file.mime === 'application/pdf' ? 'Preview PDF' : 'Preview image', () => { state.previewCleanup?.(); state.previewCleanup = window.AESAttachmentViewer.mount(preview, file); preview.scrollIntoView({ block: 'nearest' }); }));
+            const link = el('a', 'Download', 'aes-inbox-button'); link.href = file.url; link.download = file.name; actions.append(link); card.append(actions); attachments.append(card);
+        });
+        files.append(item.files.length ? attachments : el('p', 'No attachments were submitted.', 'aes-inbox-detail-muted'), preview); content.append(files);
         const notes = section('Internal notes');
         item.notes.forEach(note => { const node = el('div', undefined, 'aes-inbox-note'); node.append(el('p', note.text), el('small', `${note.author} · ${new Date(note.date).toLocaleString()}`)); notes.append(node); });
         if (!item.notes.length) notes.append(el('p', 'No notes yet. Keep a record of calls, replies and next steps here.', 'aes-inbox-detail-muted'));
@@ -290,17 +307,27 @@
     $('aes-detail-save').addEventListener('click', async () => {
         if (state.busy || !state.detail || state.detail.trashed) return;
         captureDraft(); const item = state.detail, draft = state.drafts.get(item.id);
-        if (!draft) return notify('Everything is already saved.', false, true);
+        if (!draft) {
+            closeDetail();
+            notify('Everything is already saved.', false);
+            return;
+        }
         lock(true); notify('', false, true); let committed = false;
         try {
             await mutate('save', new Map([[item.id, item.version]]), draft);
             committed = true;
             state.drafts.delete(item.id);
-            item.status = draft.status; item.priority = draft.priority; item.version++;
-            $('aes-detail-note').value = '';
-            state.detail = await api('detail', { id: item.id }); renderDetail(state.detail);
-            notify('Status, priority and note saved.', false, true); await loadList({ quiet: true });
-        } catch (error) { notify(committed ? 'Your changes were saved, but details could not refresh. Use Refresh request to load the latest record.' : error.message, true, true); } finally { lock(false); }
+            state.detail = null;
+            lock(false);
+            closeDetail();
+            notify('Status, priority and note saved.', false);
+            await loadList({ quiet: true });
+        } catch (error) {
+            lock(false);
+            notify(committed ? 'Your changes were saved.' : error.message, true);
+        } finally {
+            lock(false);
+        }
     });
     async function detailAction(operation) {
         if (state.busy || !state.detail) return;

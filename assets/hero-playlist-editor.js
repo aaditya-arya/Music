@@ -5,6 +5,7 @@
   const validUrl = value => {
     try { const url = new URL(value); return ['http:', 'https:'].includes(url.protocol) && /\.(mp4|webm|ogv|ogg|m4v)$/i.test(url.pathname); } catch { return false; }
   };
+
   function read(html) {
     const doc = new DOMParser().parseFromString(html, 'text/html');
     const video = doc.querySelector('#heroVideo');
@@ -15,6 +16,7 @@
     if (!urls.length) urls = [video.querySelector('source')?.getAttribute('src') || video.getAttribute('src')].filter(Boolean);
     return urls.map((url, i) => ({ id: 'video-' + i, url }));
   }
+
   function apply(html, items) {
     const doc = new DOMParser().parseFromString(html, 'text/html');
     let video = doc.querySelector('#heroVideo');

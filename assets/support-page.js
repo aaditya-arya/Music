@@ -42,6 +42,7 @@
     const key = aliases[value] || value;
     const data = reasons[key];
     if (!data) return;
+    const changed = current !== key;
     if (current !== key) {
       if (current) drafts.set(current, [...dynamic.querySelectorAll('input, select')].map(input => [input.name, input.value]));
       dynamic.innerHTML = data.html;
@@ -66,6 +67,10 @@
       button.classList.toggle('active', active);
       button.setAttribute('aria-pressed', String(active));
     });
+    if (changed) {
+      window.aesAnimateChange?.(dynamic);
+      window.aesAnimateChange?.(root.querySelector('#support-context-copy'));
+    }
   };
   window.selectReason = selectReason;
   const goToRequest = () => {

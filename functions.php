@@ -250,6 +250,7 @@ add_action('wp_enqueue_scripts', function () {
     wp_enqueue_style('aes-brand-refinements', get_template_directory_uri() . '/assets/brand-refinements.css', ['aes-site'], filemtime(AES_DIR . '/assets/brand-refinements.css'));
     wp_enqueue_style('aes-fonts', get_template_directory_uri() . '/assets/fonts.css', [], filemtime(AES_DIR . '/assets/fonts.css'));
     wp_enqueue_style('aes-public-pages', get_template_directory_uri() . '/assets/public-pages.css', ['aes-brand-refinements'], filemtime(AES_DIR . '/assets/public-pages.css'));
+    wp_enqueue_style('aes-motion', get_template_directory_uri() . '/assets/motion.css', ['aes-public-pages'], filemtime(AES_DIR . '/assets/motion.css'));
     if (aes_current_key() === 'services') {
         wp_enqueue_style('aes-services-page', get_template_directory_uri() . '/assets/services-page.css', ['aes-public-pages'], filemtime(AES_DIR . '/assets/services-page.css'));
         wp_enqueue_script('aes-services-page', get_template_directory_uri() . '/assets/services-page.js', ['aes-site'], filemtime(AES_DIR . '/assets/services-page.js'), true);
@@ -265,6 +266,11 @@ add_action('wp_enqueue_scripts', function () {
     wp_enqueue_script('aes-forms', get_template_directory_uri() . '/assets/forms.js', ['aes-site'], filemtime(AES_DIR . '/assets/forms.js'), true);
     wp_add_inline_style('aes-site', '#wpadminbar{position:fixed!important;top:0!important}.admin-bar > header{top:32px}.aes-form-status{padding:12px;margin-top:12px;font-size:14px}.aes-form-status[data-error="true"]{color:#b91c1c}.aes-form-status[data-error="false"]{color:#166534}.aes-trap{position:absolute!important;left:-9999px!important}.aes-generic{max-width:1100px;margin:auto;padding:60px 24px}.aes-generic h1{font-size:40px;font-weight:800}.aes-generic p{margin:16px 0}@media(max-width:782px){.admin-bar > header{top:46px}}');
 });
+
+// Apply shared device layouts after the individual page styles.
+add_action('wp_enqueue_scripts', function () {
+    wp_enqueue_style('aes-responsive', get_template_directory_uri() . '/assets/responsive.css', ['aes-public-pages'], filemtime(AES_DIR . '/assets/responsive.css'));
+}, 30);
 
 add_action('wp_head', function () {
     foreach (['inter', 'montserrat'] as $font) {
@@ -283,31 +289,27 @@ require AES_DIR . '/inc/public-pages.php';
 require AES_DIR . '/inc/services-directory.php';
 require AES_DIR . '/inc/support-updates.php';
 require AES_DIR . '/inc/admin.php';
+require AES_DIR . '/inc/jobs-admin.php';
+require AES_DIR . '/inc/jobs-public.php';
+require AES_DIR . '/inc/form-validation.php';
 require AES_DIR . '/inc/policies.php';
 require AES_DIR . '/inc/blog.php';
 require AES_DIR . '/inc/submissions.php';
 
 function aes_register_types() {
-    register_post_type('aes_job', ['labels' => ['name' => 'AES Jobs', 'singular_name' => 'Job', 'add_new_item' => 'Add job'], 'public' => false, 'show_ui' => true, 'show_in_rest' => true, 'supports' => ['title', 'editor', 'revisions'], 'menu_icon' => 'dashicons-businessperson']);
+    register_post_type('aes_job', ['labels' => ['name' => 'AES Jobs', 'singular_name' => 'Job', 'add_new' => 'Add job', 'add_new_item' => 'Add new job', 'edit_item' => 'Edit job', 'all_items' => 'Manage jobs', 'search_items' => 'Search jobs', 'not_found' => 'No jobs found.', 'not_found_in_trash' => 'No jobs in Trash.'], 'public' => false, 'show_ui' => true, 'show_in_rest' => true, 'supports' => ['title', 'editor', 'revisions'], 'menu_icon' => 'dashicons-businessperson', 'capabilities' => array_fill_keys(['edit_post', 'read_post', 'delete_post', 'edit_posts', 'edit_others_posts', 'publish_posts', 'read_private_posts', 'delete_posts', 'delete_private_posts', 'delete_published_posts', 'delete_others_posts', 'edit_private_posts', 'edit_published_posts', 'create_posts'], 'manage_options'), 'map_meta_cap' => false]);
     register_post_type('aes_submission', ['labels' => ['name' => 'AES Submissions', 'singular_name' => 'Submission'], 'public' => false, 'publicly_queryable' => false, 'show_ui' => true, 'show_in_menu' => false, 'show_in_rest' => false, 'supports' => ['title'], 'menu_icon' => 'dashicons-email-alt', 'capabilities' => ['edit_post' => 'manage_options', 'read_post' => 'manage_options', 'delete_post' => 'manage_options', 'edit_posts' => 'manage_options', 'edit_others_posts' => 'manage_options', 'publish_posts' => 'manage_options', 'read_private_posts' => 'manage_options', 'delete_posts' => 'manage_options', 'delete_private_posts' => 'manage_options', 'delete_published_posts' => 'manage_options', 'delete_others_posts' => 'manage_options', 'edit_private_posts' => 'manage_options', 'edit_published_posts' => 'manage_options', 'create_posts' => 'do_not_allow'], 'map_meta_cap' => false]);
 }
 add_action('init', 'aes_register_types');
 
 function aes_job_cards() {
-    $jobs = get_posts(['post_type' => 'aes_job', 'post_status' => 'publish', 'numberposts' => -1, 'orderby' => 'date', 'order' => 'ASC']);
-    if (!$jobs) return '<p>No vacancies are currently published. You can submit a general application below.</p>';
-    $html = '';
-    foreach ($jobs as $job) {
-        $d = (array) get_post_meta($job->ID, '_aes_job', true);
-        $html .= '<article class="bouncy-card bg-white rounded-2xl p-7 border border-slate-200 shadow-sm flex flex-col justify-between"><div><div class="flex items-center justify-between gap-2 mb-4"><span class="bg-orange-100 text-brand-orange text-[11px] font-extrabold px-3 py-1 rounded-full">' . esc_html($d['type'] ?? '') . '</span><span class="text-xs text-slate-400">' . esc_html($d['location'] ?? '') . '</span></div><h3 class="text-lg font-black text-brand-dark mb-2">' . esc_html($job->post_title) . '</h3><div class="text-xs text-slate-600 leading-relaxed mb-4">' . wp_kses_post(wpautop($job->post_content)) . '</div><p class="text-xs text-slate-500"><strong>Experience:</strong> ' . esc_html($d['experience'] ?? '') . '</p><p class="text-xs text-slate-500"><strong>Key skills:</strong> ' . esc_html($d['skills'] ?? '') . '</p></div><div class="mt-6 pt-4 border-t border-slate-100"><button type="button" data-aes-role="' . esc_attr($job->post_title) . '" class="bouncy-btn w-full btn-premium-orange bg-brand-blue hover:bg-brand-orange text-white py-3 rounded-xl text-xs font-bold uppercase transition-colors">Apply for this role →</button></div></article>';
-    }
-    return $html;
+    return aes_render_openings(false);
 }
 
 function aes_job_options() {
     $html = '<option value="">Select a role</option>';
     foreach (get_posts(['post_type' => 'aes_job', 'numberposts' => -1, 'post_status' => 'publish']) as $j) {
-        $html .= '<option>' . esc_html($j->post_title) . '</option>';
+        $html .= '<option>' . esc_html(html_entity_decode($j->post_title, ENT_QUOTES | ENT_HTML5, 'UTF-8')) . '</option>';
     }
     return $html . '<option>General application / Other</option>';
 }

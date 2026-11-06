@@ -27,4 +27,16 @@
     );
   }
   wp.plugins.registerPlugin('aes-page-details', { render: PageDetails });
+  function CareersJobs() {
+    const config = window.AES_GUTENBERG || {};
+    const links = config.jobsAdmin;
+    if (!['careers', 'join-us'].includes(config.layout) || !links?.manage) return null;
+    return el(PluginDocumentSettingPanel, { name: 'aes-careers-jobs', title: 'Careers job openings', initialOpen: true },
+      el('p', null, 'Add, edit or remove jobs in the job manager. Published jobs appear here and in the application form automatically.'),
+      el(Button, { href: links.manage, target: '_blank', rel: 'noopener noreferrer', variant: 'secondary' }, 'Manage jobs'),
+      links.add && el(Button, { href: links.add, target: '_blank', rel: 'noopener noreferrer', variant: 'primary', style: { margin: '8px' } }, 'Add job'),
+      el('p', null, 'Save a job as Draft to hide it. Move a closed job to Trash to remove it; restore it from Trash if needed. Page headings and introductory copy remain editable in this page.')
+    );
+  }
+  wp.plugins.registerPlugin('aes-careers-jobs', { render: CareersJobs });
 })(window.wp);

@@ -25,13 +25,16 @@
     if (badge) badge.textContent = button.dataset.serviceFilter === 'all' ? cards.length : cards.filter(card => card.category === button.dataset.serviceFilter).length;
   });
   const labels = { source: 'Source & approve', inspect: 'Inspect & verify', build: 'Build & commission', qualify: 'Qualify & develop' };
-  const update = () => {
+  const update = (animate = false) => {
     const terms = normalize(search.value).trim().split(/\s+/).filter(Boolean);
     let visible = 0;
     cards.forEach(card => {
       const match = (category === 'all' || card.category === category) && terms.every(term => card.text.includes(term));
       card.element.hidden = !match;
-      if (match) visible++;
+      if (match) {
+        if (animate) window.aesAnimateChange?.(card.element, visible * 25);
+        visible++;
+      }
     });
     controls.forEach(button => button.setAttribute('aria-pressed', String(button.dataset.serviceFilter === category)));
     count.textContent = visible === cards.length && !terms.length ? `Showing all ${cards.length} services` : `Showing ${visible} of ${cards.length} services${category === 'all' ? '' : ' · ' + labels[category]}`;
@@ -41,11 +44,11 @@
   };
   controls.forEach(button => {
     button.disabled = false;
-    button.addEventListener('click', () => { category = category === button.dataset.serviceFilter ? 'all' : button.dataset.serviceFilter; update(); });
+    button.addEventListener('click', () => { category = category === button.dataset.serviceFilter ? 'all' : button.dataset.serviceFilter; update(true); });
   });
-  search.addEventListener('input', update);
+  search.addEventListener('input', () => update(true));
   const reset = () => {
-    category = 'all'; search.value = ''; update(); search.focus({ preventScroll: true });
+    category = 'all'; search.value = ''; update(true); search.focus({ preventScroll: true });
   };
   root.querySelector('[data-service-reset]')?.addEventListener('click', reset);
   clear?.addEventListener('click', reset);
